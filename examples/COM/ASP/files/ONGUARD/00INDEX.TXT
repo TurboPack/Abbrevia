@@ -1,2 +1,0 @@
-OGCONST.ENU     1K 
-OGSRMGR.ENU     1K 
