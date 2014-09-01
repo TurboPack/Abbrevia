@@ -23,7 +23,7 @@
  *
  * ***** END LICENSE BLOCK ***** *)
 
-package AbbreviaVCLDesign;
+package AbbreviaVCLD;
 
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
@@ -50,23 +50,25 @@ package AbbreviaVCLDesign;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Abbrevia Design-time package - VCL XE6'}
-{$LIBSUFFIX '200'}
-{$DESIGNONLY}
+{$DESCRIPTION 'Abbrevia Run-time package - VCL'}
+{$RUNONLY}
 {$IMPLICITBUILD OFF}
 
 requires
-  designide,
-  AbbreviaVCL;
+  rtl,
+  vcl,
+  vclx,
+  Abbrevia;
 
 contains
-  AbPeCol in '..\..\source\AbPeCol.pas',
-  AbPeDir in '..\..\source\AbPeDir.pas',
-  AbPeFn in '..\..\source\AbPeFn.pas',
-  AbPePass in '..\..\source\AbPePass.pas',
-  AbPeVer in '..\..\source\AbPeVer.pas',
-  AbRegVcl in '..\..\source\AbRegVcl.pas',
-  AbDlgDir in '..\..\source\AbDlgDir.pas' {DirDlg},
-  AbDlgPwd in '..\..\source\AbDlgPwd.pas' {PassWordDlg};
+  AbBseVCL in '..\..\source\AbBseVCL.pas',
+  AbMeter in '..\..\source\AbMeter.pas',
+  AbView in '..\..\source\AbView.pas',
+  AbZipOut in '..\..\source\AbZipOut.pas',
+  AbCView in '..\..\source\AbCView.pas',
+  AbZView in '..\..\source\AbZView.pas',
+  AbCompnd in '..\..\source\AbCompnd.pas',
+  AbHexVw in '..\..\source\AbHexVw.pas',
+  AbComCtrls in '..\..\source\AbComCtrls.pas';
 
 end.

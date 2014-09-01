@@ -200,7 +200,7 @@ uses
 
 {$IFDEF Bzip2Static}
 {$IF DEFINED(WIN32)}
-  {$L Win32\blocksort.obj}
+  {$L ..\Win32\blocksort.obj}
   {$L Win32\huffman.obj}
   {$L Win32\compress.obj}
   {$L Win32\decompress.obj}

@@ -23,7 +23,7 @@
  *
  * ***** END LICENSE BLOCK ***** *)
 
-package Abbrevia;
+package AbbreviaD;
 
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
@@ -50,8 +50,7 @@ package Abbrevia;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Abbrevia Run-time package - RTL XE6'}
-{$LIBSUFFIX '200'}
+{$DESCRIPTION 'Abbrevia Run-time package'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
 
