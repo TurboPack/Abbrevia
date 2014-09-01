@@ -290,10 +290,8 @@ uses
   {$IFDEF MSWINDOWS}
   Windows,
   {$ENDIF}
-{$IFDEF HasAnsiStrings}
-  System.AnsiStrings,
-{$ENDIF}
-  SysUtils, AbBitBkt, AbCharset, AbDfBase, AbDfDec, AbDfEnc, AbExcept, AbResString;
+  AnsiStrings, SysUtils, AbBitBkt, AbCharset, AbDfBase, AbDfDec, AbDfEnc,
+  AbExcept, AbResString;
 
 const
   { Header Signature Values}
@@ -499,7 +497,7 @@ begin
   repeat
     DataRead := AStream.Read(Buff, BuffSiz - 1);
     Buff[DataRead] := #0;
-    Len := AbStrLen(Buff);
+    Len := AnsiStrings.StrLen(Buff);
     if Len > 0 then begin
       SetLength(Result, Length(Result) + Len);
       Move(Buff, Result[Length(Result) - Len + 1], Len);

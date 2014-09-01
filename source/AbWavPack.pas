@@ -35,6 +35,8 @@ unit AbWavPack;
 
 interface
 
+{$IFDEF MSWINDOWS}
+
 uses
   Classes;
 
@@ -42,8 +44,11 @@ uses
 // aSrc must not allow reads past the compressed data.
 procedure DecompressWavPack(aSrc, aDes: TStream);
 
+{$ENDIF}
 
 implementation
+
+{$IFDEF MSWINDOWS}
 
 uses
   AbCrtl,
@@ -435,5 +440,7 @@ begin
     WavpackCloseFile(Context);
   end;
 end;
+
+{$ENDIF}
 
 end.

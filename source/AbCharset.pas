@@ -41,16 +41,6 @@ uses
   Windows;
 {$ENDIF}
 
-{ Unicode backwards compatibility types }
-{$IF NOT DECLARED(RawByteString)}
-type
-  RawByteString = AnsiString;
-{$IFEND}
-{$IF NOT DECLARED(UnicodeString)}
-type
-  UnicodeString = WideString;
-{$IFEND}
-
 type
   TAbCharSet = (csASCII, csANSI, csUTF8);
 

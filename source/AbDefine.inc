@@ -56,88 +56,34 @@
 {====Platform defines================================================}
 
 { map Delphi platform defines to FreePascal's (MSWINDOWS/UNIX/LINUX/DARWIN) }
-{$IFNDEF FPC}
-  {$IF DEFINED(LINUX) AND (CompilerVersion < 15)}
-    {$DEFINE KYLIX}
-    {$DEFINE UNIX}
-  {$IFEND}
-  {$IFDEF MACOS}
-    {$DEFINE DARWIN}
-  {$ENDIF}
-  {$IFDEF POSIX}
-    {$DEFINE UNIX}
-  {$ENDIF}
+{$IFDEF MACOS}
+  {$DEFINE DARWIN}
+{$ENDIF}
+{$IFDEF POSIX}
+  {$DEFINE UNIX}
 {$ENDIF}
 
 { Unix API (Kylix/Delphi/FreePascal) }
 {$IFDEF UNIX}
-  {$IF DEFINED(FPC)}
-    {$DEFINE FPCUnixAPI}
-  {$ELSEIF DEFINED(KYLIX)}
-    {$DEFINE LibcAPI}
-  {$ELSE}
-    {$DEFINE PosixAPI}
-  {$IFEND}
+  {$DEFINE PosixAPI}
 {$ENDIF}
 
-{$IFDEF FPC}
-  {$MODE DELPHI}
-  {$PACKRECORDS C}
-{$ENDIF}
+{$DEFINE HasAdvancedRecords}
+{$DEFINE HasThreadFinished}
+{$DEFINE HasInline}
+{$DEFINE HasThreadStart}
+{$DEFINE HasPlatformsAttribute}
 
-{Activate this define to show CLX/LCL dialogs for spanning media requests.  The
- default behavior will abort the operation instead.  This define is only safe
- when using Abbrevia from the foreground thread.  If using it from a background
- thread override OnRequestLastDisk, OnRequestNthDisk, and OnRequestBlankDisk and
- synchronize to the foreground yourself.  The Windows version always MessageBox
- so it's thread-safe.}
-{.$DEFINE UnixDialogs}
-
-{====RTL defines=====================================================}
-
-{$IFNDEF FPC}
-  {$IF RTLVersion >= 18} // Delphi 2006
-    {$DEFINE HasAdvancedRecords}
-  {$IFEND}
-  {$IF RTLVersion >= 20} // Delphi 2009
-    {$DEFINE HasThreadFinished}
-    {$DEFINE HasInline}
-  {$IFEND}
-  {$IF RTLVersion >= 21} // Delphi 2010
-    {$DEFINE HasThreadStart}
-  {$IFEND}
-  {$IF RTLVersion >= 23} // Delphi XE2
-    {$DEFINE HasPlatformsAttribute}
-  {$IFEND}
-{$ENDIF}
-
-{====Widgetset defines===============================================}
-
-{ VCL version specific defines }
-{$IFNDEF FPC}
-  {$IF RTLVersion >= 17} // Delphi 2005
-    {$DEFINE HasOnMouseActivate}
-  {$IFEND}
-  {$IF RTLVersion >= 18} // Delphi 2006
-    {$DEFINE HasOnMouseEnter}
-  {$IFEND}
-  {$IF RTLVersion >= 20} // Delphi 2009
-    {$DEFINE HasListViewGroups}
-    {$DEFINE HasListViewOnItemChecked}
-    {$DEFINE HasParentDoubleBuffered}
-    {$DEFINE HasTreeViewExpandedImageIndex}
-  {$IFEND}
-  {$IF RTLVersion >= 21} // Delphi 2010
-    {$DEFINE HasGridDrawingStyle}
-    {$DEFINE HasTouch}
-  {$IFEND}
-  {$IF RTLVersion >= 24} // Delphi XE3
-    {$DEFINE HasUITypes}
-  {$IFEND}
-  {$IF RTLVersion >= 25} // Delphi XE4
-    {$DEFINE HasAnsiStrings}
-  {$IFEND}
-{$ENDIF}
+{$DEFINE HasOnMouseActivate}
+{$DEFINE HasOnMouseEnter}
+{$DEFINE HasListViewGroups}
+{$DEFINE HasListViewOnItemChecked}
+{$DEFINE HasParentDoubleBuffered}
+{$DEFINE HasTreeViewExpandedImageIndex}
+{$DEFINE HasGridDrawingStyle}
+{$DEFINE HasTouch}
+{$DEFINE HasUITypes}
+{$DEFINE HasAnsiStrings}
 
 {====General defines=================================================}
 
@@ -149,10 +95,8 @@
 {$DEFINE DefeatWarnings}
 
 { Disable warnings for explicit string casts }
-{$IFDEF UNICODE}
-  {$WARN EXPLICIT_STRING_CAST OFF}
-  {$WARN EXPLICIT_STRING_CAST_LOSS OFF}
-{$ENDIF}
+{$WARN EXPLICIT_STRING_CAST OFF}
+{$WARN EXPLICIT_STRING_CAST_LOSS OFF}
 
 { Disable hints on Delphi XE2/Mac to prevent unexpanded inline messages }
 {$IFDEF POSIX}

@@ -35,6 +35,8 @@ unit AbCabKit;
 
 interface
 
+{$IFDEF MSWINDOWS}
+
 uses
   Classes, AbArcTyp,
   AbCabMak;
@@ -105,8 +107,11 @@ type
     property FileName; {must be after OnLoad}
   end;
 
+{$ENDIF}
 
 implementation
+
+{$IFDEF MSWINDOWS}
 
 uses
   SysUtils,
@@ -209,5 +214,7 @@ begin
   DoChange;
 end;
 { -------------------------------------------------------------------------- }
+
+{$ENDIF}
 
 end.

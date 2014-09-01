@@ -36,6 +36,8 @@ unit AbLZMA;
 
 interface
 
+{$IFDEF MSWINDOWS}
+
 uses
   Classes, Windows, SysUtils, AbCrtl, AbUtils;
 
@@ -302,8 +304,11 @@ procedure RaiseLzmaException(AResultCode: SRes);
   {$L Win64\Threads.obj}
 {$IFEND}
 
+{$ENDIF}
 
 implementation
+
+{$IFDEF MSWINDOWS}
 
 { Error handling =========================================================== }
 
@@ -626,5 +631,7 @@ end;
 initialization
   // The LZMA routines are multithreaded and use the Delphi memory manager.
   IsMultiThread := True;
+
+{$ENDIF}
 
 end.

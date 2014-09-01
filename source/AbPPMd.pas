@@ -35,12 +35,18 @@ unit AbPPMd;
 
 interface
 
+{$IFDEF MSWINDOWS}
+
 uses
   Classes;
 
 procedure DecompressPPMd(aSrc, aDes: TStream);
 
+{$ENDIF}
+
 implementation
+
+{$IFDEF MSWINDOWS}
 
 uses
   AbCrtl,
@@ -163,5 +169,7 @@ begin
     FreeMem(Src);
   end;
 end;
+
+{$ENDIF}
 
 end.

@@ -37,6 +37,8 @@ unit AbFciFdi;
 
 interface
 
+{$IFDEF MSWINDOWS}
+
 uses
   Windows, AbUtils;
 
@@ -269,8 +271,11 @@ function FCIDestroy(hfci : HFCI) : BOOL;
   {  hfdi - FDI context }
 {----------------------------------------------------------------------------}
 
+{$ENDIF}
 
 implementation
+
+{$IFDEF MSWINDOWS}
 
 uses
   AbExcept;
@@ -410,5 +415,7 @@ end;
 {----------------------------------------------------------------------------}
 initialization
   CabDllLoaded := False;
+
+{$ENDIF}
 
 end.

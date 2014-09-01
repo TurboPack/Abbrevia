@@ -38,6 +38,8 @@ unit AbCabTyp;
 
 interface
 
+{$IFDEF MSWINDOWS}
+
 uses
   Windows, Classes, AbFciFdi, AbArcTyp, AbUtils;
 
@@ -174,14 +176,14 @@ type
 function VerifyCab(const Fn : string) : TAbArchiveType; overload;
 function VerifyCab(Strm : TStream) : TAbArchiveType; overload;
 
+{$ENDIF}
+
 implementation
 
+{$IFDEF MSWINDOWS}
+
 uses
-  SysUtils,
-{$IFDEF HasAnsiStrings}
-  System.AnsiStrings,
-{$ENDIF}
-  AbCharset, AbConst, AbExcept;
+  SysUtils, AnsiStrings, AbCharset, AbConst, AbExcept;
 
 {$WARN UNIT_PLATFORM OFF}
 {$WARN SYMBOL_PLATFORM OFF}
@@ -283,7 +285,7 @@ begin
     {obtain next cabinet.  Make index zero-based}
     Archive.DoGetNextCabinet(Pred(iCab), CabName, Abort);
     if not Abort then
-      AbStrPLCopy(szCab, AnsiString(CabName), Length(szCab));
+      AnsiStrings.StrPLCopy(szCab, AnsiString(CabName), Length(szCab));
   end;
   Result := not Abort;
 end;
@@ -349,7 +351,7 @@ var
 begin
   Archive.FTempFileID := Archive.FTempFileID + 1;
   if (Archive.TempDirectory <> '') then
-    AbStrPLCopy(TempPath, AnsiString(Archive.TempDirectory), Length(TempPath))
+    AnsiStrings.StrPLCopy(TempPath, AnsiString(Archive.TempDirectory), Length(TempPath))
   else
     GetTempPathA(255, TempPath);
   GetTempFileNameA(TempPath, 'VMS', Archive.FTempFileID, lpTempName);
@@ -625,9 +627,9 @@ begin
     iDisk             := 0;
     fFailOnIncompressible := 0;
     setID             := SetID;
-    AbStrPCopy(szDisk, '');
-    AbStrPLCopy(szCab, FCabName, Length(szCab));
-    AbStrPLCopy(szCabPath, FCabPath, Length(szCabPath));
+    AnsiStrings.StrPCopy(szDisk, '');
+    AnsiStrings.StrPLCopy(szCab, FCabName, Length(szCab));
+    AnsiStrings.StrPLCopy(szCabPath, FCabPath, Length(szCabPath));
   end;
 
     {obtain an FCI context}
@@ -815,5 +817,7 @@ procedure TAbCabArchive.TestItemAt(Index : Integer);
 begin
   {not implemented for cabinet archives}
 end;
+
+{$ENDIF}
 
 end.

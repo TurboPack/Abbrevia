@@ -36,12 +36,14 @@ unit AbCrtl;
 
 interface
 
+{$IFDEF MSWINDOWS}
+
 uses
   Windows;
 
 type
   UInt32 = LongWord;
-  size_t = {$IF defined(CPUX64)}Int64{$ELSE}Integer{$IFEND}; // NativeInt is 8 bytes in Delphi 2007
+  size_t = NativeInt;
 
 const
   __turboFloat: LongInt = 0;
@@ -93,7 +95,14 @@ function _beginthreadex(security: Pointer; stack_size: Cardinal;
 { MSVC/Win64 declarations ================================================== }
 procedure __C_specific_handler; cdecl; external 'msvcrt.dll';
 
+{$ENDIF}
+
 implementation
+
+{$IFDEF MSWINDOWS}
+
+uses
+  Windows;
 
 { ctype.h declarations ===================================================== }
 function isdigit(ch: Integer): Integer; cdecl;
@@ -180,5 +189,7 @@ begin
     initflag, thrdaddr);
 end;
 { -------------------------------------------------------------------------- }
+
+{$ENDIF}
 
 end.

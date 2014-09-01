@@ -35,6 +35,8 @@ unit AbZipExt;
 
 interface
 
+{$IFDEF MSWINDOWS}
+
 uses
   SysUtils, Classes;
 
@@ -44,19 +46,17 @@ function AbRegisterZipExtension(const App : string;
                                       ID, FileType : string;
                                       Replace : Boolean) : Boolean;
 
+{$ENDIF}
 
 implementation
 
-uses
 {$IFDEF MSWINDOWS}
+
+uses
   Windows,
   Messages,
   Registry,
   ShellAPI,
-{$ENDIF}
-{$IFDEF LibcAPI}
-  Libc,
-{$ENDIF}
   AbConst;
 
 const
@@ -140,5 +140,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
+
+{$ENDIF}
 
 end.

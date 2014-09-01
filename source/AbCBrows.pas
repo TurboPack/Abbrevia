@@ -35,6 +35,8 @@ unit AbCBrows;
 
 interface
 
+{$IFDEF MSWINDOWS}
+
 uses
   Classes,
   AbBrowse,
@@ -114,8 +116,11 @@ type
   end;
   {.Z+}
 
+{$ENDIF}
 
 implementation
+
+{$IFDEF MSWINDOWS}
 
 uses
   SysUtils,
@@ -234,5 +239,7 @@ begin
     TAbCabArchive(Archive).SetID := Value;
 end;
 { -------------------------------------------------------------------------- }
+
+{$ENDIF}
 
 end.

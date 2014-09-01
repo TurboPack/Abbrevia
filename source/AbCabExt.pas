@@ -35,6 +35,8 @@ unit AbCabExt;
 
 interface
 
+{$IFDEF MSWINDOWS}
+
 uses
   Classes,
   AbCBrows, 
@@ -100,8 +102,11 @@ type
   end;
   {.Z+}
 
+{$ENDIF}
 
 implementation
+
+{$IFDEF MSWINDOWS}
 
 uses
   AbExcept;
@@ -183,6 +188,8 @@ begin
     FArchive.ExtractOptions := Value;
 end;
 { -------------------------------------------------------------------------- }
+
+{$ENDIF}
 
 end.
 
