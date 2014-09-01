@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbZipArchive.ExtractHelper</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="ExtractHelper"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbZipArchive.ExtractHelper</H1>
+  <P>
+   <A HREF="ch100uat.htm">TAbZipArchive</A></P><PRE><CODE><B>property</B> ExtractHelper : TAbArchiveItemExtractEvent</CODE><BR><CODE>TAbArchiveItemExtractEvent = <B>procedure</B>(Sender : TObject;</CODE><BR><CODE>  Item : TAbArchiveItem; <B>const</B> NewName : <B>string</B>) <B>of object</B>;</CODE></PRE><P>
+   Defines an event handler that is called whenever a file is extracted 
+   from the archive.</P>
+  <P>
+   The ExtractHelper event handler must be supplied in order for the 
+   ZipArchive to extract files. The event handler is responsible for 
+   extracting the specified item. Typically this is done by simply 
+   passing the information on to AbUnZip procedure defined in unit AbUnzPrc.</P>
+  <P>
+   The following example extracts all files from an archive:</P><PRE><CODE><B>procedure</B> UnZipHelper(Sender : TObject; Item : TAbArchiveItem; <B>const</B> NewName : <B>string</B>);</CODE><BR><CODE><B>begin</B></CODE><BR><CODE>  AbUnzip(TAbZipArchive(Sender), TAbZipItem(Item), NewName);</CODE><BR><CODE><B>end</B>;</CODE><BR><CODE><B>procedure</B> ExtractFiles(ArchiveName : <B>string</B>);</CODE><BR><CODE><B>var</B></CODE><BR><CODE>  ZipArchive : TAbZipArchive;</CODE><BR><CODE><B>begin</B></CODE><BR><CODE>  ZipArchive := TAbZipArchive.Create(ArchiveName,</CODE><BR><CODE>     fmOpenRead <B>or</B> fmShareDenyNone);</CODE><BR><CODE>  <B>try</B></CODE><BR><CODE>    ZipArchive.Load;</CODE><BR><CODE>    ZipArchive.ExtractHelper := UnZipHelper;</CODE><BR><CODE>    ZipArchive.ExtractFiles('*.*');</CODE><BR><CODE>  <B>finally</B></CODE><BR><CODE>    ZipArchive.Free;</CODE><BR><CODE>  <B>end</B>;</CODE><BR><CODE><B>end</B>;</CODE></PRE><P>
+   See also: <A HREF="ch107mlu.htm">ExtractToStreamHelper</A>
+ </BODY>
+</HTML>

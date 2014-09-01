@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbArchive.Status</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="Status:TAbArchive">
+ <META NAME="MS-HKWD" CONTENT="Status"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbArchive.Status</H1>
+  <P>
+   <A HREF="ch104l45.htm">TAbArchive</A></P><PRE><CODE><B>property</B> Status : TAbArchiveStatus</CODE><BR><CODE>TAbArchiveStatus = (asInvalid, asIdle, asBusy);</CODE></PRE><P>
+   Determines whether an operation is currently being performed on the archive.</P>
+  <P>
+   When an archive is being initialized, Status is set to asInvalid. 
+   When the initialization is finished, Status is set to asIdle. During 
+   each operation that modifies the archive, Status is set to asBusy. 
+   Status is used internally by Abbrevia to prevent re-entrant 
+   operations, but could also be used to display archive activity.
+ </BODY>
+</HTML>

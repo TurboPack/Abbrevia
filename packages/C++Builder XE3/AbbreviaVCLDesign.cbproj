@@ -1,0 +1,224 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{7E473AA9-02F8-498A-B77B-1F70BEA9B14B}</ProjectGuid>
+        <MainSource>AbbreviaVCLDesign.cpp</MainSource>
+        <ProjectVersion>14.3</ProjectVersion>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Base>True</Base>
+        <AppType>Library</AppType>
+        <FrameworkType>None</FrameworkType>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <TargetedPlatforms>1</TargetedPlatforms>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <VerInfo_MajorVer>4</VerInfo_MajorVer>
+        <VerInfo_Keys>CompanyName=;FileDescription=Abbrevia VCL designtime components;FileVersion=5.0.0.0;InternalName=;LegalCopyright=Copyright (c) Abbrevia Group 2011;LegalTrademarks=;OriginalFilename=;ProductName=Abbrevia;ProductVersion=5.0;Comments=</VerInfo_Keys>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Winapi;Vcl;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <ILINK_Description>Abbrevia VCL designtime components</ILINK_Description>
+        <Multithreaded>true</Multithreaded>
+        <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
+        <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
+        <ProjectType>CppPackage</ProjectType>
+        <OutputExt>bpl</OutputExt>
+        <DCC_AdditionalSwitches>-LUDesignIDE</DCC_AdditionalSwitches>
+        <DllSuffix>160</DllSuffix>
+        <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
+        <Defines>NO_STRICT;$(Defines)</Defines>
+        <DynamicRTL>true</DynamicRTL>
+        <IncludePath>..\..\source\;$(BDS)\include;$(BDS)\include\dinkumware;..\..\source;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\source\;$(BDS)\lib;..\..\source;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <BCC_wpar>false</BCC_wpar>
+        <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
+        <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
+        <DCC_Optimize>false</DCC_Optimize>
+        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+        <Defines>_DEBUG;$(Defines)</Defines>
+        <BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
+        <IntermediateOutputDir>Debug</IntermediateOutputDir>
+        <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
+        <BCC_UseRegisterVariables>None</BCC_UseRegisterVariables>
+        <DCC_Define>DEBUG</DCC_Define>
+        <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
+        <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
+        <BCC_StackFrames>true</BCC_StackFrames>
+        <ILINK_LibraryPath>$(BDS)\lib\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
+        <TASM_Debugging>Full</TASM_Debugging>
+        <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_MajorVer>5</VerInfo_MajorVer>
+        <DllSuffix>170</DllSuffix>
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
+        <VerInfo_Keys>CompanyName=;FileDescription=Abbrevia VCL designtime components;FileVersion=5.1.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Abbrevia;ProductVersion=5.1;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <Defines>NDEBUG;$(Defines)</Defines>
+        <IntermediateOutputDir>Release</IntermediateOutputDir>
+        <ILINK_LibraryPath>$(BDS)\lib\release;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <TASM_Debugging>None</TASM_Debugging>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageImport Include="AbbreviaVCL.bpi">
+            <BuildOrder>3</BuildOrder>
+        </PackageImport>
+        <CppCompile Include="AbbreviaVCLDesign.cpp">
+            <BuildOrder>0</BuildOrder>
+        </CppCompile>
+        <ResFiles Include="AbbreviaVCLDesign.res">
+            <BuildOrder>2</BuildOrder>
+        </ResFiles>
+        <PackageImport Include="designide.bpi">
+            <BuildOrder>3</BuildOrder>
+        </PackageImport>
+        <PackageImport Include="rtl.bpi">
+            <BuildOrder>12</BuildOrder>
+        </PackageImport>
+        <PackageImport Include="vcl.bpi">
+            <BuildOrder>13</BuildOrder>
+        </PackageImport>
+        <PackageImport Include="vclx.bpi">
+            <BuildOrder>14</BuildOrder>
+        </PackageImport>
+        <DelphiCompile Include="..\..\source\AbDlgDir.pas">
+            <BuildOrder>9</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="..\..\source\AbDlgPwd.pas">
+            <BuildOrder>10</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="..\..\source\AbPeCol.pas">
+            <BuildOrder>11</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="..\..\source\AbPeDir.pas">
+            <BuildOrder>4</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="..\..\source\AbPeFn.pas">
+            <BuildOrder>5</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="..\..\source\AbPePass.pas">
+            <BuildOrder>6</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="..\..\source\AbPeVer.pas">
+            <BuildOrder>7</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="..\..\source\AbRegVcl.pas">
+            <BuildOrder>8</BuildOrder>
+        </DelphiCompile>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <Import Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')" Project="$(BDS)\Bin\CodeGear.Cpp.Targets"/>
+    <ProjectExtensions>
+        <Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>
+        <Borland.ProjectType>CppPackage</Borland.ProjectType>
+        <BorlandProject>
+            <CPlusPlusBuilder.Personality>
+                <Source>
+                    <Source Name="MainSource">AbbreviaVCLDesign.cpp</Source>
+                </Source>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+                    <VersionInfo Name="MajorVer">4</VersionInfo>
+                    <VersionInfo Name="MinorVer">0</VersionInfo>
+                    <VersionInfo Name="Release">0</VersionInfo>
+                    <VersionInfo Name="Build">0</VersionInfo>
+                    <VersionInfo Name="Debug">False</VersionInfo>
+                    <VersionInfo Name="PreRelease">False</VersionInfo>
+                    <VersionInfo Name="Special">False</VersionInfo>
+                    <VersionInfo Name="Private">False</VersionInfo>
+                    <VersionInfo Name="DLL">False</VersionInfo>
+                    <VersionInfo Name="Locale">1033</VersionInfo>
+                    <VersionInfo Name="CodePage">1252</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName"/>
+                    <VersionInfoKeys Name="FileDescription">Abbrevia VCL designtime components</VersionInfoKeys>
+                    <VersionInfoKeys Name="FileVersion">5.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName"/>
+                    <VersionInfoKeys Name="LegalCopyright">Copyright (c) Abbrevia Group 2011</VersionInfoKeys>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename"/>
+                    <VersionInfoKeys Name="ProductName">Abbrevia</VersionInfoKeys>
+                    <VersionInfoKeys Name="ProductVersion">5.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="Comments"/>
+                </VersionInfoKeys>
+                <Debugging>
+                    <Debugging Name="DebugSourceDirs"/>
+                </Debugging>
+                <Parameters>
+                    <Parameters Name="RemoteHost"/>
+                    <Parameters Name="RemotePath"/>
+                    <Parameters Name="RemoteParams"/>
+                    <Parameters Name="RemoteLauncher"/>
+                    <Parameters Name="UseRemoteLauncher">False</Parameters>
+                    <Parameters Name="RemoteCWD"/>
+                    <Parameters Name="RemoteDebug">False</Parameters>
+                </Parameters>
+                <ProjectProperties>
+                    <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
+                    <ProjectProperties Name="ManagePaths">True</ProjectProperties>
+                    <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
+                </ProjectProperties>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k170.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp170.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k170.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp170.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
+            </CPlusPlusBuilder.Personality>
+            <Platforms>
+                <Platform value="OSX32">False</Platform>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+</Project>

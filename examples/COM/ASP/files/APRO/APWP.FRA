@@ -1,0 +1,36 @@
+/*********************************************************
+ * Async Pro : APWP.STR 2.54                             *
+ * Copyright (c) TurboPower Software Co 1996-98          *
+ * All rights reserved.                                  *
+ *********************************************************
+ * Async Pro : Protocol strings resource                 *
+ *********************************************************/
+
+; String constants are found in OOMISC.INC
+; These strings are linked into the APWP DLL if DLLs are used
+; If strings are added -- apStatusMsg needs to be changed in AWABSPCL.PAS
+
+0,   "OK"
+1,   "Protocole de transfert en cours"
+2,   "Mauvais horodatage reçu et ignoré"
+3,   "Fichier refusé"
+4,   "Fichier renommé"
+5,   "Fichier ignoré"
+6,   "Le fichier n'existe pas localement, ignoré"
+7,   "Fichier ignoré"
+8,   "Dépassement de délai dans le protocole"
+9,   "Somme de contrôle ou CRC erroné"
+10,  "Bloc trop long"
+11,  "Bloc reçu en double et ignoré "
+12,  "Erreur dans le protocole"
+13,  "Annulation demandée"
+14,  "En fin de fichier"
+15,  "L'hôte B+ a refusé la demande de reprise"
+16,  "Bloc hors séquence"
+17,  "Abandon sur perte de porteuse"
+18,  "Reçu paquet CrcE (Zmodem)"
+19,  "Reçu paquet CrcG (Zmodem)"
+20,  "Reçu paquet CrcW (Zmodem)"
+21,  "Reçu paquet CrcQ (Zmodem)"
+22,  "B+ tente de reprendre le téléchargement"
+23,  "L'hôte B+ reprend"

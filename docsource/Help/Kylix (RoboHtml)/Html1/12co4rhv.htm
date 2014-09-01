@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>IZipKit.Status</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="Status:IZipKit">
+ <META NAME="MS-HKWD" CONTENT="Status"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   IZipKit.Status</H1>
+  <P>
+   <A HREF="12co81tg.htm">IZipKit</A></P><PRE><CODE><B><I>object</I></B>.<B>Status</B></CODE><BR><CODE>The <I>object</I> is always an <B>IZipKit.</B> </CODE></PRE><P>
+   Determines whether an operation is currently being performed on the archive.</P>
+  <P>
+   Status is used internally by Abbrevia to prevent re-entrant 
+   operations, but could also be used to determine archive activity.</P>
+  <P>
+   Status can return one of the following values form TArchiveStatus:</P>
+  <P>
+   <TABLE WIDTH="479" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="20%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">Constant</SPAN></CODE></B></TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Value</SPAN></TD><TD
+       WIDTH="68%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Description</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="20%" VALIGN=TOP><PRE><CODE>asInvalid</CODE></TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>0</TD><TD
+       WIDTH="68%" VALIGN=TOP><PRE>Set when the archive is being initialized.</TD></TR>
+    <TR>
+     <TD WIDTH="20%" VALIGN=TOP><PRE>asIdle</TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>1</TD><TD
+       WIDTH="68%" VALIGN=TOP><PRE>Initialization is finished and no other activity.</TD></TR>
+    <TR>
+     <TD WIDTH="20%" VALIGN=TOP><PRE><CODE>asBusy</CODE></TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>2</TD><TD
+       WIDTH="68%" VALIGN=TOP><PRE>An operation is modifying the archive.</TD></TR>
+   </TABLE>
+ </BODY>
+</HTML>

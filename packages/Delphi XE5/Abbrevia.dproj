@@ -1,0 +1,229 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F41FD54F-C677-468D-B2F6-F7DEE8EEF36C}</ProjectGuid>
+        <MainSource>Abbrevia.dpk</MainSource>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+        <ProjectVersion>15.1</ProjectVersion>
+        <Base>True</Base>
+        <AppType>Package</AppType>
+        <FrameworkType>None</FrameworkType>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <TargetedPlatforms>7</TargetedPlatforms>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Android' and '$(Base)'=='true') or '$(Base_Android)'!=''">
+        <Base_Android>true</Base_Android>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='OSX32' and '$(Base)'=='true') or '$(Base_OSX32)'!=''">
+        <Base_OSX32>true</Base_OSX32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
+        <DCC_UnitSearchPath>.\$(Platform)\$(Config);$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <VerInfo_MajorVer>4</VerInfo_MajorVer>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=Abbrevia Components;FileVersion=5.0.0.0;InternalName=;LegalCopyright=Copyright (c) Abbrevia Group 2011;LegalTrademarks=;OriginalFilename=;ProductName=Abbrevia;ProductVersion=5.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;System.Win;Winapi;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_DependencyCheckOutputName>Abbrevia.bpl</DCC_DependencyCheckOutputName>
+        <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
+        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+        <DCC_Description>Abbrevia Run-time package - RTL XE5</DCC_Description>
+        <DCC_WriteableConstants>true</DCC_WriteableConstants>
+        <DCC_OutputNeverBuildDcps>true</DCC_OutputNeverBuildDcps>
+        <GenDll>true</GenDll>
+        <GenPackage>true</GenPackage>
+        <DllSuffix>190</DllSuffix>
+        <DCC_DebugInformation>0</DCC_DebugInformation>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+        <DCC_ImageBase>00400000</DCC_ImageBase>
+        <DCC_Platform>x86</DCC_Platform>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Android)'!=''">
+        <VerInfo_IncludeVerInfo>false</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>package=com.embarcadero.$(MSBuildProjectName);label=$(MSBuildProjectName);versionCode=1;versionName=1.0.0;persistent=False;restoreAnyVersion=False;installLocation=preferExternal;largeHeap=False;theme=TitleBar</VerInfo_Keys>
+        <BT_BuildType>Debug</BT_BuildType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_OSX32)'!=''">
+        <VerInfo_IncludeVerInfo>false</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CFBundleName=$(MSBuildProjectName);CFBundleDisplayName=$(MSBuildProjectName);CFBundleIdentifier=$(MSBuildProjectName);CFBundleVersion=1.0.0.0;CFBundlePackageType=APPL;CFBundleSignature=????;CFBundleAllowMixedLocalizations=YES;CFBundleExecutable=$(MSBuildProjectName);NSHighResolutionCapable=true</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
+        <VerInfo_MajorVer>5</VerInfo_MajorVer>
+        <Icon_MainIcon>Abbrevia_Icon.ico</Icon_MainIcon>
+        <DCC_Namespace>Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Keys>CompanyName=;FileDescription=Abbrevia non-visual components;FileVersion=5.1.0.0;InternalName=;LegalCopyright=Copyright (c) Abbrevia Group;LegalTrademarks=;OriginalFilename=;ProductName=Abbrevia;ProductVersion=5.1;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
+        <VerInfo_MajorVer>5</VerInfo_MajorVer>
+        <Icon_MainIcon>Abbrevia_Icon.ico</Icon_MainIcon>
+        <DCC_Namespace>Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Keys>CompanyName=;FileDescription=Abbrevia non-visual components;FileVersion=5.1.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Abbrevia;ProductVersion=5.1;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <DCC_DebugInformation>0</DCC_DebugInformation>
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_MajorVer>1</VerInfo_MajorVer>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="rtl.dcp"/>
+        <DCCReference Include="..\..\source\AbArcTyp.pas"/>
+        <DCCReference Include="..\..\source\AbBase.pas"/>
+        <DCCReference Include="..\..\source\AbBitBkt.pas"/>
+        <DCCReference Include="..\..\source\AbBrowse.pas"/>
+        <DCCReference Include="..\..\source\AbBzip2.pas"/>
+        <DCCReference Include="..\..\source\AbBzip2Typ.pas"/>
+        <DCCReference Include="..\..\source\AbCabExt.pas"/>
+        <DCCReference Include="..\..\source\AbCabKit.pas"/>
+        <DCCReference Include="..\..\source\AbCabMak.pas"/>
+        <DCCReference Include="..\..\source\AbCabTyp.pas"/>
+        <DCCReference Include="..\..\source\AbCBrows.pas"/>
+        <DCCReference Include="..\..\source\AbCharset.pas"/>
+        <DCCReference Include="..\..\source\AbConst.pas"/>
+        <DCCReference Include="..\..\source\AbCrtl.pas"/>
+        <DCCReference Include="..\..\source\AbDfBase.pas"/>
+        <DCCReference Include="..\..\source\AbDfCryS.pas"/>
+        <DCCReference Include="..\..\source\AbDfDec.pas"/>
+        <DCCReference Include="..\..\source\AbDfEnc.pas"/>
+        <DCCReference Include="..\..\source\AbDfHufD.pas"/>
+        <DCCReference Include="..\..\source\AbDfInW.pas"/>
+        <DCCReference Include="..\..\source\AbDfOutW.pas"/>
+        <DCCReference Include="..\..\source\AbDfPkMg.pas"/>
+        <DCCReference Include="..\..\source\AbDfStrm.pas"/>
+        <DCCReference Include="..\..\source\AbDfXlat.pas"/>
+        <DCCReference Include="..\..\source\AbExcept.pas"/>
+        <DCCReference Include="..\..\source\AbFciFdi.pas"/>
+        <DCCReference Include="..\..\source\AbGzTyp.pas"/>
+        <DCCReference Include="..\..\source\AbLzma.pas"/>
+        <DCCReference Include="..\..\source\AbPPMd.pas"/>
+        <DCCReference Include="..\..\source\AbResString.pas"/>
+        <DCCReference Include="..\..\source\AbSelfEx.pas"/>
+        <DCCReference Include="..\..\source\AbSpanSt.pas"/>
+        <DCCReference Include="..\..\source\AbSWStm.pas"/>
+        <DCCReference Include="..\..\source\AbTarTyp.pas"/>
+        <DCCReference Include="..\..\source\AbUnzOutStm.pas"/>
+        <DCCReference Include="..\..\source\AbUnzper.pas"/>
+        <DCCReference Include="..\..\source\AbUnzPrc.pas"/>
+        <DCCReference Include="..\..\source\AbUtils.pas"/>
+        <DCCReference Include="..\..\source\AbVMStrm.pas"/>
+        <DCCReference Include="..\..\source\AbWavPack.pas"/>
+        <DCCReference Include="..\..\source\AbZBrows.pas"/>
+        <DCCReference Include="..\..\source\AbZipExt.pas"/>
+        <DCCReference Include="..\..\source\AbZipKit.pas"/>
+        <DCCReference Include="..\..\source\AbZipper.pas"/>
+        <DCCReference Include="..\..\source\AbZipPrc.pas"/>
+        <DCCReference Include="..\..\source\AbZipTyp.pas"/>
+        <DCCReference Include="..\..\source\AbZLTyp.pas"/>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType>Package</Borland.ProjectType>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Source>
+                    <Source Name="MainSource">Abbrevia.dpk</Source>
+                </Source>
+                <Parameters/>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+                    <VersionInfo Name="MajorVer">4</VersionInfo>
+                    <VersionInfo Name="MinorVer">0</VersionInfo>
+                    <VersionInfo Name="Release">0</VersionInfo>
+                    <VersionInfo Name="Build">0</VersionInfo>
+                    <VersionInfo Name="Debug">False</VersionInfo>
+                    <VersionInfo Name="PreRelease">False</VersionInfo>
+                    <VersionInfo Name="Special">False</VersionInfo>
+                    <VersionInfo Name="Private">False</VersionInfo>
+                    <VersionInfo Name="DLL">False</VersionInfo>
+                    <VersionInfo Name="Locale">1033</VersionInfo>
+                    <VersionInfo Name="CodePage">1252</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName"/>
+                    <VersionInfoKeys Name="FileDescription">Abbrevia Components</VersionInfoKeys>
+                    <VersionInfoKeys Name="FileVersion">5.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName"/>
+                    <VersionInfoKeys Name="LegalCopyright">Copyright (c) Abbrevia Group 2011</VersionInfoKeys>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename"/>
+                    <VersionInfoKeys Name="ProductName">Abbrevia</VersionInfoKeys>
+                    <VersionInfoKeys Name="ProductVersion">5.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="Comments"/>
+                </VersionInfoKeys>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k190.bpl">Microsoft Office 2000 Beispiele für gekapselte Komponenten für Automatisierungsserver</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp190.bpl">Microsoft Office XP Beispiele für gekapselte Komponenten für Automation Server</Excluded_Packages>
+                </Excluded_Packages>
+            </Delphi.Personality>
+            <Platforms>
+                <Platform value="Android">False</Platform>
+                <Platform value="iOSDevice">False</Platform>
+                <Platform value="iOSSimulator">False</Platform>
+                <Platform value="OSX32">True</Platform>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">True</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+</Project>

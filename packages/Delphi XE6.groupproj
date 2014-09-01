@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{3FC8294C-9FE8-49B9-9FF0-C33C59C18002}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Delphi XE6\Abbrevia.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Delphi XE6\AbbreviaVCL.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Delphi XE6\AbbreviaVCLDesign.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Abbrevia">
+        <MSBuild Projects="Delphi XE6\Abbrevia.dproj"/>
+    </Target>
+    <Target Name="Abbrevia:Clean">
+        <MSBuild Projects="Delphi XE6\Abbrevia.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Abbrevia:Make">
+        <MSBuild Projects="Delphi XE6\Abbrevia.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="AbbreviaVCL">
+        <MSBuild Projects="Delphi XE6\AbbreviaVCL.dproj"/>
+    </Target>
+    <Target Name="AbbreviaVCL:Clean">
+        <MSBuild Projects="Delphi XE6\AbbreviaVCL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AbbreviaVCL:Make">
+        <MSBuild Projects="Delphi XE6\AbbreviaVCL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="AbbreviaVCLDesign">
+        <MSBuild Projects="Delphi XE6\AbbreviaVCLDesign.dproj"/>
+    </Target>
+    <Target Name="AbbreviaVCLDesign:Clean">
+        <MSBuild Projects="Delphi XE6\AbbreviaVCLDesign.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AbbreviaVCLDesign:Make">
+        <MSBuild Projects="Delphi XE6\AbbreviaVCLDesign.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Abbrevia;AbbreviaVCL;AbbreviaVCLDesign"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Abbrevia:Clean;AbbreviaVCL:Clean;AbbreviaVCLDesign:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Abbrevia:Make;AbbreviaVCL:Make;AbbreviaVCLDesign:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

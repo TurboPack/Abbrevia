@@ -1,0 +1,33 @@
+#------------------------------------------------------------------------------
+VERSION = BWS.01
+#------------------------------------------------------------------------------
+!ifndef ROOT
+ROOT = $(MAKEDIR)\..
+!endif
+#------------------------------------------------------------------------------
+MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+DCC = $(ROOT)\bin\dcc32.exe $**
+BRCC = $(ROOT)\bin\brcc32.exe $**
+#------------------------------------------------------------------------------
+PROJECTS = Abbrevia70.bpl AbbreviaVCL70.bpl AbbreviaVCLDesign70.bpl \
+  AbbreviaCLX70.bpl AbbreviaCLXDesign70.bpl
+#------------------------------------------------------------------------------
+default: $(PROJECTS)
+#------------------------------------------------------------------------------
+
+Abbrevia70.bpl: Delphi 7\Abbrevia.dpk
+  $(DCC)
+
+AbbreviaVCL70.bpl: Delphi 7\AbbreviaVCL.dpk
+  $(DCC)
+
+AbbreviaVCLDesign70.bpl: Delphi 7\AbbreviaVCLDesign.dpk
+  $(DCC)
+
+AbbreviaCLX70.bpl: Delphi 7\AbbreviaCLX.dpk
+  $(DCC)
+
+AbbreviaCLXDesign70.bpl: Delphi 7\AbbreviaCLXDesign.dpk
+  $(DCC)
+
+

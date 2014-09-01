@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbZipper.DeleteFilesEx</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="DeleteFilesEx:TAbZipper">
+ <META NAME="MS-HKWD" CONTENT="DeleteFilesEx"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbZipper.DeleteFilesEx</H1>
+  <P>
+   <A HREF="ch5n3fle.htm">TAbZipper</A></P><PRE><CODE><B>procedure</B> DeleteFilesEx(<B>const</B> FileMask, ExclusionMask : <B>string</B>);</CODE></PRE><P>
+   Deletes files except those specified by ExclusionMask.</P>
+  <P>
+   DeleteFilesEx introduces item exception list functionality to 
+   DeleteFiles. By specifying ExclusionMask you can exclude certain 
+   files that would normally be deleted using the DeleteFiles method. 
+   The wild card characters '*' and '?' are allowed in the ExclusionMask 
+   as well as path information.</P>
+  <P>
+   For example, you could delete all files from the archive except text 
+   files by the following:</P>
+  <P>
+   <B>Windows</B></P><PRE><CODE>DeleteFilesEx('*.*', '*.txt');</CODE></PRE><P>
+   <B>Linux</B></P><PRE><CODE>DeleteFilesEx('*', '*.txt');</CODE></PRE><P>
+   See also: <A HREF="ch5n2mr7.htm">DeleteFiles</A>
+ </BODY>
+</HTML>

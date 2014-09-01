@@ -1,0 +1,10 @@
+;{*********************************************************}
+;{* ABBREVIA: TPZIP.RC                                    *}
+;{* Copyright (c) TurboPower Software Co 1997             *}
+;{* All rights reserved.                                  *}
+;{*********************************************************}
+;{* ABBREVIA Example program file                         *}
+;{*********************************************************}
+
+MAINICON ICON "tpzip.ico"
+

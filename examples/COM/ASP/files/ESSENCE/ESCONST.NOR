@@ -1,0 +1,35 @@
+;*********************************************************
+;*                   ESCONST.STR 1.05                    *
+;*      Copyright (c) 1997-98 TurboPower Software Co     *
+;*                 All rights reserved.                  *
+;*********************************************************
+;translated to norwegian Bokmål by Bjørn T. Jønsson, 02.02.1999
+
+#include "esconst.inc"
+
+SCEsColorBlack, "Svart"
+SCEsColorMaroon, "Rødbrun"
+SCEsColorGreen, "Grønn"
+SCEsColorOlive, "Oliven"
+SCEsColorNavy, "Marineblå"
+SCEsColorPurple, "Lilla"
+SCEsColorTeal, "Sjøgrønn"
+SCEsColorGray, "Grå"
+SCEsColorSilver, "Sølv"
+SCEsColorRed, "Rød"
+SCEsColorLime, "Lime"
+SCEsColorYellow, "Gul"
+SCEsColorBlue, "Blå"
+SCEsColorFuchsia, "Fuksia"
+SCEsColorAqua, "Akvamarin"
+SCEsColorWhite, "Hvit"
+SCEsLabelNotAttached, "Ingen etikett vedlagt"
+SCEsBlankDateNotAllowed, "En blank dato er ikke tillatt"
+SCEsInvalidDay, "Ugyldig dag"
+SCEsInvalidMonth, "Ugyldig måned"
+SCEsInvalidMonthName, "Ugyldig månedsnavn"
+SCEsInvalidYear, "Ugyldig år"
+SCEsDayIsRequired, "Dag er påkrevet"
+SCEsMonthIsRequired, "Måned er krevet"
+SCEsYearIsRequired, "År er krevet"
+SCEsInvalidDate, "Ugyldig dato"

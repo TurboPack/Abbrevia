@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:fontset("Symbol","Symbol") -->
+  <TITLE>IZipKit.OnNeedPassword</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="OnNeedPassword:IZipKit">
+ <META NAME="MS-HKWD" CONTENT="OnNeedPassword"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   IZipKit.OnNeedPassword</H1>
+  <P>
+   <A HREF="12co81tg.htm">IZipKit</A></P><PRE><CODE><B><I>object</I></B>_<B>OnNeedPassword</B>(<I>NewPassword</I>)</CODE><BR><CODE>The <I>object</I> is always an <B>IZipKit.</B></CODE></PRE><P>
+   Defines an event handler that is called to allow entry of a password 
+   when decrypting a file.</P>
+  <P>
+   The OnNeedPassword syntax has these parts:</P>
+  <P>
+   <TABLE WIDTH="478" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="21%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">Part</SPAN></CODE></B></TD><TD
+       WIDTH="15%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Type</SPAN></TD><TD
+       WIDTH="64%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Description </SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="21%" VALIGN=TOP><PRE><CODE>NewPassword</CODE></TD><TD
+       WIDTH="15%" VALIGN=TOP><PRE>String</TD><TD
+       WIDTH="64%" VALIGN=TOP><PRE>The password used to decrypt the file.</TD></TR>
+   </TABLE></P>
+  <P>
+   The OnNeedPassword event handler is called when an encrypted file is 
+   being extracted and one of the following occurs:</P>
+  <P>
+   <FONT FACE="Symbol">&#183;</FONT>The Password property is empty.</P>
+  <P>
+   <FONT FACE="Symbol">&#183;</FONT>The Password is not valid for the 
+   encrypted file and the number of attempts is less than PasswordRetries.
+ </BODY>
+</HTML>

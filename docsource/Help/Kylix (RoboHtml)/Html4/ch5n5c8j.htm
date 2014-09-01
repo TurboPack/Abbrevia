@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbZipper.FreshenFiles</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="FreshenFiles:TAbZipper">
+ <META NAME="MS-HKWD" CONTENT="FreshenFiles"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbZipper.FreshenFiles</H1>
+  <P>
+   <A HREF="ch5n3fle.htm">TAbZipper</A></P><PRE><CODE><B>procedure</B> FreshenFiles(<B>const</B> FileMask : <B>string</B>);</CODE></PRE><P>
+   Freshens the specified files in the archive.</P>
+  <P>
+   Each file in the archive is compared to FileMask. If an archive 
+   item's stored file name matches FileMask, the file is marked to be 
+   freshened. If no directory information is included in FileMask, 
+   directory information in the archive item's file name is ignored 
+   during the search. For example, the FileMask &quot;*.TXT&quot; marks 
+   all files in the archive that have a TXT extension to be freshened. 
+   If path information is included in FileMask, the directory 
+   information in the archive item's file name must match for the file 
+   to be freshened.</P>
+  <P>
+   The next time the archive is saved, the marked files are freshened. 
+   If the file is found on disk and it has been modified since it was 
+   last stored in the archive, the compressed data in the archive is 
+   replaced with the compressed representation of the current file.</P>
+  <P>
+   The directories that are searched to find the file depend on the 
+   StoreOptions and BaseDirectory properties. The following table shows, 
+   for a given file in the archive and a set of StoreOptions, what 
+   directories are searched to find the file to use to freshen the file 
+   in the archive.</P>
+  <P>
+   The following table shows examples of Windows directories searched:</P>
+  <P>
+   <TABLE WIDTH="479" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">StoreOptions</SPAN></CODE></B></TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Name in Archive</SPAN></TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Directories Searched</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE><CODE>[]</CODE></TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE>&nbsp;</TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>DOC/README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY\DOC</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE>[soRecurse, soStripPath]</TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY and all subdirectories</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE>&nbsp;</TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>DOC/README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY\DOC</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE>[soRecurse]</TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY and all subdirectories</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE>&nbsp;</TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>DOC/README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY\DOC</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE>[soStripPath]</TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP></TD>
+     <TD WIDTH="29%" VALIGN=TOP><PRE>DOC/README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY\DOC</TD></TR>
+   </TABLE></P>
+  <P>
+   The following table shows examples of Linux directories searched:</P>
+  <P>
+   <TABLE WIDTH="479" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">StoreOptions</SPAN></CODE></B></TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Name in Archive</SPAN></TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Directories Searched</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE><CODE>[]</CODE></TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE>&nbsp;</TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>DOC/README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY/DOC</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE>[soRecurse, soStripPath]</TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY and all subdirectories</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE>&nbsp;</TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>DOC/README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY/DOC</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE>[soRecurse]</TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY and all subdirectories</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE>&nbsp;</TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>DOC/README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY/DOC</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP><PRE>[soStripPath]</TD><TD
+       WIDTH="29%" VALIGN=TOP><PRE>README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY</TD></TR>
+    <TR>
+     <TD WIDTH="26%" VALIGN=TOP></TD>
+     <TD WIDTH="29%" VALIGN=TOP><PRE>DOC/README.TXT</TD><TD
+       WIDTH="45%" VALIGN=TOP><PRE>BASEDIRECTORY/DOC</TD></TR>
+   </TABLE></P>
+  <P>
+   See also: <A HREF="ch5n4khf.htm">FreshenTaggedItems</A>, <A HREF="ch5n5hb9.htm">Save</A>,
+    <A HREF="ch5n1f5f.htm">StoreOptions</A>
+ </BODY>
+</HTML>

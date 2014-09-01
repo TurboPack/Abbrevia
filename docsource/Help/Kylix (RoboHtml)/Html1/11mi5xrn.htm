@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>Zip File Association Routines</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="Zip File Association Routines"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   Zip File Association Routines (Windows Only)</H1>
+  <P>
+   <A HREF="11mi499v.htm">Procedures/Functions</A></P>
+  <P>
+   A file association is used to run a specific application when a file 
+   with a specific extension is double-clicked within Windows Explorer. 
+   The following routines simplify the process of associating zip files 
+   with your application. These routines are contained in the AbZipExt unit.</P>
+  <P>
+   For Windows, the association is registered in the Registry under the 
+   primary key, HKEY_CLASSES_ROOT. For example, the following Registry 
+   keys identify the zip file association with the application, C:\MYFOLDER\MYZIP.EXE:</P><PRE><CODE>HKEY_CLASSES_ROOT\.ZIP </CODE><BR><CODE>Name: (Default)Data: &quot;MyZip.Document&quot;</CODE><BR><CODE>HKEY_CLASSES_ROOT\MyZip.Document</CODE><BR><CODE>Name: (Default)Data: &quot;MyZip 4.0 document&quot;</CODE><BR><CODE>HKEY_CLASSES_ROOT\MyZip.Document\Shell\Open\Command</CODE><BR><CODE>Name: (Default)Data: &quot;c:\myfolder\myzip.exe&quot;</CODE></PRE><P>
+   The first key associates the &quot;. ZIP&quot; file extension with 
+   the identifier &quot;MyZip.Document&quot;. In essence, this 
+   identifies files with the &quot;.ZIP&quot; extension as 
+   &quot;MyZip&quot; documents. The second key provides a brief 
+   description the file type. This is what is displayed in the 
+   &quot;Type&quot; column of Explorer. The third key specifies the path 
+   to the application, MYZIP.EXE, that will be used to open a MyZip document.</P>
+  <P>
+   The example project, Zipreg, shows how these routines can be used to 
+   associate zip files with your application.
+ </BODY>
+</HTML>

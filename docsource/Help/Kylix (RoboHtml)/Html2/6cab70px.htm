@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbMakeCab.LZXWindowSize</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="LZXWindowSize"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbMakeCab.LZXWindowSize</H1>
+  <P>
+   <A HREF="6cab8882.htm">TAbMakeCab</A></P><PRE><CODE><B>property</B> LZXWindowSize : Integer;</CODE></PRE><P>
+   Default: 18</P>
+  <P>
+   Sets the window size for the LZX compression engine.</P>
+  <P>
+   The LZX window size must be a power of 2, from 2<SUP>15</SUP> to 2<SUP>21</SUP>.
+    The greater the window size, the greater the compression. This 
+   property sets the exponent to which the base (2) will be raised and 
+   must be between 15 and 21. The following table illustrates the effect 
+   of this property setting on the LZX window size:</P>
+  <P>
+   <TABLE WIDTH="479" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="2" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="54%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">LZXWindowSize Property Setting</SPAN></CODE></B></TD><TD
+       WIDTH="46%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">LZX Window Size</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="54%" VALIGN=TOP><PRE><CODE>15</CODE></TD><TD
+       WIDTH="46%" VALIGN=TOP><PRE><CODE>32K</CODE></TD></TR>
+    <TR>
+     <TD WIDTH="54%" VALIGN=TOP><PRE><CODE>16</CODE></TD><TD
+       WIDTH="46%" VALIGN=TOP><PRE><CODE>64K</CODE></TD></TR>
+    <TR>
+     <TD WIDTH="54%" VALIGN=TOP><PRE><CODE>17</CODE></TD><TD
+       WIDTH="46%" VALIGN=TOP><PRE><CODE>128K</CODE></TD></TR>
+    <TR>
+     <TD WIDTH="54%" VALIGN=TOP><PRE><CODE>18</CODE></TD><TD
+       WIDTH="46%" VALIGN=TOP><PRE><CODE>256K</CODE></TD></TR>
+    <TR>
+     <TD WIDTH="54%" VALIGN=TOP><PRE><CODE>19</CODE></TD><TD
+       WIDTH="46%" VALIGN=TOP><PRE><CODE>512K</CODE></TD></TR>
+    <TR>
+     <TD WIDTH="54%" VALIGN=TOP><PRE><CODE>20</CODE></TD><TD
+       WIDTH="46%" VALIGN=TOP><PRE><CODE>1MB</CODE></TD></TR>
+    <TR>
+     <TD WIDTH="54%" VALIGN=TOP><PRE><CODE>21</CODE></TD><TD
+       WIDTH="46%" VALIGN=TOP><PRE><CODE>2MB</CODE></TD></TR>
+   </TABLE></P>
+  <P>
+   See also: <A HREF="6cab9pwl.htm">CompressionType</A>
+ </BODY>
+</HTML>

@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>Deflate</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="Deflate"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   Deflate</H1>
+  <P>
+   <A HREF="11mi7odq.htm">Low-level Deflate Compression</A></P><PRE><CODE><B>function</B> Deflate(aSource : TStream; aDest : TStream;</CODE><BR><CODE>  aHelper : TAbDeflateHelper) : Longint;</CODE></PRE><P>
+   Compresses the source stream to the destination stream.</P>
+  <P>
+   The Deflate function will compress the data in the source stream, 
+   aSource, and write the compressed data to the output stream, aDest.</P>
+  <P>
+   The options for the compression process are given by the aHelper 
+   parameter, an instance of the TAbDeflateHelper class. If this is nil, 
+   Deflate will create one with default values and use that.</P>
+  <P>
+   The function result is the checksum of the input, decompressed 
+   stream. The aHelper instance defines whether this checksum is a CRC32 
+   or Adler32 value (the default being CRC32).</P>
+  <P>
+   See also: <A HREF="11mi7rl1.htm">Inflate</A>
+ </BODY>
+</HTML>

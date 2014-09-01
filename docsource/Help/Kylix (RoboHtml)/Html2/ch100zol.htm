@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbTarItem.UserName</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="UserName:TAbTarItem">
+ <META NAME="MS-HKWD" CONTENT="UserName"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbTarItem.UserName</H1>
+  <P>
+   <A HREF="ch107i5p.htm">TAbTarItem</A></P><PRE><CODE><B>property</B> UserName : <B>string</B></CODE></PRE><P>
+   Default: '' (Windows); Current User's UserName (Linux)</P>
+  <P>
+   Indicates the Unix file system &quot;User Name&quot; for the archived 
+   file.The standard Unix file system (which is also used by Linux) 
+   includes the notion of a particular user to which a file belongs. 
+   Users may be identified both by number and by a symbolic name (e.g. 
+   &quot;NWIRTH&quot; might be the username for a person named 
+   &quot;Niklaus Wirth&quot;). The UserName property supplies this value 
+   for a Tar item.</P>
+  <P>
+   When extracting files on Windows this value is provided, but is 
+   otherwise ignored. On Linux the UserID property is used to determine 
+   the user that the extracted file is assigned to. Abbrevia does not 
+   ensure that the stored UserID and UserName match according to the 
+   file system.</P>
+  <P>
+   When compressing files, changing this value from the default causes 
+   the value to be stored with the file as the User Name, but has no 
+   other effect on the archiving process. In particular, Abbrevia does 
+   not ensure that the value set to UserName corresponds to that 
+   associated with the UserID property according to the Linux file 
+   system. The programmer has the option and opportunity to perform such 
+   checks in the OnProcessItem event of a TAbArchive descendant.</P>
+  <P>
+   See also: <A HREF="ch1083s5.htm">GroupName</A>, <A HREF="ch10271g.htm">UserID</A>
+ </BODY>
+</HTML>

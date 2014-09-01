@@ -1,0 +1,60 @@
+;*********************************************************
+;* FlashFiler: FFLLCNST.STR 1.51                         *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: Lowlevel (common) string table resource   *
+;*********************************************************
+
+#include "FFConst.inc"
+
+fferrCopyFile, "Operating system error [%d] when copying a file"
+fferrDeleteFile, "Operating system error [%d] when deleting a file"
+fferrRenameFile, "Operating system error [%d] when renaming a file"
+
+
+fferrOutOfBounds, "Field, index or file number does not exist in the dictionary [%s, item %d]"
+fferrDictPresent, "Once a dictionary has been defined for a file, another cannot be defined [%s]"
+fferrNotADict, "Attempted to assign an object that wasn't a dictionary to a dictionary object [%s]"
+fferrNoFields, "Dictionary has no field definitions, it cannot be used until at least one is defined [%s]"
+fferrBadFieldRef, "Composite index refers to field number that does not exist [%s, field %d]"
+fferrBadFieldType, "Unknown field type encountered in a case statement [%d]"
+fferrRecTooLong, "The sum of the field lengths in the dictionary is greater than the maximum record length [%s]"
+fferrDiffBlockSize, "Attempted to write dictionary to a file with different block size [%s, old size %d, new %d]"
+fferrDictReadOnly, "Once a table has been built, cannot modify its dictionary [%s]"
+fferrDictMissing, "The data dictionary is not present in the file [%s]"
+fferrBLOBFileDefd, "A BLOB file has already been defined for this dictionary [%s]"
+fferrBaseFile, "Cannot remove the base file descriptor [%s, file 0]"
+fferrBadFileNumber, "File number does not exist in dictionary [%s, file %d]"
+fferrBadBaseName, "Table name is invalid: can only have a-z, A-Z, 0-9, or _ characters [passed: %s]"
+fferrBadExtension, "Extension is invalid: can only have a-z, A-Z, 0-9, or _ characters, must have 1, 2 or 3 chars [%s, ext %s]"
+fferrDupExtension, "Extension is already present in the data dictionary [%s, ext %s]"
+fferrDataFileDefd, "There can only be one data file per table, and it has already been defined for this dictionary [%s]"
+fferrNoFieldsInKey, "There must be at least one field in a composite index [%s]"
+fferrBadParameter, "Invalid parameter passed to routine [%s, parameter %d]"
+fferrBadBlockSize, "The block size must be 4KB, 8KB, 16KB or 32KB only [size used: %d]"
+fferrKeyTooLong, "The key length for an index should be between 0 and 1024 bytes [passed %d]"
+fferrDupFieldName, "There is a duplicate field name in the dictionary [%s, field %s]"
+fferrDupIndexName, "There is a duplicate index name in the dictionary [%s, index %s]"
+
+fferrCommsNoWinRes, "No window resources left: Communications notify window creation failed"
+fferrCommsCannotCall, "Servers cannot issue call requests, they only listen"
+fferrCommsCantListen, "Clients cannot issue listen requests, they only call"
+fferrNetBios, "NetBIOS communications: Unexpected error $%x [%s]"
+fferrNBNoNetBios, "NetBIOS communications: NetBIOS driver not found"
+fferrNBOutOfMem, "NetBIOS communications: Out of memory when allocating %d bytes"
+fferrNBNameNotAdded, "NetBIOS communications: Name [%s] could not be added to lana %d [error $%x]"
+fferrWinsock, "Winsock communications: Unexpected Winsock error %d/$%x [%s]"
+fferrWSNoWinsock, "Winsock communications: Winsock not found, or DLL is invalid"
+fferrWSNoSocket, "Winsock communications: Cannot create a new socket"
+fferrWSNoLocalAddr, "Winsock communications: Cannot retrieve local address information"
+
+ffscSeqAccessIndexName, "Seq. Access Index"
+ffscMainTableFileDesc, "Data/DataDict File"
+ffscRegistryMainKey, "\Software\TurboPower\FlashFiler\"
+
+fferrInvalidServerName, "Invalid server name"
+fferrInvalidNameorPath, "Invalid name or path"
+fferrDuplicateAliasName, "Duplicate alias name not allowed"
+fferrEmptyValuesNotAllowed, "One or more values not defined"
+

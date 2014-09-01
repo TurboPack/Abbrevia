@@ -1,0 +1,84 @@
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+; Help Project File for New Help Projects 
+;
+;  This file is maintained by RoboHELP.  Do not modify this file directly.
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+[OPTIONS]
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+; The Options section contains the following information:
+;
+; The optional BMROOT= entry sets the directories in which the Help Compiler
+; will look for graphics.
+;
+; The CONTENTS= tells WinHelp which topic contains the contents.
+;
+; The TITLE= is displayed in the Title Bar of WINHELP.EXE
+;
+; The BUILD= setting allows you to create different Help systems from
+; the same source file.
+;
+; The COMPRESS= option tells the Help Compiler how much to compress
+; the Help file.
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+TITLE=Abbrevia Help
+BUILD=WINDOWS
+COMPRESS=0
+REPORT=1
+NOTES=1
+
+
+[BUILDTAGS]
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+; The Build Tags section specifies to the Help Compiler the names
+; of all the valid build tags used in this Help project.
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+WINDOWS
+
+
+[WINDOWS]
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+; The Windows section contains all of the information about the windows
+; in a Help project.
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+;Gloss = "Glossary",(100,100,350,350),0,(255,255,255),(255,255,255)
+Main=,(409,358,604,614),29188,,,
+Second="Abbrevia Help",(153,358,256,614),20736,(255,255,224),(192,192,192),
+
+
+[CONFIG]
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+; The Config section defines macros which will run at startup.
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ 
+
+[ALIAS]
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+; The Alias section sets up aliases for Topic IDs in your Help system.
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+[BITMAPS]
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+; The Bitmaps section specifies the referenced bitmaps used in
+; your help system.
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+[BAGGAGE]
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+; The Baggage section specifies any additional files.
+;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+[FILES]
+1intro.rtf
+Ch4BaseComp.rtf
+ch5nvcomp.rtf
+6CABComp.rtf
+ch7ZipOutline.rtf
+Ch8ZipView.rtf
+9CompoundFiles.rtf
+ch10lowlevel.rtf
+11misccomp.rtf
+12COMObj.rtf

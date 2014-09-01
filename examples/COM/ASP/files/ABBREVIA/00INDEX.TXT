@@ -1,0 +1,5 @@
+ABRES.ENU       4K 
+ABRES.FRA       5K 
+ABRES.NOR       5K 
+ABSRMGR.ENU     1K 
+ABSRMGR.NOR     1K 

@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbBaseBrowser.OnConfirmProcessItem</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="OnConfirmProcessItem:TAbBaseBrowser">
+ <META NAME="MS-HKWD" CONTENT="OnConfirmProcessItem"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbBaseBrowser.OnConfirmProcessItem</H1>
+  <P>
+   <A HREF="ch4b8coi.htm">TAbBaseBrowser</A></P><PRE><CODE><B>property</B> OnConfirmProcessItem : TAbArchiveItemConfirmEvent</CODE><BR><CODE>TAbArchiveItemConfirmEvent = <B>procedure</B>(Sender : TObject;</CODE><BR><CODE>  <B>var</B> Item : TAbArchiveItem; ProcessType : TAbProcessType; </CODE><BR><CODE>  <B>var</B> Confirm : Boolean) <B>of object</B>;</CODE><BR><CODE>TAbProcessType = (</CODE><BR><CODE>  ptAdd, ptDelete, ptExtract, ptFreshen, ptMove);</CODE></PRE><P>
+   Defines an event handler that is called before an action is performed 
+   on each item in the archive.</P>
+  <P>
+   This event handler is called once for each item in an add, delete, 
+   extract, freshen, or move operation. If you set Confirm to<I> </I>False,
+    the process is aborted for that item. If you do not provide a 
+   handler for this event, all processing continues as if Confirm were 
+   set to<I> </I>True.</P>
+  <P>
+   The OnConfirmProcessItem event handler can be used to perform any 
+   actions that are necessary when the archive changes. For example, you 
+   might want display a confirmation dialog or save information on who 
+   modified the archive.
+ </BODY>
+</HTML>

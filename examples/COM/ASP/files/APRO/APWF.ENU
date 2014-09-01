@@ -1,0 +1,41 @@
+/*********************************************************
+ * Async Pro : APWF.STR 2.55                             *
+ * Copyright (c) TurboPower Software Co 1996-98          *
+ * All rights reserved.                                  *
+ *********************************************************
+ * Async Pro : Fax strings resource                      *
+ *********************************************************/
+
+; String constants are found in OOMISC.INC
+; These strings are linked into the APWF DLL if DLLs are used
+; If strings are added -- afStatusMsg needs to be changed in AWABSFAX.PAS
+
+; Fax progress codes, sending
+
+1,     "Initializing modem for fax processing"
+2,     "Dialing"
+3,     "Busy, waiting until redial..."
+4,     "Sending page data"
+5,     "Sending EOP"
+6,     "Error sending page"
+7,     "Page accepted by remote"
+8,     "Connecting..."
+
+; Fax progress codes, receiving
+
+20,    "Waiting for incoming call"
+21,    "No connect on this call"
+22,    "Answering incoming call"
+23,    "Incoming call validated as fax"
+24,    "Getting page data"
+25,    "Getting end-of-page signal"
+26,    "Getting end-of-document status"
+27,    "Getting hangup command"
+28,    "Got Class 2 FHNG code"
+
+; Fax progress codes, common
+
+40,    "Getting connection params"
+41,    "Got called-station ID"
+42,    "User abort"
+43,    "Finished"

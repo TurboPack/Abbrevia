@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbArchive.AddFilesEx</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="AddFilesEx:TAbArchive">
+ <META NAME="MS-HKWD" CONTENT="AddFilesEx"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbArchive.AddFilesEx</H1>
+  <P>
+   <A HREF="ch104l45.htm">TAbArchive</A></P><PRE><CODE><B>procedure</B> AddFilesEx(<B>const</B> FileMask, ExclusionMask : <B>string</B>;</CODE><BR><CODE>  SearchAttr : Integer);</CODE></PRE><P>
+   Adds files matching FileMask except those matching ExclusionMask.</P>
+  <P>
+   AddFilesEx introduces item exception list functionality to AddFiles. 
+   By specifying ExclusionMask you can exclude certain files that would 
+   normally be added using the AddFiles method. The wild card characters 
+   '*' and '?' are allowed in the ExclusionMask as well as path information.</P>
+  <P>
+   For example, you could add all files except text files by the following:</P>
+  <P>
+   <B>Windows</B></P><PRE><CODE>AddFilesEx('*.*', '*.txt');</CODE></PRE><P>
+   <B>Linux</B></P><PRE><CODE>AddFilesEx('*', '*.txt');</CODE></PRE><P>
+   See also: <A HREF="ch109goj.htm">AddFiles</A>
+ </BODY>
+</HTML>

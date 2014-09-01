@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbTarItem.UserID</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="UserID:TAbTarItem">
+ <META NAME="MS-HKWD" CONTENT="UserID"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbTarItem.UserID</H1>
+  <P>
+   <A HREF="ch107i5p.htm">TAbTarItem</A></P><PRE><CODE><B>property</B> UserID : Word</CODE></PRE><P>
+   Default: 0 (Windows); Current User's ID (Linux)</P>
+  <P>
+   Indicates the Unix file system &quot;User ID&quot; for the archived file.</P>
+  <P>
+   The standard Unix file system (which is also used by Linux) includes 
+   the notion of a particular user to which a file belongs. The UserID 
+   property supplies this value for a Tar item.</P>
+  <P>
+   When extracting files on Windows this value is provided but is 
+   otherwise ignored. When extracting files on Linux the extracted 
+   file's User ID is set to the stored value.</P>
+  <P>
+   When compressing files, changing this value from the default causes 
+   the value to be stored with the file as the User ID, but has no other 
+   effect on the archiving process.</P>
+  <P>
+   See also: <A HREF="ch100zol.htm">UserName</A>, <A HREF="ch103mp0.htm">GroupID</A>
+ </BODY>
+</HTML>

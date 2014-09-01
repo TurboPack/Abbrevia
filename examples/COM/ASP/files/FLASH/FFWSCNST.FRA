@@ -1,0 +1,65 @@
+;*********************************************************
+;* FlashFiler: FFWSCNST.STR 1.50                         *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: Winsock error strings resource            *
+;*********************************************************
+;* Translation into French                               *
+;* 01/15/1999  JF Nifenecker, Bordeaux (France)          *
+;*             (draft)                                   *
+;*********************************************************
+
+#include <FFLLWSCT.inc>
+
+WSAEINTR, "Appel de fonction interrompu"
+WSAEBADF, "Mauvais numéro de fichier"
+WSAEACCES, "Autorisation refusée"
+WSAEFAULT, "Erreur inconnue"
+WSAEINVAL, "Argument incorrect"
+WSAEMFILE, "Trop de fichiers ouverts"
+WSAEWOULDBLOCK, "Avertissement : le socket va se bloquer sur cet appel"
+WSAEINPROGRESS, "Appel bloquant en cours"
+WSAEALREADY, "WSAEALREADY : attention, Al prêt"
+WSAENOTSOCK, "Descripteur de socket (1) n'est pas un socket, ou (2) est d'un type incorrect"
+WSAEDESTADDRREQ, "L'adresse de destination est requise pour cette opération"
+WSAEMSGSIZE, "Le datagramme trop grand pour tenir dans le tampon a été tronqué"
+WSAEPROTOTYPE, "WSAEPROTOTYPE"
+WSAENOPROTOOPT, "Option inconnue ou non supportée"
+WSAEPROTONOSUPPORT, "Soit (1) socket non créé faute d'espace dans le tampon ou (2) protocole non supporté"
+WSAESOCKTNOSUPPORT, "Le type de socket spécifié n'est pas supporté dans cette famille d'adresses"
+WSAEOPNOTSUPP, "L'opération n'est pas supportée par ce socket"
+WSAEPFNOSUPPORT, "La famille de protocole spécifiée n'est pas supportée"
+WSAEAFNOSUPPORT, "La famille d'adresses spécifiée n'est pas supportée par ce protocole"
+WSAEADDRINUSE, "Adresse déjà utilisée pour cette opération"
+WSAEADDRNOTAVAIL, "Adresse non disponible dans cette machine"
+WSAENETDOWN, "Echec du sous-système réseau"
+WSAENETUNREACH, "Réseau injoignable actuellement de cette machine"
+WSAENETRESET, "Le réseau a été réinitialisé"
+WSAECONNABORTED, "Le circuit virtuel a été abandonné pour cause de dépassement de délai, etc."
+WSAECONNRESET, "Le circuit virtuel a été réinitialisé par le correspondant"
+WSAENOBUFS, "Le descripteur n'est pas un socket, or pas de place dans le tampon"
+WSAEISCONN, "Le socket est déjà connecté"
+WSAENOTCONN, "Le socket n'est pas connecté"
+WSAESHUTDOWN, "Le socket a été arrêté"
+WSAETOOMANYREFS, "WSAETOOMANYREFS"
+WSAETIMEDOUT, "Opération hors délais"
+WSAECONNREFUSED, "La tentative de connection a été refusée"
+WSAELOOP, "WSAELOOP: see WSAELOOP"
+WSAENAMETOOLONG, "Le nom est trop long"
+WSAEHOSTDOWN, "La machine hôte est arrêtée"
+WSAEHOSTUNREACH, "La machine hôte est injoignable"
+WSAENOTEMPTY, "WSAENOTEMPTY"
+WSAEPROCLIM, "WSAEPROCLIM"
+WSAEUSERS, "WSAEUSERS"
+WSAEDQUOT, "WSAEDQUOT"
+WSAESTALE, "WSAESTALE"
+WSAEREMOTE, "WSAEREMOTE"
+WSAEDISCON, "WSAEDISCON"
+WSASYSNOTREADY, "Sous-système réseau inutilisable"
+WSAVERNOTSUPPORTED, "La version requise par WSAStartUp n'est pas supportée par la DLL Winsock chargée"
+WSANOTINITIALISED, "WSAStartUp pas encore appelé"
+WSAHOST_NOT_FOUND, "Hôte introuvable"
+WSATRY_AGAIN, "Hôte introuvable, ou SERVERFAIL, possibilité de ré-essayer"
+WSANO_RECOVERY, "Erreurs non recupérables, FORMERR, REFUSED, NOTIMP"
+WSANO_DATA, "Nom correct, mais pas d'enregistrement de données du type requis"

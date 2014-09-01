@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>IZipItem.CompressionMethod</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="CompressionMethod:IZipItem">
+ <META NAME="MS-HKWD" CONTENT="CompressionMethod"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   IZipItem.CompressionMethod</H1>
+  <P>
+   <A HREF="12co4xwt.htm">IZipItem</A></P><PRE><CODE><B><I>object</I></B>.<B>CompressionMethod</B></CODE><BR><CODE>The <I>object</I> is always an <B>IZipItem</B> <B>object</B>.</CODE></PRE><P>
+   Describes the compression method used on this item in the archive.</P>
+  <P>
+   The CompressionMethod field returns the method used to compress this 
+   item in the archive. The methods described in APPNOTE.TXT are 
+   included but not all these methods are supported by Abbrevia, nor by PKZIP.</P>
+  <P>
+   The possible compression methods can be one of the following 
+   constants from the TZipCompressionMethod enumeration in the COM object:</P>
+  <P>
+   <TABLE WIDTH="481" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE><B><CODE>Constant</CODE></B></TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Value</SPAN></TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Description</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE><CODE>cmStored</CODE></TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>0</TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE>The file is stored (no compression).</TD></TR>
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE>cmShrunk</TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>1</TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE>The file was compressed using the Shrink method.</TD></TR>
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE>cmReduced1</TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>2</TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE>The file was compressed using the Reduce method with a compression factor of 1.</TD></TR>
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE>cmReduced2</TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>3</TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE>The file was compressed using the Reduce method with a compression factor of 2.</TD></TR>
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE>cmReduced3</TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>4</TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE>The file was compressed using the Reduce method with a compression factor of 3.</TD></TR>
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE>cmReduced4</TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>5</TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE>The file was compressed using the Reduce method with a compression factor of 4.</TD></TR>
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE>cmImploded</TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>6</TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE>The file was compressed using the the Implode method.</TD></TR>
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE>cmTokenized</TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>7</TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE>Reserved for the Tokenize method.</TD></TR>
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE>cmDeflated</TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>8</TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE>The file was compressed using the Deflate method.</TD></TR>
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE>cmEnhancedDeflated</TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>9</TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE>Reserved for the enhanced Deflate method.</TD></TR>
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE>cmDCLImploded</TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>10</TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE>PKWARE Data Compression Library Imploding.</TD></TR>
+    <TR>
+     <TD WIDTH="31%" VALIGN=TOP><PRE><CODE>cmBestMethod</CODE></TD><TD
+       WIDTH="12%" VALIGN=TOP><PRE>11</TD><TD
+       WIDTH="57%" VALIGN=TOP><PRE>Use the best method of compression based on the file type data.</TD></TR>
+   </TABLE></P>
+  <P>
+   See also: <A HREF="12co4kit.htm">IZipKit.Save</A>
+ </BODY>
+</HTML>

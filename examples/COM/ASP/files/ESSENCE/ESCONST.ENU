@@ -1,0 +1,34 @@
+;*********************************************************
+;*                   ESCONST.STR 1.05                    *
+;*      Copyright (c) 1997-98 TurboPower Software Co     *
+;*                 All rights reserved.                  *
+;*********************************************************
+
+#include "esconst.inc"
+
+SCEsColorBlack, "Black"
+SCEsColorMaroon, "Maroon"
+SCEsColorGreen, "Green"
+SCEsColorOlive, "Olive"
+SCEsColorNavy, "Navy"
+SCEsColorPurple, "Purple"
+SCEsColorTeal, "Teal"
+SCEsColorGray, "Gray"
+SCEsColorSilver, "Silver"
+SCEsColorRed, "Red"
+SCEsColorLime, "Lime"
+SCEsColorYellow, "Yellow"
+SCEsColorBlue, "Blue"
+SCEsColorFuchsia, "Fuchsia"
+SCEsColorAqua, "Aqua"
+SCEsColorWhite, "White"
+SCEsLabelNotAttached, "No label is attached"
+SCEsBlankDateNotAllowed, "A blank date is not allowed"
+SCEsInvalidDay, "Invalid day"
+SCEsInvalidMonth, "Invalid month"
+SCEsInvalidMonthName, "Invalid month name"
+SCEsInvalidYear, "Invalid year"
+SCEsDayIsRequired, "Day is required"
+SCEsMonthIsRequired, "Month is required"
+SCEsYearIsRequired, "Year is required"
+SCEsInvalidDate, "Invalid date"

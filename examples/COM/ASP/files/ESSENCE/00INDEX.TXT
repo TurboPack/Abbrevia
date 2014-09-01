@@ -1,0 +1,2 @@
+ESCONST.ENU     2K 
+ESCONST.NOR     2K 

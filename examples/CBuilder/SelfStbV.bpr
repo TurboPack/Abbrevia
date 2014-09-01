@@ -1,0 +1,117 @@
+# ---------------------------------------------------------------------------
+VERSION = BCB.03
+# ---------------------------------------------------------------------------
+!ifndef BCB
+BCB = $(MAKEDIR)\..
+!endif
+# ---------------------------------------------------------------------------
+PROJECT = SelfStbV.exe
+OBJFILES = SelfStbV.obj SlfStbv1.obj
+RESFILES = SelfStbV.res
+RESDEPEN = $(RESFILES) SlfStbv1.dfm
+LIBFILES =
+LIBRARIES = B304_r35.lib vclx35.lib
+SPARELIBS = vcl35.lib vclx35.lib B304_r35.lib
+PACKAGES = VCL35.bpi
+PATHASM = .;
+PATHCPP = .;
+PATHPAS = .;
+PATHRC = .;
+DEBUGLIBPATH = $(BCB)\lib\debug
+RELEASELIBPATH = $(BCB)\lib\release
+DEFFILE =
+# ---------------------------------------------------------------------------
+CFLAG1 = -Od -Hc -w -Ve -r- -k -y -v -vi- -c -b- -w-par -w-inl -Vx
+CFLAG2 = -DUSEPACKAGES \
+  -I..\..;$(BCB)\include;$(BCB)\include\vcl;..\..\packages;..\..\source \
+  -H=$(BCB)\lib\vcld.csm
+CFLAG3 =
+PFLAGS = -AWinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE \
+  -DUSEPACKAGES \
+  -U..\..;$(BCB)\lib\obj;$(BCB)\lib;..\..\packages;..\..\source;$(DEBUGLIBPATH) \
+  -I..\..;$(BCB)\include;$(BCB)\include\vcl;..\..\packages;..\..\source -$Y -$W \
+  -$O- -v -JPHNV -M
+RFLAGS = -DUSEPACKAGES \
+  -i..\..;$(BCB)\include;$(BCB)\include\vcl;..\..\packages;..\..\source
+AFLAGS = /i..\.. /i$(BCB)\include /i$(BCB)\include\vcl /i..\..\packages /i..\..\source \
+  /dUSEPACKAGES /mx /w2 /zd
+LFLAGS = -L..\..;$(BCB)\lib\obj;$(BCB)\lib;..\..\packages;..\..\source;$(DEBUGLIBPATH) \
+  -aa -Tpe -x -v
+IFLAGS =
+LINKER = ilink32
+# ---------------------------------------------------------------------------
+ALLOBJ = c0w32.obj $(PACKAGES) sysinit.obj $(OBJFILES)
+ALLRES = $(RESFILES)
+ALLLIB = $(LIBFILES) $(LIBRARIES) import32.lib cp32mt.lib
+# ---------------------------------------------------------------------------
+.autodepend
+
+!ifdef IDEOPTIONS
+
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1033
+CodePage=1252
+
+[HistoryLists\hlIncludePath]
+Count=2
+Item0=..\..;$(BCB)\include;$(BCB)\include\vcl;..\..\packages;..\..\source
+Item1=..\..;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=2
+Item0=..\..;$(BCB)\lib\obj;$(BCB)\lib;..\..\packages;..\..\source
+Item1=..\..;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=USEPACKAGES
+
+[HistoryLists\hlUnitAliases]
+Count=1
+Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE
+
+[Debugging]
+DebugSourceDirs=
+
+[Parameters]
+RunParams=
+HostApplication=
+
+!endif
+
+$(PROJECT): $(OBJFILES) $(RESDEPEN) $(DEFFILE)
+    $(BCB)\BIN\$(LINKER) @&&!
+    $(LFLAGS) +
+    $(ALLOBJ), +
+    $(PROJECT),, +
+    $(ALLLIB), +
+    $(DEFFILE), +
+    $(ALLRES)
+!
+
+.pas.hpp:
+    $(BCB)\BIN\dcc32 $(PFLAGS) { $** }
+
+.pas.obj:
+    $(BCB)\BIN\dcc32 $(PFLAGS) { $** }
+
+.cpp.obj:
+    $(BCB)\BIN\bcc32 $(CFLAG1) $(CFLAG2) -o$* $*
+
+.c.obj:
+    $(BCB)\BIN\bcc32 $(CFLAG1) $(CFLAG2) -o$* $**
+
+.rc.res:
+    $(BCB)\BIN\brcc32 $(RFLAGS) $<
+#-----------------------------------------------------------------------------

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbZipBrowser.Password</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="Password:TAbZipBrowser">
+ <META NAME="MS-HKWD" CONTENT="Password"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbZipBrowser.Password</H1>
+  <P>
+   <A HREF="ch5n7zci.htm">TAbZipBrowser</A></P><PRE><CODE><B>property</B> Password : <B>string</B></CODE></PRE><P>
+   Supplies the password used for encrypting or decrypting a file.</P>
+  <P>
+   When a file is added to the archive, Password is used to encrypt it. 
+   If Password is empty, the file is not encrypted.</P>
+  <P>
+   When an attempt is made to extract an encrypted file from the 
+   archive, Password is used to decrypt the encryption header. If the 
+   decryption is successful, the remainder of the file is decrypted and 
+   extracted. If the encryption header cannot be successfully decrypted 
+   or Password is empty, OnNeedPassword in TAbUnzipper or TAbZipKit is 
+   called (if fewer than PasswordRetries attempts have been made). The 
+   OnNeedPassword event handler can then provide a password (possibly by 
+   prompting the user).</P>
+  <P>
+   See also: <A HREF="ch5n1rhg.htm">TAbUnzipper.OnNeedPassword</A>, <A HREF="ch5n63zn.htm">TAbUnzipper.PasswordRetries</A>,
+    <A HREF="ch5n1dno.htm">TAbZipKit.OnNeedPassword</A>, <A HREF="ch5n1j1v.htm">TAbZipKit.PasswordRetries</A>
+ </BODY>
+</HTML>

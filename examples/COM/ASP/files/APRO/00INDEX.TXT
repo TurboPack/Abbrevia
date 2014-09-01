@@ -1,0 +1,12 @@
+ADSRMGR.DEU     1K 
+ADSRMGR.ENU     1K 
+ADSRMGR.NOR     1K 
+APW.DEU        26K 
+APW.ENU        23K 
+APW.FRA        25K 
+APWF.DEU        2K 
+APWF.ENU        2K 
+APWF.FRA        2K 
+APWP.DEU        2K 
+APWP.ENU        2K 
+APWP.FRA        2K 

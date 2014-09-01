@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbBaseBrowser.OnArchiveItemProgress</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="OnArchiveItemProgress:TAbBaseBrowser">
+ <META NAME="MS-HKWD" CONTENT="OnArchiveItemProgress"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbBaseBrowser.OnArchiveItemProgress</H1>
+  <P>
+   <A HREF="ch4b8coi.htm">TAbBaseBrowser</A></P><PRE><CODE><B>property</B> OnArchiveItemProgress : TAbArchiveItemProgressEvent</CODE><BR><CODE>TAbArchiveItemProgressEvent = <B>procedure</B>(</CODE><BR><CODE>  Sender : TObject; Item : TAbArchiveItem; Progress : Byte;</CODE><BR><CODE>  <B>var</B> Abort : Boolean) <B>of object</B>;</CODE></PRE><P>
+   Defines an event handler that is called during long operations on a 
+   single archive item.</P>
+  <P>
+   OnArchiveItemProgress is called by add, extract, and freshen 
+   operations on an archive item. You can use it to display the progress 
+   of the operation, or even to abort the operation. For example, you 
+   might want to display the name of the item being processed, the 
+   action being performed on the item, and an indication of the progress.</P>
+  <P>
+   Progress is a percentage that indicates how far the operation has 
+   progressed through the archive item. Valid values for Progress are 0 
+   to 100. If you set Abort to True in the event handler, the action for 
+   that item is aborted.</P>
+  <P>
+   See also: <A HREF="ch4b671v.htm">OnArchiveProgress</A>, <A HREF="ch4b94dh.htm">OnProcessItemFailure</A>
+ </BODY>
+</HTML>

@@ -1,0 +1,90 @@
+;*********************************************************
+;* FlashFiler: FFSRCNST.STR 1.51                         *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: Server string table resource              *
+;*********************************************************
+
+#include "FFConst.inc"
+
+fferrBadStruct, "INTERNAL: TbtdFileInfo record contains invalid data"
+fferrOpenFailed, "INTERNAL: File could not be opened [%s, error %d]"
+fferrOpenNoMem, "INTERNAL: Out of memory when opening a file"
+fferrCloseFailed, "INTERNAL: File could not be closed [%s, error %d]"
+fferrLockFailed, "INTERNAL: File region could not be locked [%s at %d for %d]"
+fferrUnlockFailed, "INTERNAL: File region could not be unlocked  [%s at %d for %d, error %d]"
+fferrReadFailed, "INTERNAL: Error when reading from file [%s, error %d]"
+fferrReadExact, "INTERNAL: Could not read exact number of bytes from file [%s, %d bytes]"
+fferrWriteFailed, "INTERNAL: Error when writing to file [%s, error %d]"
+fferrWriteExact, "INTERNAL: Could not write exact number of bytes to file [%s, %d bytes]"
+fferrSeekFailed, "INTERNAL: Error when seeking to position in file [%s, offset %d, error %d]"
+fferrFlushFailed, "INTERNAL: Error when flushing file [%s, error %d]"
+fferrSetEOFFailed, "INTERNAL: Error when setting end-of-file [%s, error %d]"
+
+fferrNotAnFFFile, "[%s] is not a FlashFiler formatted file, or its file header is corrupt"
+fferrBadBlockNr, "Block number is either < 0, or >= number of blocks in file [%s, block %d]"
+fferrEncrypted, "[%s] is an encrypted FlashFiler file and the Server cannot read it (it is not secure)"
+
+fferrRecDeleted, "Record has been deleted, cannot read/delete/update it [%s, ref %d]"
+fferrBadRefNr, "Number is not a valid FlashFiler record reference number [%s, ref %d]"
+fferrBadDataBlock, "Block just read from file is not a valid data block [%s, block %d]"
+
+fferrBlobDeleted, "BLOB has been deleted, cannot read/delete it [%s, blob %d]"
+fferrBadBlobNr, "Number is not a valid FlashFiler BLOB number [%s, blob %d]"
+fferrBadBlobBlock, "Block just read from file is not a valid BLOB data block [%s, block %d]"
+fferrBadBlobSeg, "Internal link to BLOB segment has been corrupted [%s, segment %d]"
+fferrLenMismatch, "Truncate length is greater than length of BLOB [%s, blob %d, offset %d, length %d]"
+fferrOfsNotInBlob, "Offset value is greater than the length of the BLOB [%s, blob %d, offset %d, length %d]"
+fferrFileBlobWrite, "Cannot write to a file BLOB [%s, blob %d]"
+
+fferrBadStreamBlock, "Block just read from file is not a valid stream block [%s, block %d]"
+fferrBadStreamOrigin, "An invalid stream origin has been specified"
+fferrStreamSeekError, "Stream could not seek requested position"
+
+fferrBadInxBlock, "Block just read from file is not a valid index block [%s, block %d]"
+fferrBadIndex, "Index number passed to routine is out of range [%d]"
+fferrMaxIndexes, "The maximum number of indexes have already been added [%s]"
+fferrBadMergeCall, "INTERNAL: MergeChildren called with pages not half-filled, suspect corruption [%s, left %d, right %d]"
+fferrKeyNotFound, "Key was not found in index when attempting to delete it"
+fferrKeyPresent, "Key was found in index when attempting to add it"
+fferrNoKeys, "There are no keys in the index, cannot calculate an approximate position/key"
+fferrNoSeqAccess, "Cannot create sequential cursor (index 0) as the group has no sequential access path"
+fferrBadApproxPos, "The approximate position must be between 0 and 100 [%s, index %d, pos %d]"
+
+fferrBadServerName, "The server name is invalid: can only have a-z, A-Z, 0-9 characters"
+
+fferrUnknownClient, "The client ID passed to the server is unknown"
+fferrUnknownSession, "Either the client ID is unknown or the session does not exist for the given client"
+fferrUnknownAlias, "The Alias name has not been defined: it cannot be found"
+fferrUnknownPath, "Path [%s] does not exist"
+fferrUnknownDB, "The database ID does not exist"
+fferrUnknownTable, "The table does not exist with the given database"
+fferrUnknownIndex, "The index could not be identified from the name (if supplied) or the number (if not)"
+fferrUnknownCursor, "The passed cursor ID does not exist"
+fferrUnknownTrans, "Transaction ID %d is unknown"
+
+fferrDBExclusive, "The database is already open: either already in exclusive mode or it is now opened in exclusive mode"
+fferrDBReadOnly, "The table cannot be opened in read/write mode because the database has been opened in readonly mode"
+fferrTableExclusive, "The table is already open in a non-shared (exclusive) mode, it cannot be opened by any other session"
+fferrCursorReadOnly, "Cannot delete or modify current record or insert new record because the cursor was opened in read-only mode"
+fferrWriteLocked, "The table has been write-locked by another workstation, no other read-locks or write-locks allowed"
+fferrReadLocked, "The table has been read-locked by another workstation, no write-lock allowed"
+fferrCannotUnlock, "The lock could not be removed: it does not exist"
+fferrTableLocked, "The table is locked preventing the update operation"
+fferrRecLocked, "Record is locked by another user"
+fferrNoCurrentRec, "The cursor has no current record (either it's positioned on BOF, EOF or on a crack)"
+fferrDynamicLink, "The server could not find a DLL, or a routine within a DLL [Index(%s/%s:%d) DLL(%s) Routines(%s, %s)]"
+fferrResolveTableLinks, "A table needed some user defined routines but they were not found in the server configuration"
+fferrTableMismatch, "SetToCursor failed because the given cursor was not for the same table"
+fferrNoNextRecord, "There is no next record in this index; the cursor is positioned at EOF"
+fferrNoPriorRecord, "There is no prior record in this index; the cursor is positioned at BOF"
+fferrTableExists, "A table with this name already exists"
+fferrDBInTrans, "Database [%s] is already in a transaction"
+fferrAliasExists, "Alias [%s] already exists"
+fferrCannotCompare, "Cannot compare BLOB fields in a table"
+fferrBadFieldXform, "Cannot copy field [%s to %s], incompatible field types"
+fferrNoTransaction, "No transaction has been started for the database, hence no updates can take place"
+fferrBadBookmark, "The bookmark is corrupt or was not created for the current index"
+fferrTransactionFailed, "A transaction failed during commit, probably due to running out of disk space, or other disk problem" 
+

@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>IGZipItem.FileSystem</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="FileSystem:IGZipItem">
+ <META NAME="MS-HKWD" CONTENT="FileSystem"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   IGZipItem.FileSystem</H1>
+  <P>
+   <A HREF="12co88bx.htm">IGZipItem</A></P><PRE><CODE><B><I>object</I></B>.<B>FileSystem</B></CODE><BR><CODE>The <I>object </I>is always an <B>IZipItem</B> <B>object</B>.</CODE></PRE><P>
+   Indicates the file system on which the compressed files were created.</P>
+  <P>
+   Default: osFat (Windows); osUnix (Linux)</P>
+  <P>
+   GZip provides a means to indicate which file system the GZipped file 
+   came from. This characteristic appears to be rarely used for anything 
+   but informational purposes in common GZip implementations, but is 
+   included here for completeness. The following table defines the 
+   meanings for the possible values for this property:</P>
+  <P>
+   <TABLE WIDTH="480" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="2" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE> <B><CODE>Value</CODE></B></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><B><CODE>Meaning </CODE></B></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>0</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>Fat </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>1</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>Amiga </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>2</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>VMS </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>3</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>Unix </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>4</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>VM_CMS </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>5</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>AtariTOS </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>6</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>HPFS </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>7</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>Macintosh </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>8</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>ZSystem </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>9</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>CP_M </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>10</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>TOPS20 </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>11</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>NTFS </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>12</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>QDOS </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>13</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>AcornRISCOS </CODE></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>14</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><CODE>Unknown </CODE></TD></TR>
+   </TABLE></P>
+  <P>
+   Creating a GZip, FileSystem is set to Fat (0) automatically on 
+   Windows and to Unix (3) on Linux.</P>
+  <P>
+   Setting it to other values will cause that to be stored into the 
+   resulting GZip rather than the default, but has no other effect on 
+   the compression process.</P>
+  <P>
+   <B>Note:</B> The GZip specification refers to the header field as 
+   &quot;OS&quot; or &quot;Operating System&quot;
+ </BODY>
+</HTML>

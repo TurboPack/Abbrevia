@@ -1,0 +1,15 @@
+;*********************************************************
+;* FlashFiler: FFSRMGR.STR 1.51                          *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: FFSRMGR error string table resource       *
+;*********************************************************
+
+//Compile with SRMC, then compile FFSRMGR.RC with BRCC[32]
+
+ 1, "String not found: %d"
+ 2, "Cannot lock resource"
+ 3, "String resource not found: %s"
+ 4, "Unable to open string resource: %s"
+ 5, "Invalid TPString resource"

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:fontset("Symbol","Symbol") -->
+  <TITLE>TAbZipper.AutoSave</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="AutoSave:TAbZipper">
+ <META NAME="MS-HKWD" CONTENT="AutoSave"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbZipper.AutoSave</H1>
+  <P>
+   <A HREF="ch5n3fle.htm">TAbZipper</A></P><PRE><CODE><B>property</B> AutoSave : Boolean</CODE></PRE><P>
+   Default: False</P>
+  <P>
+   Controls whether changes to the archive are performed immediately.</P>
+  <P>
+   When AutoSave is True, each change to the archive forces the disk 
+   image of the archive to be updated immediately. When AutoSave is 
+   False, changes to the disk image are done when one of the following occur:</P>
+  <P>
+   <FONT FACE="Symbol">&#183;</FONT>The archive is explicitly saved 
+   using the Save method.</P>
+  <P>
+   <FONT FACE="Symbol">&#183;</FONT>Multiple operations on a single item 
+   require the archive to be saved.</P>
+  <P>
+   <FONT FACE="Symbol">&#183;</FONT>File name is changed, causing a new 
+   archive to be opened.</P>
+  <P>
+   <B>Note:</B> When AutoSave is True, only a single archive file may be 
+   created. Multiple archive file spanning requires that AutoSave be set 
+   to False. Also, keep in mind that saving the archive each time a file 
+   is added can be very time consuming. For these reasons, we recommend 
+   that AutoSave be used only with relatively small archives.</P>
+  <P>
+   See also: <A HREF="ch5n3pph.htm">OnConfirmSave</A>, <A HREF="ch5n5hb9.htm">Save</A>,
+    <A HREF="ch4b6zl1.htm">TAbBaseBrowser.FileName</A>
+ </BODY>
+</HTML>

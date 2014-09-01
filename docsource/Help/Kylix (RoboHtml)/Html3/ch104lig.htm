@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbGZipItem.StoredPath</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="StoredPath:TAbGZipItem">
+ <META NAME="MS-HKWD" CONTENT="StoredPath"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbGZipItem.StoredPath</H1>
+  <P>
+   <A HREF="ch100ca5.htm">TAbGZipItem</A></P><PRE><CODE><B>property</B> StoredPath : <B>string</B></CODE></PRE><P>
+   Returns the path stored in the compressed file's header information.</P>
+  <P>
+   As each file is stored in an archive, information relative to that 
+   file is also stored. This can optionally include path information. If 
+   path information is included, it can be accessed via StoredPath. If 
+   no path information is included, StoredPath returns an empty string.</P>
+  <P>
+   <B>Caution:</B> A file name may not be stored in the archive at all; 
+   the GZip specification does not require that any file name 
+   information be included for the item stored in a GZip archive.</P>
+  <P>
+   See also: <A HREF="ch1062hx.htm">FileName</A>, <A HREF="ch100bdx.htm">TAbArchiveItem.MatchesStoredName</A>
+ </BODY>
+</HTML>

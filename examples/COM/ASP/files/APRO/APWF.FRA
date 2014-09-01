@@ -1,0 +1,41 @@
+/*********************************************************
+ * Async Pro : APWF.STR 2.54                             *
+ * Copyright (c) TurboPower Software Co 1996-98          *
+ * All rights reserved.                                  *
+ *********************************************************
+ * Async Pro : Fax strings resource                      *
+ *********************************************************/
+
+; String constants are found in OOMISC.INC
+; These strings are linked into the APWF DLL if DLLs are used
+; If strings are added -- afStatusMsg needs to be changed in AWABSFAX.PAS
+
+; Fax progress codes, sending
+
+1,     "Initialisation du modem pour l'envoi de fax"
+2,     "Numérotation"
+3,     "Occupé, attente de renumérotation..."
+4,     "Envoi des données de la page"
+5,     "Envoi de EOP"
+6,     "Erreur d'envoi de la page"
+7,     "Page acceptée par le correspondant"
+8,     "Connection..."
+
+; Fax progress codes, receiving
+
+20,    "Attente d'appel entrant"
+21,    "Pas de connection sur cet appel"
+22,    "Réponse à l'appel entrant"
+23,    "Appel entrant reconnu comme fax"
+24,    "Réception des données de la page"
+25,    "Réception du signal de fin de page"
+26,    "Réception du statut de fin de document"
+27,    "Réception de commande de raccrochage"
+28,    "Reçu code de classe 2 FHNG"
+
+; Fax progress codes, common
+
+40,    "Réception des paramètres de connection"
+41,    "Reçu l'ID de l'appelé"
+42,    "Abandonné par l'utilisateur"
+43,    "Terminé"

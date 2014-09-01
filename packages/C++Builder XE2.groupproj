@@ -1,0 +1,60 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{4FBB3CA0-F846-45F2-941F-FBAF2589C62E}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="C++Builder XE2\Abbrevia.cbproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="C++Builder XE2\AbbreviaVCL.cbproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="C++Builder XE2\AbbreviaVCLDesign.cbproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="Abbrevia">
+			<MSBuild Projects="C++Builder XE2\Abbrevia.cbproj"/>
+		</Target>
+		<Target Name="Abbrevia:Clean">
+			<MSBuild Projects="C++Builder XE2\Abbrevia.cbproj" Targets="Clean"/>
+		</Target>
+		<Target Name="Abbrevia:Make">
+			<MSBuild Projects="C++Builder XE2\Abbrevia.cbproj" Targets="Make"/>
+		</Target>
+		<Target Name="AbbreviaVCL">
+			<MSBuild Projects="C++Builder XE2\AbbreviaVCL.cbproj"/>
+		</Target>
+		<Target Name="AbbreviaVCL:Clean">
+			<MSBuild Projects="C++Builder XE2\AbbreviaVCL.cbproj" Targets="Clean"/>
+		</Target>
+		<Target Name="AbbreviaVCL:Make">
+			<MSBuild Projects="C++Builder XE2\AbbreviaVCL.cbproj" Targets="Make"/>
+		</Target>
+		<Target Name="AbbreviaVCLDesign">
+			<MSBuild Projects="C++Builder XE2\AbbreviaVCLDesign.cbproj"/>
+		</Target>
+		<Target Name="AbbreviaVCLDesign:Clean">
+			<MSBuild Projects="C++Builder XE2\AbbreviaVCLDesign.cbproj" Targets="Clean"/>
+		</Target>
+		<Target Name="AbbreviaVCLDesign:Make">
+			<MSBuild Projects="C++Builder XE2\AbbreviaVCLDesign.cbproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="Abbrevia;AbbreviaVCL;AbbreviaVCLDesign"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="Abbrevia:Clean;AbbreviaVCL:Clean;AbbreviaVCLDesign:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="Abbrevia:Make;AbbreviaVCL:Make;AbbreviaVCLDesign:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

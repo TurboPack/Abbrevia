@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbCompoundFile.OnBeforeFileDelete</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="OnBeforeFileDelete"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbCompoundFile.OnBeforeFileDelete</H1>
+  <P>
+   <A HREF="9com7w4l.htm">TAbCompoundFile</A></P><PRE><CODE><B>property</B> OnBeforeFileDelete : TBeforeFileDeleteEvent</CODE><BR><CODE>TBeforeFileDeleteEvent = <B>procedure</B>(Sender : TAbCompoundFile;</CODE><BR><CODE>  FileName : <B>string</B>; <B>var</B> AllowDelete : Boolean) <B>of object</B>;</CODE></PRE><P>
+   Defines an event that is called prior to deleting a file from the 
+   compound file.</P>
+  <P>
+   The Sender parameter contains a reference to the TAbCompoundFile 
+   instance containing the file that is about to be deleted.</P>
+  <P>
+   The FileName parameter contains the name of the file that is about to 
+   be deleted.</P>
+  <P>
+   To cancel the deletion, set the AllowDelete parameter to False within 
+   your event handler. To allow the deletion to proceed, no action is required.</P>
+  <P>
+   See also: <A HREF="9com3uwe.htm">OnAfterOpen</A>, <A HREF="9com3rqd.htm">OnBeforeClose</A>,
+    <A HREF="9com2bmt.htm">OnBeforeDirDelete</A>, <A HREF="9com46qs.htm">OnBeforeDirModified</A>,
+    <A HREF="9com6vj8.htm">OnBeforeFileModified</A>
+ </BODY>
+</HTML>

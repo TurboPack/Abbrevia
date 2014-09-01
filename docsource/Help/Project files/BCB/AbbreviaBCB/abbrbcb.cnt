@@ -1,0 +1,63 @@
+:Base AbbreviaBCB.hlp
+1 Welcome to Abbrevia
+2 Welcome to Abbrevia=Welcome_to_Abbrevia
+1 Base Browser Component
+2 TAbBaseComponent=TAbBaseComponent>Main
+2 TAbBaseBrowser=TAbBaseBrowser>Main
+1 Non-Visual Zip Components
+2 TAbCustomZipBrowser=TAbCustomZipBrowser>Main
+2 TAbZipBrowser=TAbZipBrowser>Main
+2 TAbCustomUnZipper Class=TAbCustomUnZipper_Class>Main
+2 TAbUnZipper=TAbUnZipper>Main
+2 TAbCustomZipper=TAbCustomZipper>Main
+2 TAbZipper=TAbZipper>Main
+2 TAbCustomZipKit=TAbCustomZipKit>Main
+2 TAbZipKit=TAbZipKit>Main
+1 Cabinet Compression
+2 TAbCustomCabBrowser=TAbCustomCabBrowser>Main
+2 TAbCabBrowser=TAbCabBrowser>Main
+2 TAbCustomCabExtractor=TAbCustomCabExtractor>Main
+2 TAbCabExtractor=TAbCabExtractor>Main
+2 TAbCustomMakeCab=TAbCustomMakeCab>Main
+2 TAbMakeCab=TAbMakeCab>Main
+2 TAbCustomCabKit=TAbCustomCabKit>Main
+2 TAbCabKit=TAbCabKit>Main
+1 TAbZipOutline Visual Component
+2 TAbCustomZipOutline=TAbCustomZipOutline>Main
+2 TAbZipOutline=TAbZipOutline>Main
+1 Archive Viewer Components
+2 TAbColors=TAbColors>Main
+2 TAbBaseViewer=TAbBaseViewer>Main
+2 TAbZipView=TAbZipView>Main
+2 TAbCabView=TAbCabView>Main
+1 Compound File Classes
+2 TAbCompoundFile=TAbCompoundFile>Main
+1 Low-Level Compression Classes
+2 TAbArchiveItem=TAbArchiveItem>Main
+2 TAbArchive=TAbArchive>Main
+2 TAbArchiveStreamHelper=TAbArchiveStreamHelper>Main
+2 TAbZipItem=TAbZipItem>Main
+2 TAbZipArchive=TAbZipArchive>Main
+2 TAbZipStreamHelper=TAbZipStreamHelper>Main
+2 TAbGZipItem=TAbGZipItem>Main
+2 TAbGZipArchive=TAbGZipArchive>Main
+2 TAbGZipStreamHelper=TAbGZipStreamHelper>Main
+2 TAbTarItem=TAbTarItem>Main
+2 TAbTarArchive=TAbTarArchive>Main
+2 TAbTarStreamHelper=TAbTarStreamHelper>Main
+2 TAbZLibStream=TAbZLibStream>Main
+2 TAbCabItem=TAbCabItem>Main
+2 TAbCabArchive=TAbCabArchive>Main
+1 Miscellaneous Components, Classes, and Routines
+2 TAbMeter=TAbMeter>Main
+2 TAbMakeSelfExe=TAbMakeSelfExe>Main
+2 TAbDirDlg=TAbDirDlg>Main
+2 Zip File Association Routines=Zip_File_Association_Routines>Main
+2 Low-level Deflate Compression=Low_level_Deflate_Compression>Main
+2 TAbDeflateHelper=TAbDeflateHelper>Main
+2 Simple Stream Compression Routines=Simple_Stream_Compression_Routines>Main
+1 Abbrevia COM Automation Object
+2 IZipItem=IZipItem>Main
+2 IGZipItem=IGZipItem>Main
+2 ITARZipItem=ITARZipItem>Main
+2 IZipKit=IZipKit>Main

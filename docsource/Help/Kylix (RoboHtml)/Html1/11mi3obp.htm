@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbDeflateHelper.LogFile</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="LogFile:TAbDeflateHelper">
+ <META NAME="MS-HKWD" CONTENT="LogFile"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbDeflateHelper.LogFile</H1>
+  <P>
+   <A HREF="11mi6a42.htm">TAbDeflateHelper</A></P><PRE><CODE><B>property</B> LogFile : <B>string</B></CODE></PRE><P>
+   Default: Empty string</P>
+  <P>
+   Defines the name of the log file, if any.</P>
+  <P>
+   If the LogFile property is set to a file name when the object is used 
+   by the Deflate or Inflate routines, information will be written to 
+   the file as the compression or decompression process runs. This 
+   information is used for debugging purposes only. Although its format 
+   is undocumented (and may change with updates to the product), it 
+   essentially shows, on compression, the parameters passed to the 
+   compression process, the LZ77 string matching information, the 
+   Huffman tree structures, and so on. On decompression, this log shows 
+   the parameters used, the structure of the compressed stream, and how 
+   the stream is decompressed.</P>
+  <P>
+   Note that the LogFile property, if set, is assumed to be a correct 
+   file name, referring to a writeable disk, otherwise a standard 
+   exception will be raised when it is opened or used. The log file is 
+   always recreated afresh, and is never appended to.</P>
+  <P>
+   If the LogFile property is the empty string, no log is produced.
+ </BODY>
+</HTML>

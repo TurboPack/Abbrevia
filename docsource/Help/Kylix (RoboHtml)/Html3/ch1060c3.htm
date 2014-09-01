@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbGZipItem.ExtraFlags</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="ExtraFlags"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbGZipItem.ExtraFlags</H1>
+  <P>
+   <A HREF="ch100ca5.htm">TAbGZipItem</A></P><PRE><CODE><B>property</B> ExtraFlags : Byte</CODE></PRE><P>
+   Default : 2</P>
+  <P>
+   The ExtraField property indicates the &quot;extra field&quot; 
+   associated with the archived item.</P>
+  <P>
+   The currently defined values for this property are as follows:</P>
+  <P>
+   <TABLE WIDTH="480" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="2" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">Value</SPAN></CODE></B></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Meaning</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>2</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE>Compressor used maximum compression, slowest algorithm</TD></TR>
+    <TR>
+     <TD WIDTH="34%" VALIGN=TOP><PRE><CODE>4</CODE></TD><TD
+       WIDTH="66%" VALIGN=TOP><PRE>Compressor used fastest algorithm</TD></TR>
+   </TABLE></P>
+  <P>
+   When extracting a file from a GZip this property is set according to 
+   what is found in the GZip header.</P>
+  <P>
+   When creating a GZip, setting this property will cause the Deflate 
+   engine to behave accordingly.</P>
+  <P>
+   See also: <A HREF="ch1014tv.htm">Flags</A>
+ </BODY>
+</HTML>

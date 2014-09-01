@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbCabArchive.FolderThreshold</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="FolderThreshold:TAbCabArchive">
+ <META NAME="MS-HKWD" CONTENT="FolderThreshold"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbCabArchive.FolderThreshold</H1>
+  <P>
+   <A HREF="ch107k2t.htm">TAbCabArchive</A></P><PRE><CODE><B>property</B> FolderThreshold : Longint</CODE></PRE><P>
+   The maximum cabinet folder (compression block) size.</P>
+  <P>
+   Items in a cabinet archive can be compressed across their file 
+   boundaries as a single compression block. Such compression blocks are 
+   called folders. Compression ratios improve significantly when items 
+   are compressed together as opposed to individually. However, there is 
+   a trade-off between random access time to an individual item and 
+   compression ratio since an entire folder must be decompressed to 
+   extract an item from it.</P>
+  <P>
+   Use FolderThreshold to specify the maximum size of a folder 
+   (compression block). When compressing files, this value will be used 
+   to determine when to stop the current compression block and start a 
+   new one. You can also start a new folder by calling NewFolder.</P>
+  <P>
+   See also: <A HREF="ch1040qa.htm">NewFolder</A>
+ </BODY>
+</HTML>

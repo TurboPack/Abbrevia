@@ -1,0 +1,57 @@
+;*********************************************************
+;* FlashFiler: FFCLCNST.STR 1.50                         *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: Client string table resource              *
+;*********************************************************
+;* Translation into French                               *
+;* 01/15/1999  JF Nifenecker, Bordeaux (France)          *
+;*             (draft)                                   *
+;*********************************************************
+
+#include <FFConst.inc>
+
+fferrIndexOutOfRange, "Index de collection hors bornes"
+ffccRegistryDualModeKey, "\Software\TurboPower\FlashFiler\Configuration\IDAPI\"
+ffccUserName, "USER NAME"
+ffccStandard, "STANDARD"
+ffccPath, "PATH"
+ffccInfo, "INFO"
+ffccInvalidParameter, "Paramètre incorrect"
+ffccAttachFailed, "Erreur de communications FlashFiler"
+ffccDBLIST, "DBLIST"
+ffccTableList, "TABLELIST"
+ffccFieldList, "FIELDLIST"
+ffccIndexList, "INDEXLIST"
+ffccActive, "ACTIVE"
+ffccBAPI_ERROR_CAPTION, "Message système FlashFiler"
+ffccBAPI_NOT_SUPPORTED, "Routine BDE non supportée [%s]."
+ffccBAPI_UNKNOWN_BDE_ERROR, "Erreur BDE %d."
+ffccREG_PRODUCT, "\Software\TurboPower\FlashFiler"
+ffccBAPI_IDAPI_SESSION, "IDAPI"
+ffccIDAPI_DRIVER_DESC, "IDAPI"
+ffccBASE_CLASSES, "Base Classes"
+ffccSHOW_KEY, " - Key = ["
+ffccNOT_SUPPORTED, "Non supporté"
+ffccNOT_FF_COMPONENT, "Fonction applicable seulement aux composants données de FlashFiler"
+ffccBAD_PROTOCOL, "Défaut de protocole réseau"
+
+ffccImport_NoSchemaFile, "Fichier schéma %s introuvable"
+ffccImport_RECLENGTHRequired, "RECLENGTH requis dans le fichier schéma pour ce type de fichier d'importation"
+ffccImport_NoMatchingFields, "Aucun champ d'import ne correspond à un champ de table cible ; rien à importer"
+ffccImport_FILETYPEMissing, "FILETYPE manquant dans le fichier schéma"
+ffccImport_FILETYPEInvalid, "FILETYPE incorrect dans le fichier schéma"
+ffccImport_BadFieldName, "Erreur dans le fichier schéma : %s, nom de champ incorrect %s"
+ffccImport_BadFieldType, "Erreur dans le fichier schéma : %s, has invalid datatype %s"
+ffccImport_BadFloatSize, "Erreur dans le fichier schéma : %s, taille de champ FLOAT incorrecte"
+ffccImport_BadIntegerSize, "Erreur dans le fichier schéma : %s, taille de champ INTEGER incorrecte"
+ffccImport_BadUIntegerSize, "Erreur dans le fichier schéma : %s, taille de champ UINTEGER incorrecte"
+ffccImport_BadAutoIncSize, "Erreur dans le fichier schéma : %s, taille de champ AUTOINC incorrecte"
+ffccImport_NoFields, "Aucun champ défini dans le fichier schéma"
+ffccImport_BadOffset, "Erreur dans le fichier schéma : %s, offset de champ incorrect %s"
+ffccImport_BadSize, "Erreur dans le fichier schéma : %s, taille de champ incorrecte %s"
+ffccImport_BadDecPl, "Erreur dans le fichier schéma : %s,  nombre de décimales incorrect dans le champ %s"
+ffccImport_BadDateMask, "Erreur dans le fichier schéma : %s, masque date/heure du champ invalide %s"
+ffccImport_BadSchemaHeader, "En-tête de section incorrect dans le fichier schéma : %s"
+

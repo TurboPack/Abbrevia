@@ -1,0 +1,44 @@
+;*********************************************************
+;* FlashFiler: FFNBCNST.STR 1.50                         *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: NetBIOS error strings resource            *
+;*********************************************************
+;* Translation into French                               *
+;* 01/15/1999  JF Nifenecker, Bordeaux (France)          *
+;*             (draft)                                   *
+;*********************************************************
+
+#include <FFLLNBCT.inc>
+
+ffnbeSuccess, "Opération réussie, aucune erreur"
+ffnbeBadBufferSize, "Longueur de tampon incorrecte"
+ffnbeBadCommand, "Code de commande non reconnu"
+ffnbeTimedOut, "Délai dépassé pour la commande"
+ffnbeIncomplete, "Message reçu incomplet"
+ffnbeBadSession, "Numéro de session incorrect"
+ffnbeNoResource, "Aucune ressource disponible"
+ffnbeSessionClosed, "La session a été fermée"
+ffnbeCancelled, "Commande annulée"
+ffnbeDuplicateName, "Doublon sur les noms dans la table locale des noms"
+ffnbeNameTableFull, "La table locale des noms est pleine"
+ffnbeNameDeregistered, "Le nom n'a pas de session active et est dé-registrée"
+ffnbeSessionTableFull, "La table de session locale est pleine"
+ffnbeSessionOpenReject, "Ouverture de session refusée : écoute introuvable"
+ffnbeBadNameNumber, "Numéro de nom incorrect"
+ffnbeNoAnswer, "Nom appelé introuvable / pas de réponse"
+ffnbeBadName, "Nom introuvable ou incorrect"
+ffnbeNameInUse, "Nom en cours d'utilisation sur l'adaptateur distant"
+ffnbeNameDeleted, "Nom effacé"
+ffnbeSessionCrashed, "Fin de session anormale"
+ffnbeNameConflict, "Conflit sur le nom détecté"
+ffnbeInterfaceBusy, "Interface occupée"
+ffnbeTooManyCommands, "Trop de commandes en suspens"
+ffnbeBadAdapter, "Numéro d'adaptateur incorrect"
+ffnbeCompletedWhileCancel, "Commande achevée pendant que l'annulation était en attente"
+ffnbeReservedName, "Nom réservé spécifié pour l'ajout de nom de groupe"
+ffnbeCannotCancel, "Commande à annuler incorrecte"
+ffnbeCommandPending, "Commande en attente"
+ffnbeNoMemory, "Mémoire insuffisante lors de l'allocation d'un NCB"
+

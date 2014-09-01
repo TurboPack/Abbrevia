@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbZipper.OnSave</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="OnSave:TAbZipper">
+ <META NAME="MS-HKWD" CONTENT="OnSave"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbZipper.OnSave</H1>
+  <P>
+   <A HREF="ch5n3fle.htm">TAbZipper</A></P><PRE><CODE><B>property</B> OnSave : TAbArchiveEvent</CODE><BR><CODE>TAbArchiveEvent = <B>procedure</B>(Sender : TObject) <B>of object</B>;</CODE></PRE><P>
+   Defines an event handler that is called immediately after the 
+   archive's contents are saved.</P>
+  <P>
+   The OnSave event can be used along with the OnConfirmProcessItem 
+   event to display status information for the user. For example, in the 
+   OnConfirmProcessItem event handler, the status could be set to 
+   &quot;change pending&quot;, and in the OnSave event handler, set the 
+   status to &quot;saved&quot;. This would be most useful when the 
+   AutoSave property is False.</P>
+  <P>
+   See also: <A HREF="ch5n3pph.htm">OnConfirmSave</A>, <A HREF="ch5n5hb9.htm">Save</A>,
+    <A HREF="ch4b5kq5.htm">TAbBaseBrowser.OnConfirmProcessItem</A>
+ </BODY>
+</HTML>

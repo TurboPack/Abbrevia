@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>IZipKit.OnConfirmProcessItem</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="OnConfirmProcessItem:IZipKit">
+ <META NAME="MS-HKWD" CONTENT="OnConfirmProcessItem"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   IZipKit.OnConfirmProcessItem</H1>
+  <P>
+   <A HREF="12co81tg.htm">IZipKit</A></P><PRE><CODE><B><I>object</I></B>_<B>OnConfirmProcessItem</B>(<I>Item</I>, <I>ProcessType</I>, <I>Confirm</I>)</CODE><BR><CODE>The <I>object</I> is always an <B>IZipKit.</B></CODE></PRE><P>
+   Defines an event handler that is called before a process is performed 
+   on each item in the archive.</P>
+  <P>
+   The OnConfirmProcessItem syntax has these parts:</P>
+  <P>
+   <TABLE WIDTH="482" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="22%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">Part</SPAN></CODE></B></TD><TD
+       WIDTH="22%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Type</SPAN></TD><TD
+       WIDTH="56%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Description</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="22%" VALIGN=TOP><PRE><CODE>Item</CODE></TD><TD
+       WIDTH="22%" VALIGN=TOP><PRE>IZipItem</TD><TD
+       WIDTH="56%" VALIGN=TOP><PRE>The item that action is being taken on. </TD></TR>
+    <TR>
+     <TD WIDTH="22%" VALIGN=TOP><PRE>ProcessType</TD><TD
+       WIDTH="22%" VALIGN=TOP><PRE>TProcessType</TD><TD
+       WIDTH="56%" VALIGN=TOP><PRE>The action being taken on the item. See the chart below for possible values.</TD></TR>
+    <TR>
+     <TD WIDTH="22%" VALIGN=TOP><PRE><CODE>Confirm</CODE></TD><TD
+       WIDTH="22%" VALIGN=TOP><PRE>Boolean</TD><TD
+       WIDTH="56%" VALIGN=TOP><PRE>Setting Confirm to False aborts the process.</TD></TR>
+   </TABLE></P>
+  <P>
+   ProcessType can be one of the following (TProcessType):</P>
+  <P>
+   <TABLE WIDTH="481" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="18%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">Constant</SPAN></CODE></B></TD><TD
+       WIDTH="13%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Value</SPAN></TD><TD
+       WIDTH="69%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Description</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="18%" VALIGN=TOP><PRE><CODE>ptAdd</CODE></TD><TD
+       WIDTH="13%" VALIGN=TOP><PRE>0</TD><TD
+       WIDTH="69%" VALIGN=TOP><PRE>The item is being added to the archive.</TD></TR>
+    <TR>
+     <TD WIDTH="18%" VALIGN=TOP><PRE>ptDelete</TD><TD
+       WIDTH="13%" VALIGN=TOP><PRE>1</TD><TD
+       WIDTH="69%" VALIGN=TOP><PRE>The item is being deleted from the archive. </TD></TR>
+    <TR>
+     <TD WIDTH="18%" VALIGN=TOP><PRE>ptExtract</TD><TD
+       WIDTH="13%" VALIGN=TOP><PRE>2</TD><TD
+       WIDTH="69%" VALIGN=TOP><PRE>The item is being extracted from the archive. </TD></TR>
+    <TR>
+     <TD WIDTH="18%" VALIGN=TOP><PRE>ptFreshen</TD><TD
+       WIDTH="13%" VALIGN=TOP><PRE>3</TD><TD
+       WIDTH="69%" VALIGN=TOP><PRE>The item is being freshened in the archive.</TD></TR>
+    <TR>
+     <TD WIDTH="18%" VALIGN=TOP><PRE>ptMove</TD><TD
+       WIDTH="13%" VALIGN=TOP><PRE>4</TD><TD
+       WIDTH="69%" VALIGN=TOP><PRE>The item is being moved within the archive. </TD></TR>
+    <TR>
+     <TD WIDTH="18%" VALIGN=TOP><PRE><CODE>ptReplace</CODE></TD><TD
+       WIDTH="13%" VALIGN=TOP><PRE>5</TD><TD
+       WIDTH="69%" VALIGN=TOP><PRE>The item is being replaced within the archive.</TD></TR>
+   </TABLE></P>
+  <P>
+   This event handler is called once for each item in an Add, Delete, 
+   Extract, Freshen, or Move<BR>
+   loop. If a handler is not provided for this event, all processing 
+   continues as if Confirm were set to True.</P>
+  <P>
+   The OnConfirmProcessItem event handler can be used to perform any 
+   actions that are necessary when the archive changes. For example, you 
+   might want to display a confirmation dialog or create a log of who 
+   modified the archive.
+ </BODY>
+</HTML>

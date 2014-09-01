@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbCompoundFile.DeleteFile</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="DeleteFile"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbCompoundFile.DeleteFile</H1>
+  <P>
+   <A HREF="9com7w4l.htm">TAbCompoundFile</A></P><PRE><CODE><B>procedure</B> DeleteFile(FileName : <B>string</B>);</CODE></PRE><P>
+   Deletes the specified file from the compound file.</P>
+  <P>
+   If the file specified in the FileName parameter is found in the 
+   current directory, the file will be deleted from the compound file 
+   and the File Allocation Table (FAT) will be updated to indicate that 
+   the space formerly occupied by the file is now available for use. If 
+   the file is not found, no action will be taken.</P>
+  <P>
+   An OnBeforeFileDelete event will be fired for the file that is about 
+   to be deleted and a corresponding OnBeforeDirModified event will be 
+   fired for the file's parent folder.</P>
+  <P>
+   Additionally, the DirectoryEntries and SizeOnDisk properties will be 
+   updated to reflect the file deletion.</P>
+  <P>
+   See also: <A HREF="9com9kv9.htm">OnBeforeFileDelete</A>, <A HREF="9com46qs.htm">OnBeforeDirModified</A>,
+    <A HREF="9com2xbn.htm">DirectoryEntries</A>, <A HREF="9com5p2j.htm">SizeOnDisk</A>,
+    <A HREF="9com11t1.htm">AddFile</A>, <A HREF="9com28c2.htm">DeleteFolder</A>
+ </BODY>
+</HTML>

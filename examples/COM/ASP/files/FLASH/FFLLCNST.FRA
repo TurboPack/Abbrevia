@@ -1,0 +1,64 @@
+;*********************************************************
+;* FlashFiler: FFLLCNST.STR 1.50                         *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: Lowlevel (common) string table resource   *
+;*********************************************************
+;* Translation into French                               *
+;* 01/15/1999  JF Nifenecker, Bordeaux (France)          *
+;*             (draft)                                   *
+;*********************************************************
+
+#include <FFConst.inc>
+
+fferrCopyFile, "Erreur système [%d] pendant la copie d'un fichier"
+fferrDeleteFile, "Erreur système [%d] pendant l'effacement d'un fichier"
+fferrRenameFile, "Erreur système [%d] pendant le renommage d'un fichier"
+
+
+fferrOutOfBounds, "Le champ, l'index ou le numéro de fichier n'existe pas dans le dictionnaire [%s, élt. %d]"
+fferrDictPresent, "Quand un dictionnaire est défini pour un fichier, un autre ne peut pas être créé [%s]"
+fferrNotADict, "Tentative d'assigner un objet qui n'est pas un dictionnaire à un objet dictionnaire [%s]"
+fferrNoFields, "Aucune définition de champ dans le dictionnaire, celui-ci ne peut pas être utilisé [%s]"
+fferrBadFieldRef, "L'index composite fait référence à un numéro de champ inexistant [%s, champ %d]"
+fferrBadFieldType, "Type de champ inconnu dans une instruction case [%d]"
+fferrRecTooLong, "La somme des longueurs de champs du dictionnaire est supérieure à la taille maximum d'enregistrement [%s]"
+fferrDiffBlockSize, "Tentative d'écrire le dictionnaire dans un fichier avec une taille de bloc différente [%s, ancienne taille %d, nouvelle %d]"
+fferrDictReadOnly, "Dictionnaire non modifiable après construction de la table [%s]"
+fferrDictMissing, "Dictionnaire de données introuvable dans le fichier [%s]"
+fferrBLOBFileDefd, "Un fichier BLOB est déjà défini pour ce dictionnaire [%s]"
+fferrBaseFile, "Descripteur de base du fichier non supprimable [%s, fichier 0]"
+fferrBadFileNumber, "Numéro de fichier introuvable dans le dictionnaire [%s, fichier %d]"
+fferrBadBaseName, "Nom de table incorrect : seuls les caractères a-z, A-Z, 0-9, ou _ sont autorisés [saisi : %s]"
+fferrBadExtension, "Extension incorrecte : seuls les caractères a-z, A-Z, 0-9, or _ sont autorisés, avec 1, 2 or 3 caractères [%s, ext %s]"
+fferrDupExtension, "Extension déjà présente dans le dictionnaire de données [%s, ext %s]"
+fferrDataFileDefd, "Un seul fichier de données par table, déjà défini pour ce dictionnaire [%s]"
+fferrNoFieldsInKey, "Un index composite doit contenir au moins un champ [%s]"
+fferrBadParameter, "Paramètre incorrect passé à la routine [%s, paramètre %d]"
+fferrBadBlockSize, "Seules tailles de bloc autorisées : 4Ko, 8Ko, 16Ko or 32Ko [demandée : %d]"
+fferrKeyTooLong, "La longueur de clé d'index doit être entre 0 et 1024 octets [passé %d]"
+fferrDupFieldName, "Nom de champ dupliqué dans le dictionnaire [%s, champ %s]"
+fferrDupIndexName, "Nom d'index dupliqué dans le dictionnaire [%s, index %s]"
+
+fferrCommsNoWinRes, "Aucune ressource de fenêtre disponible : la communication notifie l'échec lors de la création de la fenêtre"
+fferrCommsCannotCall, "Les serveurs ne peuvent émettre de requêtes d'appel, ils écoutent seulement"
+fferrCommsCantListen, "Les clients ne peuvent émettre de requêtes d'écoute, ils appellent seulement"
+fferrNetBios, "Communication NetBIOS : erreur inattendue $%x [%s]"
+fferrNBNoNetBios, "Communication NetBIOS : pilote NetBIOS introuvable"
+fferrNBOutOfMem, "Communication NetBIOS : débordement mémoire lors de l'allocation de %d octets"
+fferrNBNameNotAdded, "Communication NetBIOS : le nom [%s] ne peut pas ête ajouté à lana %d [erreur $%x]"
+fferrWinsock, "Communication Winsock : erreur Winsock inattendue %d/$%x [%s]"
+fferrWSNoWinsock, "Communication Winsock : Winsock introuvable ou DLL incorrecte"
+fferrWSNoSocket, "Communication Winsock : le nouveau socket ne peut pas être créé"
+fferrWSNoLocalAddr, "Communication Winsock : information d'adresse locale non récupérable"
+
+ffscSeqAccessIndexName, "Seq. Access Index"
+ffscMainTableFileDesc, "Data/DataDict File"
+ffscRegistryMainKey, "\Software\TurboPower\FlashFiler\"
+
+fferrInvalidServerName, "Nom de serveur incorrecte"
+fferrInvalidNameorPath, "Nom ou chemin incorrect"
+fferrDuplicateAliasName, "Doublon sur le nom d'alias interdit"
+fferrEmptyValuesNotAllowed, "Une ou plusieurs valeurs non définies"
+

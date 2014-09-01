@@ -1,0 +1,36 @@
+/*********************************************************
+ * Async Pro : APWP.STR 2.55                             *
+ * Copyright (c) TurboPower Software Co 1996-98          *
+ * All rights reserved.                                  *
+ *********************************************************
+ * Async Pro : Protocol strings resource                 *
+ *********************************************************/
+
+; String constants are found in OOMISC.INC
+; These strings are linked into the APWP DLL if DLLs are used
+; If strings are added -- apStatusMsg needs to be changed in AWABSPCL.PAS
+
+0,   "OK"
+1,   "Protocol handshaking in progress"
+2,   "Bad date/time stamp received and ignored"
+3,   "File rejected"
+4,   "File renamed"
+5,   "File skipped"
+6,   "File doesn't exist locally, skipped"
+7,   "File skipped "
+8,   "Time out in protocol"
+9,   "Bad checksum or CRC"
+10,  "Block too long"
+11,  "Duplicate block received and ignored "
+12,  "Error in protocol"
+13,  "Cancel requested"
+14,  "At end of file"
+15,  "B+ host refused resume request"
+16,  "Block was out of sequence"
+17,  "Aborting on carrier loss"
+18,  "Got CrcE packet (Zmodem)"
+19,  "Got CrcG packet (Zmodem)"
+20,  "Got CrcW packet (Zmodem)"
+21,  "Got CrcQ packet (Zmodem)"
+22,  "B+ is trying to resume a download"
+23,  "B+ host is resuming"

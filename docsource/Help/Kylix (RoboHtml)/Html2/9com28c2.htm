@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbCompoundFile.DeleteFolder</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="DeleteFolder"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbCompoundFile.DeleteFolder</H1>
+  <P>
+   <A HREF="9com7w4l.htm">TAbCompoundFile</A></P><PRE><CODE><B>procedure</B> DeleteFolder(FolderName : <B>string</B>);</CODE></PRE><P>
+   Deletes the specified folder from the compound file.</P>
+  <P>
+   If the folder specified in the FolderName parameter is found in the 
+   current directory, the folder will be deleted from the compound file 
+   and the File Allocation Table (FAT) and directory entry structure 
+   will be updated. If the folder is not found or the folder is not 
+   empty, no action will be taken.</P>
+  <P>
+   An OnBeforeDirDelete event will be fired for the folder that is about 
+   to be deleted and a corresponding OnBeforeDirModified event will be 
+   fired for the folder's parent folder.</P>
+  <P>
+   Additionally, the DirectoryEntries property will be updated to 
+   reflect the folder deletion.</P>
+  <P>
+   <B>Note:</B> It is not possible to delete a folder that contains 
+   files or subfolders. The folder must be completely empty before it 
+   can be deleted.</P>
+  <P>
+   See also: <A HREF="9com2bmt.htm">OnBeforeDirDelete</A>, <A HREF="9com46qs.htm">OnBeforeDirModified</A>,
+    <A HREF="9com2xbn.htm">DirectoryEntries</A>, <A HREF="9com94xe.htm">AddFolder</A>,
+    <A HREF="9com87vp.htm">DeleteFile</A>
+ </BODY>
+</HTML>

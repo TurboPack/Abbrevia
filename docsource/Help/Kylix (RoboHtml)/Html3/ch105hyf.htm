@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbTarItem.LinkFlag</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="LinkFlag"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbTarItem.LinkFlag</H1>
+  <P>
+   <A HREF="ch107i5p.htm">TAbTarItem</A></P><PRE><CODE><B>property</B> LinkFlag : char</CODE></PRE><P>
+   Specifies the type of file system entity.</P>
+  <P>
+   The standard Unix file system (which is also used by Linux) makes use 
+   of a number of different types of file system entries that may be 
+   stored in a Tar archive. Some of these may not have any actual stored 
+   data associated with them, but rather serve to describe the logical 
+   structure of the file system.</P>
+  <P>
+   The codes for each type of link are as follows:</P>
+  <P>
+   <TABLE WIDTH="478" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="33%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">Abbrevia</SPAN></CODE></B></TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Constant</SPAN></TD><TD
+       WIDTH="48%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Flag Character</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="33%" VALIGN=TOP><PRE><CODE>AB_TAR_LF_OLDNORMAL</CODE></TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>#0 (ASCII Null)</TD><TD
+       WIDTH="48%" VALIGN=TOP><PRE>Normal disk file, Unix compatible</TD></TR>
+    <TR>
+     <TD WIDTH="33%" VALIGN=TOP><PRE>AB_TAR_LF_NORMAL</TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>&#145;0&#146;</TD><TD
+       WIDTH="48%" VALIGN=TOP><PRE>Normal disk file</TD></TR>
+    <TR>
+     <TD WIDTH="33%" VALIGN=TOP><PRE>AB_TAR_LF_LINK</TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>&#145;1&#146;</TD><TD
+       WIDTH="48%" VALIGN=TOP><PRE>Link to previously dumped file</TD></TR>
+    <TR>
+     <TD WIDTH="33%" VALIGN=TOP><PRE>AB_TAR_LF_SYMLINK</TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>&#145;2&#146;</TD><TD
+       WIDTH="48%" VALIGN=TOP><PRE>Symbolic link</TD></TR>
+    <TR>
+     <TD WIDTH="33%" VALIGN=TOP><PRE>AB_TAR_LF_CHR</TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>&#145;3&#146;</TD><TD
+       WIDTH="48%" VALIGN=TOP><PRE>Character special file</TD></TR>
+    <TR>
+     <TD WIDTH="33%" VALIGN=TOP><PRE>AB_TAR_LF_BLK</TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>&#145;4&#146;</TD><TD
+       WIDTH="48%" VALIGN=TOP><PRE>Block special file</TD></TR>
+    <TR>
+     <TD WIDTH="33%" VALIGN=TOP><PRE>AB_TAR_LF_DIR</TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>&#145;5&#146;</TD><TD
+       WIDTH="48%" VALIGN=TOP><PRE>Directory</TD></TR>
+    <TR>
+     <TD WIDTH="33%" VALIGN=TOP><PRE>AB_TAR_LF_FIFO</TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>&#145;6&#146;</TD><TD
+       WIDTH="48%" VALIGN=TOP><PRE>FIFO special file</TD></TR>
+    <TR>
+     <TD WIDTH="33%" VALIGN=TOP><PRE><CODE>AB_TAR_LF_CONTIG</CODE></TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>&#145;7&#146;</TD><TD
+       WIDTH="48%" VALIGN=TOP><PRE>Contiguous file</TD></TR>
+   </TABLE></P>
+  <P>
+   When extracting files on Windows, this property is set to indicate 
+   the type of item as it's processed. Abbrevia triggers evens for all 
+   objects that may be included in the archive, but ignores any type 
+   except the AB_TAR_LF_OLDNORMAL, AB_TAR_LF_NORMAL, and AB_TAR_LF_DIR 
+   flags however.</P>
+  <P>
+   When extracting files on Linux this property is set to indicate the 
+   type of item as it's processed. Abbrevia triggers evens for all 
+   objects that may be included in the archive, but ignores any type 
+   except the AB_TAR_LF_OLDNORMAL, AB_TAR_LF_NORMAL, AB_TAR_LF_LINK, 
+   AB_TAR_LF_SYMLINK, and AB_TAR_LF_DIR flags.</P>
+  <P>
+   When archiving files this property may be explicitly set for an item 
+   and that value will be stored with the item. Changing the default 
+   type may cause the item to be unreadable however.</P>
+  <P>
+   When archiving files on Linux, the various special items are included 
+   in the file if they're specified, either explicitly or as part of a 
+   wildcard operation.</P>
+  <P>
+   See also: <A HREF="ch109hyd.htm">LinkName</A>
+ </BODY>
+</HTML>

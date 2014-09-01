@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbBaseBrowser.BaseDirectory</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="BaseDirectory:TAbBaseBrowser">
+ <META NAME="MS-HKWD" CONTENT="BaseDirectory"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbBaseBrowser.BaseDirectory</H1>
+  <P>
+   <A HREF="ch4b8coi.htm">TAbBaseBrowser</A></P><PRE><CODE><B>property</B> BaseDirectory : <B>string</B></CODE></PRE><P>
+   Supplies the default path for add and extract operations on the archive.</P>
+  <P>
+   <B>Note: </B>BaseDirectory is not necessarily the same as the 
+   directory of the archive.</P>
+  <P>
+   When you add a file to an archive, if FileName is a relative file 
+   specification (e.g., &quot;README.TXT&quot; or 
+   &quot;EXAMPLES\README.TXT&quot;), BaseDirectory is used as the 
+   starting point to search for the file. When you extract a file from 
+   an archive, it is extracted to the current BaseDirectory or a 
+   subdirectory of the current BaseDirectory.</P>
+  <P>
+   See the add, freshen, and extract operations in the non-visual 
+   components for information on how BaseDirectory is used in each case.
+ </BODY>
+</HTML>

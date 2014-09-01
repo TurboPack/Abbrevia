@@ -1,0 +1,103 @@
+;{*********************************************************}
+;{* ABBREVIA: ABRES.STR v.1.07                            *}
+;{* Copyright (c) TurboPower Software Co 1997             *}
+;{* All rights reserved.                                  *}
+;{*********************************************************}
+;{* ABBREVIA: TPSRes string resources                     *}
+;{*********************************************************}
+;{* Translation into French                               *}
+;{* 02/27/1999  JF Nifenecker, Bordeaux (France)          *}
+;{*             (draft)                                   *}
+;{*********************************************************}
+
+#include <Abrccnst.inc>
+
+AbErrZipInvalid, "Fichier incorrect - Ce n'est pas un fichier PKZip"
+AbZipVersionNeeded, "Impossible d'extraire le fichier - nouvelle version nécessaire"
+AbUnknownCompressionMethod, "Impossible d'extraire le fichier - méthode de compression non supportée"
+AbNoExtractionMethod, "Impossible d'extraire le fichier - mode d'extraction non supporté"
+AbInvalidPassword, "Impossible d'extraire le fichier - mot de passe incorrect"
+AbNoInsertionMethod, "Impossible d'insérer le fichier - mode d'insertion non supporté"
+AbInvalidFactor, "Facteur de réduction incorrect"
+AbDuplicateName, "Impossible d'insérer le fichier - doublon sur les noms de fichier"
+AbUnsupportedCompressionMethod, "Impossible d'insérer le fichier - méthode de compression non supportée"
+AbUserAbort, "Processus interrompu par l'utilisateur"
+AbArchiveBusy, "Archive occupée - les requêtes ne peuvent être traitées"
+AbLastDiskRequest, "Insérez le dernier disque du jeu"
+AbDiskRequest, "Insérez une disquette"
+AbBadSpanStream, "Les archives sur plusieurs disques doivent être ouvertes en tant que flux"
+AbDiskNumRequest, "Insérez le disque n°%d du jeu de disques"
+AbNoOverwriteSpanStream, "Impossible de mettre à jour le jeu de disques existant"
+AbNoSpannedSelfExtract, "Impossible de créer un jeu de disques auto-extractible"
+AbBlankDisk, "Insérez un disque vierge"
+AbStreamFull, "Erreur d'écriture du fichier"
+AbNoSuchDirectory, "Le répertoire n'existe pas"
+AbInflateBlockError, "Impossible de gonfler le bloc"
+AbBadStreamType, "Impossible de tronquer ce type de fichier"
+AbTruncateError, "Erreur pendant la troncature du fichier Zip"
+AbZipBadCRC, "Le contrôle de CRC a échoué"
+AbZipBadStub, "L'amorce doit être un fichier exécutable"
+AbFileNotFound, "Fichier non trouvé"
+AbInvalidLFH, "Entrée d'en-tête de fichier local incorrecte"
+AbNoArchive, "L'archive n'existe pas - le nom de fichier est vide"
+AbReadError, "Erreur lors de la lecture de l'archive"
+
+AbMethod0, "Stocké"
+AbMethod1, "Rétréci"
+AbMethod2, "Réduit"
+AbMethod3, "Réduit"
+AbMethod4, "Réduit"
+AbMethod5, "Réduit"
+AbMethod6, "Implosé"
+AbMethod7, "Symbolisé"
+AbMethod8, "Dégonflé"
+AbMethod9, "Dégonflage amélioré"
+AbMethod10, "DCL implosé"
+AbMethod11, "Meilleure méthode"
+
+AbVersionFormat, "Version %s"
+AbCompressedSizeFormat, "Taille compressée : %d"
+AbUncompressedSizeFormat, "Taille non compressée : %d"
+AbCompressionMethodFormat, "Méthode de compression : %s"
+AbCompressionRatioFormat, "Taux de compression : %2.0f%%"
+AbCRCFormat, "CRC : %x"
+
+; to conform to usage, these 4 tokens not translated
+AbReadOnly, "r"
+AbHidden, "h"
+AbSystem, "s"
+AbArchived, "a"
+
+; translation continued
+AbEFAFormat, "Attributs du fichier externe : %s"
+AbIFAFormat, "Type de fichier : %s"
+AbText, "Texte"
+AbBinary, "Binaire"
+AbEncryptionFormat, "Cryptage : %s"
+AbEncrypted, "Crypté"
+AbNotEncrypted, "Non crypté"
+AbUnknown, "Inconnu"
+AbTimeStampFormat, "Horodatage : %s"
+AbMadeByFormat, "Créé par la version : %f"
+AbNeededFormat, "Version requise pour l'extraction : %f"
+AbCommentFormat, "Commentaire : %s"
+AbDefaultExt, "*.zip"
+AbFilter, "Archives PKZip (*.zip)|*.zip|Archives auto-extractibles (*.exe)|*.exe|Tous les fichiers (*.*)|*.*"
+AbFileNameTitle, "Sélectionnez un fichier"
+
+AbOK, "OK"
+AbCancel, "Annuler"
+AbSelectDirectory, "Sélectionnez un répertoire"
+
+AbEnterPassword, "Entrez le mot de passe"
+AbPassword, "&Mot de passe"
+AbVerify, "&Vérifier"
+
+AbVMSReadTooManyBytes, "VMS : demande de lecture de trop d'octets [%d]"
+AbVMSInvalidOrigin, "VMS : origine %d incorrecte, doit être 0, 1 ou 2"
+AbVMSErrorOpenSwap, "VMS : impossible d'ouvrir le fichier d'échange %s"
+AbVMSSeekFail, "VMS : échec de la recherche dans le fichier d'échange %s"
+AbVMSReadFail, "VMS : échec à la lecture de %d octets dans le fichier d'échange %s"
+AbVMSWriteFail, "VMS : échec à l'écriture de %d octets dans le fichier d'échange %s"
+AbVMSWriteTooManyBytes, "VMS : demande d'écriture de trop d'octets [%d]"
+

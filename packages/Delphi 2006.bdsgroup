@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<PersonalityInfo>
+		<Option>
+			<Option Name="Personality">Default.Personality</Option>
+			<Option Name="ProjectType"></Option>
+			<Option Name="Version">1.0</Option>
+			<Option Name="GUID">{BCDF432C-DE82-40A7-9936-C48A373EFDF7}</Option>
+		</Option>
+	</PersonalityInfo>
+	<Default.Personality>  <Projects>
+      <Projects Name="Abbrevia100.bpl">Delphi 2006\Abbrevia.bdsproj</Projects>
+      <Projects Name="AbbreviaVCL100.bpl">Delphi 2006\AbbreviaVCL.bdsproj</Projects>
+      <Projects Name="AbbreviaVCLDesign100.bpl">Delphi 2006\AbbreviaVCLDesign.bdsproj</Projects>
+      <Projects Name="Targets">Abbrevia100.bpl AbbreviaVCL100.bpl AbbreviaVCLDesign100.bpl</Projects>
+    </Projects>
+    <Dependencies/>
+  </Default.Personality>
+</BorlandProject>

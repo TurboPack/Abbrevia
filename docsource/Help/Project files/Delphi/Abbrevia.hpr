@@ -1,0 +1,31 @@
+[NewWizardValues]
+TemplateName=Custom1
+TemplateDescription=The Custom Templates can be modified by you to contain specialized window settings and styles. 
+Location=0
+Template Icon=26
+
+
+[Project Settings]
+Primary Target=4
+Compatibility Mode=0
+WordEditedVer=9.0
+DefaultAddTopicFile=D:\Abbrevia\Help\Delphi\Abbrevia\1intro.rtf
+
+[Project]
+Help Compiler=HCW
+Remove Unused=1
+Version=512
+ConvertedFromV1=0
+HasGlossary=0
+Automatic Map Files=0
+NextFile=2
+MovedToHPR=1
+RegRoutine Version=7
+
+[Document Files]
+
+Abbrevia.doc=1
+[.rbh]
+CopyToWasUpdated7=1
+[Project Opened]
+Successfully Opened=1

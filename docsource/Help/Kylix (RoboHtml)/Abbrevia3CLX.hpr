@@ -1,0 +1,45 @@
+[Special Files]
+HHP File=D:\Abbrevia\Help\Abbrevia 3 Kylix (RoboHtml)\Abbrevia3CLX\Abbrevia3CLX.hhp
+Table Of Content File=D:\Abbrevia\Help\Abbrevia 3 Kylix (RoboHtml)\Abbrevia3CLX\Abbrevia3CLX.hhc
+Merged Index File=D:\Abbrevia\Help\Abbrevia 3 Kylix (RoboHtml)\Abbrevia3CLX\Abbrevia3CLX_merged$.hhk
+See Also Index File=D:\Abbrevia\Help\Abbrevia 3 Kylix (RoboHtml)\Abbrevia3CLX\Abbrevia3CLX.hha
+Avenue File=D:\Abbrevia\Help\Abbrevia 3 Kylix (RoboHtml)\Abbrevia3CLX\Abbrevia3CLX.brs
+Topic Props File=D:\Abbrevia\Help\Abbrevia 3 Kylix (RoboHtml)\Abbrevia3CLX\Abbrevia3CLX.trs
+List Folder File=D:\Abbrevia\Help\Abbrevia 3 Kylix (RoboHtml)\Abbrevia3CLX\Tmp32039.lst
+[Project Settings]
+Default Topic=D:\Abbrevia\Help\Abbrevia 3 Kylix (RoboHtml)\Abbrevia3CLX\1int83hd.htm
+Build Tags=
+[MPJ Single Source Target:WebHelp]
+Enable prompt after generating=1
+ResultFileName=WebHelp\Abbrevia3CLX.htm
+SourceProjectPathName=D:\Abbrevia\Help\Abbrevia 3 Kylix (RoboHtml)\Abbrevia3CLX\Abbrevia3CLX.mpj
+DestinationProjectName=D:\Abbrevia\Help\Abbrevia 3 Kylix (RoboHtml)\Abbrevia3CLX\WebHelp\Abbrevia3CLX.htm
+BuildExpression=
+LowerCaseFileName=0
+FormattingMode=1
+FormattingRefCss=
+PopupMode=3010
+LinksMode=3020
+LinkExtTopicMode=3030
+TextOnlyPopupMode=3040
+CreateProjectPathName=D:\Abbrevia\Help\Abbrevia 3 Kylix (RoboHtml)\Abbrevia3CLX\WebHelp\Abbrevia3CLX.htm
+CreateProjectTime=14:34, June 12, 2001
+CreateProjectUser=johnb
+m_bNavPaneFrame=1
+m_bNavPaneToc=1
+m_bNavPaneNdx=1
+m_bNavPaneFts=1
+m_bNavPaneByAppletOnly=0
+m_nNavBarType=7
+m_eNavBarPos=2
+m_eNavBarStyle=1
+m_bPrefixPageName=0
+m_strNavBarFontName=Arial
+m_nNavBarFontSize=0
+m_strOpenBook=
+m_strClosedBook=
+m_strLocalPage=
+m_strRemotePage=
+m_strTocNdxFormatting=
+m_nMinFontSize=9
+ViewFileName=WebHelp\Abbrevia3CLX.htm

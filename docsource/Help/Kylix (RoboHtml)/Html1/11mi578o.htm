@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbDeflateHelper.AmpleLength</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="AmpleLength"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbDeflateHelper.AmpleLength</H1>
+  <P>
+   <A HREF="11mi6a42.htm">TAbDeflateHelper</A></P><PRE><CODE><B>property</B> AmpleLength : longint</CODE></PRE><P>
+   Default: 8</P>
+  <P>
+   Defines the length of the matching string that will stop a search.</P>
+  <P>
+   To enable the LZ77 compression phase of the Deflate algorithm to work 
+   efficiently, previously seen strings are stored in a hash table that 
+   uses chaining to resolve collisions. During a search along a chain 
+   for a match for the current string, this property defines the length 
+   of a &quot;good enough&quot; match to force the search to stop 
+   prematurely. In other words, if the search along a hash table chain 
+   uncovers a match of at least AmpleLength bytes, the search is stopped 
+   and the position returned.</P>
+  <P>
+   The smaller the &quot;good enough&quot; length, the faster the LZ77 
+   compression phase, but the larger the compressed data. This is a time 
+   versus space trade off.</P>
+  <P>
+   If the best LZ77 compression is to be done, set AmpleLength to -1. 
+   This will find the longest match at each step in the LZ77 phase, but 
+   will take the longest time.</P>
+  <P>
+   See also: <A HREF="11mi6bjc.htm">ChainLength</A>, <A HREF="11mi7zvs.htm">MaxLazyLength</A>,
+    <A HREF="11mi0fhv.htm">Options</A>, <A HREF="11mi4ka6.htm">PKZipOption</A>
+ </BODY>
+</HTML>

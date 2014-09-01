@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>IZipKit.OnRequestBlankDisk</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="OnRequestBlankDisk:IZipKit">
+ <META NAME="MS-HKWD" CONTENT="OnRequestBlankDisk"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   IZipKit.OnRequestBlankDisk</H1>
+  <P>
+   <A HREF="12co81tg.htm">IZipKit</A></P><PRE><CODE><B><I>object</I></B>_<B>OnRequestBlankDisk</B>(<I>Abort</I>)</CODE><BR><CODE>The <I>object</I> is always an <B>IZipKit.</B></CODE></PRE><P>
+   Defines an event handler that is called when a blank, removable disk 
+   is needed for a spanned archive.</P>
+  <P>
+   The OnRequestBlankDisk syntax has these parts:</P>
+  <P>
+   <TABLE WIDTH="478" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="11%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">Part</SPAN></CODE></B></TD><TD
+       WIDTH="14%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Type</SPAN></TD><TD
+       WIDTH="75%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Description</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="11%" VALIGN=TOP><PRE><CODE>Abort</CODE></TD><TD
+       WIDTH="14%" VALIGN=TOP><PRE>Boolean</TD><TD
+       WIDTH="75%" VALIGN=TOP><PRE>Abort spanning by setting to True.</TD></TR>
+   </TABLE></P>
+  <P>
+   If an OnRequestBlankDisk event handler is not supplied, a dialog box 
+   with an OK button is displayed to prompt the user for a blank disk. 
+   If you want to add features such as formatting the disk, scanning the 
+   disk for errors, or allowing the user to verify the disk contents, 
+   you can do that in an OnRequestBlankDisk event handler.</P>
+  <P>
+   <B>Note:</B> When used within Active Server Pages (ASP) all dialog 
+   boxes are suppressed and the event returns True, aborting the operation.
+ </BODY>
+</HTML>

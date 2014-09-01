@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbCompoundFile.AddFolder</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="AddFolder"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbCompoundFile.AddFolder</H1>
+  <P>
+   <A HREF="9com7w4l.htm">TAbCompoundFile</A></P><PRE><CODE><B>procedure</B> AddFolder(FolderName : <B>string</B>);</CODE></PRE><P>
+   Adds the specified folder to the current directory of the compound file.</P>
+  <P>
+   AddFolder creates a new directory entry in the compound file's 
+   current directory. An OnBeforeDirModified event will be fired for the 
+   current directory prior to adding the directory entry.</P>
+  <P>
+   If a folder of the same name already exists in the current directory, 
+   the AddFolder method does nothing and instead returns immediately.</P>
+  <P>
+   The DirectoryEntries property will be updated after calling the 
+   AddFolder method. It is also possible that the SizeOnDisk property 
+   will also be increased by AllocationSize bytes if the compound file's 
+   directory structure requires additional storage for the new directory entry.</P>
+  <P>
+   See also: <A HREF="9com1hx5.htm">CurrentDirectory</A>, <A HREF="9com2xbn.htm">DirectoryEntries</A>,
+    <A HREF="9com46qs.htm">OnBeforeDirModified</A>, <A HREF="9com5p2j.htm">SizeOnDisk</A>
+ </BODY>
+</HTML>

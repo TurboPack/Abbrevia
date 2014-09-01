@@ -1,0 +1,94 @@
+;*********************************************************
+;* FlashFiler: FFSRCNST.STR 1.50                         *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: Server string table resource              *
+;*********************************************************
+;* Translation into French                               *
+;* 01/15/1999  JF Nifenecker, Bordeaux (France)          *
+;*             (draft)                                   *
+;*********************************************************
+
+#include <FFConst.inc>
+
+fferrBadStruct, "ERREUR INTERNE : l'enregistrement TbtdFileInfo contient des données incorrectes"
+fferrOpenFailed, "ERREUR INTERNE : le fichier ne peut pas être ouvert [%s, erreur %d]"
+fferrOpenNoMem, "ERREUR INTERNE : débordement mémoire lors de l'ouverture d'un fichier"
+fferrCloseFailed, "ERREUR INTERNE : le fichier ne peut pas être fermé [%s, erreur %d]"
+fferrLockFailed, "ERREUR INTERNE : la zone du fichier ne peut pas être verrouillée [%s à %d pour %d]"
+fferrUnlockFailed, "ERREUR INTERNE : la zone du fichier ne peut pas être déverrouillée [%s à %d pour %d, erreur %d]"
+fferrReadFailed, "ERREUR INTERNE : erreur lors de la lecture du fichier [%s, erreur %d]"
+fferrReadExact, "ERREUR INTERNE : impossible de lire le nombre exact d'octets dans le fichier [%s, %d octets]"
+fferrWriteFailed, "ERREUR INTERNE : erreur lors de l'écriture dans le fichier [%s, erreur %d]"
+fferrWriteExact, "ERREUR INTERNE : impossible d'écrire le nombre exact d'octets dans le fichier [%s, %d octets]"
+fferrSeekFailed, "ERREUR INTERNE : erreur when seeking to position in file [%s, offset %d, erreur %d]"
+fferrFlushFailed, "ERREUR INTERNE : erreur lors du forcement de l'écriture du fichier [%s, erreur %d]"
+fferrSetEOFFailed, "ERREUR INTERNE : erreur lors de la mise à jour de la fin de finchier [%s, erreur %d]"
+
+fferrNotAnFFFile, "[%s] n'est pas un fichier au format FlashFiler ou son en-tête est corrompu"
+fferrBadBlockNr, "Le numéro de bloc est soit < 0, soit >= nombre total de blocs dans le fichier [%s, bloc %d]"
+fferrEncrypted, "[%s] est un fichier FlashFiler crypté et le serveur ne peut pas le lire (il n'est pas sécurisé)"
+
+fferrRecDeleted, "L'enregistrement a été effacé, impossible de le lire/effacer/mettre à jour [%s, réf %d]"
+fferrBadRefNr, "Le numéro n'est pas un numéro correct de référence d'enregistrement FlashFiler [%s, réf %d]"
+fferrBadDataBlock, "Le bloc qui vient d'être lu dans le fichier n'est pas un bloc de données correct [%s, bloc %d]"
+
+fferrBlobDeleted, "Le BLOB a été effacé, impossible de le lire/effacer [%s, blob %d]"
+fferrBadBlobNr, "Le numéro n'est pas un numéro de BLOB FlashFiler correct [%s, blob %d]"
+fferrBadBlobBlock, "Le bloc qui vient d'être lu dans le fichier n'est pas un bloc de données BLOB correct [%s, bloc %d]"
+fferrBadBlobSeg, "Le lien interne vers le segment BLOB est corrompu [%s, segment %d]"
+fferrLenMismatch, "La longueur pour troncature est supérieure à la longueur du BLOB [%s, blob %d, offset %d, longueur %d]"
+fferrOfsNotInBlob, "La valeur de déplacement est supérieure à la longueur du BLOB [%s, blob %d, offset %d, longueur %d]"
+fferrFileBlobWrite, "Impossible d'écrire dans un fichier BLOB [%s, blob %d]"
+
+fferrBadStreamBlock, "Le bloc lu dans le fichier n'est pas un bloc de flux correct [%s, block %d]"
+fferrBadStreamOrigin, "Origine incorrecte spécifiée pour le flux"
+fferrStreamSeekError, "Le flux ne peut pas chercher à la position demandée"
+
+fferrBadInxBlock, "Le bloc lu dans le fichier n'est pas un bloc d'index correct [%s, bloc %d]"
+fferrBadIndex, "Le numéro d'index passé est hors limites [%d]"
+fferrMaxIndexes, "Le nombre maximum d'index est déjà atteint [%s]"
+fferrBadMergeCall, "ERREUR INTERNE : MergeChildren appelé avec des pages moins qu'à moitié remplies, corruption possible [%s, gauche %d, droite %d]"
+fferrKeyNotFound, "Clé introuvable dans l'index lors de la tentative d'effacement"
+fferrKeyPresent, "Clé déjà présente dans l'index lors de la tentative d'insertion"
+fferrNoKeys, "Pas de clés dans l'index ; la position/clé approximative ne peut pas être déterminée"
+fferrNoSeqAccess, "Le curseur séquentiel ne peut pas être créé (index 0) car le groupe n'a pas de chemin d'accès séquentiel"
+fferrBadApproxPos, "La position apporximative doit être entre 0 et 100 [%s, index %d, pos %d]"
+
+fferrBadServerName, "Nom de serveur incorrect : seuls caractères autorisés a-z, A-Z, 0-9"
+
+fferrUnknownClient, "L'ID du client passé au serveur est inconnu"
+fferrUnknownSession, "Soit l'ID du client est inconnu, soit la session pour ce client n'existe pas"
+fferrUnknownAlias, "Nom d'alias non défini : introuvable"
+fferrUnknownPath, "Le chemin [%s] n'existe pas"
+fferrUnknownDB, "L'ID de base de données n'existe pas"
+fferrUnknownTable, "La table n'existe pas dans la base de données indiquée"
+fferrUnknownIndex, "Index non identifié à partir du nom (si fourni) ou du numéro (sinon)"
+fferrUnknownCursor, "L'ID de curseur passé n'existe pas"
+fferrUnknownTrans, "ID de transaction %d inconnu"
+
+fferrDBExclusive, "La base de données est déjà ouverte : soit elle est déjà en mode exclusif  soit elle va être ouverte maintenant en mode exclusif"
+fferrDBReadOnly, "La table ne peut pas être ouverte en lecture/écriture car la base de données est ouverte en mode lecture seule"
+fferrTableExclusive, "La table est déjà ouverte dans un mode non partagé (exclusif), elle ne peut être ouverte par aucune une autre session"
+fferrCursorReadOnly, "Impossible d'effacer ou modifier l'enregistrement courant ni d'insérer un nouvel enregistrement car le curseur est ouvert en lecture seule"
+fferrWriteLocked, "La table est verrouillée en écriture par un autre poste, aucun autre verrou en écriture ou en lecture n'est autorisé"
+fferrReadLocked, "La table est verrouillée en lecture par un autre poste, aucun autre verrou en écriture n'est autorisé"
+fferrCannotUnlock, "Le verrou ne peut pas être retiré : il n'existe pas"
+fferrTableLocked, "La table est verrouillée ce qui empêche l'opération de mise à jour"
+fferrRecLocked, "L'enregistrement est verrouillé par un autre utilisateur"
+fferrNoCurrentRec, "Le curseur n'a pas d'enregistrement courant (il est positionné soit sur BOF, EOF ou sur un crack)"
+fferrDynamicLink, "Le serveur ne trouve pas une DLL, ou une routine dans une DLL [Index(%s/%s:%d) DLL(%s) Routines(%s, %s)]"
+fferrResolveTableLinks, "Une table nécessite des routines utilisateur mais elles sont introuvables dans la configuration du serveur"
+fferrTableMismatch, "SetToCursor a échoué car le curseur passé ne concerne pas la même table"
+fferrNoNextRecord, "Pas d'enregistrement texte dans l'index ; curseur positionné sur EOF"
+fferrNoPriorRecord, "Pas d'enregistrement précédent pour cet index ; curseur positionné sur BOF"
+fferrTableExists, "Une table de même nom existe déjà"
+fferrDBInTrans, "La base de données [%s] est déjà dans une transaction"
+fferrAliasExists, "L'alias [%s] existe déjà"
+fferrCannotCompare, "Impossible de comparer des champs BLOB dans une table"
+fferrBadFieldXform, "Impossible de copier un champ [%s to %s], types de champs incompatibles"
+fferrNoTransaction, "Aucune transaction démarrée pour la base de données, aucune mise à jour n'est donc possible"
+fferrBadBookmark, "Le signet est corrompu ou n'a pas été créé pour l'index courant"
+fferrTransactionFailed, "Une transaction a échoué pendant commit, probablement faute d'espace disque, ou tout autre problème disque"
+

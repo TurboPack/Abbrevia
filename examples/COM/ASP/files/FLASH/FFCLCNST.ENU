@@ -1,0 +1,53 @@
+;*********************************************************
+;* FlashFiler: FFCLCNST.STR 1.51                         *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: Client string table resource              *
+;*********************************************************
+
+#include "FFConst.inc"
+
+fferrIndexOutOfRange, "Collection index out of range"
+ffccRegistryDualModeKey, "\Software\TurboPower\FlashFiler\Configuration\IDAPI\"
+ffccUserName, "USER NAME"
+ffccStandard, "STANDARD"
+ffccPath, "PATH"
+ffccInfo, "INFO"
+ffccInvalidParameter, "Invalid Parameter"
+ffccAttachFailed, "FlashFiler Communications Error"
+ffccDBLIST, "DBLIST"
+ffccTableList, "TABLELIST"
+ffccFieldList, "FIELDLIST"
+ffccIndexList, "INDEXLIST"
+ffccActive, "ACTIVE"
+ffccBAPI_ERROR_CAPTION, "FlashFiler System Message"
+ffccBAPI_NOT_SUPPORTED, "A BDE routine is not supported [%s]."
+ffccBAPI_UNKNOWN_BDE_ERROR, "BDE Error %d."
+ffccREG_PRODUCT, "\Software\TurboPower\FlashFiler"
+ffccBAPI_IDAPI_SESSION, "IDAPI"
+ffccIDAPI_DRIVER_DESC, "IDAPI"
+ffccBASE_CLASSES, "Base Classes"
+ffccSHOW_KEY, " - Key = ["
+ffccNOT_SUPPORTED, "Not Supported"
+ffccNOT_FF_COMPONENT, "Function only applicable to FlashFiler data components"
+ffccBAD_PROTOCOL, "Network Protocol Failure"
+
+ffccImport_NoSchemaFile, "Schema file %s not found"
+ffccImport_RECLENGTHRequired, "RECLENGTH required in schema file for this import filetype"
+ffccImport_NoMatchingFields, "No import fields match any target table fields; nothing to import"
+ffccImport_FILETYPEMissing, "FILETYPE missing in schema file"
+ffccImport_FILETYPEInvalid, "Invalid FILETYPE in schema file"
+ffccImport_BadFieldName, "Error in schema file: %s has invalid fieldname %s"
+ffccImport_BadFieldType, "Error in schema file: %s has invalid datatype %s"
+ffccImport_BadFloatSize, "Error in schema file: %s has invalid field size for FLOAT"
+ffccImport_BadIntegerSize, "Error in schema file: %s has invalid field size for INTEGER"
+ffccImport_BadUIntegerSize, "Error in schema file: %s has invalid field size for UINTEGER"
+ffccImport_BadAutoIncSize, "Error in schema file: %s has invalid field size for AUTOINC"
+ffccImport_NoFields, "No fields defined in schema file"
+ffccImport_BadOffset, "Error in schema file: %s has invalid field offset %s"
+ffccImport_BadSize, "Error in schema file: %s has invalid field size %s"
+ffccImport_BadDecPl, "Error in schema file: %s  has invalid field decimal places %s"
+ffccImport_BadDateMask, "Error in schema file: %s has invalid field date/time picture mask %s"
+ffccImport_BadSchemaHeader, "Invalid section header in schema file: %s"
+

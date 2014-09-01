@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbDeflateHelper.WindowSize</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="WindowSize"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbDeflateHelper.WindowSize</H1>
+  <P>
+   <A HREF="11mi6a42.htm">TAbDeflateHelper</A></P><PRE><CODE><B>property</B> WindowSize : longint</CODE></PRE><P>
+   Default: 32768</P>
+  <P>
+   Defines the sliding window size for the LZ77 compression phase.</P>
+  <P>
+   For the standard Deflate algorithm, the WindowSize property should be 
+   32,768 (32 * 1024) or less, with the default of 32,768 being the 
+   standard size for Deflate. Smaller window sizes may speed up the LZ77 
+   phase of the Deflate algorithm, at the cost of a slightly larger 
+   compressed size.</P>
+  <P>
+   To compress using the Deflate64 algorithm, the WindowSize property 
+   can optionally be set to 65,536 (64 * 1024). The Options property 
+   must first be set to indicate that Deflate64 is to be used before the 
+   WindowSize property can be set to 65,536.</P>
+  <P>
+   When writing to this property, Abbrevia will force the window size to 
+   be a multiple of 1024 bytes within the correct range for the Deflate 
+   algorithm being used. No exception or error will be raised if this happens.</P>
+  <P>
+   On decompression, the sliding window size is always set to 32,768 
+   bytes for standard Deflate, or 65,536 for Deflate64. This property is 
+   therefore ignored during decompression.
+ </BODY>
+</HTML>

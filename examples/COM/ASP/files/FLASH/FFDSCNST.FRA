@@ -1,0 +1,67 @@
+;*********************************************************
+;* FlashFiler: FFDSCNST.STR 1.51                         *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: TDataSet descendant errors string table   *
+;*********************************************************
+;* Translation into French                               *
+;* 02/27/1999  JF Nifenecker, Bordeaux (France)          *
+;*             (draft)                                   *
+;*********************************************************
+
+#include <FFDSCNST.INC>
+
+ffdse_NoErrorCode, "FlashFiler : %s [pas de code d'erreur]"
+ffdse_HasErrorCode, "FlashFiler : %s [$%x/%d]"
+ffdse_NilPointer, "<pointeur nil>"
+ffdse_UnnamedInst, "<instance %s non nommée>"
+ffdse_InstNoCode, "FlashFiler : %s: %s [pas de code d'erreur]"
+ffdse_MissingItem, "TffDBList.GetItem ne peut pas trouver l'élément recherché"
+ffdse_MustBeClosed, "Cet objet DB doit être fermé avant d'effectuer cette opération"
+ffdse_MustBeOpen, "Cet objet DB doit être ouvert avant d'effectuer cette opération"
+ffdse_MissingOwner, "L'objet %s [%s] n'a pas de propriétaire dans la hiérarchie ou est introuvable"
+ffdse_NeedsName, "L'objet DB ne peut pas être ouvert sans préciser un nom de DataBase"
+ffdse_NeedsOwnerName, "L'objet DB ne peut pas être ouvert sans préciser un nom de propriétaire"
+ffdse_NoDefaultCE, "Pas de moteur de communications par défaut"
+ffdse_NoSessions, "Le moteur de communications par défaut n'a pas de sessions"
+ffdse_NilSession, "Session est nil : par suite, noms de bases de données non récupérables"
+ffdse_CENameExists, "Le nom de moteur de communications [%s] existe déjà"
+ffdse_CEMustBeClosed, "Le moteur de communications doit être inactif avant d'exécuter cette opération"
+ffdse_CEMustBeOpen, "Le moteur de communications doit être actif avant d'exécuter cette opération"
+ffdse_SessMustBeOpen, "La session doit être ouverte avant d'exécuter cette opération"
+ffdse_SessMustBeClosed, "La session doit être fermée avant d'exécuter cette opération"
+ffdse_CannotStartEng, "Le moteur client FlashFiler ne peut démarrer"
+ffdse_CannotStartCE, "Le moteur de communications de la session ne peut être ouvert"
+ffdse_CannotOpenSess, "Session [%s] non ouvrable (indique généralement qu'aucun serveur n'a été trouvé)"
+ffdse_SessNameExists, "Le nom de session [%s] existe déjà"
+ffdse_DBMustBeClosed, "La base de données doit être fermée avant d'exécuter cette opération"
+ffdse_DBMustBeOpen, "La base de données doit être ouverte avant d'exécuter cette opération"
+ffdse_CantOpenDBSess, "La session ne peut pas être ouverte pour la base [%s]"
+ffdse_DBNoOwningSess, "La base [%s] n'a pas de session propriétaire"
+ffdse_MatchesAlias, "Le nom de base de données %s correspond à celui d'un alias"
+ffdse_DBNameExists, "Le nom de base de données %s existe déjà"
+ffdse_TblMustBeClosed, "La table doit être fermée avant d'exécuter cette opération"
+ffdse_TblMustBeOpen, "La table doit être open avant d'exécuter cette opération"
+ffdse_CantOpenTblDB, "La base de données ne peut pas être ouverte pour la table [%s]"
+ffdse_NotSameTbl, "GotoCurrent : les objets Table ne sont pas la même table physique sur le serveur "
+ffdse_UnnamedTblNoFlds, "La table n'est pas nommée ; l'information sur le champ n'est pas accessible"
+ffdse_CantGetTblHandle, "TffTable.OpenCursor : impossible d'obtenir un handle"
+ffdse_TblNotEditing, "La table n'est pas en mode édition"
+ffdse_TblFldNotInIndex, "Le champ mis à jour n'est pas inclus dans un index"
+ffdse_TblCantGetBuf, "Tampon courant inaccessible"
+ffdse_TblCalcFlds, "DataSet n'est pas en mode édition"
+ffdse_TblReadOnlyEdit, "Le champ ne peut pas être modifié : lecture seule"
+ffdse_TblChkKeyNoEdit, "TffTable.tcCheckKeyEditMode : n'est pas en mode édition ou mise à jour"
+ffdse_TblNoName, "TffTable.tcCreateHandle : nom de table non précisé"
+ffdse_TblBadDBName, "La table ne peut pas ouvrir sa base de données : nom de la base indéfini ou inexistant"
+ffdse_TblBadDBRefCount, "Erreur de comptage d'ouvertures de base de données : non concordance des ouvertures et fermetures"
+ffdse_TblBadReadOnly, "GROS PROBLEME : erreur de lecture seule lors de l'utilisation de ce mode"
+ffdse_TblIdxFldRange, "TffTable.tcGetIndexField : index de champ hors limites"
+ffdse_TblIdxFldMissing, "TffTable.tcGetIndexField : objet champ introuvable"
+ffdse_TblIdxNotExist, "Le nom d'index [%s] n'existe pas"
+ffdse_TblCircDataLink, "Référence de données circulaire avec la source de données [%s]"
+ffdse_BLOBFltNoFldAccess, "Accès au champ interdit pendant que la table est filtrée"
+ffdse_BLOBAccessNoMatch, "Le champ est en lecture seule mais le flux BLOB est ouvert pour des accès en lecture/écriture"
+ffdse_BLOBTblNoEdit, "Le flux BLOB est ouvert pour des accès en lecture/écriture mais la table n'est pas en cours d'édition"
+

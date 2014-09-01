@@ -1,0 +1,40 @@
+;*********************************************************
+;* FlashFiler: FFNBCNST.STR 1.51                         *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: NetBIOS error strings resource            *
+;*********************************************************
+
+#include "FFLLNBCT.inc"
+
+ffnbeSuccess, "Successful operation, no error"
+ffnbeBadBufferSize, "Invalid buffer length"
+ffnbeBadCommand, "Command code not recognised"
+ffnbeTimedOut, "Command timed out"
+ffnbeIncomplete, "Incomplete received message"
+ffnbeBadSession, "Invalid local session number"
+ffnbeNoResource, "No resource available"
+ffnbeSessionClosed, "Session has been closed"
+ffnbeCancelled, "Command was cancelled"
+ffnbeDuplicateName, "Duplicate name in local name table"
+ffnbeNameTableFull, "Local name table is full"
+ffnbeNameDeregistered, "Name has active sessions & is deregistered"
+ffnbeSessionTableFull, "Local session table is full"
+ffnbeSessionOpenReject, "Session open rejected: no listen found"
+ffnbeBadNameNumber, "Invalid name number"
+ffnbeNoAnswer, "Cannot find name called / no answer"
+ffnbeBadName, "Name not found or invalid name"
+ffnbeNameInUse, "Name in use on remote adapter"
+ffnbeNameDeleted, "Name deleted"
+ffnbeSessionCrashed, "Abnormal termination of session"
+ffnbeNameConflict, "Name conflict detected"
+ffnbeInterfaceBusy, "Interface busy"
+ffnbeTooManyCommands, "Too many commands outstanding"
+ffnbeBadAdapter, "Invalid adapter number"
+ffnbeCompletedWhileCancel, "Command completed while cancel pending"
+ffnbeReservedName, "Reserved name specified for add group name"
+ffnbeCannotCancel, "Command not valid to cancel"
+ffnbeCommandPending, "Command pending"
+ffnbeNoMemory, "Out of memory allocating an NCB"
+

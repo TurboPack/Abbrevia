@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>IZipKit.BaseDirectory</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="BaseDirectory:IZipKit">
+ <META NAME="MS-HKWD" CONTENT="BaseDirectory"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   IZipKit.BaseDirectory</H1>
+  <P>
+   <A HREF="12co81tg.htm">IZipKit</A></P><PRE><CODE><B><I>object</I></B>.<B>BaseDirectory</B></CODE><BR><CODE>The <I>object</I> is always an <B>IZipKit.</B></CODE></PRE><P>
+   The default path for add, extract and freshen operations on the archive.</P>
+  <P>
+   Base directory is not necessarily the same as the directory of the archive.</P>
+  <P>
+   When you add a file to an archive, if the FileName is a relative file 
+   specification (e.g., &quot;README.TXT&quot;, or 
+   &quot;EXAMPLES\README.TXT&quot;), BaseDirectory is used as the 
+   starting point to search for the file. When you extract a file from 
+   an archive, it is extracted to the current BaseDirectory or a 
+   subdirectory of the current BaseDirectory. For information on how the 
+   BaseDirectory is used in each case, see the Add, Extract or Freshen methods.</P>
+  <P>
+   <B>Caution:</B> When used within Active Server Pages (ASP), the base 
+   directory needs to be set. If the BaseDirectory is not set, then all 
+   add, extract and freshen operations will be using a base directory of 
+   \WINNT\SYSTEM32. A simple way to set this is by using the following:</P><PRE><CODE>  <B><I>object</I></B>.BaseDirectory = Server.MapPath(&quot;/&quot;)</CODE></PRE><P>
+   This will set the BaseDirectory to the root of the Web site, wherever 
+   it may be located.
+ </BODY>
+</HTML>

@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>IZipKit.OnRequestNthDisk</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="OnRequestNthDisk:IZipKit">
+ <META NAME="MS-HKWD" CONTENT="OnRequestNthDisk"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   IZipKit.OnRequestNthDisk</H1>
+  <P>
+   <A HREF="12co81tg.htm">IZipKit</A></P><PRE><CODE><B><I>object</I></B>_<B>OnRequestNthDisk</B>(<I>DiskNumber</I>, <I>Abort</I>)</CODE><BR><CODE>The <I>object</I> is always an <B>IZipKit.</B></CODE></PRE><P>
+   Defines an event handler that is called when a specific removable 
+   disk in the spanned archive is needed.</P>
+  <P>
+   The OnRequestNthDisk syntax has these parts:</P>
+  <P>
+   <TABLE WIDTH="478" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="21%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">Part</SPAN></CODE></B></TD><TD
+       WIDTH="16%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Type</SPAN></TD><TD
+       WIDTH="63%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Description </SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="21%" VALIGN=TOP><PRE><CODE>DiskNumber</CODE></TD><TD
+       WIDTH="16%" VALIGN=TOP><PRE>Integer</TD><TD
+       WIDTH="63%" VALIGN=TOP><PRE>The disk number of the spanned archive needed.</TD></TR>
+    <TR>
+     <TD WIDTH="21%" VALIGN=TOP><PRE><CODE>Abort</CODE></TD><TD
+       WIDTH="16%" VALIGN=TOP><PRE>Boolean</TD><TD
+       WIDTH="63%" VALIGN=TOP><PRE>Abort reading the spanned archive by setting True.</TD></TR>
+   </TABLE></P>
+  <P>
+   If an OnRequestNthDisk event handler is not supplied, a dialog box 
+   with an OK button is displayed to prompt for the disk specified by 
+   DiskNumber. If you want to add features such as allowing the user to 
+   verify the disk contents, you can do that in an OnRequestNthDisk 
+   event handler.</P>
+  <P>
+   <B>Note: </B>When used within Active Server Pages (ASP) all dialog 
+   boxes are suppressed and the event returns True, aborting the operation.
+ </BODY>
+</HTML>

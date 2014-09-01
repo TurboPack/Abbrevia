@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>IZipKit.Item</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="Item"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   IZipKit.Item</H1>
+  <P>
+   <A HREF="12co81tg.htm">IZipKit</A></P><PRE><CODE>[ <I>ZipItem</I> = ] <B><I>object</I></B>.<B>Item</B>(<I>index</I>)</CODE><BR><CODE>The <I>object</I> is always an <B>IZipKit.</B></CODE></PRE><P>
+   Item contains an interface for each item in the archive.</P>
+  <P>
+   The Item method syntax has these parts:</P>
+  <P>
+   <TABLE WIDTH="479" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="15%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">Part</SPAN></CODE></B></TD><TD
+       WIDTH="20%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Type</SPAN></TD><TD
+       WIDTH="65%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Description</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="15%" VALIGN=TOP><PRE><CODE>Index</CODE></TD><TD
+       WIDTH="20%" VALIGN=TOP><PRE>Integer</TD><TD
+       WIDTH="65%" VALIGN=TOP><PRE>Required. This parameter identifies the index of the item to return.</TD></TR>
+    <TR>
+     <TD WIDTH="15%" VALIGN=TOP><PRE><CODE>ZipItem</CODE></TD><TD
+       WIDTH="20%" VALIGN=TOP><PRE>IZipItem</TD><TD
+       WIDTH="65%" VALIGN=TOP><PRE>The return value will be an interface to a ZipItem object.</TD></TR>
+   </TABLE></P>
+  <P>
+   Each item in an archive is described using a IZipItem interface. See 
+   the IZipItem Object in the printed documentation for more information 
+   on this object. Item is also the default collection for the ZipKit 
+   object. The following example accesses each item's FileName in the archive:</P><PRE><CODE>    <B>For</B> Each Item <B>in</B> ZipKit</CODE><BR><CODE>      MsgBox(Item.FileName)</CODE><BR><CODE>    Next</CODE></PRE><P>
+   See also: <A HREF="12co7khg.htm">Count</A>
+ </BODY>
+</HTML>

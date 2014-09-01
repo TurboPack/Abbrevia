@@ -1,0 +1,36 @@
+/*********************************************************
+ * Async Pro : APWP.STR 2.55                             *
+ * Copyright (c) TurboPower Software Co 1996-98          *
+ * All rights reserved.                                  *
+ *********************************************************
+ * Async Pro : Protocol strings resource                 *
+ *********************************************************/
+
+; String constants are found in OOMISC.INC
+; These strings are linked into the APWP DLL if DLLs are used
+; If strings are added -- apStatusMsg needs to be changed in AWABSPCL.PAS
+
+0,   "Ok"
+1,   "Protokollaufbau"
+2,   "Ein üngültiger Zeitstempel wurde empfangen und ignoriert"
+3,   "Die Datei wurde zurückgewiesen"
+4,   "Die Datei wurde umbenannt"
+5,   "Die Datei wurde übersprungen"
+6,   "Die Datei existiert nicht und wird übersprungen"
+7,   "Die Datei wurde übersprungen "
+8,   "Time-Out-Fehler im Protokoll"
+9,   "Falsche Prüfsumme"
+10,  "Der Block ist zu groß"
+11,  "Ein doppelter Block wurde empfangen und ignoriert "
+12,  "Fehler im Protokoll"
+13,  "Anforderung zum Abbruch"
+14,  "Am Ende der Datei"
+15,  "B+ Host weist Anforderung zur Wiederaufnahme der Aktivitäten zurück"
+16,  "Falscher Block"
+17,  "Abbruch wegen Verbindungsverlust"
+18,  "CrcE-Packet (Zmodem) wurde empfangen"
+19,  "CrcG-Packet (Zmodem) wurde empfangen"
+20,  "CrcW-Packet (Zmodem) wurde empfangen"
+21,  "CrcQ-Packet (Zmodem) wurde empfangen"
+22,  "B+ versucht einen Download wieder aufzunehmen"
+23,  "B+ Host ist wieder verfügbar "

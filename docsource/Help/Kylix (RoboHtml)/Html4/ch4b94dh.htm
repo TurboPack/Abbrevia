@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbBaseBrowser.OnProcessItemFailure</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="OnProcessItemFailure"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbBaseBrowser.OnProcessItemFailure</H1>
+  <P>
+   <A HREF="ch4b8coi.htm">TAbBaseBrowser</A></P><PRE><CODE><B>property</B> OnProcessItemFailure : TAbArchiveItemFailureEvent</CODE><BR><CODE>TAbArchiveItemFailureEvent = <B>procedure</B>(Sender : TObject;</CODE><BR><CODE>  Item : TAbArchiveItem; <B>const</B> ProcessType : TAbProcessType; </CODE><BR><CODE>  ErrorClass : TAbErrorClass; ErrorCode : Integer ) <B>of object</B>;</CODE><BR><CODE>TAbProcessType = (ptAdd, ptDelete, ptExtract, ptFreshen, ptMove);</CODE><BR><CODE>TAbErrorClass = (ecAbbrevia, ecInOutError, ecFilerError,</CODE><BR><CODE>  ecFileCreateError, ecFileOpenError, ecOther);</CODE></PRE><P>
+   Defines an event handler that is called when an exception is raised 
+   during an add, extract, freshen, or move process.</P>
+  <P>
+   Abbrevia traps all exceptions that occur during add, extract, 
+   freshen, and move processes. The exception is translated to an 
+   ErrorClass and ErrorCode. The OnProcessItemFailure is called and a 
+   customized error message can be displayed. Exceptions that are 
+   defined by Abbrevia are translated to an ErrorClass of ecAbbrevia. 
+   Abbrevia's exceptions (defined in the AbExcept unit) all have an 
+   ErrorCode property that uniquely identifies them. The ErrorCode 
+   constants are defined in the AbConst unit.</P>
+  <P>
+   An error string corresponding to the Abbrevia exception can be 
+   retrieved using AbStrRes function in the AbConst unit. The following 
+   example shows how:</P><PRE><CODE><B>if</B> ErrorClass = ecAbbrevia <B>then</B></CODE><BR><CODE>  ShowMessage(AbStrRes[ErrorCode]);</CODE></PRE><P>
+   If you do not provide an event handler for OnProcessItemFailure, the 
+   user is not informed of the error. Abbrevia is designed to continue 
+   processing commands when an error is received without corrupting 
+   files or archives.</P>
+  <P>
+   The following is a list of the possible values for ErrorCode:</P>
+  <P>
+   <TABLE WIDTH="480" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="43%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">ErrorCode</SPAN></CODE></B></TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Action</SPAN></TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Description</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="43%" VALIGN=TOP><PRE><CODE>AbDuplicateName</CODE></TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>Add, move</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>The file name already exists in the archive. You might want to display a warning to the user, but this could be inefficient if the user is attempting to add the same large set of files to a directory twice. The file is not added or moved.</TD></TR>
+    <TR>
+     <TD WIDTH="43%" VALIGN=TOP><PRE>AbInvalidPassword</TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>Extract</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>The specified password is not valid for extracting the encrypted file. The file is not extracted.</TD></TR>
+    <TR>
+     <TD WIDTH="43%" VALIGN=TOP><PRE>AbNoSuchDirectory</TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>Extract</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>The destination directory does not exist. The file is not extracted.</TD></TR>
+    <TR>
+     <TD WIDTH="43%" VALIGN=TOP><PRE>AbUnknownCompressionMethod</TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>Extract</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>The file was compressed with a compression method that is not supported by Abbrevia. The file is not extracted.</TD></TR>
+    <TR>
+     <TD WIDTH="43%" VALIGN=TOP><PRE>AbUserAbort</TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>Add, extract, freshen</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>The user aborted the process. The file is not processed.</TD></TR>
+    <TR>
+     <TD WIDTH="43%" VALIGN=TOP><PRE>AbZipBadCRC</TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>Extract</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>The extracted file&#146;s CRC doesn&#146;t match the stored CRC. The extracted file is deleted.</TD></TR>
+    <TR>
+     <TD WIDTH="43%" VALIGN=TOP><PRE><CODE>AbZipVersionNeeded</CODE></TD><TD
+       WIDTH="19%" VALIGN=TOP><PRE>Extract</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>The &quot;Version needed to extract&quot; for this file is not supported by this version of Abbrevia. This might occur in the future when a new version of PKZIP is available. The file is not extracted.</TD></TR>
+   </TABLE>
+ </BODY>
+</HTML>

@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>IZipKit.OnConfirmSave</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="OnConfirmSave:IZipKit">
+ <META NAME="MS-HKWD" CONTENT="OnConfirmSave"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   IZipKit.OnConfirmSave</H1>
+  <P>
+   <A HREF="12co81tg.htm">IZipKit</A></P><PRE><CODE><B><I>object</I></B>_<B>OnConfirmSave</B>(<I>Confirm</I>)</CODE><BR><CODE>The <I>object</I> is always an <B>IZipKit.</B></CODE></PRE><P>
+   Defines an event handler that is called before the archive is saved.</P>
+  <P>
+   The OnConfirmSave syntax has these parts:</P>
+  <P>
+   <TABLE WIDTH="477" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="15%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">Part</SPAN></CODE></B></TD><TD
+       WIDTH="15%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Type</SPAN></TD><TD
+       WIDTH="70%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Description</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="15%" VALIGN=TOP><PRE><CODE>Confirm</CODE></TD><TD
+       WIDTH="15%" VALIGN=TOP><PRE>Boolean</TD><TD
+       WIDTH="70%" VALIGN=TOP><PRE>Setting Confirm to False aborts the saving of the archive and pending changes are lost.</TD></TR>
+   </TABLE></P>
+  <P>
+   This event handler is called immediately before an archive is 
+   updated. If a handler is not provided for this event, all processing 
+   continues as if Confirm were set to True.</P>
+  <P>
+   The OnConfirmSave event can be used to allow the user to close an 
+   archive without saving changes. This is most useful when the AutoSave 
+   property is False. When the object&#146;s FileName property is 
+   changed, the Save method is automatically called, which fires the 
+   OnConfirmSave event.
+ </BODY>
+</HTML>

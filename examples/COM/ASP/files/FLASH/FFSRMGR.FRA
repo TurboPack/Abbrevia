@@ -1,0 +1,19 @@
+;*********************************************************
+;* FlashFiler: FFSRMGR.STR 1.50                          *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: FFSRMGR error string table resource       *
+;*********************************************************
+;* Translation into French                               *
+;* 01/15/1999  JF Nifenecker, Bordeaux (France)          *
+;*             (draft)                                   *
+;*********************************************************
+
+//Compile with SRMC, then compile FFSRMGR.RC with BRCC[32]
+
+ 1, "Chaîne introuvable : %d"
+ 2, "Impossible de verrouiller la ressource"
+ 3, "Ressource chaîne introuvable : %s"
+ 4, "Impossible d'ouvrir la ressource chaîne : %s"
+ 5, "Ressource TPString incorrecte"

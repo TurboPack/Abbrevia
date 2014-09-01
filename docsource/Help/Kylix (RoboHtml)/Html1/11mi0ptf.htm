@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>Simple Stream Compression Routines</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="Simple Stream Compression Routines"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   Simple Stream Compression Routines</H1>
+  <P>
+   <A HREF="11mi8b5f.htm">Procedures/Functions</A></P>
+  <P>
+   Abbrevia includes two routines (DeflateStream defined in the AbZipPrc 
+   unit, and InflateStream defined in the AbUnzPrc unit) that allow 
+   low-level compression and decompression of data using streams. 
+   Because no directory information is stored, PKZIP and the other 
+   Abbrevia components cannot use the data created by these routines. 
+   Therefore, these routines should always be used as a pair.</P>
+  <P>
+   The stream compression routines are ideal for compressing 
+   application-specific data. The stream data can be compressed 
+   directly, without involving any files.</P>
+  <P>
+   <B>Note:</B> The DeflateStream and InflateStream are kept for 
+   backward compatibility with previous versions of Abbrevia; internally 
+   they just call the Deflate and Inflate routines described in the 
+   previous section. New code should use those routines instead.</P>
+  <P>
+   The Strmpad example project in the Abbrevia examples directory 
+   illustrates how these routines can be used.
+ </BODY>
+</HTML>

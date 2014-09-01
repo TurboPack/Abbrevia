@@ -1,0 +1,15 @@
+;*********************************************************
+;* TurboPower String Resource Support: SRMGR.TXT 1.03    *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* Error strings for the SRMGR unit                      *
+;*********************************************************
+
+//Compile with SRMC, then compile SRMGR.RC with BRCC[32]
+
+ 1, "String not found: %d"
+ 2, "Cannot lock resource"
+ 3, "String resource not found: %s"
+ 4, "Unable to open string resource: %s"
+ 5, "Invalid TPString resource"

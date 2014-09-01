@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <TITLE>TAbDeflateHelper.Options</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT>
+ <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+ <META NAME="MS-HKWD" CONTENT="Options:TAbDeflateHelper">
+ <META NAME="MS-HKWD" CONTENT="Options"></HEAD>
+  <BODY BGCOLOR="WHITE" TEXT="BLACK" ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   TAbDeflateHelper.Options</H1>
+  <P>
+   <A HREF="11mi6a42.htm">TAbDeflateHelper</A></P><PRE><CODE><B>property</B> Options : longint</CODE></PRE><P>
+   Default: $0000000F</P>
+  <P>
+   Defines the options used to compress data.</P>
+  <P>
+   The Options property is a bit-mapped long integer defining the 
+   various options for compression using Deflate as shown in the 
+   following table:</P>
+  <P>
+   <TABLE WIDTH="478" CELLPADDING="1" CELLSPACING="2" BORDER="1" COLS="3" FRAME="box" RULES="all">
+    <TR>
+     <TD WIDTH="9%" VALIGN=TOP><PRE><B><CODE><SPAN
+        STYLE="font-weight : bold;">Bit</SPAN></CODE></B></TD><TD
+       WIDTH="53%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Description</SPAN></TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE><SPAN
+        STYLE="font-weight : bold;">Default</SPAN></TD></TR>
+    <TR>
+     <TD WIDTH="9%" VALIGN=TOP><PRE><CODE>0</CODE></TD><TD
+       WIDTH="53%" VALIGN=TOP><PRE>Enable use of stored method</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>On</TD></TR>
+    <TR>
+     <TD WIDTH="9%" VALIGN=TOP><PRE>1</TD><TD
+       WIDTH="53%" VALIGN=TOP><PRE>Enable use of static Huffman trees</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>On </TD></TR>
+    <TR>
+     <TD WIDTH="9%" VALIGN=TOP><PRE>2</TD><TD
+       WIDTH="53%" VALIGN=TOP><PRE>Enable use of dynamic Huffman trees</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>On</TD></TR>
+    <TR>
+     <TD WIDTH="9%" VALIGN=TOP><PRE>3</TD><TD
+       WIDTH="53%" VALIGN=TOP><PRE>Use lazy matching</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>On</TD></TR>
+    <TR>
+     <TD WIDTH="9%" VALIGN=TOP><PRE>4</TD><TD
+       WIDTH="53%" VALIGN=TOP><PRE>Use Deflate64 algorithm</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>Off</TD></TR>
+    <TR>
+     <TD WIDTH="9%" VALIGN=TOP><PRE><CODE>5</CODE></TD><TD
+       WIDTH="53%" VALIGN=TOP><PRE>Use Adler32 checksum</TD><TD
+       WIDTH="38%" VALIGN=TOP><PRE>Off</TD></TR>
+   </TABLE></P>
+  <P>
+   Bits 0, 1, 2, and 3 should always be set, unless you are 
+   experimenting with how Deflate compresses without these parameters. 
+   These bits are ignored on decompression.</P>
+  <P>
+   Bit 4 should be clear to create Deflated streams that will work with 
+   versions of PKZIP prior to version 4, ZLib, or GZip. On 
+   decompression, this bit must be set if the input stream was 
+   compressed with Deflate64 (Abbrevia cannot tell from the stream 
+   itself whether Deflate64 was used). Setting bit 4 in this situation 
+   enables Abbrevia to size the sliding window properly.</P>
+  <P>
+   Bit 5 defines whether to calculate the CRC32 checksum (bit is clear) 
+   or the Adler32 checksum (bit is set) for the decompressed stream. 
+   zlib streams use Adler32 checksums, all other Zip variants use CRC32.</P>
+  <P>
+   See also: <A HREF="11mi578o.htm">AmpleLength</A>, <A HREF="11mi6bjc.htm">ChainLength</A>,
+    <A HREF="11mi4ka6.htm">PKZipOption</A>
+ </BODY>
+</HTML>

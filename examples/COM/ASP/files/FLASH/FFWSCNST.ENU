@@ -1,0 +1,64 @@
+;*********************************************************
+;* FlashFiler: FFWSCNST.STR 1.51                         *
+;* Copyright (c) TurboPower Software Co 1996-1998        *
+;* All rights reserved.                                  *
+;*********************************************************
+;* FlashFiler: Winsock error strings resource            *
+;*********************************************************
+
+#include "FFLLWSCT.inc"
+
+WSAEINTR, "Interrupted function call"
+WSAEBADF, "Bad file number"
+WSAEACCES, "Permission denied"
+WSAEFAULT, "Unknown error"
+WSAEINVAL, "Invalid argument"
+WSAEMFILE, "Too many open files"
+WSAEWOULDBLOCK, "Warning: the socket would block on this call"
+WSAEINPROGRESS, "A blocking call is in progress"
+WSAEALREADY, "WSAEALREADY: watch out, Al is ready"
+WSAENOTSOCK, "Socket descriptor is (1) not a socket, or (2) is of wrong type"
+WSAEDESTADDRREQ, "The destination address is required for this operation"
+WSAEMSGSIZE, "The datagram was too large to fit into the buffer and was truncated"
+WSAEPROTOTYPE, "WSAEPROTOTYPE"
+WSAENOPROTOOPT, "The option is unknown or not supported"
+WSAEPROTONOSUPPORT, "Either (1) no buffer space available so socket cannot be created or (2) protocol not supported"
+WSAESOCKTNOSUPPORT, "Specified socket type not supported in this address family"
+WSAEOPNOTSUPP, "Operation is not supported by this socket"
+WSAEPFNOSUPPORT, "Specified protocol family is not supported"
+WSAEAFNOSUPPORT, "Specified address family is not supported by this protocol"
+WSAEADDRINUSE, "The address is already in use for this operation"
+WSAEADDRNOTAVAIL, "The address is not available from this machine"
+WSAENETDOWN, "The network subsystem has failed"
+WSAENETUNREACH, "The network is unreachable from this machine at this time"
+WSAENETRESET, "The network has been reset"
+WSAECONNABORTED, "The virtual circuit has been aborted due to timeout, etc"
+WSAECONNRESET, "The virtual circuit has been reset by the partner"
+WSAENOBUFS, "The descriptor is not a socket, or no buffer space is available"
+WSAEISCONN, "The socket is already connected"
+WSAENOTCONN, "The socket is not connected"
+WSAESHUTDOWN, "The socket has been shutdown"
+WSAETOOMANYREFS, "WSAETOOMANYREFS"
+WSAETIMEDOUT, "The operation timed out"
+WSAECONNREFUSED, "The attempt to connect was forcibly refused"
+WSAELOOP, "WSAELOOP: see WSAELOOP"
+WSAENAMETOOLONG, "The name is too long"
+WSAEHOSTDOWN, "The host machine is down"
+WSAEHOSTUNREACH, "The host machine is unreachable"
+WSAENOTEMPTY, "WSAENOTEMPTY"
+WSAEPROCLIM, "WSAEPROCLIM"
+WSAEUSERS, "WSAEUSERS"
+WSAEDQUOT, "WSAEDQUOT"
+WSAESTALE, "WSAESTALE"
+WSAEREMOTE, "WSAEREMOTE"
+WSAEDISCON, "WSAEDISCON"
+WSASYSNOTREADY, "Network subsystem unusable"
+WSAVERNOTSUPPORTED, "Version requested by WSAStartUp not supported by loaded Winsock DLL"
+WSANOTINITIALISED, "WSAStartUp not yet called"
+WSAHOST_NOT_FOUND, "Host not found"
+WSATRY_AGAIN, "Host not found, or SERVERFAIL, can try again"
+WSANO_RECOVERY, "Non recoverable errors, FORMERR, REFUSED, NOTIMP"
+WSANO_DATA, "Valid name, but no data record of requested type"
+
+
+
