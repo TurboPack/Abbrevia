@@ -510,10 +510,6 @@ begin
   Path := IncludeTrailingPathDelimiter(ExtractFileDrive(Path));
   Result := GetDriveType(PChar(Path)) = DRIVE_REMOVABLE;
 {$ENDIF}
-{$IFDEF LINUX}
-  {LINUX -- Following may not cover all the bases}
-  Result := AnsiStartsText('/mnt/floppy', ExtractFilePath(ExpandFileName(ArchiveName)));
-{$ENDIF}
 {$IFDEF MACOS}
   Result := False;
 {$ENDIF}
@@ -1189,11 +1185,9 @@ begin
   {$IFDEF MSWINDOWS}
   FileSetAttr(aFileName, aAttr);
   {$ENDIF}
-  {$IF DEFINED(PosixAPI)}
+  {$IFDEF POSIX}
   chmod(PAnsiChar(AbSysString(aFileName)), aAttr);
-  {$ELSEIF DEFINED(FPCUnixAPI)}
-  fpchmod(aFileName, aAttr);
-  {$IFEND}
+  {$ENDIF}
   {$WARN SYMBOL_PLATFORM ON}
 end;
 { -------------------------------------------------------------------------- }

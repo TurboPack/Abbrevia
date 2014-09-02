@@ -39,10 +39,8 @@ interface
 uses
   Classes,
   Types,
-{$IFDEF MSWINDOWS}
   Windows,
   Messages,
-{$ENDIF}
   Controls,
   Graphics,
   Grids,
@@ -225,9 +223,7 @@ type
     function GetCount : Longint;
     function GetActiveRow : Longint;
     function GetHeaderRowHeight : Integer;
-{$IFDEF MSWINDOWS}
     function GetIcon(const ItemName : string) : HIcon;
-{$ENDIF}
     function GetSelCount : Longint;
     function GetSelected(RowNum : Longint) : Boolean;
     function GetVersion : string;
@@ -359,9 +355,7 @@ type
 implementation
 
 uses
-{$IFDEF MSWINDOWS}
   ShellApi,
-{$ENDIF}
   UITypes,
   SysUtils,
   AbUtils,
@@ -802,7 +796,6 @@ begin
       Result := IntToStr(UncompressedSize);
     vaFileAttributes :
       begin
-{$IFDEF MSWINDOWS}
 {$WARN SYMBOL_PLATFORM OFF}
         if (faReadOnly and ExternalFileAttributes) = faReadOnly then
           Result := Result + AbReadOnlyS;
@@ -813,7 +806,6 @@ begin
         if (faArchive and ExternalFileAttributes) = faArchive then
           Result := Result + AbArchivedS;
 {$WARN SYMBOL_PLATFORM OFF}
-{$ENDIF MSWINDOWS}
       end;
     vaEncryption :
       if IsEncrypted then
@@ -845,9 +837,6 @@ begin
     vaVersionNeeded :
       Result := IntToStr(Round(Lo(VersionNeededToExtract)/ 10.0));
   end;
-{$IFDEF LINUX}
-  Result := ' ' + Result;
-{$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbBaseViewer.BeginUpdate;
@@ -990,11 +979,6 @@ var
   H : Integer;
   Icon : HIcon;
 begin
-{$IFDEF LINUX}
-  if not DefaultDrawing then
-    DefaultDrawing := true;
-{$ENDIF}
-
   Canvas.Font := Font;
   if (ARow = AbHeaderRow) then begin
     DrawHeaderButton(ACol, FHeadings[ColMap(ACol)])
@@ -1167,25 +1151,6 @@ begin
     OffsetRect(Rect, 5, 0)
   else if (Result and 3) = DT_RIGHT then
     OffsetRect(Rect, -5, 0);
-{$ENDIF}
-{$IFDEF LINUX}
-  Result := Integer(AlignmentFlags_AlignVCenter) or
-            Integer(AlignmentFlags_SingleLine);
-  case Attr of
-    vaItemname       : Result := Result or Integer(AlignmentFlags_AlignLeft);
-    vaPacked         : Result := Result or Integer(AlignmentFlags_AlignRight);
-    vaFileSize       : Result := Result or Integer(AlignmentFlags_AlignRight);
-    vaMethod         : Result := Result or Integer(AlignmentFlags_AlignCenter);
-    vaRatio          : Result := Result or Integer(AlignmentFlags_AlignCenter);
-    vaCRC            : Result := Result or Integer(AlignmentFlags_AlignCenter);
-    vaFileAttributes : Result := Result or Integer(AlignmentFlags_AlignCenter);
-    vaFileType       : Result := Result or Integer(AlignmentFlags_AlignCenter);
-    vaEncryption     : Result := Result or Integer(AlignmentFlags_AlignCenter);
-    vaTimeStamp      : Result := Result or Integer(AlignmentFlags_AlignLeft);
-    vaVersionMade    : Result := Result or Integer(AlignmentFlags_AlignCenter);
-    vaVersionNeeded  : Result := Result or Integer(AlignmentFlags_AlignCenter);
-    vaPath           : Result := Result or Integer(AlignmentFlags_AlignLeft);
-  end;
 {$ENDIF}
 end;
 

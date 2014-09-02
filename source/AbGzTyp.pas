@@ -636,9 +636,6 @@ begin
   FExtraField := TAbGzipExtraField.Create(@FGzHeader);
 
   { source OS ID }
-{$IFDEF LINUX } {assume EXT2 system }
-  FGzHeader.OS := AB_GZ_OS_ID_Unix;
-{$ENDIF LINUX }
 {$IFDEF MSWINDOWS } {assume FAT system }
   FGzHeader.OS := AB_GZ_OS_ID_FAT;
 {$ENDIF MSWINDOWS }

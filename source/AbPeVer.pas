@@ -110,134 +110,6 @@ uses
   AbConst,
   AbResString;
 
-{$IFDEF LINUX}
-const
-  { String Constants }
-  sCannotStartBrowser = 'Unable to start web browser. Make sure you have it properly set-up on your system.';
-
-const
-  MaxBrowsers = 1;
-
-type
-  ECannotStartBrowser = class(Exception);
-
-type
-  TBrowserStartCmd = record
-    Command    : string [64];
-    Parameters : string [255];
-    XTerm      : Boolean; { Start browser in an XTerm }
-  end;
-
-const
-  { The list of browsers we can launch. }
-
-  BrowserList : array [1..MaxBrowsers] of TBrowserStartCmd =
-    ((Command : 'netscape'; Parameters : '<site>'; Xterm : False));
-
-
-procedure GetCurrentPath (PathList : TStringList);
-var
-  WorkPath : PChar;
-  StartPos : PChar;
-  CurrentPath : PChar;
-  State : (Scanning, GotColon);
-begin
-  WorkPath := getenv ('PATH');
-
-  PathList.Clear;
-
-  StartPos := WorkPath;
-  State := Scanning;
-  while (WorkPath^ <> #0) do begin
-    case State of
-      Scanning :
-        begin
-          if (WorkPath^ = ':') then begin
-            State := GotColon;
-            if (WorkPath <> StartPos) then begin
-              CurrentPath := StrAlloc(WorkPath - StartPos + 1);
-              StrLCopy(CurrentPath, StartPos, WorkPath-StartPos);
-              PathList.Add (CurrentPath);
-              StrDispose(CurrentPath);
-            end;
-          end;
-        end;
-      GotColon :
-        begin
-          if (WorkPath^ <> ':') then begin
-            StartPos := WorkPath;
-            State := Scanning;
-          end;
-        end;
-    end;{case}
-    inc(WorkPath);
-  end;
-  if (State = Scanning) and (WorkPath <> StartPos) then begin
-    CurrentPath := StrAlloc(WorkPath - StartPos + 1);
-    StrLCopy(CurrentPath, StartPos, WorkPath-StartPos);
-    PathList.Add (CurrentPath);
-    StrDispose(CurrentPath);
-  end;
-end;
-
-
-function IsBrowserPresent (PathList : TStringList;
-                                        Browser : string) : Boolean;
-var
-  i : integer;
-begin
-  Result := False;
-  for i := 0 to PathList.Count - 1 do begin
-    if FileExists (PathList[i] + '/' + Browser) then begin
-      Result := True;
-      exit;
-    end;
-  end;
-end;
-
-procedure CallBrowser (Browser    : string;
-                                      Parameters : string;
-                                      Website    : string;
-                                      XTerm      : Boolean);
-begin
-  if Pos ('<site>', Parameters) > 0 then begin
-    Parameters := Copy (Parameters, 1, Pos ('<site>', Parameters) - 1) +
-                        Website +
-                        Copy (Parameters, Pos ('<site>', Parameters) + 6, 255);
-  end else
-    Parameters := Parameters + ' ' + Website;
-  if XTerm then begin
-    Parameters := '-e ' + Browser + ' ' + Parameters;
-    Browser := 'xterm';
-  end;
-  Libc.system (PChar (Browser + ' ' + Parameters + ' &'));
-end;
-
-procedure StartBrowser (Website : string);
-
-var
-  PathList : TStringList;
-  i : integer;
-
-begin
-  PathList := TStringList.Create;
-  try
-    GetCurrentPath (PathList);
-    for i := 1 to MaxBrowsers do begin
-      if IsBrowserPresent (PathList, BrowserList[i].Command) then begin
-        CallBrowser (BrowserList[i].Command, BrowserList[i].Parameters,
-                     Website, BrowserList[i].XTerm);
-        exit;
-      end;
-    end;
-    raise ECannotStartBrowser.Create(sCannotStartBrowser);
-  finally
-    PathList.Free;
-  end;
-end;
-{$ENDIF}
-
-
 procedure TAbAboutBox.FormCreate(Sender: TObject);
 begin
   Top := (Screen.Height - Height ) div 3;
@@ -272,14 +144,6 @@ begin
     SW_SHOWNORMAL) <= 32 then
     ShowMessage('Unable to start web browser');
 {$ENDIF MSWINDOWS }
-{$IFDEF LINUX }
-  try
-    StartBrowser('http://www.sourceforge.net/projects/tpabbrevia');
-  except
-    on ECannotStartBrowser do
-      ShowMessage('Unable to start web browser');
-  end;
-{$ENDIF LINUX }
   WebLbl.Font.Color := clNavy;
 end;
 
@@ -296,14 +160,6 @@ begin
     SW_SHOWNORMAL) <= 32 then
     ShowMessage('Unable to start web browser');
 {$ENDIF MSWINDOWS }
-{$IFDEF LINUX }
-  try
-    StartBrowser('http://www.sourceforge.net/forum/forum.php?forum_id=241865');
-  except
-    on ECannotStartBrowser do
-      ShowMessage('Unable to start web browser');
-  end;
-{$ENDIF LINUX }
   NewsLbl.Font.Color := clNavy;
 end;
 

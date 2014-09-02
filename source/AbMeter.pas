@@ -38,10 +38,7 @@ interface
 
 uses
   Classes,
-  {$IFDEF MSWINDOWS}
-  Windows,
-  {$ENDIF}
-  Controls, Graphics, Forms, ExtCtrls, AbBrowse;
+  Windows, Controls, Graphics, Forms, ExtCtrls, AbBrowse;
 
 type
   TAbMeterOrientation = (moHorizontal, moVertical);
