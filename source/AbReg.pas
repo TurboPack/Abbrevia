@@ -32,7 +32,6 @@
 unit AbReg;
 
 {$I AbDefine.inc}
-{$UNDEF UsingClx }
 
 {$R AbReg.res}
 

@@ -30,22 +30,14 @@
 {*   Use AbQCmpnd.pas for CLX                            *}
 {*********************************************************}
 
-{$IFNDEF UsingCLX}
 unit AbCompnd;
-{$ENDIF}
 
 {$I AbDefine.inc}
 
 interface
 
 uses
-  Classes, SysUtils,
-{$IFDEF UsingClx}
-  QComCtrls,
-{$ELSE}
-  ComCtrls,
-{$ENDIF}
-  AbBase, AbResString, AbDfDec, AbDfEnc, AbDfBase;
+  Classes, SysUtils, ComCtrls, AbBase, AbResString, AbDfDec, AbDfEnc, AbDfBase;
 
 const
   AbCompoundFileVersion = '3.1';

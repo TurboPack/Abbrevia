@@ -30,9 +30,7 @@
 {*   Use AbQZpOut.pas for CLX                            *}
 {*********************************************************}
 
-{$IFNDEF UsingCLX}
 unit AbZipOut;
-{$ENDIF}
 
 {$I AbDefine.inc}
 
@@ -45,19 +43,11 @@ uses
   Messages,
 {$ENDIF}
   Types,
-{$IFDEF UsingCLX}
-  QGraphics,
-  QComCtrls,
-  QImglist,
-  QControls,
-  QForms,
-{$ELSE}
   Graphics,
   Controls,
   Forms,
   ComCtrls,
   Imglist,
-{$ENDIF}
   AbArcTyp,
   AbBrowse,
   AbUtils,
@@ -117,10 +107,8 @@ type
 
       FOnWindowsDrop   : TWindowsDropEvent;
 
-{$IFNDEF UsingCLX}
       procedure WMDropFiles(var Msg : TWMDropFiles);
         message WM_DROPFILES;
-{$ENDIF}
 
       procedure IndexBitmaps;
 
@@ -136,15 +124,9 @@ type
     protected
       procedure DoOnWindowsDrop(FileName : string); virtual;
 
-{$IFDEF UsingCLX}
-      function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
-        const MousePos: TPoint): Boolean;
-        override;
-{$ELSE}
       function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
         MousePos: TPoint): Boolean;
         override;
-{$ENDIF}
       procedure Loaded; override;
       procedure SetOnWindowsDrop(Value : TWindowsDropEvent);
     public
@@ -181,11 +163,7 @@ type
   end;
 
 type
-{$IFDEF UsingClx}
-  TAbCustomZipOutline = class(TWidgetControl)
-{$ELSE}
   TAbCustomZipOutline = class(TWinControl)
-{$ENDIF}
   protected {private}
     FArchive                : TAbZipArchive;
     FItemProgressMeter      : IAbProgressMeter;
@@ -293,9 +271,7 @@ type
     function GetBorderStyle : TBorderStyle;
     function GetCount : Integer;
     function GetCursor : TCursor;
-{$IFNDEF UsingCLX}
     function GetDragCursor : TCursor;
-{$ENDIF}
     function GetDragMode : TDragMode;
     function GetItem(Index : Integer) : TAbZipItem;
     function GetPictureDirectory : TBitmap;
@@ -327,12 +303,8 @@ type
     procedure SetDOSMode(Value : Boolean);
 {$ENDIF}
     procedure SetCursor(Value : TCursor);
-{$IFNDEF UsingCLX}
     procedure SetDragCursor(Value : TCursor);
-{$ENDIF}
-{$IFNDEF UsingCLX}
     procedure SetDragMode(Value : TDragMode); override;
-{$ENDIF}
     procedure SetExtractOptions(Value : TAbExtractOptions);
     procedure SetFileName(const aFileName : string); virtual;
     procedure SetHierarchy(Value : Boolean);
@@ -405,14 +377,12 @@ type
              read FDOSMode
              write SetDOSMode;
 {$ENDIF}
-{$IFNDEF UsingCLX}
     property DragCursor : TCursor
              read  GetDragCursor
              write SetDragCursor;
     property DragMode : TDragMode
              read  GetDragMode
              write SetDragMode;
-{$ENDIF}
     property ExtractOptions : TAbExtractOptions
              read  FExtractOptions
              write SetExtractOptions
@@ -667,17 +637,13 @@ type
              default AbDefColor;
     property CompressionMethodToUse;
     property Count;
-{$IFNDEF UsingCLX}
     property Ctl3D;
-{$ENDIF}
     property Cursor;
     property DeflationOption;
 {$IFDEF MSWINDOWS}
     property DOSMode;
 {$ENDIF}
-{$IFNDEF UsingCLX}
     property DragCursor;
-{$ENDIF}
     property DragMode;
     property Enabled;
     property ExtractOptions;
@@ -708,11 +674,9 @@ type
     property OnMouseDown;
     property OnMouseMove;
     property OnMouseUp;
-{$IFNDEF UsingCLX}
     property OnMouseWheel;
     property OnMouseWheelDown;
     property OnMouseWheelUp;
-{$ENDIF}
     property OnNeedPassword;
     property OnRequestImage;
     property OnRequestLastDisk;
@@ -725,9 +689,7 @@ type
     property OnWindowsDrop;
     property ParentColor
              default AbDefParentColor;
-{$IFNDEF UsingCLX}
     property ParentCtl3D;
-{$ENDIF}
     property ParentFont;
     property ParentShowHint;
     property Password;
@@ -820,10 +782,8 @@ end;
 procedure TAbZipDisplayOutline.Loaded;
 begin
   inherited Loaded;
-{$IFNDEF UsingCLX}
   if Assigned(FOnWindowsDrop) then
     DragAcceptFiles(Handle, True);
-{$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 destructor TAbZipDisplayOutline.Destroy;
@@ -903,7 +863,6 @@ begin
   if FBitMapWidth <> Value then
     FBitMapWidth := Value;
 end;
-{$IFNDEF UsingCLX}
 { -------------------------------------------------------------------------- }
 procedure TAbZipDisplayOutline.WMDropFiles(var Msg : TWMDropFiles);
 var
@@ -927,7 +886,6 @@ begin
   else
     BringWindowToTop(Handle);
 end;
-{$ENDIF}
 { -------------------------------------------------------------------------- }
 procedure TAbZipDisplayOutline.DoOnWindowsDrop(FileName : string);
 begin
@@ -939,13 +897,8 @@ begin
     FOnWindowsDrop(Self, FileName);
 end;
 { -------------------------------------------------------------------------- }
-{$IFDEF UsingCLX}
-function TAbZipDisplayOutline.DoMouseWheel(Shift: TShiftState;
-  WheelDelta: Integer; const MousePos: TPoint): Boolean;
-{$ELSE}
 function TAbZipDisplayOutline.DoMouseWheel(Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint): Boolean;
-{$ENDIF}
  const
    WHEEL_DELTA = 120;
  var
@@ -988,12 +941,9 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipDisplayOutline.SetOnWindowsDrop(Value : TWindowsDropEvent);
-{$IFNDEF UsingCLX}
 var
   WasAccepting : Boolean;
-{$ENDIF}
 begin
-{$IFNDEF UsingCLX}
   WasAccepting := Assigned(FOnWindowsDrop);
   FOnWindowsDrop := Value;
   if csLoading in ComponentState then
@@ -1004,7 +954,6 @@ begin
     DragAcceptFiles(Handle, True)
   else if WasAccepting then
     DragAcceptFiles(Handle, False);
-{$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 { ========================================================================== }
@@ -1022,9 +971,7 @@ begin
   FOutline.Visible := True;
   FOutline.Align := alClient;
   FOutline.ParentColor := True;
-{$IFNDEF UsingCLX}
   FOutline.ParentCtl3D := True;
-{$ENDIF}
   FOutline.ParentFont := True;
   FOutline.ParentShowHint := True;
 
@@ -1588,12 +1535,10 @@ begin
   Result := FOutline.Cursor;
 end;
 { -------------------------------------------------------------------------- }
-{$IFNDEF UsingCLX}
 function TAbCustomZipOutline.GetDragCursor : TCursor;
 begin
   Result := FOutline.DragCursor;
 end;
-{$ENDIF}
 { -------------------------------------------------------------------------- }
 function TAbCustomZipOutline.GetDragMode : TDragMode;
 begin
@@ -1900,14 +1845,11 @@ begin
 end;
 {$ENDIF}
 { -------------------------------------------------------------------------- }
-{$IFNDEF UsingCLX}
 procedure TAbCustomZipOutline.SetDragCursor(Value : TCursor);
 begin
   FOutline.DragCursor := Value;
 end;
-{$ENDIF}
 { -------------------------------------------------------------------------- }
-{$IFNDEF UsingCLX}
 procedure TAbCustomZipOutline.SetDragMode(Value : TDragMode);
 begin
   {$IFDEF MSWINDOWS}
@@ -1915,7 +1857,6 @@ begin
   {$ENDIF}
   FOutline.DragMode := Value;
 end;
-{$ENDIF}
 { -------------------------------------------------------------------------- }
 procedure TAbCustomZipOutline.SetExtractOptions(Value : TAbExtractOptions);
 begin

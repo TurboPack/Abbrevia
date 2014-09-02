@@ -30,9 +30,7 @@
 {*   Use AbQDgDir.pas for CLX                            *}
 {*********************************************************}
 
-{$IFNDEF UsingCLX}
 unit AbDlgDir;
-{$ENDIF}
 
 {$I AbDefine.inc}
 
@@ -43,18 +41,13 @@ uses
   Windows, Messages, ShlObj, ActiveX,
 {$ENDIF}
   SysUtils, Classes,
-{$IFDEF UsingClx}
-  QButtons, QExtCtrls, QGraphics, QForms, QControls, QStdCtrls,
-{$ELSE}
   Buttons, ExtCtrls, Graphics, Forms, Controls, StdCtrls,
   {$WARN UNIT_PLATFORM OFF}
   FileCtrl,
   {$WARN UNIT_PLATFORM ON}
-{$ENDIF}
   AbResString;
 
 type
-{$IFNDEF UsingClx}
   TDirDlg = class(TForm)
     OKBtn: TButton;
     CancelBtn: TButton;
@@ -67,19 +60,6 @@ type
   public
     SelectedFolder: string;
   end;
-{$ELSE}
-  TDirDlg = class(TForm)
-    OKBtn: TButton;
-    CancelBtn: TButton;
-    Bevel1: TBevel;
-    Panel1: TPanel;
-    procedure DirectoryListBox1Change(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-  public
-    SelectedFolder: string;
-  end;
-{$ENDIF}
-
 
 {$IFDEF MSWINDOWS}
 type
@@ -123,9 +103,7 @@ var
 
 implementation
 
-{$IFNDEF UsingCLX}
 {$R *.dfm}
-{$ENDIF}
 
 {== TAbDirDlg ========================================================}
 {$IFDEF MSWINDOWS}
@@ -180,13 +158,11 @@ begin
   if (FIDList <> nil) then
     FreeIDList;
 
-{$IFNDEF UsingClx}
   if (Owner is TWinControl) then
     Info.hwndOwner := (Owner as TWinControl).Handle
   else if Owner is TApplication then
     Info.hwndOwner := (Owner as TApplication).Handle
   else
-{$ENDIF}
     Info.hwndOwner := 0;
   Info.pidlRoot := nil;
   Info.pszDisplayName := Buf;
@@ -234,9 +210,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TDirDlg.DirectoryListBox1Change(Sender: TObject);
 begin
-{$IFNDEF UsingClx}
   SelectedFolder := DirectoryListBox1.Directory;
-{$ENDIF}
   Panel1.Caption := SelectedFolder;
 end;
 

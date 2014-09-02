@@ -30,9 +30,7 @@
 {*   Use AbQPeVer.pas for CLX                            *}
 {*********************************************************}
 
-{$IFNDEF UsingCLX}
 unit AbPeVer;
-{$ENDIF}
 
 {$I AbDefine.inc}
 
@@ -46,15 +44,6 @@ uses
 {$IFDEF LibcAPI}
   Libc,
 {$ENDIF}
-{$IFDEF UsingClx}
-  QGraphics,
-  QForms,
-  QControls,
-  QStdCtrls,
-  QButtons,
-  QExtCtrls,
-  QDialogs,
-{$ELSE}
   Graphics,
   Forms,
   Controls,
@@ -62,7 +51,6 @@ uses
   Buttons,
   ExtCtrls,
   Dialogs,
-{$ENDIF}
   DesignIntf,
   DesignEditors,
   SysUtils,
@@ -118,9 +106,7 @@ var
 
 implementation
 
-{$IFNDEF UsingCLX}
 {$R *.dfm}
-{$ENDIF}
 
 uses
   AbArcTyp,

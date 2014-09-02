@@ -36,9 +36,6 @@ unit AbArcTyp;
 interface
 
 uses
-  {$IFDEF MSWINDOWS}
-  Windows,
-  {$ENDIF MSWINDOWS}
   Classes,
   Types,
   AbUtils;

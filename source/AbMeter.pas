@@ -30,9 +30,7 @@
 {*   Use AbQMeter.pas for CLX                            *}
 {*********************************************************}
 
-{$IFNDEF UsingCLX}
 unit AbMeter;
-{$ENDIF}
 
 {$I AbDefine.inc}
 
@@ -46,12 +44,7 @@ uses
   {$IFDEF LibcAPI}
   Libc,
   {$ENDIF}
-  {$IFDEF UsingCLX }
-  QControls, QGraphics, QForms, QExtCtrls,
-  {$ELSE}
-  Controls, Graphics, Forms, ExtCtrls,
-  {$ENDIF}
-  AbBrowse;
+  Controls, Graphics, Forms, ExtCtrls, AbBrowse;
 
 type
   TAbMeterOrientation = (moHorizontal, moVertical);
@@ -139,14 +132,10 @@ uses
 constructor TAbCustomMeter.Create(AOwner : TComponent);
 begin
   inherited Create(AOwner);
-  {$IFNDEF UsingCLX}
   if NewStyleControls then
     ControlStyle := ControlStyle + [csOpaque]
   else
     ControlStyle := ControlStyle + [csOpaque, csFramed];
-  {$ELSE}
-    ControlStyle := ControlStyle + [csOpaque, csFramed];
-  {$ENDIF}
 
   FBorderStyle := bsSingle;
   FCtl3D       := True;

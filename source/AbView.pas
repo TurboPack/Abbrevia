@@ -30,9 +30,7 @@
 {*   Use AbQView.pas for CLX                             *}
 {*********************************************************}
 
-{$IFNDEF UsingCLX}
 unit AbView;
-{$ENDIF}
 
 {$I AbDefine.inc}
 
@@ -48,16 +46,9 @@ uses
 {$IFDEF LibcAPI}
   Libc,
 {$ENDIF}
-{$IFDEF UsingCLX }
-  Qt,
-  QControls,
-  QGraphics,
-  QGrids,
-{$ELSE}
   Controls,
   Graphics,
   Grids,
-{$ENDIF}
   AbArcTyp;
 
 type
@@ -240,9 +231,6 @@ type
 {$IFDEF MSWINDOWS}
     function GetIcon(const ItemName : string) : HIcon;
 {$ENDIF}
-{$IFDEF UsingClx}
-  { no file type icons in Clx }
-{$ENDIF}
     function GetSelCount : Longint;
     function GetSelected(RowNum : Longint) : Boolean;
     function GetVersion : string;
@@ -260,17 +248,12 @@ type
     procedure SetSelected(RowNum : Longint; Value : Boolean);
     procedure SetVersion(const Value : string);
     function UpdateColCount(Attributes : TAbViewAttributes) : Integer;
-{$IFDEF UsingCLX}
-    procedure FontChanged; override;
-    procedure SizeChanged(OldColCount, OldRowCount: Longint); override;
-{$ELSE}
     procedure WMSize(var Msg: TWMSize);
       message WM_SIZE;
     procedure WMEraseBkgnd(var Msg: TWMEraseBkgnd);
       message WM_ERASEBKGND;
     procedure CMFontChanged(var Message: TMessage);
       message CM_FONTCHANGED;
-{$ENDIF UsingCLX}
 
   protected {overridden methods}
     procedure Click;
@@ -755,9 +738,7 @@ begin
   DefaultRowHeight := AbDefRowHeight;
   DefaultDrawing := False;
   ParentColor := False;
-{$IFNDEF UsingCLX}
   ParentCtl3D := True;
-{$ENDIF}
   ParentFont := True;
   ParentShowHint := True;
   FHeadings := TAbColHeadings.Create;
@@ -927,11 +908,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-{$IFDEF UsingCLX}
-procedure TAbBaseViewer.FontChanged;
-{$ELSE}
 procedure TAbBaseViewer.CMFontChanged(var Message: TMessage);
-{$ENDIF}
 begin
   inherited;
   if not (csLoading in ComponentState) then begin
@@ -1013,10 +990,8 @@ var
   TxtRect : TRect;
   Attr : TAbViewAttribute;
   DTFormat : Word;
-{$IFNDEF UsingClx}
   H : Integer;
   Icon : HIcon;
-{$ENDIF}
 begin
 {$IFDEF LINUX}
   if not DefaultDrawing then
@@ -1066,7 +1041,6 @@ begin
       Canvas.FillRect(ARect);
     Canvas.Brush.Style := bsClear;
     TxtRect := ARect;
-{$IFNDEF UsingCLX}
     Icon := 0;
     if (Attr = vaItemName) then
       Icon := GetIcon(aItem.Filename);
@@ -1076,14 +1050,9 @@ begin
         H - 2, H - 2, 0, 0, DI_NORMAL);
       TxtRect.Left := TxtRect.Left + H;
     end;
-{$ENDIF}
 
     DTFormat := DrawTextFormat(Attr, TxtRect);
-{$IFNDEF UsingCLX}
     DrawText(Canvas.Handle, PChar(s), -1, TxtRect, DTFormat);
-{$ELSE}
-    Canvas.TextRect(TxtRect, TxtRect.Left, TxtRect.Top, s, DTFormat);
-{$ENDIF}
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -1116,21 +1085,10 @@ begin
   ARect.Right := ARect.Left + ColWidths[ACol];
   if FSortCol = ACol then
     ARect.Right := ARect.Right - 5 - (2 * (ARect.Bottom - ARect.Top) div 10);
-{$IFDEF UsingCLX}
-  { prefix is off by default in Qt}
-  DTFormat := Integer(AlignmentFlags_AlignVCenter) or
-              Integer(AlignmentFlags_SingleLine) or
-              Integer(AlignmentFlags_AlignHCenter);
-{$ELSE}
   DTFormat := DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX or DT_CENTER;
-{$ENDIF}
   if FButtonDown then
     ARect := Rect(ARect.Left+1, ARect.Top+1, ARect.Right, ARect.Bottom);
-{$IFDEF UsingCLX}
-  Canvas.TextRect(ARect, ARect.Left, ARect.Top, AText, DTFormat);
-{$ELSE}
   DrawText(Canvas.Handle, PChar(AText), -1, ARect, DTFormat);
-{$ENDIF}
   if FSortCol = ACol then
     DrawSortArrow;
 end;
@@ -1166,17 +1124,14 @@ begin
         if FRowMap.SortAscending then begin
            Polygon([Point(((Right-Left)div 2)+Left, Bottom), Point(Right, Top),
              Point(Left, Top)]);
-{$IFNDEF UsingCLX}
           if Ctl3D then begin
             Pen.Color := clBtnHighlight;
             MoveTo(((Right-Left)div 2)+Left, Bottom);
             LineTo(Right, Top);
           end;
-{$ENDIF}
         end else begin
           Polygon([Point(((Right-Left)div 2)+Left, Top), Point(Right, Bottom),
             Point(Left, Bottom)]);
-{$IFNDEF UsingCLX}
           if Ctl3D then begin
             Pen.Color := clBtnHighlight;
             MoveTo(((Right-Left)div 2)+Left, Top);
@@ -1185,7 +1140,6 @@ begin
             Pen.Color := clBtnShadow;
             LineTo(((Right-Left)div 2)+Left, Top);
           end;
-{$ENDIF}
         end;
       Brush.Color := SavedColor;
     end;
@@ -1279,9 +1233,6 @@ begin
   end;
 end;
 {$ENDIF}
-{$IFDEF UsingCLX }
-  { no file type icons in CLX }
-{$ENDIF}
 { -------------------------------------------------------------------------- }
 function TAbBaseViewer.GetSelCount : Longint;
 begin
@@ -1328,11 +1279,7 @@ begin
     Exit;
   Rect := CellRect(0, ARow);
   Rect.Right := ClientWidth;
-{$IFDEF UsingCLX}
-  InvalidateRect(Rect, False);
-{$ELSE}
   InvalidateRect(Handle, @Rect, True);
-{$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbBaseViewer.KeyDown(var Key: Word; Shift: TShiftState);
@@ -1516,11 +1463,7 @@ begin
   if not HandleAllocated then
     Exit;
   Rect := CellRect(ACol, ARow);
-{$IFDEF UsingCLX}
-  InvalidateRect(Rect, False);
-{$ELSE}
   InvalidateRect(Handle, @Rect, False);
-{$ENDIF}
   Update;
 end;
 { -------------------------------------------------------------------------- }
@@ -1622,25 +1565,15 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-{$IFDEF UsingCLX}
-procedure TAbBaseViewer.SizeChanged(OldColCount, OldRowCount: Longint);
-begin
-  inherited SizeChanged(OldColCount, OldRowCount);
-  Refresh;
-end;
-{$ELSE}
 procedure TAbBaseViewer.WMSize(var Msg: TWMSize);
 begin
   inherited;
   Refresh;
 end;
-{$ENDIF}
 { -------------------------------------------------------------------------- }
-{$IFNDEF UsingCLX}
 procedure TAbBaseViewer.WMEraseBkgnd(var Msg: TWMEraseBkgnd);
 begin
   Msg.Result := -1;
 end;
-{$ENDIF}
 
 end.

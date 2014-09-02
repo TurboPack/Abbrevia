@@ -62,9 +62,6 @@ function AbTryEncode(const aValue: UnicodeString; aCodePage: UINT;
 implementation
 
 uses
-{$IFDEF LibcAPI}
-  Libc,
-{$ENDIF}
   SysUtils;
 
 function AbDetectCharSet(const aValue: RawByteString): TAbCharSet;
@@ -251,9 +248,6 @@ begin
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   Result := False;
-  {$ENDIF}
-  {$IFDEF LINUX}
-  Result := StrComp(nl_langinfo(_NL_CTYPE_CODESET_NAME), 'UTF-8') = 0;
   {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }

@@ -30,9 +30,7 @@
 {*   Use AbQPeCol.pas for CLX                            *}
 {*********************************************************}
 
-{$IFNDEF UsingCLX}
 unit AbPeCol;
-{$ENDIF}
 
 {$I AbDefine.inc}
 
@@ -42,16 +40,6 @@ uses
 {$IFDEF MSWINDOWS}
   Windows,
 {$ENDIF}
-{$IFDEF UsingClx}
-  QGraphics,
-  QForms,
-  QControls,
-  QStdCtrls,
-  QButtons,
-  QExtCtrls,
-  AbQView,
-  AbBseCLX,
-{$ELSE}
   Graphics,
   Forms,
   Controls,
@@ -60,7 +48,6 @@ uses
   ExtCtrls,
   AbView,
   AbBseVcl,
-{$ENDIF}
   DesignIntf,
   DesignEditors,
   AbConst,
@@ -103,9 +90,7 @@ implementation
 uses
   AbResString;
 
-{$IFNDEF UsingCLX}
 {$R *.dfm}
-{$ENDIF}
 
 type
   TAbViewerFriend = class(TAbBaseViewer);

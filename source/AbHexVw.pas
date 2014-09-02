@@ -31,20 +31,13 @@
 
 {$I AbDefine.inc}
 
-{$IFNDEF UsingCLX}
 unit AbHexVw;
-{$ENDIF}
 
 interface
 
 uses
-  Classes,
-{$IFDEF UsingCLX}
-  QStdCtrls, QGraphics,
-{$ELSE}
-  StdCtrls, Graphics, 
-{$ENDIF}
-  SysUtils;
+  Classes, StdCtrls, Graphics, SysUtils;
+
 type
   THexView = class(TMemo)
   protected

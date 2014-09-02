@@ -30,11 +30,9 @@
 {*   Use AbQDgPwd.pas for CLX                            *}
 {*********************************************************}
 
-{$IFNDEF UsingCLX}
 unit AbDlgPwd;
 
 {$R *.dfm}
-{$ENDIF}
 
 {$I AbDefine.inc}
 
@@ -48,13 +46,8 @@ uses
 {$IFDEF LibcAPI}
   Libc,
 {$ENDIF}
-{$IFDEF UsingClx}
-  QGraphics, QForms, QControls, QStdCtrls,
-  QButtons, QExtCtrls,
-{$ELSE}
   Graphics, Forms, Controls, StdCtrls,
   Buttons, ExtCtrls,
-{$ENDIF}
   Classes;
 
 type

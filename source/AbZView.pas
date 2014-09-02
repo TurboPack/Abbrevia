@@ -30,9 +30,7 @@
 {*   Use AbQZView.pas for CLX                            *}
 {*********************************************************}
 
-{$IFNDEF UsingCLX}
 unit AbZView;
-{$ENDIF}
 
 {$I AbDefine.inc}
 
@@ -43,13 +41,8 @@ uses
 {$IFDEF MSWINDOWS}
   Windows,
 {$ENDIF}
-{$IFDEF UsingCLX }
-  QControls,
-  AbQView,
-{$ELSE}
   Controls,
   AbView,
-{$ENDIF}
   AbZBrows,
   AbZipTyp;
 
@@ -76,21 +69,17 @@ type
     property Align;
     property Anchors;
     property Attributes;
-{$IFNDEF UsingCLX}
     property BevelEdges;
     property BevelInner;
     property BevelKind;
     property BevelOuter;
     property BevelWidth;
-{$ENDIF}	
     property BorderStyle;
     property Color;
     property Colors;
-{$IFNDEF UsingCLX}
     property Ctl3D;
     property ParentCtl3D;
     property DragCursor;
-{$ENDIF}
     property Cursor;
     property Headings;
     property DefaultColWidth;

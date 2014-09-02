@@ -30,23 +30,14 @@
 {*   Use AbQCView.pas for CLX                            *}
 {*********************************************************}
 
-{$IFNDEF UsingCLX}
 Unit AbCView;
-{$ENDIF}
 
 {$I AbDefine.inc}
 
 interface
 
 uses
-  Windows, Classes,
-  {$IFDEF UsingClx}
-  AbQView,
-  {$ELSE}
-  AbView,
-  {$ENDIF}
-  AbCBrows,
-  AbCabTyp, AbArcTyp;
+  Windows, Classes, AbView, AbCBrows, AbCabTyp, AbArcTyp;
 
 type
   TAbCabView = class(TAbBaseViewer)
@@ -72,9 +63,7 @@ type
     property BorderStyle;
     property Color;
     property Colors;
-{$IFNDEF UsingClx}
     property Ctl3D;
-{$ENDIF}
     property Cursor;
     property Headings;
     property DefaultColWidth;
@@ -82,16 +71,12 @@ type
     property DisplayOptions;
     property HeaderRowHeight;
     property SortAttributes;
-{$IFNDEF UsingClx}
     property DragCursor;
-{$ENDIF}
     property DragMode;
     property Enabled;
     property Font;
     property ParentColor;
-{$IFNDEF UsingClx}
     property ParentCtl3D;
-{$ENDIF}
     property ParentFont;
     property ParentShowHint;
     property PopupMenu;

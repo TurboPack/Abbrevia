@@ -30,9 +30,7 @@
 {*   Use AbQPeDir.pas for CLX                            *}
 {*********************************************************}
 
-{$IFNDEF UsingCLX}
 unit AbPeDir;
-{$ENDIF}
 
 {$I AbDefine.inc}
 
@@ -42,21 +40,12 @@ uses
 {$IFDEF MSWINDOWS}
   Windows,
 {$ENDIF}
-{$IFDEF UsingClx}
-  QGraphics,
-  QForms,
-  QControls,
-  QStdCtrls,
-  QButtons,
-  QExtCtrls,
-{$ELSE}
   Graphics,
   Forms,
   Controls,
   StdCtrls,
   Buttons,
   ExtCtrls,
-{$ENDIF}
   DesignIntf,
   DesignEditors,
   SysUtils,
@@ -74,11 +63,7 @@ type
 implementation
 
 uses
-{$IFDEF UsingClx}
-  AbQDgDir;
-{$ELSE}
   AbDlgDir;
-{$ENDIF}
 
 
 function TAbDirectoryProperty.GetAttributes: TPropertyAttributes;

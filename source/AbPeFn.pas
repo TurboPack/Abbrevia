@@ -30,20 +30,14 @@
 {*   Use AbQPeFn.pas for CLX                             *}
 {*********************************************************}
 
-{$IFNDEF UsingCLX}
 unit AbPeFn;
-{$ENDIF}
 
 {$I AbDefine.inc}
 
 interface
 
 uses
-{$IFDEF UsingClx }
-  QDialogs, QForms,
-{$ELSE}
   Dialogs, Forms,
-{$ENDIF}
   DesignIntf,
   DesignEditors,
   SysUtils;
