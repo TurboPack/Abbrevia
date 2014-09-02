@@ -86,9 +86,7 @@ type
   end;
 
 type
-  {$IFDEF HasPlatformsAttribute}
   [ComponentPlatformsAttribute(pidWin32 or pidWin64)]
-  {$ENDIF}
   TAbMakeCab = class(TAbCustomMakeCab)
   published
     property ArchiveProgressMeter;

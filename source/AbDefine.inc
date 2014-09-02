@@ -68,10 +68,6 @@
   {$DEFINE PosixAPI}
 {$ENDIF}
 
-{$DEFINE HasAdvancedRecords}
-{$DEFINE HasThreadFinished}
-{$DEFINE HasInline}
-{$DEFINE HasThreadStart}
 {$DEFINE HasPlatformsAttribute}
 
 {$DEFINE HasOnMouseActivate}

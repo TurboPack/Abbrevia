@@ -58,7 +58,7 @@ requires
   rtl,
   vcl,
   vclx,
-  Abbrevia;
+  AbbreviaD;
 
 contains
   AbBseVCL in '..\..\source\AbBseVCL.pas',

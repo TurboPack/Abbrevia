@@ -101,9 +101,6 @@ implementation
 
 {$IFDEF MSWINDOWS}
 
-uses
-  Windows;
-
 { ctype.h declarations ===================================================== }
 function isdigit(ch: Integer): Integer; cdecl;
 begin

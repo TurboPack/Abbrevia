@@ -75,9 +75,7 @@ type
     procedure ExtractTaggedItems;
   end;
 
-  {$IFDEF HasPlatformsAttribute}
   [ComponentPlatformsAttribute(pidWin32 or pidWin64)]
-  {$ENDIF}
   TAbCabKit = class(TAbCustomCabKit)
   published
     property ArchiveProgressMeter;

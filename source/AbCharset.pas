@@ -59,11 +59,6 @@ function AbTryEncode(const aValue: UnicodeString; aCodePage: UINT;
   aAllowBestFit: Boolean; out aResult: AnsiString): Boolean;
 {$ENDIF}
 
-{ Unicode backwards compatibility functions }
-{$IFNDEF UNICODE}
-function UTF8ToString(const S: RawByteString): string;
-{$ENDIF}
-
 implementation
 
 uses
@@ -320,14 +315,5 @@ begin
   end;
 end;
 {$ENDIF MSWINDOWS}
-
-
-{ == Unicode backwards compatibility functions ============================= }
-{$IFNDEF UNICODE}
-function UTF8ToString(const S: RawByteString): string;
-begin
-  Result := UTf8ToAnsi(S);
-end;
-{$ENDIF}
 
 end.

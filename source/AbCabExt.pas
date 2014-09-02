@@ -73,9 +73,7 @@ type
     procedure ExtractTaggedItems;
   end;
 
-  {$IFDEF HasPlatformsAttribute}
   [ComponentPlatformsAttribute(pidWin32 or pidWin64)]
-  {$ENDIF}
   TAbCabExtractor = class(TAbCustomCabExtractor)
   published
     property ArchiveProgressMeter;

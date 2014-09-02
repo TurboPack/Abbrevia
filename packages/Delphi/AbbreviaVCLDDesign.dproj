@@ -76,7 +76,7 @@
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <VerInfo_MajorVer>1</VerInfo_MajorVer>
         <VerInfo_MinorVer>0</VerInfo_MinorVer>
-        <Icon_MainIcon>AbbreviaVCLDesignD.ico</Icon_MainIcon>
+        <Icon_MainIcon>AbbreviaVCLDDesign.ico</Icon_MainIcon>
         <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <DCC_UsePackage>AbbreviaVCL;$(DCC_UsePackage)</DCC_UsePackage>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
@@ -84,7 +84,7 @@
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <Icon_MainIcon>AbbreviaVCLDesignD.ico</Icon_MainIcon>
+        <Icon_MainIcon>AbbreviaVCLDDesign.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -105,7 +105,7 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="designide.dcp"/>
-        <DCCReference Include="AbbreviaVCL.dcp"/>
+        <DCCReference Include="AbbreviaVCLD.dcp"/>
         <DCCReference Include="..\..\source\AbPeCol.pas"/>
         <DCCReference Include="..\..\source\AbPeDir.pas"/>
         <DCCReference Include="..\..\source\AbPeFn.pas"/>

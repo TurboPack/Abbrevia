@@ -792,15 +792,15 @@ var
   Updt      : Byte;
 begin
   FillChar(Sig, sbSignatureSize, #0);
-  AbStrPCopy(Sig, FSignature);
+  AnsiStrings.StrPCopy(Sig, FSignature);
 
   FillChar(VolLabel[0], sbVolumeLabelSize, #0);
-  AbStrPCopy(VolLabel, FVolumeLabel);
+  AnsiStrings.StrPCopy(VolLabel, FVolumeLabel);
 
   AllocSize := FAllocationSize;
 
   FillChar(Version[0], sbVersionSize, #0);
-  AbStrPCopy(Version, FVersion);
+  AnsiStrings.StrPCopy(Version, FVersion);
 
   if FUpdating then
     Updt := $01
@@ -900,7 +900,7 @@ var
   FType     : Integer;
 begin
   FillChar(EntryName, rdEntryNameSize - 1, #0);
-  AbStrPCopy(EntryName, FName);
+  AnsiStrings.StrPCopy(EntryName, FName);
 
   Strm.Write(EntryName[0], rdEntryNameSize);
 
@@ -1368,7 +1368,7 @@ var
 begin
   inherited Create;
   FSystemBlock := TAbSystemBlock.Create(VolLabel, AllocSize);
-  FSystemBlock.Signature := AbLeftStr(Signature, sbSignatureSize);
+  FSystemBlock.Signature := AnsiStrings.LeftStr(Signature, sbSignatureSize);
   FFATTable    := TAbFATTable.Create(AllocSize);
   FRootDir     := TAbRootDir.Create(VolLabel, AllocSize);
   {create file}
@@ -1824,7 +1824,7 @@ begin
 
   {Ensure valid signature}
   FStream.Read(Sig[0], sbSignatureSize);
-  if Sig <> AbLeftStr(FSystemBlock.Signature, sbSignatureSize) then begin
+  if Sig <> AnsiStrings.LeftStr(FSystemBlock.Signature, sbSignatureSize) then begin
     raise ECompoundFileError.Create(AbCmpndInvalidFile);
     exit;
   end;
@@ -1850,7 +1850,7 @@ begin
 
   {Ensure valid signature}
   FStream.Read(Sig[0], sbSignatureSize);
-  if Sig <> AbLeftStr(Signature, sbSignatureSize) then begin
+  if Sig <> AnsiStrings.LeftStr(Signature, sbSignatureSize) then begin
     raise ECompoundFileError.Create(AbCmpndInvalidFile);
     exit;
   end;

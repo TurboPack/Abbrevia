@@ -106,7 +106,7 @@
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="vcl.dcp"/>
         <DCCReference Include="vclx.dcp"/>
-        <DCCReference Include="Abbrevia.dcp"/>
+        <DCCReference Include="AbbreviaD.dcp"/>
         <DCCReference Include="..\..\source\AbBseVCL.pas"/>
         <DCCReference Include="..\..\source\AbMeter.pas"/>
         <DCCReference Include="..\..\source\AbView.pas"/>

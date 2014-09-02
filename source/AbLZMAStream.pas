@@ -75,11 +75,6 @@ type
   TAbLZMACompressionThread = class(TThread)
   protected
     FCompressionStream: TAbLZMACompressionStream;
-    {$IFNDEF HasThreadFinished}
-    FFinished: Boolean;
-    procedure DoTerminate; override;
-    property Finished: Boolean read FFinished;
-    {$ENDIF}
   public
     procedure Execute; override;
   end;
@@ -394,11 +389,7 @@ begin
   {Create and start the compression thread.}
   FCompressionThread := TAbLZMACompressionThread.Create(True);
   FCompressionThread.FCompressionStream := Self;
-  {$IFDEF HasThreadStart}
   FCompressionThread.Start;
-  {$ELSE}
-  FCompressionThread.Resume;
-  {$ENDIF}
 end;
 
 destructor TAbLZMACompressionStream.Destroy;
@@ -595,14 +586,6 @@ begin
 end;
 
 { TAbLZMACompressionThread }
-
-{$IFNDEF HasThreadFinished}
-procedure TAbLZMACompressionThread.DoTerminate;
-begin
-  inherited DoTerminate;
-  FFinished := True;
-end;
-{$ENDIF}
 
 procedure TAbLZMACompressionThread.Execute;
 var
