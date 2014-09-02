@@ -609,12 +609,6 @@ uses
   {$IFDEF LibcAPI}
   Libc,
   {$ENDIF}
-  {$IFDEF UnixDialogs}
-  {$IFDEF LCL}
-  Controls,
-  Dialogs,
-  {$ENDIF}
-  {$ENDIF}
   Math,
   AbCharset,
   AbResString,

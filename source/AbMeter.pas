@@ -218,14 +218,12 @@ begin
       end;
     end;
   end;
-  {$IFNDEF LCL}
   if (BorderStyle <> bsNone) then begin
     if Ctl3D then
       Frame3D(Canvas, ClRect, clBtnShadow, clBtnHighlight, 1)
     else
       Frame3D(Canvas, ClRect, clBlack, clBlack, 1);
   end;
-  {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCustomMeter.Reset;

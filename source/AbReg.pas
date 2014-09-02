@@ -39,9 +39,6 @@ interface
 
 uses
   Classes,
-  {$IFDEF LCL}
-  LResources,
-  {$ENDIF}
   {$IFDEF MSWINDOWS}
   AbCBrows, AbCabExt, AbCabMak, AbCabKit,
   {$ENDIF}
@@ -176,10 +173,5 @@ begin
                         {$ENDIF}
                         TAbMakeSelfExe ]);
 end;
-
-{$IFDEF LCL}
-initialization
-  {$I abbrevia.lrs}
-{$ENDIF}
 
 end.
