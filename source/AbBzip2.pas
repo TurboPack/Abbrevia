@@ -190,11 +190,10 @@ implementation
 
 uses
 {$IFDEF Bzip2Runtime}
-{$IF DEFINED(FPC)}
   dynlibs,
-{$ELSEIF DEFINED(MSWINDOWS)}
+{$ENDIF}
+{$IFDEF MSWINDOWS}
   Windows,
-{$IFEND}
 {$ENDIF}
   AbUtils;
 

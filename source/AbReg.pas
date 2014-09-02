@@ -51,7 +51,6 @@ procedure Register;
 
 implementation
 
-{$IFNDEF FPC}
 uses
   AbUtils,
   AbPeDir,
@@ -62,7 +61,6 @@ uses
   DesignIntf,
   DesignEditors,
   SysUtils;
-{$ENDIF}
 
 procedure Register;
 begin

@@ -279,12 +279,7 @@ function AbStringToUnixBytes(const aValue: string): RawByteString;
 // Based on testing the system encoding should be used on Linux, and UTF-8
 // everywhere else.  Windows apps don't agree on whether to use ANSI, OEM, or UTF-8.
 begin
-  // Delphi XE2+ Posix platforms only support the UTF-8 locale
-  {$IF DEFINED(LINUX) AND (DEFINED(FPC) OR DEFINED(KYLIX))}
-  Result := AnsiString(aValue);
-  {$ELSE}
   Result := UTF8Encode(aValue);
-  {$IFEND}
 end;
 { -------------------------------------------------------------------------- }
 {$IFDEF MSWINDOWS}
