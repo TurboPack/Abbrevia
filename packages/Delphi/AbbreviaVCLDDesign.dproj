@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ProjectGuid>{24BE4180-8AB3-4667-927F-163D8C1A0D54}</ProjectGuid>
         <MainSource>AbbreviaVCLDDesign.dpk</MainSource>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
         <ProjectVersion>15.4</ProjectVersion>
         <Base>True</Base>

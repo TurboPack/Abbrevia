@@ -12,3 +12,5 @@ Android
 OSX32
 Debug
 Release
+*.exe
+*.otares

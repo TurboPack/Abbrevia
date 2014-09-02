@@ -26,38 +26,17 @@ program AbbreviaUnitTests;
 
 {$I AbDefine.inc}
 
-{$IFNDEF FPC}
-  {$IFDEF MSWINDOWS}
-    {$DEFINE UsingVCL}
-  {$ENDIF}
-  {$IFDEF LINUX}
-    {$DEFINE UsingCLX}
-  {$ENDIF}
-{$ENDIF}
-{$IFDEF UsingVCL}
-  {$DEFINE VCL_CLX}
-{$ENDIF}
-{$IFDEF UsingCLX}
-  {$DEFINE VCL_CLX}
-{$ENDIF}
-
-{$IFNDEF VCL_CLX}
+{$DEFINE UsingVCL}
+{$IFNDEF UsingVCL}
   {$APPTYPE CONSOLE}
 {$ENDIF}
 
 uses
-{$IF DEFINED(FPC) AND DEFINED(UNIX)}
-  CWString,
-{$IFEND}
   TestFramework,
   TextTestRunner,
 {$IFDEF UsingVCL}
   Forms,
   GUITestRunner,
-{$ENDIF}
-{$IFDEF UsingCLX}
-  QForms,
-  QGUITestRunner,
 {$ENDIF}
   AbTestFramework in 'AbTestFramework.pas',
 {$IFDEF UsingVCL}
@@ -72,7 +51,7 @@ uses
   AbCabTypTests in 'AbCabTypTests.pas',
 //  AbWinzipTests in 'AbWinzipTests.pas',
 {$ENDIF}
-{$IFDEF VCL_CLX}
+{$IFDEF UsingVCL}
   AbVisualTestBase in 'AbVisualTestBase.pas',
   AbZipViewTests in 'AbZipViewTests.pas',
   AbZipOutTests in 'AbZipOutTests.pas',
@@ -102,17 +81,10 @@ uses
 {$R *.res}
 
 begin
-  {$IF DEFINED(UsingVCL)}
   Application.Initialize;
   if System.IsConsole then
     TextTestRunner.RunRegisteredTests
   else
     GUITestRunner.RunRegisteredTests;
-  {$ELSEIF DEFINED(UsingCLX)}
-  Application.Initialize;
-  QGUITestRunner.RunRegisteredTests;
-  {$ELSE}
-  TextTestRunner.RunRegisteredTests;
-  {$IFEND}
 end.
 
