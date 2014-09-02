@@ -37,9 +37,7 @@ unit AbPeDir;
 interface
 
 uses
-{$IFDEF MSWINDOWS}
   Windows,
-{$ENDIF}
   Graphics,
   Forms,
   Controls,
@@ -71,7 +69,6 @@ begin
   Result := [paDialog];
 end;
 
-{$IFDEF MSWINDOWS}
 procedure TAbDirectoryProperty.Edit;
 var
   D : TAbDirDlg;
@@ -86,23 +83,4 @@ begin
     D.Free;
   end;
 end;
-{$ELSE}
-procedure TAbDirectoryProperty.Edit;
-var
-  D : TDirDlg;
-begin
-  D := TDirDlg.Create(Application);
-  try
-{$IFDEF MSWINDOWS}
-    D.DirectoryListBox1.Directory := Value;
-{$ENDIF}
-    D.ShowModal;
-    if D.ModalResult = mrOK then
-      Value := D.SelectedFolder;
-  finally
-    D.Free;
-  end;
-end;
-{$ENDIF}
-
 end.

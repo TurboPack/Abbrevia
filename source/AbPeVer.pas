@@ -37,10 +37,8 @@ unit AbPeVer;
 interface
 
 uses
-{$IFDEF MSWINDOWS}
   Windows,
   ShellAPI,
-{$ENDIF}
   Graphics,
   Forms,
   Controls,
@@ -139,11 +137,9 @@ end;
 
 procedure TAbAboutBox.WebLblClick(Sender: TObject);
 begin
-{$IFDEF MSWINDOWS }
   if ShellExecute(0, 'open', 'http://www.sourceforge.net/projects/tpabbrevia', '', '',
     SW_SHOWNORMAL) <= 32 then
     ShowMessage('Unable to start web browser');
-{$ENDIF MSWINDOWS }
   WebLbl.Font.Color := clNavy;
 end;
 
@@ -155,11 +151,9 @@ end;
 
 procedure TAbAboutBox.NewsLblClick(Sender: TObject);
 begin
-{$IFDEF MSWINDOWS }
   if ShellExecute(0, 'open', 'http://www.sourceforge.net/forum/forum.php?forum_id=241865', '', '',
     SW_SHOWNORMAL) <= 32 then
     ShowMessage('Unable to start web browser');
-{$ENDIF MSWINDOWS }
   NewsLbl.Font.Color := clNavy;
 end;
 

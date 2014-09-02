@@ -1130,7 +1130,6 @@ end;
 function TAbBaseViewer.DrawTextFormat(Attr : TAbViewAttribute;
   var Rect : TRect) : Word;
 begin
-{$IFDEF MSWINDOWS}
   Result := DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX;
   case Attr of
     vaItemname       : Result := Result or DT_LEFT;
@@ -1151,7 +1150,6 @@ begin
     OffsetRect(Rect, 5, 0)
   else if (Result and 3) = DT_RIGHT then
     OffsetRect(Rect, -5, 0);
-{$ENDIF}
 end;
 
 { -------------------------------------------------------------------------- }
@@ -1173,7 +1171,6 @@ begin
   Result := RowHeights[AbHeaderRow];
 end;
 { -------------------------------------------------------------------------- }
-{$IFDEF MSWINDOWS}
 function TAbBaseViewer.GetIcon(const ItemName : string) : HIcon;
 var
   i : Longint;
@@ -1194,7 +1191,6 @@ begin
     FIcons.AddObject(t, Pointer(Result));
   end;
 end;
-{$ENDIF}
 { -------------------------------------------------------------------------- }
 function TAbBaseViewer.GetSelCount : Longint;
 begin

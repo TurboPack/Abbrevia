@@ -37,9 +37,7 @@ unit AbPeCol;
 interface
 
 uses
-{$IFDEF MSWINDOWS}
   Windows,
-{$ENDIF}
   Graphics,
   Forms,
   Controls,

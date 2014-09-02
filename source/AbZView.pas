@@ -38,9 +38,7 @@ interface
 
 uses
   Classes,
-{$IFDEF MSWINDOWS}
   Windows,
-{$ENDIF}
   Controls,
   AbView,
   AbZBrows,

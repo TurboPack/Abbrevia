@@ -38,10 +38,8 @@ interface
 
 uses
   Classes,
-{$IFDEF MSWINDOWS}
   Windows,
   Messages,
-{$ENDIF}
   Types,
   Graphics,
   Controls,
@@ -173,9 +171,7 @@ type
     FBaseDirectory          : string;
     FCompressionMethodToUse : TAbZipSupportedMethod;
     FDeflationOption        : TAbZipDeflationOption;
-{$IFDEF MSWINDOWS}
     FDOSMode                : Boolean;
-{$ENDIF}
     FFileName               : string;
     FExtractOptions         : TAbExtractOptions;
     FHierarchy              : Boolean;
@@ -217,9 +213,7 @@ type
     FOnRequestNthDisk       : TAbRequestNthDiskEvent;
     FOnRequestBlankDisk     : TAbRequestDiskEvent;
     FOnSave                 : TAbArchiveEvent;
-{$IFDEF MSWINDOWS}
     FOnStartDrag            : TStartDragEvent;
-{$ENDIF MSWINDOWS}
     FOnWindowsDrop          : TWindowsDropEvent;
 
   protected {methods}
@@ -263,10 +257,8 @@ type
     procedure DoNeedPassword(Sender : TObject; var NewPassword : AnsiString);
                              virtual;
     procedure DoSave(Sender : TObject); virtual;
-{$IFDEF MSWINDOWS}
     procedure DoOnStartDrag(Sender: TObject; var DragObject: TDragObject);
                             virtual;
-{$ENDIF}
     procedure DoWindowsDrop(Sender : TObject; FileName : string); virtual;
     function GetBorderStyle : TBorderStyle;
     function GetCount : Integer;
@@ -299,9 +291,7 @@ type
     procedure SetBorderStyle(Value : TBorderStyle);
     procedure SetCompressionMethodToUse(Value : TAbZipSupportedMethod);
     procedure SetDeflationOption(Value : TAbZipDeflationOption);
-{$IFDEF MSWINDOWS}
     procedure SetDOSMode(Value : Boolean);
-{$ENDIF}
     procedure SetCursor(Value : TCursor);
     procedure SetDragCursor(Value : TCursor);
     procedure SetDragMode(Value : TDragMode); override;
@@ -372,11 +362,9 @@ type
              read  FDeflationOption
              write SetDeflationOption
              default AbDefDeflationOption;
-{$IFDEF MSWINDOWS}
     property DOSMode : Boolean
              read FDOSMode
              write SetDOSMode;
-{$ENDIF}
     property DragCursor : TCursor
              read  GetDragCursor
              write SetDragCursor;
@@ -538,11 +526,9 @@ type
     property OnSave : TAbArchiveEvent
              read  FOnSave
              write FOnSave;
-{$IFDEF MSWINDOWS}
     property OnStartDrag : TStartDragEvent
              read  FOnStartDrag
              write FOnStartDrag;
-{$ENDIF MSWINDOWS}
 
   public {methods}
     constructor Create(AOwner : TComponent); override;
@@ -640,9 +626,7 @@ type
     property Ctl3D;
     property Cursor;
     property DeflationOption;
-{$IFDEF MSWINDOWS}
     property DOSMode;
-{$ENDIF}
     property DragCursor;
     property DragMode;
     property Enabled;
@@ -683,9 +667,7 @@ type
     property OnRequestNthDisk;
     property OnRequestBlankDisk;
     property OnSave;
-{$IFDEF MSWINDOWS}
     property OnStartDrag;
-{$ENDIF MSWINDOWS}
     property OnWindowsDrop;
     property ParentColor
              default AbDefParentColor;
@@ -715,9 +697,7 @@ type
 implementation
 
 uses
-{$IFDEF MSWINDOWS}
   ShellApi,
-{$ENDIF}
   SysUtils,
   AbConst,
   AbExcept,
@@ -1040,7 +1020,6 @@ begin
     end;
     if zaExternalFileAttributes in Attributes then begin
       ExtAttrString := '';
-{$IFDEF MSWINDOWS}
 {$WARN SYMBOL_PLATFORM OFF}
       if (faReadOnly and ExternalFileAttributes) = faReadOnly then
         ExtAttrString := ExtAttrString + AbReadOnlyS;
@@ -1051,7 +1030,6 @@ begin
       if (faArchive and ExternalFileAttributes) = faArchive then
         ExtAttrString := ExtAttrString + AbArchivedS;
 {$WARN SYMBOL_PLATFORM ON}
-{$ENDIF}
       tmpNode := FOutline.Items.AddChild(oNode,
                          Format(AbEFAFormatS,
                                  [ExtAttrString]));
@@ -1396,14 +1374,12 @@ begin
     FOnSave(Self);
 end;
 { -------------------------------------------------------------------------- }
-{$IFDEF MSWINDOWS}
 procedure TAbCustomZipOutline.DoOnStartDrag(Sender: TObject;
                                        var DragObject: TDragObject);
 begin
   if Assigned(FOnStartDrag) then
     FOnStartDrag(Self, DragObject);
 end;
-{$ENDIF}
 { -------------------------------------------------------------------------- }
 procedure TAbCustomZipOutline.DoWindowsDrop(Sender : TObject;
                                        FileName : string);
@@ -1674,9 +1650,7 @@ begin
     FArchive.CompressionMethodToUse := FCompressionMethodToUse;
     SetBaseDirectory(FBaseDirectory);
     FArchive.DeflationOption := FDeflationOption;
-{$IFDEF MSWINDOWS}
     FArchive.DOSMode := FDOSMode;
-{$ENDIF}
     FArchive.ExtractOptions := FExtractOptions;
     FArchive.LogFile := FLogFile;
     FArchive.Logging := FLogging;
@@ -1725,9 +1699,7 @@ begin
   FOutline.OnMouseDown := DoMouseDown;
   FOutline.OnMouseMove := DoMouseMove;
   FOutline.OnMouseUp := DoMouseUp;
-{$IFDEF MSWINDOWS}
   FOutline.OnStartDrag := DoOnStartDrag;
-{$ENDIF MSWINDOWS}
   if Assigned(FOnWindowsDrop) then
     FOutline.OnWindowsDrop := DoWindowsDrop
   else
@@ -1836,14 +1808,12 @@ begin
     FArchive.DeflationOption := Value;
 end;
 { -------------------------------------------------------------------------- }
-{$IFDEF MSWINDOWS}
 procedure TAbCustomZipOutline.SetDOSMode(Value : Boolean);
 begin
   FDOSMode := Value;
   if Assigned(FArchive) then
     FArchive.DOSMode := Value;
 end;
-{$ENDIF}
 { -------------------------------------------------------------------------- }
 procedure TAbCustomZipOutline.SetDragCursor(Value : TCursor);
 begin
@@ -1852,9 +1822,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbCustomZipOutline.SetDragMode(Value : TDragMode);
 begin
-  {$IFDEF MSWINDOWS}
   inherited SetDragMode(Value);
-  {$ENDIF}
   FOutline.DragMode := Value;
 end;
 { -------------------------------------------------------------------------- }

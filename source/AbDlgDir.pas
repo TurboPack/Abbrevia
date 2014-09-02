@@ -37,11 +37,8 @@ unit AbDlgDir;
 interface
 
 uses
-{$IFDEF MSWINDOWS}
-  Windows, Messages, ShlObj, ActiveX,
-{$ENDIF}
-  SysUtils, Classes,
-  Buttons, ExtCtrls, Graphics, Forms, Controls, StdCtrls,
+  Windows, Messages, ShlObj, ActiveX, SysUtils, Classes, Buttons, ExtCtrls, Graphics,
+  Forms, Controls, StdCtrls,
   {$WARN UNIT_PLATFORM OFF}
   FileCtrl,
   {$WARN UNIT_PLATFORM ON}
@@ -61,7 +58,6 @@ type
     SelectedFolder: string;
   end;
 
-{$IFDEF MSWINDOWS}
 type
   TAbDirDlg = class(TComponent)
   protected {private}
@@ -96,7 +92,6 @@ type
       override;
     function Execute : Boolean;
   end;
-{$ENDIF}
 
 var
   DirDlg: TDirDlg;
@@ -106,7 +101,6 @@ implementation
 {$R *.dfm}
 
 {== TAbDirDlg ========================================================}
-{$IFDEF MSWINDOWS}
 function AbDirDlgCallbackProc(hWnd : HWND; Msg : UINT; lParam : LPARAM;
                               Data : LPARAM): Integer; stdcall;
 var
@@ -196,7 +190,6 @@ begin
   if (Length(FSelectedFolder) = 2) then
     FSelectedFolder := FSelectedFolder + '\';
 end;
-{$ENDIF}
 
 {== TDirDlg ========================================================}
 { TDirDlg }
