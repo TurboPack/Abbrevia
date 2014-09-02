@@ -51,6 +51,8 @@ unit AbLZMAStream;
 
 interface
 
+{$IFDEF MSWINDOWS}
+
 uses
   Windows, Classes, SysUtils, AbLZMA, AbUtils;
 
@@ -199,7 +201,11 @@ type
     property BytesRead: Int64 read GetBytesRead;
   end;
 
+{$ENDIF}
+
 implementation
+
+{$IFDEF MSWINDOWS}
 
 uses
   AbCrtl;
@@ -815,5 +821,7 @@ function TAbLZMADecompressionStream.Write(const ABuffer; ACount: Integer): Integ
 begin
   raise Exception.Create('Writing to a LZMA decompression stream is not supported.');
 end;
+
+{$ENDIF}
 
 end.

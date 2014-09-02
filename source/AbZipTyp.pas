@@ -1815,12 +1815,6 @@ begin
 {$IFDEF MSWINDOWS}
   Abort := Windows.MessageBox( 0, PChar(AMessage), PChar(AbDiskRequestS),
     MB_TASKMODAL or MB_OKCANCEL ) = IDCANCEL;
-{$ENDIF}
-{$IFDEF UnixDialogs}
-  {$IFDEF LCL}
-  Abort := Dialogs.MessageDlg(AbDiskRequestS, AMessage, mtWarning, mbOKCancel,
-    0) = mrCancel;
-  {$ENDIF}
 {$ELSE}
   Abort := True;
 {$ENDIF}

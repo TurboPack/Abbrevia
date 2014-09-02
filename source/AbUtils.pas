@@ -39,17 +39,7 @@ uses
 {$IFDEF MSWINDOWS}
   Windows,
 {$ENDIF}
-{$IFDEF LibcAPI}
-  Libc,
-{$ENDIF}
-{$IFDEF FPCUnixAPI}
-  baseunix,
-  {$IFDEF Linux}
-  initc,
-  {$ENDIF}
-  unix,
-{$ENDIF}
-{$IFDEF PosixAPI}
+{$IFDEF POSIX}
   Posix.SysStatvfs,
   Posix.SysStat,
   Posix.Utime,
@@ -64,7 +54,6 @@ uses
   SysUtils,
   Classes,
   AbCharset;
-
 
 type
   {describe the pending action for an archive item}
@@ -361,27 +350,9 @@ uses
   AbConst,
   AbExcept;
 
-{$IF DEFINED(FPCUnixAPI)}
-function mktemp(template: PAnsiChar): PAnsiChar; cdecl;
-  external clib name 'mktemp';
-{$ELSEIF DEFINED(PosixAPI)}
-function mktemp(template: PAnsiChar): PAnsiChar; cdecl;
-  external libc name _PU + 'mktemp';
-{$IFEND}
-
-{$IF DEFINED(FPCUnixAPI) AND DEFINED(Linux)}
-// FreePascal libc definitions
-type
-  nl_item = cint;
-
-const
-  __LC_CTYPE = 0;
-  _NL_CTYPE_CLASS = (__LC_CTYPE shl 16);
-  _NL_CTYPE_CODESET_NAME = (_NL_CTYPE_CLASS)+14;
-
-function nl_langinfo(__item: nl_item): PAnsiChar; cdecl;
-  external clib name 'nl_langinfo';
-{$IFEND}
+{$IFDEF POSIX}
+function mktemp(template: PAnsiChar): PAnsiChar; cdecl; external libc name _PU + 'mktemp';
+{$ENDIF}
 
 {===platform independent routines for platform dependent stuff=======}
 function ExtractShortName(const SR : TSearchRec) : string;
@@ -563,18 +534,10 @@ begin
 {$ENDIF}
 {$IFDEF POSIX}
 var
-  FStats : {$IFDEF PosixAPI}_statvfs{$ELSE}TStatFs{$ENDIF};
+  FStats : _statvfs;
 begin
-  {$IF DEFINED(LibcAPI)}
-  if statfs(PAnsiChar(ExtractFilePath(ArchiveName)), FStats) = 0 then
-    Result := Int64(FStats.f_bAvail) * Int64(FStats.f_bsize)
-  {$ELSEIF DEFINED(FPCUnixAPI)}
-  if fpStatFS(PAnsiChar(ExtractFilePath(ArchiveName)), @FStats) = 0 then
-    Result := Int64(FStats.bAvail) * Int64(FStats.bsize)
-  {$ELSEIF DEFINED(PosixAPI)}
   if statvfs(PAnsiChar(AbSysString(ExtractFilePath(ArchiveName))), FStats) = 0 then
     Result := Int64(FStats.f_bavail) * Int64(FStats.f_bsize)
-  {$IFEND}
   else
     Result := -1;
 {$ENDIF}
@@ -1251,13 +1214,7 @@ var
   FindData: TWin32FindData;
   LocalFileTime: TFileTime;
 {$ENDIF}
-{$IFDEF FPCUnixAPI}
-  StatBuf: stat;
-{$ENDIF}
-{$IFDEF LibcAPI}
-  StatBuf: TStatBuf64;
-{$ENDIF}
-{$IFDEF PosixAPI}
+{$IFDEF POSIX}
   StatBuf: _stat;
 {$ENDIF}
 begin
@@ -1278,19 +1235,14 @@ begin
   end;
 {$ENDIF}
 {$IFDEF POSIX}
-  {$IFDEF FPCUnixAPI}
-  Result := (FpStat(aFileName, StatBuf) = 0);
-  {$ENDIF}
-  {$IFDEF PosixAPI}
   Result := (stat(PAnsiChar(AbSysString(aFileName)), StatBuf) = 0);
-  {$ENDIF}
   if Result then begin
     aAttr.Time := FileDateToDateTime(StatBuf.st_mtime);
     aAttr.Size := StatBuf.st_size;
     aAttr.Attr := AbUnix2DosFileAttributes(StatBuf.st_mode);
     aAttr.Mode := StatBuf.st_mode;
   end;
-{$ENDIF UNIX}
+{$ENDIF}
 end;
 
 

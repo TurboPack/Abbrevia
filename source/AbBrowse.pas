@@ -220,9 +220,7 @@ implementation
 uses
   SysUtils,
   AbExcept,
-{$IFDEF MSWINDOWS}
   AbCabTyp,
-{$ENDIF}
   AbZipTyp,
   AbTarTyp,
   AbGzTyp,
