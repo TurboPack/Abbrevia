@@ -59,10 +59,8 @@ type
 
 implementation
 
-{$IFDEF HasUITypes}
 uses
   System.UITypes;
-{$ENDIF}
 
 constructor THexView.Create(AOwner : TComponent);
 begin

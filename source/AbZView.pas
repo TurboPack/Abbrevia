@@ -99,15 +99,11 @@ type
     property HeaderRowHeight;
     property SortAttributes;
     property DragMode;
-{$IFDEF HasGridDrawingStyle}
     property DrawingStyle;
-{$ENDIF}
     property Enabled;
     property Font;
-{$IFDEF HasGridDrawingStyle}
     property GradientEndColor;
     property GradientStartColor;
-{$ENDIF}
     property ParentColor;
     property ParentFont;
     property ParentShowHint;
@@ -115,32 +111,23 @@ type
     property ShowHint;
     property TabOrder;
     property TabStop;
-{$IFDEF HasTouch}
     property Touch;
-{$ENDIF}
     property Version;
-    property ZipComponent : TAbCustomZipBrowser
-      read FZipComponent write SetZipComponent;
+    property ZipComponent : TAbCustomZipBrowser read FZipComponent write SetZipComponent;
   published {Events}
     property OnChange;
     property OnClick;
     property OnDblClick;
     property OnEnter;
     property OnExit;
-{$IFDEF HasTouch}
     property OnGesture;
-{$ENDIF}
     property OnKeyDown;
     property OnKeyPress;
     property OnKeyUp;
-{$IFDEF HasOnMouseActivate}
     property OnMouseActivate;
-{$ENDIF}
     property OnMouseDown;
-{$IFDEF HasOnMouseEnter}
     property OnMouseEnter;
     property OnMouseLeave;
-{$ENDIF}
     property OnMouseMove;
     property OnMouseUp;
     property OnSorted;

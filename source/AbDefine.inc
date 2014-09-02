@@ -63,23 +63,9 @@
   {$DEFINE UNIX}
 {$ENDIF}
 
-{ Unix API (Kylix/Delphi/FreePascal) }
 {$IFDEF UNIX}
   {$DEFINE PosixAPI}
 {$ENDIF}
-
-{$DEFINE HasPlatformsAttribute}
-
-{$DEFINE HasOnMouseActivate}
-{$DEFINE HasOnMouseEnter}
-{$DEFINE HasListViewGroups}
-{$DEFINE HasListViewOnItemChecked}
-{$DEFINE HasParentDoubleBuffered}
-{$DEFINE HasTreeViewExpandedImageIndex}
-{$DEFINE HasGridDrawingStyle}
-{$DEFINE HasTouch}
-{$DEFINE HasUITypes}
-{$DEFINE HasAnsiStrings}
 
 {====General defines=================================================}
 

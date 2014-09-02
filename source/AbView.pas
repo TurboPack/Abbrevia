@@ -291,10 +291,7 @@ type
       override;
     procedure ColumnMoved(FromIndex, ToIndex: Longint);
       override;
-{$IFDEF HasGridDrawingStyle}
-    procedure Paint;
-      override;
-{$ENDIF}
+    procedure Paint; override;
     procedure DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);
       override;
     procedure TopLeftChanged;
@@ -385,9 +382,7 @@ uses
 {$IFDEF MSWINDOWS}
   ShellApi,
 {$ENDIF}
-{$IFDEF HasUITypes}
   UITypes,
-{$ENDIF}
   SysUtils,
   AbUtils,
   AbConst,
@@ -1004,13 +999,11 @@ begin
     FOnSorted(Self, Attr);
 end;
 { -------------------------------------------------------------------------- }
-{$IFDEF HasGridDrawingStyle}
 procedure TAbBaseViewer.Paint;
 begin
   DefaultDrawing := FInternalDrawingStyle <> gdsClassic;
   inherited;
 end;
-{$ENDIF}
 { -------------------------------------------------------------------------- }
 procedure TAbBaseViewer.DrawCell(ACol, ARow: Longint; ARect: TRect;
   AState: TGridDrawState);
@@ -1052,7 +1045,6 @@ begin
         Brush.Color := FColors.Selected;
         Font.Color  := FColors.SelectedText;
       end
-{$IFDEF HasGridDrawingStyle}
       else begin
         if DrawingStyle = gdsGradient then
           Canvas.Font.Color := clHighlightText;
@@ -1062,7 +1054,6 @@ begin
           DrawCellHighlight(ARect, AState, ACol, ARow);
         end;
       end;
-{$ENDIF}
     end else if aItem.Action = aaDelete then begin
       Brush.Color := FColors.Deleted;
       Font.Color  := FColors.DeletedText;
@@ -1567,9 +1558,7 @@ procedure TAbBaseViewer.SetDisplayOptions(Value : TAbDisplayOptions);
 begin
   FDisplayOptions := Value;
   Options := [goFixedVertLine, goFixedHorzLine, goRowSelect];
-{$IFDEF HasGridDrawingStyle}
   Options := Options + [goFixedRowClick]; // Highlight pressed header when themed
-{$ENDIF}
 
   if (doColLines in Value) then
     Options := Options + [goVertLine];

@@ -364,9 +364,7 @@ type
 implementation
 
 uses
-  StrUtils,
-  {$IFDEF HasAnsiStrings}AnsiStrings,{$ENDIF}
-  ABUtils;
+  StrUtils, AnsiStrings, ABUtils;
 
 {-----------------------------------------------------------------------------}
 {-----------------------------------------------------------------------------}

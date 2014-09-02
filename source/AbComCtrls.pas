@@ -215,9 +215,7 @@ type
     property FlatScrollBars;
     property FullDrag;
     property GridLines;
-{$IFDEF HasListViewGroups}
     property Groups;
-{$ENDIF}
     property HideSelection;
     property HotTrack;
     property HotTrackStyles;
@@ -226,17 +224,13 @@ type
     property Items;
     property LargeImages;
     property MultiSelect;
-{$IFDEF HasListViewGroups}
     property GroupHeaderImages;
     property GroupView default False;
-{$ENDIF}
     property ReadOnly default False;
     property RowSelect;
     property ParentBiDiMode;
     property ParentColor default False;
-{$IFDEF HasParentDoubleBuffered}
     property ParentDoubleBuffered;
-{$ENDIF}
     property ParentFont;
     property ParentShowHint;
     property Path;
@@ -269,21 +263,15 @@ type
     property OnKeyDown;
     property OnKeyPress;
     property OnKeyUp;
-{$IFDEF HasOnMouseActivate}
     property OnMouseActivate;
-{$ENDIF}
     property OnMouseDown;
-{$IFDEF HasOnMouseEnter}
     property OnMouseEnter;
     property OnMouseLeave;
-{$ENDIF}
     property OnMouseMove;
     property OnMouseUp;
     property OnResize;
     property OnSelectItem;
-{$IFDEF HasListViewOnItemChecked}
     property OnItemChecked;
-{$ENDIF}
     property OnStartDock;
     property OnStartDrag;
   end;
@@ -366,9 +354,7 @@ type
     property ParentBiDiMode;
     property ParentColor default False;
     property ParentCtl3D;
-{$IFDEF HasParentDoubleBuffered}
     property ParentDoubleBuffered;
-{$ENDIF}
     property ParentFont;
     property ParentShowHint;
     property Path;
@@ -405,14 +391,10 @@ type
     property OnKeyDown;
     property OnKeyPress;
     property OnKeyUp;
-{$IFDEF HasOnMouseActivate}
     property OnMouseActivate;
-{$ENDIF}
     property OnMouseDown;
-{$IFDEF HasOnMouseEnter}
     property OnMouseEnter;
     property OnMouseLeave;
-{$ENDIF}
     property OnMouseMove;
     property OnMouseUp;
     property OnStartDock;
@@ -1182,11 +1164,8 @@ var
     else if Nodes.Find(aFilename, i) then
       Result := TTreeNode(Nodes.Objects[i])
     else begin
-      Result := Items.AddChild(GetNode(ExtractFileDir(aFilename)),
-                               ExtractFileName(aFilename));
-      {$IFDEF HasTreeViewExpandedImageIndex}
+      Result := Items.AddChild(GetNode(ExtractFileDir(aFilename)), ExtractFileName(aFilename));
       Result.ExpandedImageIndex := AbTreeFolderExpandedImage;
-      {$ENDIF}
       Result.ImageIndex := AbTreeFolderImage;
       Nodes.AddObject(aFilename, Result);
     end;
@@ -1208,9 +1187,7 @@ begin
         else
           Filename := PathDelim;
         ZipNode := Items.AddChild(nil, Filename);
-        {$IFDEF HasTreeViewExpandedImageIndex}
         ZipNode.ExpandedImageIndex := AbTreeArchiveImage;
-        {$ENDIF}
         ZipNode.ImageIndex := AbTreeArchiveImage;
         for i := 0 to FArchive.Count - 1 do
           if FArchive[i].Action <> aaDelete then begin
@@ -1235,11 +1212,9 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbCustomTreeView.GetSelectedIndex(aNode: TTreeNode);
 begin
-  {$IFDEF HasTreeViewExpandedImageIndex}
   if aNode.Expanded then
     aNode.SelectedIndex := aNode.ExpandedImageIndex
   else
-  {$ENDIF}
     aNode.SelectedIndex := aNode.ImageIndex;
 end;
 { -------------------------------------------------------------------------- }

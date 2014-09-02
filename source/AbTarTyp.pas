@@ -457,9 +457,7 @@ uses
   {$IFDEF MSWINDOWS}
   Windows, // Fix inline warnings
   {$ENDIF MSWINDOWS}
-  Math, RTLConsts, SysUtils,
-  {$IFDEF HasAnsiStrings}AnsiStrings, {$ENDIF}
-  AbCharset, AbVMStrm, AbExcept;
+  Math, RTLConsts, SysUtils, AnsiStrings, AbCharset, AbVMStrm, AbExcept;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function OctalToInt(const Oct : PAnsiChar; aLen : integer): Int64;
