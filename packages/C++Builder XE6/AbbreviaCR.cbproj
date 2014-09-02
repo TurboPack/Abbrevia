@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{B76816FE-94A0-42B9-A97C-DEA886F7E83E}</ProjectGuid>
-        <MainSource>Abbrevia.cpp</MainSource>
+        <MainSource>AbbreviaCR.cpp</MainSource>
         <ProjectVersion>15.4</ProjectVersion>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Base>True</Base>
@@ -53,10 +53,10 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <DCC_HppOutput>..\..\source\hpp</DCC_HppOutput>
         <BCC_UnderscoreSymbolNames>false</BCC_UnderscoreSymbolNames>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
-        <BPILibOutputDir>.\$(Platform)\$(Config)</BPILibOutputDir>
-        <SanitizedProjectName>Abbrevia</SanitizedProjectName>
+        <SanitizedProjectName>AbbreviaCR</SanitizedProjectName>
         <DCC_OutputNeverBuildDcps>true</DCC_OutputNeverBuildDcps>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
         <VerInfo_Release>1</VerInfo_Release>
@@ -123,10 +123,10 @@
         <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="Abbrevia.cpp">
+        <CppCompile Include="AbbreviaCR.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <ResFiles Include="Abbrevia.res">
+        <ResFiles Include="AbbreviaCR.res">
             <BuildOrder>2</BuildOrder>
         </ResFiles>
         <PackageImport Include="rtl.bpi">
@@ -292,7 +292,7 @@
         <BorlandProject>
             <CPlusPlusBuilder.Personality>
                 <Source>
-                    <Source Name="MainSource">Abbrevia.cpp</Source>
+                    <Source Name="MainSource">AbbreviaCR.cpp</Source>
                 </Source>
                 <VersionInfo>
                     <VersionInfo Name="IncludeVerInfo">True</VersionInfo>

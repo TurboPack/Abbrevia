@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{B76816FE-94A0-42B9-A97C-DEA886F7E83E}</ProjectGuid>
-        <MainSource>Abbrevia.cpp</MainSource>
+        <ProjectGuid>{7E473AA9-02F8-498A-B77B-1F70BEA9B14B}</ProjectGuid>
+        <MainSource>AbbreviaVCLCDesign.cpp</MainSource>
         <ProjectVersion>15.4</ProjectVersion>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Base>True</Base>
@@ -53,36 +53,36 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <BCC_UnderscoreSymbolNames>false</BCC_UnderscoreSymbolNames>
+        <DCC_HppOutput>..\..\source\hpp</DCC_HppOutput>
+        <DCC_UnitSearchPath>..\..\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
-        <BPILibOutputDir>.\$(Platform)\$(Config)</BPILibOutputDir>
-        <SanitizedProjectName>Abbrevia</SanitizedProjectName>
         <DCC_OutputNeverBuildDcps>true</DCC_OutputNeverBuildDcps>
+        <SanitizedProjectName>AbbreviaVCLCDesign</SanitizedProjectName>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
-        <VerInfo_Release>1</VerInfo_Release>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileDescription=Abbrevia Non-visual Components;FileVersion=5.0.1.0;InternalName=;LegalCopyright=Copyright (c) Abbrevia Group 2011;LegalTrademarks=;OriginalFilename=;ProductName=Abbrevia;ProductVersion=5.0.1.0;Comments=</VerInfo_Keys>
-        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Winapi;System.Win;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_MajorVer>5</VerInfo_MajorVer>
-        <ILINK_Description>Abbrevia non-visual components CBuilder</ILINK_Description>
+        <VerInfo_Keys>CompanyName=;FileDescription=Abbrevia VCL designtime components;FileVersion=5.0.0.0;InternalName=;LegalCopyright=Copyright (c) Abbrevia Group 2011;LegalTrademarks=;OriginalFilename=;ProductName=Abbrevia;ProductVersion=5.0;Comments=</VerInfo_Keys>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Winapi;Vcl;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <ILINK_Description>Abbrevia VCL designtime components CBuilder</ILINK_Description>
         <Multithreaded>true</Multithreaded>
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <ProjectType>CppPackage</ProjectType>
         <OutputExt>bpl</OutputExt>
+        <DCC_AdditionalSwitches>-LUDesignIDE</DCC_AdditionalSwitches>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <DynamicRTL>true</DynamicRTL>
         <IncludePath>..\..\source\;$(BDS)\include;..\..\source;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>..\..\source\;$(BDS)\lib;..\..\source;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_wpar>false</BCC_wpar>
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
-        <TLIB_PageSize>32</TLIB_PageSize>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <DCC_Namespace>Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_MajorVer>1</VerInfo_MajorVer>
+        <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=5.0.1.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=5.0.1.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -103,9 +103,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <Defines>_DEBUG;$(Defines)</Defines>
-        <VerInfo_Release>0</VerInfo_Release>
         <VerInfo_MinorVer>1</VerInfo_MinorVer>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=5.1.0.0;InternalName=;LegalCopyright=Copyright (c) Abbrevia Group 2012;LegalTrademarks=;OriginalFilename=;ProductName=Abbrevia;ProductVersion=5.0.1.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=Abbrevia VCL designtime components;FileVersion=5.1.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Abbrevia;ProductVersion=5.1;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <Defines>_DEBUG;$(Defines)</Defines>
@@ -116,162 +115,58 @@
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=5.0.1.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=5.0.1.0;Comments=</VerInfo_Keys>
+        <VerInfo_MajorVer>1</VerInfo_MajorVer>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="Abbrevia.cpp">
+        <PackageImport Include="AbbreviaVCL.bpi">
+            <BuildOrder>14</BuildOrder>
+        </PackageImport>
+        <CppCompile Include="AbbreviaVCLCDesign.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <ResFiles Include="Abbrevia.res">
+        <ResFiles Include="AbbreviaVCLCDesign.res">
             <BuildOrder>2</BuildOrder>
         </ResFiles>
-        <PackageImport Include="rtl.bpi">
-            <BuildOrder>1</BuildOrder>
+        <PackageImport Include="designide.bpi">
+            <BuildOrder>3</BuildOrder>
         </PackageImport>
-        <DelphiCompile Include="..\..\source\AbArcTyp.pas">
-            <BuildOrder>7</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbBase.pas">
-            <BuildOrder>49</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbBitBkt.pas">
+        <PackageImport Include="rtl.bpi">
+            <BuildOrder>12</BuildOrder>
+        </PackageImport>
+        <PackageImport Include="vcl.bpi">
+            <BuildOrder>13</BuildOrder>
+        </PackageImport>
+        <PackageImport Include="vclx.bpi">
+            <BuildOrder>14</BuildOrder>
+        </PackageImport>
+        <DelphiCompile Include="..\..\source\AbDlgDir.pas">
             <BuildOrder>9</BuildOrder>
         </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbBrowse.pas">
-            <BuildOrder>49</BuildOrder>
+        <DelphiCompile Include="..\..\source\AbDlgPwd.pas">
+            <BuildOrder>10</BuildOrder>
         </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbBzip2.pas">
+        <DelphiCompile Include="..\..\source\AbPeCol.pas">
             <BuildOrder>11</BuildOrder>
         </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbBzip2Typ.pas">
-            <BuildOrder>12</BuildOrder>
+        <DelphiCompile Include="..\..\source\AbPeDir.pas">
+            <BuildOrder>4</BuildOrder>
         </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbCabExt.pas">
-            <BuildOrder>16</BuildOrder>
+        <DelphiCompile Include="..\..\source\AbPeFn.pas">
+            <BuildOrder>5</BuildOrder>
         </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbCabKit.pas">
-            <BuildOrder>13</BuildOrder>
+        <DelphiCompile Include="..\..\source\AbPePass.pas">
+            <BuildOrder>6</BuildOrder>
         </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbCabMak.pas">
-            <BuildOrder>14</BuildOrder>
+        <DelphiCompile Include="..\..\source\AbPeVer.pas">
+            <BuildOrder>7</BuildOrder>
         </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbCabTyp.pas">
-            <BuildOrder>15</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbCBrows.pas">
-            <BuildOrder>17</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbCharset.pas">
-            <BuildOrder>16</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbConst.pas">
-            <BuildOrder>13</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbCrtl.pas">
-            <BuildOrder>45</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbDfBase.pas">
-            <BuildOrder>26</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbDfCryS.pas">
-            <BuildOrder>27</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbDfDec.pas">
-            <BuildOrder>18</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbDfEnc.pas">
-            <BuildOrder>19</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbDfHufD.pas">
-            <BuildOrder>20</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbDfInW.pas">
-            <BuildOrder>21</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbDfOutW.pas">
-            <BuildOrder>22</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbDfPkMg.pas">
-            <BuildOrder>23</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbDfStrm.pas">
-            <BuildOrder>24</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbDfXlat.pas">
-            <BuildOrder>25</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbExcept.pas">
-            <BuildOrder>24</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbFciFdi.pas">
-            <BuildOrder>28</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbGzTyp.pas">
-            <BuildOrder>29</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbLZMA.pas">
-            <BuildOrder>47</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbPPMd.pas">
-            <BuildOrder>48</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbResString.pas">
-            <BuildOrder>27</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbSelfEx.pas">
-            <BuildOrder>36</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbSpanSt.pas">
-            <BuildOrder>30</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbSWStm.pas">
-            <BuildOrder>31</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbTarTyp.pas">
-            <BuildOrder>32</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbUnzOutStm.pas">
-            <BuildOrder>33</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbUnzper.pas">
-            <BuildOrder>34</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbUnzPrc.pas">
-            <BuildOrder>35</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbUtils.pas">
-            <BuildOrder>35</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbVMStrm.pas">
-            <BuildOrder>37</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbWavPack.pas">
-            <BuildOrder>49</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbZBrows.pas">
-            <BuildOrder>38</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbZipExt.pas">
-            <BuildOrder>39</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbZipKit.pas">
-            <BuildOrder>40</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbZipper.pas">
-            <BuildOrder>41</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbZipPrc.pas">
-            <BuildOrder>42</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbZipTyp.pas">
-            <BuildOrder>43</BuildOrder>
-        </DelphiCompile>
-        <DelphiCompile Include="..\..\source\AbZLTyp.pas">
-            <BuildOrder>44</BuildOrder>
+        <DelphiCompile Include="..\..\source\AbRegVcl.pas">
+            <BuildOrder>8</BuildOrder>
         </DelphiCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -292,7 +187,7 @@
         <BorlandProject>
             <CPlusPlusBuilder.Personality>
                 <Source>
-                    <Source Name="MainSource">Abbrevia.cpp</Source>
+                    <Source Name="MainSource">AbbreviaVCLCDesign.cpp</Source>
                 </Source>
                 <VersionInfo>
                     <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
@@ -311,7 +206,7 @@
                 </VersionInfo>
                 <VersionInfoKeys>
                     <VersionInfoKeys Name="CompanyName"/>
-                    <VersionInfoKeys Name="FileDescription">Abbrevia Non-visual Components</VersionInfoKeys>
+                    <VersionInfoKeys Name="FileDescription">Abbrevia VCL designtime components</VersionInfoKeys>
                     <VersionInfoKeys Name="FileVersion">5.0.0.0</VersionInfoKeys>
                     <VersionInfoKeys Name="InternalName"/>
                     <VersionInfoKeys Name="LegalCopyright">Copyright (c) Abbrevia Group 2011</VersionInfoKeys>
