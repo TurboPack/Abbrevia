@@ -56,9 +56,6 @@ uses
 {$IFDEF MSWINDOWS}
   Windows,
 {$ENDIF}
-{$IFDEF LibcAPI}
-  Libc,
-{$ENDIF}
   SysUtils,
   AbArcTyp,
   AbExcept,

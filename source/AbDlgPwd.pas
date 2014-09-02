@@ -43,9 +43,6 @@ uses
 {$IFDEF MSWINDOWS}
   Windows,
 {$ENDIF}
-{$IFDEF LibcAPI}
-  Libc,
-{$ENDIF}
   Graphics, Forms, Controls, StdCtrls,
   Buttons, ExtCtrls,
   Classes;

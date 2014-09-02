@@ -43,9 +43,6 @@ uses
   Windows,
   Messages,
 {$ENDIF}
-{$IFDEF LibcAPI}
-  Libc,
-{$ENDIF}
   Controls,
   Graphics,
   Grids,

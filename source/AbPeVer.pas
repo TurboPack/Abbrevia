@@ -41,9 +41,6 @@ uses
   Windows,
   ShellAPI,
 {$ENDIF}
-{$IFDEF LibcAPI}
-  Libc,
-{$ENDIF}
   Graphics,
   Forms,
   Controls,

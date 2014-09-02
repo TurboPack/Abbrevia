@@ -85,9 +85,6 @@ implementation
 
 uses
   SysUtils,
-{$IFDEF LibcAPI}
-  Libc,
-{$ENDIF}
   AbExcept, AbZipTyp;
 
 { -------------------------------------------------------------------------- }

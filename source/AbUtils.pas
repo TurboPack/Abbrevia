@@ -1189,7 +1189,7 @@ begin
   {$IFDEF MSWINDOWS}
   FileSetAttr(aFileName, aAttr);
   {$ENDIF}
-  {$IF DEFINED(LibcAPI) OR DEFINED(PosixAPI)}
+  {$IF DEFINED(PosixAPI)}
   chmod(PAnsiChar(AbSysString(aFileName)), aAttr);
   {$ELSEIF DEFINED(FPCUnixAPI)}
   fpchmod(aFileName, aAttr);

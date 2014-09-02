@@ -606,9 +606,6 @@ uses
   {$IFDEF MSWINDOWS}
   Windows,
   {$ENDIF}
-  {$IFDEF LibcAPI}
-  Libc,
-  {$ENDIF}
   Math,
   AbCharset,
   AbResString,
