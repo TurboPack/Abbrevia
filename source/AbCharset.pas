@@ -246,7 +246,7 @@ end;
 { -------------------------------------------------------------------------- }
 function AbSysCharSetIsUTF8: Boolean;
 begin
-  {$IFDEF DARWIN}
+  {$IFDEF MACOS}
   Result := True;
   {$ENDIF}
   {$IFDEF MSWINDOWS}

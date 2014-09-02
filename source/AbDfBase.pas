@@ -426,7 +426,7 @@ begin
   {$IFDEF MSWINDOWS}
   FLineDelim := ldCRLF;
   {$ENDIF}
-  {$IFDEF UNIX}
+  {$IFDEF POSIX}
   FLineDelim := ldLF;
   {$ENDIF}
 

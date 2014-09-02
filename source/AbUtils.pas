@@ -58,7 +58,7 @@ uses
   Posix.Fcntl,
   Posix.SysTypes,
 {$ENDIF}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
   DateUtils,
 {$ENDIF}
   SysUtils,
@@ -88,7 +88,7 @@ const
   AbUnixPathSep   = ':';
   AbDosAnyFile    = '*.*';
   AbUnixAnyFile   = '*';
-  AbAnyFile       = {$IFDEF UNIX} AbUnixAnyFile; {$ELSE} AbDosAnyFile; {$ENDIF}
+  AbAnyFile       = {$IFDEF POSIX} AbUnixAnyFile; {$ELSE} AbDosAnyFile; {$ENDIF}
   AbThisDir       = '.';
   AbParentDir     = '..';
 
@@ -291,7 +291,7 @@ type
     Time: TDateTime;
     Size: Int64;
     Attr: Integer;
-    Mode: {$IFDEF UNIX}mode_t{$ELSE}Cardinal{$ENDIF};
+    Mode: {$IFDEF POSIX}mode_t{$ELSE}Cardinal{$ENDIF};
   end;
 
   function AbFileGetAttrEx(const aFileName: string; out aAttr: TAbAttrExRec) : Boolean;
@@ -394,7 +394,7 @@ begin
     Result := SR.FindData.cFileName;
   {$WARN SYMBOL_PLATFORM ON}
   {$ENDIF}
-  {$IFDEF UNIX}
+  {$IFDEF POSIX}
   Result := SR.Name;
   {$ENDIF}
 end;
@@ -403,12 +403,12 @@ end;
 
 { ========================================================================== }
 function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
-{$IFDEF UNIX}
+{$IFDEF POSIX}
 var
   DesStream, SrcStream: TFileStream;
 {$ENDIF}
 begin
-{$IFDEF UNIX}
+{$IFDEF POSIX}
   Result := False;
   if not FailIfExists or not FileExists(Destination) then
     try
@@ -475,7 +475,7 @@ begin
   SetLength(Result, MAX_PATH);
   SetLength(Result, GetTempPath(Length(Result),  PChar(Result)));
 {$ENDIF}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
   Result := '/tmp/';
 {$ENDIF}
 end;
@@ -486,7 +486,7 @@ var
 {$IFDEF MSWINDOWS}
   FileNameZ : array [0..259] of char;
 {$ENDIF}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
   hFile: Integer;
   FileName: AbSysString;
 {$ENDIF}
@@ -499,7 +499,7 @@ begin
   GetTempFileName(PChar(TempPath), 'VMS', Word(not CreateIt), FileNameZ);
   Result := string(FileNameZ);
 {$ENDIF}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
   FileName := AbSysString(TempPath) + 'VMSXXXXXX';
   mktemp(PAnsiChar(AbSysString(FileName)));
   Result := string(FileName);
@@ -543,7 +543,7 @@ begin
   {LINUX -- Following may not cover all the bases}
   Result := AnsiStartsText('/mnt/floppy', ExtractFilePath(ExpandFileName(ArchiveName)));
 {$ENDIF}
-{$IFDEF DARWIN}
+{$IFDEF MACOS}
   Result := False;
 {$ENDIF}
 end;
@@ -561,7 +561,7 @@ begin
   else
     Result := -1;
 {$ENDIF}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
 var
   FStats : {$IFDEF PosixAPI}_statvfs{$ELSE}TStatFs{$ENDIF};
 begin
@@ -710,7 +710,7 @@ begin
 {check for drive/unc info}
   if ( Pos( '\\', Value ) > 0 ) or ( Pos( ':', Value ) > 0 ) then
 {$ENDIF MSWINDOWS}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
 { UNIX absolute paths start with a slash }
   if (Value[1] = AbPathDelim) then
 {$ENDIF UNIX}
@@ -1008,7 +1008,7 @@ begin
     Result := 0
   else Result := GetLastError;
 {$ENDIF MSWINDOWS}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
 { Volume labels not supported on Unix }
   Result := 0;
 {$ENDIF UNIX}
@@ -1054,7 +1054,7 @@ begin
   else
     Result := 0;
 {$ENDIF}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
 begin
   Result := FileDateToDateTime(UnixTime);
 {$ENDIF}
@@ -1079,7 +1079,7 @@ begin
   Result := Result + (Hrs * SecondsInHour) + (Mins * SecondsInMinute) + Secs;
   Result := Result + AbOffsetFromUTC;
 {$ENDIF}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
 begin
   Result := DateTimeToFileDate(DateTime);
 {$ENDIF}
@@ -1094,7 +1094,7 @@ begin
   LongRec(Temp).Hi := FileDate;
   Result := FileDateToDateTime(Temp);
 {$ENDIF MSWINDOWS}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
 var
   Yr, Mo, Dy : Word;
   Hr, Mn, S  : Word;
@@ -1130,7 +1130,7 @@ function AbDateTimeToDosFileDate(Value : TDateTime) : LongInt;
 begin
   Result := DateTimeToFileDate(Value);
 {$ENDIF MSWINDOWS}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
 var
   Yr, Mo, Dy : Word;
   Hr, Mn, S, MS: Word;
@@ -1160,7 +1160,7 @@ begin
   {$IFDEF MSWINDOWS}
   Result := FileSetDate(aFileName, AbDateTimeToDosFileDate(aValue)) = 0;
   {$ENDIF}
-  {$IFDEF UNIX}
+  {$IFDEF POSIX}
   Result := FileSetDate(aFileName, AbLocalDateTimeToUnixTime(aValue)) = 0;
   {$ENDIF}
 end;
@@ -1277,7 +1277,7 @@ begin
     aAttr.Mode := AbDOS2UnixFileAttributes(FindData.dwFileAttributes);
   end;
 {$ENDIF}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
   {$IFDEF FPCUnixAPI}
   Result := (FpStat(aFileName, StatBuf) = 0);
   {$ENDIF}

@@ -55,14 +55,6 @@
 
 {====Platform defines================================================}
 
-{ map Delphi platform defines to FreePascal's (MSWINDOWS/UNIX/LINUX/DARWIN) }
-{$IFDEF MACOS}
-  {$DEFINE DARWIN}
-{$ENDIF}
-{$IFDEF POSIX}
-  {$DEFINE UNIX}
-{$ENDIF}
-
 {$IFDEF UNIX}
   {$DEFINE PosixAPI}
 {$ENDIF}
@@ -99,14 +91,10 @@
 
 {Pick an appropriate linking method if none of the above are activate}
 {$IF NOT DEFINED(Bzip2Static) AND NOT DEFINED(Bzip2Dynamic) AND NOT DEFINED(Bzip2Runtime)}
-  {$IFDEF FPC}
-    {$DEFINE Bzip2Runtime}
+  {$IFDEF MSWINDOWS}
+    {$DEFINE Bzip2Static}
   {$ELSE}
-    {$IFDEF MSWINDOWS}
-      {$DEFINE Bzip2Static}
-    {$ELSE}
-      {$DEFINE Bzip2Dynamic}
-    {$ENDIF}
+    {$DEFINE Bzip2Dynamic}
   {$ENDIF}
 {$IFEND}
 
@@ -211,7 +199,7 @@ all newer (zipx) compatible methods (Bzip2, Lzma, PPMd, WavPack)}
 {$ENDIF}
 
 { Linking .obj files isn't currently supported in Kylix or FPC }
-{$IF DEFINED(FPC) OR NOT DEFINED(MSWINDOWS)}
+{$IF NOT DEFINED(MSWINDOWS)}
   {$UNDEF UnzipLzmaSupport}
   {$UNDEF UnzipPPMdSupport}
   {$UNDEF UnzipWavPackSupport}

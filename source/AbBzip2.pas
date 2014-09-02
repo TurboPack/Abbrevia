@@ -392,7 +392,7 @@ end; { _free }
 
 const
   libbz2 = {$IF DEFINED(MSWINDOWS)}'libbz2.dll'
-           {$ELSEIF DEFINED(DARWIN)}'libbz2.dylib'
+           {$ELSEIF DEFINED(MACOS)}'libbz2.dylib'
            {$ELSE}'libbz2.so.1'{$IFEND};
 
 {$IFDEF Bzip2Runtime}
@@ -425,39 +425,39 @@ var
 function BZ2_bzCompressInit(var strm: TBZStreamRec; blockSize100k: Integer;
   verbosity: Integer; workFactor: Integer): Integer;
   {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
-  {$IFDEF DARWIN}name '_BZ2_bzCompressInit'{$ENDIF};
+  {$IFDEF MACOS}name '_BZ2_bzCompressInit'{$ENDIF};
 
 function BZ2_bzCompress(var strm: TBZStreamRec; action: Integer): Integer;
   {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
-  {$IFDEF DARWIN}name '_BZ2_bzCompress'{$ENDIF};
+  {$IFDEF MACOS}name '_BZ2_bzCompress'{$ENDIF};
 
 function BZ2_bzCompressEnd(var strm: TBZStreamRec): Integer;
   {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
-  {$IFDEF DARWIN}name '_BZ2_bzCompressEnd'{$ENDIF};
+  {$IFDEF MACOS}name '_BZ2_bzCompressEnd'{$ENDIF};
 
 function BZ2_bzBuffToBuffCompress(dest: Pointer; var destLen: Integer; source: Pointer;
   sourceLen, blockSize100k, verbosity, workFactor: Integer): Integer;
   {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
-  {$IFDEF DARWIN}name '_BZ2_bzBuffToBuffCompress'{$ENDIF};
+  {$IFDEF MACOS}name '_BZ2_bzBuffToBuffCompress'{$ENDIF};
 
 // inflate decompresses data
 function BZ2_bzDecompressInit(var strm: TBZStreamRec; verbosity: Integer;
   small: Integer): Integer;
   {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
-  {$IFDEF DARWIN}name '_BZ2_bzDecompressInit'{$ENDIF};
+  {$IFDEF MACOS}name '_BZ2_bzDecompressInit'{$ENDIF};
 
 function BZ2_bzDecompress(var strm: TBZStreamRec): Integer;
   {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
-  {$IFDEF DARWIN}name '_BZ2_bzDecompress'{$ENDIF};
+  {$IFDEF MACOS}name '_BZ2_bzDecompress'{$ENDIF};
 
 function BZ2_bzDecompressEnd(var strm: TBZStreamRec): Integer;
   {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
-  {$IFDEF DARWIN}name '_BZ2_bzDecompressEnd'{$ENDIF};
+  {$IFDEF MACOS}name '_BZ2_bzDecompressEnd'{$ENDIF};
 
 function BZ2_bzBuffToBuffDecompress(dest: Pointer; var destLen: Integer; source: Pointer;
   sourceLen, small, verbosity: Integer): Integer;
   {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
-  {$IFDEF DARWIN}name '_BZ2_bzBuffToBuffDecompress'{$ENDIF};
+  {$IFDEF MACOS}name '_BZ2_bzBuffToBuffDecompress'{$ENDIF};
 {$ENDIF}
 
 procedure LoadBzip2DLL;

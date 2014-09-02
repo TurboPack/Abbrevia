@@ -640,7 +640,7 @@ begin
   else
     Result := 0;
   {$ENDIF}
-  {$IFDEF UNIX}
+  {$IFDEF POSIX}
   if IsDirectory then
     Result := AB_FPERMISSION_GENERIC or AB_FPERMISSION_OWNEREXECUTE
   else

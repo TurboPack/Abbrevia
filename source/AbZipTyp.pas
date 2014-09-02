@@ -1394,7 +1394,7 @@ begin
   else
     Result := Byte(ExternalFileAttributes);
 {$ENDIF}
-{$IFDEF UNIX}
+{$IFDEF POSIX}
   if HostOS in [hosDOS, hosNTFS, hosWinNT] then
     Result := AbDOS2UnixFileAttributes(ExternalFileAttributes)
   else
@@ -1611,7 +1611,7 @@ begin
   else
     FItemInfo.FileName := AnsiName;
   {$ENDIF}
-  {$IFDEF UNIX}
+  {$IFDEF POSIX}
   FItemInfo.FileName := AnsiString(Value);
   FItemInfo.IsUTF8 := AbSysCharSetIsUTF8;
   {$ENDIF}
