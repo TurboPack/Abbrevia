@@ -610,10 +610,6 @@ uses
   Libc,
   {$ENDIF}
   {$IFDEF UnixDialogs}
-  {$IFDEF KYLIX}
-  QControls,
-  QDialogs,
-  {$ENDIF}
   {$IFDEF LCL}
   Controls,
   Dialogs,
@@ -1580,7 +1576,6 @@ begin
   FItemInfo.FileComment := Value;
 end;
 { -------------------------------------------------------------------------- }
-{$IFDEF KYLIX}{$IFOPT O+}{$DEFINE OPTIMIZATIONS_ON}{$O-}{$ENDIF}{$ENDIF}
 procedure TAbZipItem.SetFileName(const Value : string );
 var
   {$IFDEF MSWINDOWS}
@@ -1828,10 +1823,6 @@ begin
     MB_TASKMODAL or MB_OKCANCEL ) = IDCANCEL;
 {$ENDIF}
 {$IFDEF UnixDialogs}
-  {$IFDEF KYLIX}
-  Abort := QDialogs.MessageDlg(AbDiskRequestS, AMessage, mtWarning,
-    mbOKCancel, 0) = mrCancel;
-  {$ENDIF}
   {$IFDEF LCL}
   Abort := Dialogs.MessageDlg(AbDiskRequestS, AMessage, mtWarning, mbOKCancel,
     0) = mrCancel;

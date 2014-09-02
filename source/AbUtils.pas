@@ -1281,10 +1281,6 @@ begin
   {$IFDEF FPCUnixAPI}
   Result := (FpStat(aFileName, StatBuf) = 0);
   {$ENDIF}
-  {$IFDEF LibcAPI}
-  // Work around Kylix QC#2761: Stat64, et al., are defined incorrectly
-  Result := (__lxstat64(_STAT_VER, PAnsiChar(aFileName), StatBuf) = 0);
-  {$ENDIF}
   {$IFDEF PosixAPI}
   Result := (stat(PAnsiChar(AbSysString(aFileName)), StatBuf) = 0);
   {$ENDIF}
