@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ProjectGuid>{7E473AA9-02F8-498A-B77B-1F70BEA9B14B}</ProjectGuid>
         <MainSource>AbbreviaVCLCDesign.cpp</MainSource>
-        <ProjectVersion>15.4</ProjectVersion>
+        <ProjectVersion>16.0</ProjectVersion>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Base>True</Base>
         <AppType>Library</AppType>
@@ -123,6 +123,9 @@
         <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <ItemGroup>
+        <PackageImport Include="AbbreviaVCLC.bpi">
+            <BuildOrder>14</BuildOrder>
+        </PackageImport>
         <CppCompile Include="AbbreviaVCLCDesign.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -165,9 +168,6 @@
         <DelphiCompile Include="..\..\source\AbRegVcl.pas">
             <BuildOrder>8</BuildOrder>
         </DelphiCompile>
-        <PackageImport Include="AbbreviaVCLC.bpi">
-            <BuildOrder>14</BuildOrder>
-        </PackageImport>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
