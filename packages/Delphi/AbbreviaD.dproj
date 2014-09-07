@@ -8,8 +8,8 @@
         <Base>True</Base>
         <AppType>Package</AppType>
         <FrameworkType>None</FrameworkType>
-        <Platform Condition="'$(Platform)'==''">Android</Platform>
-        <TargetedPlatforms>23</TargetedPlatforms>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <TargetedPlatforms>7</TargetedPlatforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -218,7 +218,7 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Platforms>
-                <Platform value="Android">True</Platform>
+                <Platform value="Android">False</Platform>
                 <Platform value="iOSDevice">False</Platform>
                 <Platform value="iOSSimulator">False</Platform>
                 <Platform value="OSX32">True</Platform>
