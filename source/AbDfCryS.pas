@@ -550,8 +550,8 @@ begin
 
   {mix in the passphrase to the state (uses inlined update_keys)}
   pBytes := TEncoding.ANSI.GetBytes(aPassphrase);
-  for i := 0 to length(pBytes) - 1 do begin
-    FState[0] := AbUpdateCrc32(aPassphrase[i], FState[0]);
+  for i := 0 to Length(pBytes) - 1 do begin
+    FState[0] := AbUpdateCrc32(pBytes[i], FState[0]);
     FState[1] := FState[1] + (FState[0] and $FF);
     FState[1] := (FState[1] * MagicNumber) + 1;
     FState[2] := AbUpdateCrc32(FState[1] shr 24, FState[2]);

@@ -38,7 +38,7 @@ type
   private
     Component : TAbUnZipper;
     FPasswordTry : Integer;
-    procedure NeedPassword3Tries(Sender : TObject; var NewPassword : AnsiString);
+    procedure NeedPassword3Tries(Sender : TObject; var NewPassword : string);
 
   protected
     procedure SetUp; override;
@@ -136,7 +136,7 @@ begin
   end;
 end;
 
-procedure TAbUnZipperTests.NeedPassword3Tries(Sender : TObject; var NewPassword : AnsiString);
+procedure TAbUnZipperTests.NeedPassword3Tries(Sender : TObject; var NewPassword : string);
 begin
   Inc(FPasswordTry);
   case FPasswordTry of
