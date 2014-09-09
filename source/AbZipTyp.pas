@@ -336,7 +336,7 @@ type
     FTotalEntries           : Int64;
     FDirectorySize          : Int64;
     FDirectoryOffset        : Int64;
-    FZipfileComment         : AnsiString;
+    FZipfileComment         : string;
     function GetIsZip64: Boolean;
   public {methods}
     procedure LoadFromStream( Stream : TStream );
@@ -355,7 +355,7 @@ type
       read FDirectoryOffset write FDirectoryOffset;
     property StartDiskNumber : LongWord
       read FStartDiskNumber write FStartDiskNumber;
-    property ZipfileComment : AnsiString
+    property ZipfileComment : string
       read FZipfileComment write FZipfileComment;
     property IsZip64: Boolean
       read GetIsZip64;
@@ -491,7 +491,7 @@ type
     procedure DoInsertHelper(Index : Integer; OutStream : TStream);
     procedure DoInsertFromStreamHelper(Index : Integer; OutStream : TStream);
     function GetItem( Index : Integer ) : TAbZipItem;
-    function GetZipfileComment : AnsiString;
+    function GetZipfileComment : string;
     procedure PutItem( Index : Integer; Value : TAbZipItem );
     procedure DoRequestDisk(const AMessage: string; var Abort : Boolean);
     procedure DoRequestLastDisk( var Abort : Boolean );
@@ -514,7 +514,7 @@ type
       override;
     procedure SaveArchive;
       override;
-    procedure SetZipfileComment(const Value : AnsiString );
+    procedure SetZipfileComment(const Value: string);
 
   protected {properties}
     property IsExecutable : Boolean
@@ -561,7 +561,7 @@ type
       default AbDefPasswordRetries;
     property StubSize : LongWord
       read FStubSize;
-    property ZipfileComment : AnsiString
+    property ZipfileComment : string
       read GetZipfileComment
       write SetZipfileComment;
 
@@ -1190,6 +1190,7 @@ end;
 procedure TAbZipDirectoryFileFooter.LoadFromStream( Stream : TStream );
 var
   Footer: TAbZipEndOfCentralDirectoryRecord;
+  pBytes: TBytes;
 begin
   Stream.ReadBuffer( Footer, SizeOf(Footer) );
   if Footer.Signature <> Ab_ZipEndCentralDirectorySignature then
@@ -1200,9 +1201,15 @@ begin
   FTotalEntries := Footer.TotalEntries;
   FDirectorySize := Footer.DirectorySize;
   FDirectoryOffset := Footer.DirectoryOffset;
-  SetLength( FZipfileComment, Footer.CommentLength );
+
   if Footer.CommentLength > 0 then
-    Stream.ReadBuffer( FZipfileComment[1], Footer.CommentLength );
+  begin
+    SetLength(pBytes, Footer.CommentLength);
+    Stream.ReadBuffer(pBytes, Length(pBytes));
+    FZipfileComment := TEncoding.ANSI.GetString(pBytes);
+  end
+  else
+    FZipfileComment := '';
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipDirectoryFileFooter.LoadZip64FromStream( Stream : TStream );
@@ -1238,6 +1245,7 @@ var
   Footer: TAbZipEndOfCentralDirectoryRecord;
   Zip64Footer: TAbZip64EndOfCentralDirectoryRecord;
   Zip64Locator: TAbZip64EndOfCentralDirectoryLocator;
+  pBytes: TBytes;
 begin
   if IsZip64 then begin
     {setup Zip64 end of central directory record}
@@ -1271,10 +1279,11 @@ begin
   Footer.TotalEntries := Min(FTotalEntries, $FFFF);
   Footer.DirectorySize := Min(FDirectorySize, $FFFFFFFF);
   Footer.DirectoryOffset := Min(FDirectoryOffset, $FFFFFFFF);
-  Footer.CommentLength := Length( FZipfileComment );
+  pBytes := TEncoding.ANSI.GetBytes(FZipfileComment);
+  Footer.CommentLength := Length(pBytes);
   Stream.WriteBuffer( Footer, SizeOf(Footer) );
-  if FZipfileComment <> '' then
-    Stream.Write( FZipfileComment[1], Length(FZipfileComment) );
+  if pBytes <> nil then
+    Stream.Write(pBytes, Length(pBytes));
 end;
 { -------------------------------------------------------------------------- }
 
@@ -1918,7 +1927,7 @@ begin
   Result := True;
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipArchive.GetZipfileComment : AnsiString;
+function TAbZipArchive.GetZipfileComment : string;
 begin
   Result := FInfo.ZipfileComment;
 end;
@@ -2299,7 +2308,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipArchive.SetZipfileComment(const Value : AnsiString );
+procedure TAbZipArchive.SetZipfileComment(const Value: string);
 begin
   FInfo.FZipfileComment := Value;
   FIsDirty := True;

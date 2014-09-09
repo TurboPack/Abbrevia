@@ -55,9 +55,8 @@ type
   protected {methods}
     function  GetItem(Index : Integer) : TAbZipItem; virtual;
     function  GetStream: TStream;
-    function  GetZipfileComment : AnsiString;
-    procedure InitArchive;
-      override;
+    function  GetZipfileComment : string;
+    procedure InitArchive; override;
     procedure SetFileName(const aFileName : string);
       override;
     procedure SetStream(aValue: TStream);
@@ -66,8 +65,7 @@ type
     procedure SetOnRequestBlankDisk(Value : TAbRequestDiskEvent);
 
     procedure SetPassword(const Value : string);
-    procedure SetZipfileComment(const Value : AnsiString);
-      virtual;
+    procedure SetZipfileComment(const Value : string); virtual;
 
   protected {properties}
     property Password : string read FPassword write SetPassword;
@@ -94,9 +92,7 @@ type
       read GetStream write SetStream;
     property ZipArchive : {TAbZipArchive} TAbArchive
       read FArchive;
-    property ZipfileComment : AnsiString
-      read GetZipfileComment
-      write SetZipfileComment;
+    property ZipfileComment : string read GetZipfileComment write SetZipfileComment;
 
     property TarAutoHandle : Boolean
       read GetTarAutoHandle
@@ -164,7 +160,7 @@ begin
     Result := TAbBzip2Archive(FArchive).TarAutoHandle;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomZipBrowser.GetZipfileComment : AnsiString;
+function TAbCustomZipBrowser.GetZipfileComment : string;
 begin
   if FArchive is TAbZipArchive then
     Result := TAbZipArchive(FArchive).ZipfileComment
@@ -355,7 +351,7 @@ begin
   end;
 end;
 
-procedure TAbCustomZipBrowser.SetZipfileComment(const Value : AnsiString);
+procedure TAbCustomZipBrowser.SetZipfileComment(const Value : string);
 begin
   {NOP - descendents wishing to set this property should override}
 end;
