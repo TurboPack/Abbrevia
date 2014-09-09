@@ -86,22 +86,9 @@ type
                     atTar, atGzip, atGzippedTar, atCab, atBzip2, atBzippedTar);
 
 
-{$IF NOT DECLARED(DWORD)}
 type
-  DWORD = LongWord;
-{$IFEND}
-
-{$IF NOT DECLARED(PtrInt)}
-type
-  // Delphi 7-2007 declared NativeInt incorrectly
-  {$IFDEF CPU386}
-  PtrInt = LongInt;
-  PtrUInt = LongWord;
-  {$ELSE}
   PtrInt = NativeInt;
   PtrUInt = NativeUInt;
-  {$ENDIF}
-{$IFEND}
 
 { System-encoded SBCS string (formerly AnsiString) }
 type
