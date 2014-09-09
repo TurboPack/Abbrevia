@@ -306,7 +306,7 @@ type
     FInternalFileAttributes : Word;
     FExternalFileAttributes : LongWord;
     FRelativeOffset         : LongWord;
-    FFileComment            : AnsiString;
+    FFileComment            : string;
   public {methods}
     constructor Create;
     destructor Destroy; override;
@@ -323,7 +323,7 @@ type
       read FExternalFileAttributes write FExternalFileAttributes;
     property RelativeOffset : LongWord
       read FRelativeOffset write FRelativeOffset;
-    property FileComment : AnsiString
+    property FileComment : string
       read FFileComment write FFileComment;
   end;
 
@@ -375,7 +375,7 @@ type
     function GetDeflationOption : TAbZipDeflationOption;
     function GetDictionarySize : TAbZipDictionarySize;
     function GetExtraField : TAbExtraField;
-    function GetFileComment : AnsiString;
+    function GetFileComment : string;
     function GetGeneralPurposeBitFlag : Word;
     function GetHostOS: TAbZipHostOS;
     function GetInternalFileAttributes : Word;
@@ -388,7 +388,7 @@ type
     procedure SaveLFHToStream( Stream : TStream );
     procedure SetCompressionMethod( Value : TAbZipCompressionMethod );
     procedure SetDiskNumberStart( Value : LongWord );
-    procedure SetFileComment(const Value : AnsiString );
+    procedure SetFileComment(const Value : string);
     procedure SetGeneralPurposeBitFlag( Value : Word );
     procedure SetHostOS( Value : TAbZipHostOS );
     procedure SetInternalFileAttributes( Value : Word );
@@ -434,7 +434,7 @@ type
       write SetDiskNumberStart;
     property ExtraField : TAbExtraField
       read GetExtraField;
-    property FileComment : AnsiString
+    property FileComment : string
       read GetFileComment
       write SetFileComment;
     property HostOS: TAbZipHostOS
@@ -1106,6 +1106,7 @@ end;
 procedure TAbZipDirectoryFileHeader.LoadFromStream( Stream : TStream );
 var
   ExtraFieldLength, FileCommentLength, FileNameLength : Word;
+  pBytes: TBytes;
 begin
   with Stream do begin
     Read( FSignature, sizeof( FSignature ) );
@@ -1132,9 +1133,14 @@ begin
 
     FExtraField.LoadFromStream( Stream, ExtraFieldLength );
 
-    SetLength( FFileComment, FileCommentLength );
     if FileCommentLength > 0 then
-      Read( FFileComment[1], FileCommentLength );
+    begin
+      SetLength(pBytes, FileCommentLength);
+      Read(pBytes, Length(pBytes));
+      FFileComment := TEncoding.ANSI.GetString(pBytes);
+    end
+    else
+      FFileComment := '';
   end;
   if not IsValid then
     raise EAbZipInvalid.Create;
@@ -1143,6 +1149,7 @@ end;
 procedure TAbZipDirectoryFileHeader.SaveToStream( Stream : TStream );
 var
   ExtraFieldLength, FileCommentLength, FileNameLength : Word;
+  pBytes: TBytes;
 begin
   with Stream do begin
     {write the valid signature from the constant}
@@ -1171,7 +1178,10 @@ begin
     if ExtraFieldLength > 0 then
       Write( FExtraField.Buffer[0], ExtraFieldLength );
     if FileCommentLength > 0 then
-      Write( FFileComment[1], FileCommentLength );
+    begin
+      pBytes := TEncoding.ANSI.GetBytes(FFileComment);
+      Write(pBytes, Length(pBytes));
+    end;
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -1348,7 +1358,7 @@ begin
   Result := FItemInfo.ExtraField;
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipItem.GetFileComment : AnsiString;
+function TAbZipItem.GetFileComment : string;
 begin
   Result := FItemInfo.FileComment;
 end;
@@ -1568,7 +1578,7 @@ begin
   FItemInfo.ExternalFileAttributes := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetFileComment(const Value : AnsiString );
+procedure TAbZipItem.SetFileComment(const Value : string );
 begin
   FItemInfo.FileComment := Value;
 end;
