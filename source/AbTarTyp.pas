@@ -769,7 +769,8 @@ var
   NameLength : Int64;
   NumMHeaders: integer;
   ExtraName: integer;
-  RawFileName, TempStr: AnsiString;
+  RawFileName: string;
+  TempStr: AnsiString;
 begin
  {  UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT }
   FoundName := False;
@@ -819,7 +820,7 @@ begin
       RawFileName := PTarHeader.Name;
   end; { End not FoundName }
 
-  FTarItem.Name := AbRawBytesToString(RawFileName);
+  FTarItem.Name := AbRawBytesToString(TEncoding.ANSI.GetBytes(RawFileName));
 end;
 
 { Extract the file name from the headers }
@@ -876,7 +877,7 @@ begin
   if not FoundName then
     RawLinkName := PHeader.LinkName;
 
-  FTarItem.LinkName := AbRawBytesToString(RawLinkName);
+  FTarItem.LinkName := AbRawBytesToString(TEncoding.ANSI.GetBytes(RawLinkName));
 end;
 
 { Return True if CheckSum passes out. }

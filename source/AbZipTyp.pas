@@ -218,7 +218,7 @@ type
 type
 { TAbZipFileHeader interface =============================================== }
   {ancestor class for ZipLocalFileHeader and DirectoryFileHeader}
-  TAbZipFileHeader = class( TObject )
+  TAbZipFileHeader = class(TObject)
   protected {private}
     FValidSignature : Longint;
     FSignature : Longint;
@@ -230,7 +230,7 @@ type
     FCRC32 : Longint;
     FCompressedSize : LongWord;
     FUncompressedSize : LongWord;
-    FFileName : AnsiString;
+    FFileName : string;
     FExtraField : TAbExtraField;
   protected {methods}
     function GetCompressionMethod : TAbZipCompressionMethod;
@@ -266,8 +266,7 @@ type
       read FCompressedSize write FCompressedSize;
     property UncompressedSize : LongWord
       read FUncompressedSize write FUncompressedSize;
-    property FileName : AnsiString
-      read FFileName write FFileName;
+    property FileName : string read FFileName write FFileName;
     property ExtraField : TAbExtraField
       read FExtraField;
 
@@ -379,7 +378,7 @@ type
     function GetGeneralPurposeBitFlag : Word;
     function GetHostOS: TAbZipHostOS;
     function GetInternalFileAttributes : Word;
-    function GetRawFileName : AnsiString;
+    function GetRawFileName : string;
     function GetShannonFanoTreeCount : Byte;
     function GetVersionMadeBy : Word;
     function GetVersionNeededToExtract : Word;
@@ -448,8 +447,7 @@ type
       write SetGeneralPurposeBitFlag;
     property LFHExtraField : TAbExtraField
       read FLFHExtraField;
-    property RawFileName : AnsiString
-      read GetRawFileName;
+    property RawFileName : string read GetRawFileName;
     property RelativeOffset : Int64
       read FRelativeOffset
       write SetRelativeOffset;
@@ -1040,6 +1038,7 @@ end;
 procedure TAbZipLocalFileHeader.LoadFromStream( Stream : TStream );
 var
   ExtraFieldLength, FileNameLength : Word;
+  pBytes: TBytes;
 begin
   with Stream do begin
     Read( FSignature, sizeof( FSignature ) );
@@ -1054,9 +1053,14 @@ begin
     Read( FileNameLength, sizeof( FileNameLength ) );
     Read( ExtraFieldLength, sizeof( ExtraFieldLength ) );
 
-    SetLength( FFileName, FileNameLength );
     if FileNameLength > 0 then
-      Read( FFileName[1], FileNameLength );
+    begin
+      SetLength(pBytes, FileNameLength );
+      Read(pBytes, Length(pBytes));
+      FFileName := TEncoding.ANSI.GetString(pBytes);
+    end
+    else
+      FFileName := '';
 
     FExtraField.LoadFromStream( Stream, ExtraFieldLength );
   end;
@@ -1067,6 +1071,7 @@ end;
 procedure TAbZipLocalFileHeader.SaveToStream( Stream : TStream );
 var
   ExtraFieldLength, FileNameLength: Word;
+  pBytes: TBytes;
 begin
   with Stream do begin
     {write the valid signature from the constant}
@@ -1084,7 +1089,10 @@ begin
     ExtraFieldLength := Length(FExtraField.Buffer);
     Write( ExtraFieldLength, sizeof( ExtraFieldLength ) );
     if FileNameLength > 0 then
-      Write( FFileName[1], FileNameLength );
+    begin
+      pBytes := TEncoding.ANSI.GetBytes(FFileName);
+      Write(pBytes, Length(pBytes));
+    end;
     if ExtraFieldLength > 0 then
       Write(FExtraField.Buffer[0], ExtraFieldLength);
   end;
@@ -1127,9 +1135,14 @@ begin
     Read( FExternalFileAttributes, sizeof( FExternalFileAttributes ) );
     Read( FRelativeOffset, sizeof( FRelativeOffset ) );
 
-    SetLength( FFileName, FileNameLength );
     if FileNameLength > 0 then
-      Read( FFileName[1], FileNameLength );
+    begin
+      SetLength(pBytes, FileNameLength);
+      Read(pBytes, Length(pBytes));
+      FFileName := TEncoding.ANSI.GetString(pBytes);
+    end
+    else
+      FFileName := '';
 
     FExtraField.LoadFromStream( Stream, ExtraFieldLength );
 
@@ -1174,7 +1187,10 @@ begin
     Write( FExternalFileAttributes, sizeof( FExternalFileAttributes ) );
     Write( FRelativeOffset, sizeof( FRelativeOffset ) );
     if FileNameLength > 0 then
-      Write( FFileName[1], FileNameLength );
+    begin
+      pBytes := TEncoding.ANSI.GetBytes(FFileName);
+      Write(pBytes, Length(pBytes));
+    end;
     if ExtraFieldLength > 0 then
       Write( FExtraField.Buffer[0], ExtraFieldLength );
     if FileCommentLength > 0 then
@@ -1405,7 +1421,7 @@ begin
 {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipItem.GetRawFileName : AnsiString;
+function TAbZipItem.GetRawFileName : string;
 begin
   Result := FItemInfo.FileName;
 end;
@@ -1433,16 +1449,17 @@ var
   UnicodeName: UnicodeString;
   UTF8Name: AnsiString;
   XceedField: PXceedUnicodePathRec;
+  pBuffer: TBytes;
 begin
   FItemInfo.LoadFromStream( Stream );
 
   { decode filename (ANSI/OEM/UTF-8) }
-  if FItemInfo.IsUTF8 or (AbDetectCharSet(FItemInfo.FileName) = csUTF8) then
-    FFileName := UTF8ToString(FItemInfo.FileName)
+  if FItemInfo.IsUTF8 or (AbDetectCharSet(TEncoding.ANSI.GetBytes(FItemInfo.FileName)) = csUTF8) then
+    FFileName := UTF8ToString(TEncoding.ANSI.GetBytes(FItemInfo.FileName))
   else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
      (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
      (InfoZipField.Version = 1) and
-     (InfoZipField.NameCRC32 = AbCRC32Of(FItemInfo.FileName)) then begin
+     (InfoZipField.NameCRC32 = AbCRC32Of(TEncoding.ANSI.GetBytes(FItemInfo.FileName))) then begin
     SetString(UTF8Name, InfoZipField.UnicodeName,
       FieldSize - SizeOf(TInfoZipUnicodePathRec) + 1);
     FFileName := UTF8ToString(UTF8Name);
@@ -1455,9 +1472,11 @@ begin
     FFileName := string(UnicodeName);
   end
   {$IFDEF MSWINDOWS}
-  else if (GetACP <> GetOEMCP) and ((HostOS = hosDOS) or AbIsOEM(FItemInfo.FileName)) then begin
+  else if (GetACP <> GetOEMCP) and ((HostOS = hosDOS) or AbIsOEM(TEncoding.ANSI.GetBytes(FItemInfo.FileName))) then begin
     SetLength(FFileName, Length(FItemInfo.FileName));
-    OemToCharBuff(PAnsiChar(FItemInfo.FileName), PChar(FFileName), Length(FFileName));
+    pBuffer := TEncoding.ANSI.GetBytes(FItemInfo.FileName);
+    if pBuffer <> nil then
+      OemToCharBuff(@(pBuffer[0]), PChar(FFileName), Length(FFileName));
   end
   {$ENDIF}
   else
@@ -1633,7 +1652,7 @@ begin
     GetMem(InfoZipField, FieldSize);
     try
       InfoZipField.Version := 1;
-      InfoZipField.NameCRC32 := AbCRC32Of(FItemInfo.FileName);
+      InfoZipField.NameCRC32 := AbCRC32Of(TEncoding.ANSI.GetBytes(FItemInfo.FileName));
       Move(UTF8Name[1], InfoZipField.UnicodeName, Length(UTF8Name));
       FItemInfo.ExtraField.Put(Ab_InfoZipUnicodePathSubfieldID, InfoZipField^, FieldSize);
     finally

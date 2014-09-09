@@ -121,8 +121,8 @@ type
   protected {private}
     FGZHeader : TAbGzHeader;
     FExtraField : TAbGzipExtraField;
-    FFileComment : AnsiString;
-    FRawFileName : AnsiString;
+    FFileComment : string;
+    FRawFileName : string;
 
   protected
     function GetFileSystem: TAbGzFileSystem;
@@ -131,7 +131,7 @@ type
     function GetHasFileName: Boolean;
     function GetIsText: Boolean;
 
-    procedure SetFileComment(const Value : AnsiString);
+    procedure SetFileComment(const Value : string);
     procedure SetFileSystem(const Value: TAbGzFileSystem);
     procedure SetIsText(const Value: Boolean);
 
@@ -160,8 +160,7 @@ type
     property Flags : Byte
       read FGZHeader.Flags;
 
-    property FileComment : AnsiString
-      read FFileComment write SetFileComment;
+    property FileComment : string read FFileComment write SetFileComment;
 
     property FileSystem : TAbGzFileSystem {Default: osFat (Windows); osUnix (Linux)}
       read GetFileSystem write SetFileSystem;
@@ -728,7 +727,7 @@ begin
   { Get Filename, if any }
   if HasFileName then begin
     FRawFileName := ReadCStringInStream(AStream);
-    FFileName := AbRawBytesToString(FRawFileName)
+    FFileName := AbRawBytesToString(TEncoding.ANSI.GetBytes(FRawFileName))
   end
   else
     FFileName := 'unknown';
@@ -789,7 +788,7 @@ begin
   { do nothing }
 end;
 
-procedure TAbGzipItem.SetFileComment(const Value: AnsiString);
+procedure TAbGzipItem.SetFileComment(const Value: string);
 begin
   FFileComment := Value;
   if FFileComment <> '' then

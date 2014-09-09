@@ -51,6 +51,7 @@ uses
 {$IFDEF POSIX}
   DateUtils,
 {$ENDIF}
+  Types,
   SysUtils,
   Classes,
   AbCharset;
@@ -84,7 +85,6 @@ const
 type
   TAbArchiveType = (atUnknown, atZip, atSpannedZip, atSelfExtZip,
                     atTar, atGzip, atGzippedTar, atCab, atBzip2, atBzippedTar);
-
 
 type
   PtrInt = NativeInt;
@@ -246,7 +246,7 @@ type
   function AbUpdateCRC32(CurByte : Byte; CurCrc : LongInt) : LongInt;
     {-Returns an updated crc32}
 
-  function AbCRC32Of( const aValue : RawByteString ) : LongInt;
+  function AbCRC32Of(const aValue : TBytes): LongInt;
 
 
   function AbWriteVolumeLabel(const VolName : string;
@@ -929,10 +929,10 @@ begin
             ((CurCrc shr 8) and DWORD($00FFFFFF)));
 end;
 { -------------------------------------------------------------------------- }
-function AbCRC32Of( const aValue : RawByteString ) : LongInt;
+function AbCRC32Of(const aValue: TBytes) : LongInt;
 begin
   Result := -1;
-  AbUpdateCRC(Result, aValue[1], Length(aValue));
+  AbUpdateCRC(Result, aValue[0], Length(aValue));
   Result := not Result;
 end;
 { -------------------------------------------------------------------------- }
