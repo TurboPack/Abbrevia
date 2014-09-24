@@ -1056,7 +1056,11 @@ begin
   begin
     SetLength(pBytes, FileNameLength );
     Stream.Read(pBytes, Length(pBytes));
-    FFileName := TEncoding.ANSI.GetString(pBytes);
+    case AbDetectCharSet(pBytes) of
+      csASCII: FFileName := TEncoding.ASCII.GetString(pBytes);
+      csANSI: FFileName := TEncoding.ANSI.GetString(pBytes);
+      csUTF8: FFileName := TEncoding.UTF8.GetString(pBytes);
+    end;
   end
   else
     FFileName := '';
@@ -1071,29 +1075,30 @@ var
   ExtraFieldLength, FileNameLength: Word;
   pBytes: TBytes;
 begin
-  with Stream do begin
-    {write the valid signature from the constant}
-    Write( FValidSignature, sizeof( FValidSignature ) );
-    Write( FVersionNeededToExtract, sizeof( FVersionNeededToExtract ) );
-    Write( FGeneralPurposeBitFlag, sizeof( FGeneralPurposeBitFlag ) );
-    Write( FCompressionMethod, sizeof( FCompressionMethod ) );
-    Write( FLastModFileTime, sizeof( FLastModFileTime ) );
-    Write( FLastModFileDate, sizeof( FLastModFileDate ) );
-    Write( FCRC32, sizeof( FCRC32 ) );
-    Write( FCompressedSize, sizeof( FCompressedSize ) );
-    Write( FUncompressedSize, sizeof( FUncompressedSize ) );
-    FileNameLength := Word( Length( FFileName ) );
-    Write( FileNameLength, sizeof( FileNameLength ) );
-    ExtraFieldLength := Length(FExtraField.Buffer);
-    Write( ExtraFieldLength, sizeof( ExtraFieldLength ) );
-    if FileNameLength > 0 then
-    begin
+  {write the valid signature from the constant}
+  Stream.Write( FValidSignature, sizeof( FValidSignature ) );
+  Stream.Write( FVersionNeededToExtract, sizeof( FVersionNeededToExtract ) );
+  Stream.Write( FGeneralPurposeBitFlag, sizeof( FGeneralPurposeBitFlag ) );
+  Stream.Write( FCompressionMethod, sizeof( FCompressionMethod ) );
+  Stream.Write( FLastModFileTime, sizeof( FLastModFileTime ) );
+  Stream.Write( FLastModFileDate, sizeof( FLastModFileDate ) );
+  Stream.Write( FCRC32, sizeof( FCRC32 ) );
+  Stream.Write( FCompressedSize, sizeof( FCompressedSize ) );
+  Stream.Write( FUncompressedSize, sizeof( FUncompressedSize ) );
+  FileNameLength := Word( Length( FFileName ) );
+  Stream.Write( FileNameLength, sizeof( FileNameLength ) );
+  ExtraFieldLength := Length(FExtraField.Buffer);
+  Stream.Write( ExtraFieldLength, sizeof( ExtraFieldLength ) );
+  if FileNameLength > 0 then
+  begin
+    if IsUTF8 then
+      pBytes := TEncoding.UTF8.GetBytes(FFileName)
+    else
       pBytes := TEncoding.ANSI.GetBytes(FFileName);
-      Write(pBytes, Length(pBytes));
-    end;
-    if ExtraFieldLength > 0 then
-      Write(FExtraField.Buffer[0], ExtraFieldLength);
+    Stream.Write(pBytes, Length(pBytes));
   end;
+  if ExtraFieldLength > 0 then
+    Stream.Write(FExtraField.Buffer[0], ExtraFieldLength);
 end;
 { -------------------------------------------------------------------------- }
 
@@ -1137,7 +1142,11 @@ begin
     begin
       SetLength(pBytes, FileNameLength);
       Read(pBytes, Length(pBytes));
-      FFileName := TEncoding.ANSI.GetString(pBytes);
+      case AbDetectCharSet(pBytes) of
+        csASCII: FFileName := TEncoding.ASCII.GetString(pBytes);
+        csANSI: FFileName := TEncoding.ANSI.GetString(pBytes);
+        csUTF8: FFileName := TEncoding.UTF8.GetString(pBytes);
+      end;
     end
     else
       FFileName := '';
@@ -1162,40 +1171,41 @@ var
   ExtraFieldLength, FileCommentLength, FileNameLength : Word;
   pBytes: TBytes;
 begin
-  with Stream do begin
-    {write the valid signature from the constant}
-    Write( FValidSignature, sizeof( FValidSignature ) );
-    Write( FVersionMadeBy, sizeof( FVersionMadeBy ) );
-    Write( FVersionNeededToExtract, sizeof( FVersionNeededToExtract ) );
-    Write( FGeneralPurposeBitFlag, sizeof( FGeneralPurposeBitFlag ) );
-    Write( FCompressionMethod, sizeof( FCompressionMethod ) );
-    Write( FLastModFileTime, sizeof( FLastModFileTime ) );
-    Write( FLastModFileDate, sizeof( FLastModFileDate ) );
-    Write( FCRC32, sizeof( FCRC32 ) );
-    Write( FCompressedSize, sizeof( FCompressedSize ) );
-    Write( FUncompressedSize, sizeof( FUncompressedSize ) );
-    FileNameLength := Word( Length( FFileName ) );
-    Write( FileNameLength, sizeof( FileNameLength ) );
-    ExtraFieldLength := Length(FExtraField.Buffer);
-    Write( ExtraFieldLength, sizeof( ExtraFieldLength ) );
-    FileCommentLength := Word( Length( FFileComment ) );
-    Write( FileCommentLength, sizeof( FileCommentLength ) );
-    Write( FDiskNumberStart, sizeof( FDiskNumberStart ) );
-    Write( FInternalFileAttributes, sizeof( FInternalFileAttributes ) );
-    Write( FExternalFileAttributes, sizeof( FExternalFileAttributes ) );
-    Write( FRelativeOffset, sizeof( FRelativeOffset ) );
-    if FileNameLength > 0 then
-    begin
+  {write the valid signature from the constant}
+  Stream.Write( FValidSignature, sizeof( FValidSignature ) );
+  Stream.Write( FVersionMadeBy, sizeof( FVersionMadeBy ) );
+  Stream.Write( FVersionNeededToExtract, sizeof( FVersionNeededToExtract ) );
+  Stream.Write( FGeneralPurposeBitFlag, sizeof( FGeneralPurposeBitFlag ) );
+  Stream.Write( FCompressionMethod, sizeof( FCompressionMethod ) );
+  Stream.Write( FLastModFileTime, sizeof( FLastModFileTime ) );
+  Stream.Write( FLastModFileDate, sizeof( FLastModFileDate ) );
+  Stream.Write( FCRC32, sizeof( FCRC32 ) );
+  Stream.Write( FCompressedSize, sizeof( FCompressedSize ) );
+  Stream.Write( FUncompressedSize, sizeof( FUncompressedSize ) );
+  FileNameLength := Word( Length( FFileName ) );
+  Stream.Write( FileNameLength, sizeof( FileNameLength ) );
+  ExtraFieldLength := Length(FExtraField.Buffer);
+  Stream.Write( ExtraFieldLength, sizeof( ExtraFieldLength ) );
+  FileCommentLength := Word( Length( FFileComment ) );
+  Stream.Write( FileCommentLength, sizeof( FileCommentLength ) );
+  Stream.Write( FDiskNumberStart, sizeof( FDiskNumberStart ) );
+  Stream.Write( FInternalFileAttributes, sizeof( FInternalFileAttributes ) );
+  Stream.Write( FExternalFileAttributes, sizeof( FExternalFileAttributes ) );
+  Stream.Write( FRelativeOffset, sizeof( FRelativeOffset ) );
+  if FileNameLength > 0 then
+  begin
+    if IsUTF8 then
+      pBytes := TEncoding.UTF8.GetBytes(FFileName)
+    else
       pBytes := TEncoding.ANSI.GetBytes(FFileName);
-      Write(pBytes, Length(pBytes));
-    end;
-    if ExtraFieldLength > 0 then
-      Write( FExtraField.Buffer[0], ExtraFieldLength );
-    if FileCommentLength > 0 then
-    begin
-      pBytes := TEncoding.ANSI.GetBytes(FFileComment);
-      Write(pBytes, Length(pBytes));
-    end;
+    Stream.Write(pBytes, Length(pBytes));
+  end;
+  if ExtraFieldLength > 0 then
+    Stream.Write( FExtraField.Buffer[0], ExtraFieldLength );
+  if FileCommentLength > 0 then
+  begin
+    pBytes := TEncoding.ANSI.GetBytes(FFileComment);
+    Stream.Write(pBytes, Length(pBytes));
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -1602,16 +1612,17 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetFileName(const Value : string );
 var
-  {$IFDEF MSWINDOWS}
-  AnsiName : AnsiString;
-  {$ENDIF}
-  UTF8Name : AnsiString;
   FieldSize : Word;
   I : Integer;
   InfoZipField : PInfoZipUnicodePathRec;
   UseExtraField: Boolean;
+  pBytes: TBytes;
+  {$IFDEF MSWINDOWS}
+  AnsiName: AnsiString;
+  {$ENDIF}
 begin
   inherited SetFileName(Value);
+
   {$IFDEF MSWINDOWS}
   FItemInfo.IsUTF8 := False;
   HostOS := hosDOS;
@@ -1625,33 +1636,32 @@ begin
     HostOS := hosWinNT
   else
     FItemInfo.IsUTF8 := True;
-  if FItemInfo.IsUTF8 then
-    FItemInfo.FileName := Utf8Encode(Value)
-  else
-    FItemInfo.FileName := AnsiName;
   {$ENDIF}
   {$IFDEF POSIX}
-  FItemInfo.FileName := AnsiString(Value);
   FItemInfo.IsUTF8 := AbSysCharSetIsUTF8;
   {$ENDIF}
+  FItemInfo.FileName := Value;
 
   UseExtraField := False;
   if not FItemInfo.IsUTF8 then
-    for i := 1 to Length(Value) do begin
-      if Ord(Value[i]) > 127 then begin
+    for i := 1 to Length(Value) do
+    begin
+      if Ord(Value[i]) > 127 then
+      begin
         UseExtraField := True;
         Break;
       end;
     end;
 
-  if UseExtraField then begin
-    UTF8Name := AnsiToUTF8(Value);
-    FieldSize := SizeOf(TInfoZipUnicodePathRec) + Length(UTF8Name) - 1;
+  if UseExtraField then
+  begin
+    pBytes := TEncoding.UTF8.GetBytes(Value);
+    FieldSize := SizeOf(TInfoZipUnicodePathRec) + Length(pBytes) - 1;
     GetMem(InfoZipField, FieldSize);
     try
       InfoZipField.Version := 1;
       InfoZipField.NameCRC32 := AbCRC32Of(TEncoding.ANSI.GetBytes(FItemInfo.FileName));
-      Move(UTF8Name[1], InfoZipField.UnicodeName, Length(UTF8Name));
+      Move(pBytes[0], InfoZipField.UnicodeName, Length(pBytes));
       FItemInfo.ExtraField.Put(Ab_InfoZipUnicodePathSubfieldID, InfoZipField^, FieldSize);
     finally
       FreeMem(InfoZipField);
