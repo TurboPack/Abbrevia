@@ -1040,30 +1040,28 @@ var
   ExtraFieldLength, FileNameLength : Word;
   pBytes: TBytes;
 begin
-  with Stream do begin
-    Read( FSignature, sizeof( FSignature ) );
-    Read( FVersionNeededToExtract, sizeof( FVersionNeededToExtract ) );
-    Read( FGeneralPurposeBitFlag, sizeof( FGeneralPurposeBitFlag ) );
-    Read( FCompressionMethod, sizeof( FCompressionMethod ) );
-    Read( FLastModFileTime, sizeof( FLastModFileTime ) );
-    Read( FLastModFileDate, sizeof( FLastModFileDate ) );
-    Read( FCRC32, sizeof( FCRC32 ) );
-    Read( FCompressedSize, sizeof( FCompressedSize ) );
-    Read( FUncompressedSize, sizeof( FUncompressedSize ) );
-    Read( FileNameLength, sizeof( FileNameLength ) );
-    Read( ExtraFieldLength, sizeof( ExtraFieldLength ) );
+  Stream.Read( FSignature, sizeof( FSignature ) );
+  Stream.Read( FVersionNeededToExtract, sizeof( FVersionNeededToExtract ) );
+  Stream.Read( FGeneralPurposeBitFlag, sizeof( FGeneralPurposeBitFlag ) );
+  Stream.Read( FCompressionMethod, sizeof( FCompressionMethod ) );
+  Stream.Read( FLastModFileTime, sizeof( FLastModFileTime ) );
+  Stream.Read( FLastModFileDate, sizeof( FLastModFileDate ) );
+  Stream.Read( FCRC32, sizeof( FCRC32 ) );
+  Stream.Read( FCompressedSize, sizeof( FCompressedSize ) );
+  Stream.Read( FUncompressedSize, sizeof( FUncompressedSize ) );
+  Stream.Read( FileNameLength, sizeof( FileNameLength ) );
+  Stream.Read( ExtraFieldLength, sizeof( ExtraFieldLength ) );
 
-    if FileNameLength > 0 then
-    begin
-      SetLength(pBytes, FileNameLength );
-      Read(pBytes, Length(pBytes));
-      FFileName := TEncoding.ANSI.GetString(pBytes);
-    end
-    else
-      FFileName := '';
+  if FileNameLength > 0 then
+  begin
+    SetLength(pBytes, FileNameLength );
+    Stream.Read(pBytes, Length(pBytes));
+    FFileName := TEncoding.ANSI.GetString(pBytes);
+  end
+  else
+    FFileName := '';
 
-    FExtraField.LoadFromStream( Stream, ExtraFieldLength );
-  end;
+  FExtraField.LoadFromStream( Stream, ExtraFieldLength );
   if not IsValid then
     raise EAbZipInvalid.Create;
 end;
