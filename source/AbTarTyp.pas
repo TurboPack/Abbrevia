@@ -177,7 +177,7 @@ type
   end;
   { UStar End Format }
   TAbTarEnd_UStar_Rec = packed record
-    Prefix: array[0..AB_TAR_USTAR_PREFIX_SIZE-1] of AnsiChar;
+    Prefix: array[0..AB_TAR_USTAR_PREFIX_SIZE-1] of Byte;
                    { 345-499, $159-1F3, Prefix of file & path name, null terminated ASCII string }
     Empty : Arr12B;{ 500-512, $1F4-1FF, Empty Space }
   end;
@@ -770,7 +770,8 @@ var
   NumMHeaders: integer;
   ExtraName: integer;
   RawFileName: string;
-  TempStr: AnsiString;
+  TempStr: string;
+  pBytes: TBytes;
 begin
  {  UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT }
   FoundName := False;
@@ -813,8 +814,12 @@ begin
   if not FoundName then
   begin
     if (FTarItem.ArchiveFormat = USTAR_FORMAT) and
-       (PTarHeader.ustar.Prefix[0] <> #0) then
-      RawFileName := PTarHeader.ustar.Prefix+'/'+PTarHeader.Name
+       (PTarHeader.ustar.Prefix[0] <> 0) then
+    begin
+      SetLength(pBytes, SizeOf(PTarHeader.ustar.Prefix));
+      Move(PTarHeader.ustar.Prefix[0], pBytes[0], Length(pBytes));
+      RawFileName := TEncoding.ANSI.GetString(pBytes) + '/' + PTarHeader.Name
+    end
     else
       { V7_FORMAT, OLDGNU_FORMAT }
       RawFileName := PTarHeader.Name;
