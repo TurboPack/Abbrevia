@@ -76,7 +76,7 @@
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <ProjectType>CppPackage</ProjectType>
         <OutputExt>bpl</OutputExt>
-        <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
+        <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <DynamicRTL>true</DynamicRTL>
         <IncludePath>..\..\source\;$(BDS)\include;..\..\source;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>..\..\source\;$(BDS)\lib;..\..\source;$(ILINK_LibraryPath)</ILINK_LibraryPath>
