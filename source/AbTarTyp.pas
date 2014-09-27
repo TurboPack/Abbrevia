@@ -115,6 +115,7 @@ type
   Arr12 = array [0..11] of AnsiChar;
   Arr12B = array[0..11] of Byte;
   ArrName = array [0..AB_TAR_NAMESIZE-1] of AnsiChar;
+  ArrNameByte = array [0..AB_TAR_NAMESIZE-1] of Byte;
   TAbTarHeaderFormat = (UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT,
                         USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT);
   TAbTarItemType = (SUPPORTED_ITEM, UNSUPPORTED_ITEM, UNKNOWN_ITEM);
@@ -209,7 +210,7 @@ type
 { Note: SizeOf(TAbTarHeaderRec) = AB_TAR_RECORDSIZE by design }
   PAbTarHeaderRec = ^TAbTarHeaderRec; { Declare pointer type for use in the list }
   TAbTarHeaderRec = packed record
-    Name    : ArrName;  {   0- 99, $  0- 63, filename, null terminated ASCII string, unless length is 100 }
+    Name    : ArrNameByte;{   0- 99, $  0- 63, filename, null terminated ASCII string, unless length is 100 }
     Mode    : Arr8;     { 100-107, $ 64- 6B, file mode (UNIX style, ASCII coded Octal) }
     uid     : Arr8;     { 108-115, $ 6C- 73, usrid # (UNIX style, ASCII coded Octal) }
     gid     : Arr8;     { 116-123, $ 74- 7B, grpid # (UNIX style, ASCII coded Octal) }
@@ -457,7 +458,7 @@ uses
   {$IFDEF MSWINDOWS}
   Windows, // Fix inline warnings
   {$ENDIF MSWINDOWS}
-  Math, RTLConsts, SysUtils, AnsiStrings, AbCharset, AbVMStrm, AbExcept;
+  Math, RTLConsts, SysUtils, AnsiStrings, AbBytes, AbCharset, AbVMStrm, AbExcept;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function OctalToInt(const Oct : PAnsiChar; aLen : integer): Int64;
@@ -818,11 +819,19 @@ begin
     begin
       SetLength(pBytes, SizeOf(PTarHeader.ustar.Prefix));
       Move(PTarHeader.ustar.Prefix[0], pBytes[0], Length(pBytes));
-      RawFileName := TEncoding.ANSI.GetString(pBytes) + '/' + PTarHeader.Name
+      RawFileName := TEncoding.ANSI.GetString(pBytes) + '/';
+
+      SetLength(pBytes, SizeOf(PTarHeader.Name));
+      Move(PTarHeader.Name[0], pBytes[0], Length(pBytes));
+      RawFileName := RawFileName + TEncoding.ANSI.GetString(pBytes);
     end
     else
-      { V7_FORMAT, OLDGNU_FORMAT }
-      RawFileName := PTarHeader.Name;
+      begin
+        { V7_FORMAT, OLDGNU_FORMAT }
+        SetLength(pBytes, SizeOf(PTarHeader.Name));
+        Move(PTarHeader.Name[0], pBytes[0], Length(pBytes));
+        RawFileName := TEncoding.ANSI.GetString(pBytes);
+      end;
   end; { End not FoundName }
 
   FTarItem.Name := AbRawBytesToString(TEncoding.ANSI.GetBytes(RawFileName));
@@ -1253,7 +1262,7 @@ begin
   FTarHeaderList.Insert(I, PHeader);{ Insert: Inserts at base index }
   FTarHeaderTypeList.Insert(I, Pointer( META_DATA_HEADER));{ This is the L/K Header }
   FillChar(PHeader^, AB_TAR_RECORDSIZE, #0); { Zero the whole block }
-  AnsiStrings.StrPCopy(PHeader.Name, AB_TAR_L_HDR_NAME); { Stuff L/K String Name }
+  TAbBytes.StrPCopy(@PHeader.Name, AB_TAR_L_HDR_NAME); { Stuff L/K String Name }
   AnsiStrings.StrPCopy(PHeader.Mode, AB_TAR_L_HDR_ARR8_0); { Stuff zeros }
   AnsiStrings.StrPCopy(PHeader.uid, AB_TAR_L_HDR_ARR8_0);  { Stuff zeros }
   AnsiStrings.StrPCopy(PHeader.gid, AB_TAR_L_HDR_ARR8_0);  { Stuff zeros }
@@ -1432,7 +1441,7 @@ begin
     { Save off the new name and store to the Header }
     FTarItem.Name := Value;
     { Must add Null Termination before we store to Header }
-    AnsiStrings.StrPLCopy(PTarHeader.Name, RawFileName, AB_TAR_NAMESIZE);
+    TAbBytes.StrPLCopy(@PTarHeader.Name, RawFileName, AB_TAR_NAMESIZE);
   end;{ End else Short new name,... }
 
   { Update the inherited file names. }
@@ -1699,7 +1708,7 @@ begin
   DataRead := FStream.Read(FTarHeader, AB_TAR_RECORDSIZE); { Read in a header }
   { DataRead <> AB_TAR_RECORDSIZE means end of stream, and the End Of Archive
     record is all #0's, which the StrLen(FTarHeader.Name) check will catch }
-  while (DataRead = AB_TAR_RECORDSIZE) and (AnsiStrings.StrLen(FTarHeader.Name) > 0) and not FoundItem do
+  while (DataRead = AB_TAR_RECORDSIZE) and (TAbBytes.StrLen(@FTarHeader.Name) > 0) and not FoundItem do
   begin { Either exit when we find a supported file or end of file or an invalid header name. }
     if FTarHeader.LinkFlag in (AB_SUPPORTED_MD_HEADERS+AB_UNSUPPORTED_MD_HEADERS) then
     begin { We have a un/supported Meta-Data Header }

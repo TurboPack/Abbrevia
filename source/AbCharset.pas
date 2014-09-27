@@ -244,6 +244,9 @@ begin
   {$IFDEF MSWINDOWS}
   Result := False;
   {$ENDIF}
+  {$IFDEF ANDROID}
+  Result := True;
+  {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 function AbRawBytesToString(const aValue: TBytes): string;
