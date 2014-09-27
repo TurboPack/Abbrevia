@@ -53,12 +53,12 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <DesignOnlyPackage>true</DesignOnlyPackage>
         <DCC_HppOutput>..\..\source\hpp</DCC_HppOutput>
         <DCC_UnitSearchPath>..\..\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
         <DCC_OutputNeverBuildDcps>true</DCC_OutputNeverBuildDcps>
         <SanitizedProjectName>AbbreviaVCLCDesign</SanitizedProjectName>
-        <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
         <VerInfo_MajorVer>5</VerInfo_MajorVer>
         <VerInfo_Keys>CompanyName=;FileDescription=Abbrevia VCL designtime components;FileVersion=5.0.0.0;InternalName=;LegalCopyright=Copyright (c) Abbrevia Group 2011;LegalTrademarks=;OriginalFilename=;ProductName=Abbrevia;ProductVersion=5.0;Comments=</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
