@@ -48,9 +48,9 @@ package AbbreviaVCLDDesign;
 {$WRITEABLECONST ON}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Abbrevia Design-time package'}
+{$DESCRIPTION 'Abbrevia Designtime Delphi package'}
 {$DESIGNONLY}
 {$IMPLICITBUILD OFF}
 
