@@ -219,7 +219,7 @@ type
                                              UTC time }
     ChkSum  : Arr8;     { 148-155, $ 94- 9B, checksum of header (6 bytes ASCII coded Octal, #00, #20) }
     LinkFlag: AnsiChar; {     156, $     9C, type of item, one of the Link Flag constants from above }
-    LinkName: ArrName;  { 157-256, $ 9D-100, name of link, null terminated ASCII string }
+    LinkName: ArrNameByte;  { 157-256, $ 9D-100, name of link, null terminated ASCII string }
     Magic   : TAbTarMagicRec;
                         { 257-264, $101-108, identifier, usually 'ustar'#00'00' }
     UsrName : array [0..AB_TAR_TUSRNAMELEN-1] of AnsiChar;
@@ -846,7 +846,7 @@ var
   NameLength : Int64;
   NumMHeaders: integer;
   ExtraName: integer;
-  RawLinkName, TempStr: AnsiString;
+  RawLinkName, TempStr: string;
 begin
  {  UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT }
   PHeader := nil;
@@ -889,7 +889,7 @@ begin
   end; { End While }
 
   if not FoundName then
-    RawLinkName := PHeader.LinkName;
+    RawLinkName := TAbBytes.AsString(@PHeader.LinkName);
 
   FTarItem.LinkName := AbRawBytesToString(TEncoding.ANSI.GetBytes(RawLinkName));
 end;
@@ -1323,7 +1323,7 @@ var
   PHeader: PAbTarHeaderRec;
   I, J: Integer;
   TotalOldNumHeaders: Integer;
-  RawFileName: AnsiString;
+  RawFileName: string;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do  Not Save }
     Exit;
@@ -1348,7 +1348,7 @@ begin
          OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
 
       Add headers to length of new Name Length, update name in file header, update name fields }
-  RawFileName := AbStringToUnixBytes(Value);
+  RawFileName := Value;
   { In all cases zero out the name fields in the File Header. }
   if Length(RawFileName) > AB_TAR_NAMESIZE then begin { Must be null terminated except at 100 char length }
     { Look for long name meta-data headers already in the archive. }
@@ -1522,7 +1522,7 @@ var
   PHeader: PAbTarHeaderRec;
   I, J: Integer;
   TotalOldNumHeaders: Integer;
-  RawLinkName: AnsiString;
+  RawLinkName: string;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1542,7 +1542,7 @@ begin
       if old was Long,
          OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
       STAR & PAX: And should not yet get here.}
-  RawLinkName := AbStringToUnixBytes(Value);
+  RawLinkName := Value;
   if Length(RawLinkName) > AB_TAR_NAMESIZE then { Must be null terminated except at 100 char length }
   begin
     { Look for long name meta-data headers already in the archive. }
@@ -1608,7 +1608,7 @@ begin
     end; { End if GNU... }
     { Save off the new name and store to the Header }
     FTarItem.LinkName := Value;
-    AnsiStrings.StrPLCopy(PTarHeader.LinkName, RawLinkName, AB_TAR_NAMESIZE);
+    TAbBytes.StrPLCopy(@PTarHeader.LinkName, RawLinkName, AB_TAR_NAMESIZE);
   end;{ End else Short new name,... }
   FTarItem.Dirty := True;
 end;

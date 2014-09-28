@@ -290,7 +290,7 @@ uses
   Windows,
   {$ENDIF}
   AnsiStrings, SysUtils, AbBitBkt, AbCharset, AbDfBase, AbDfDec, AbDfEnc,
-  AbExcept, AbResString;
+  AbExcept, AbResString, AbBytes;
 
 const
   { Header Signature Values}
@@ -472,7 +472,7 @@ begin
   inherited;
 end;
 
-function ReadCStringInStream(AStream: TStream): AnsiString;
+function ReadCStringInStream(AStream: TStream): string;
 {
 locate next instance of a null character in a stream
 leaves stream positioned just past that,
@@ -482,7 +482,7 @@ Result is the entire read string.
 const
   BuffSiz = 1024;
 var
-  Buff   : array [0..BuffSiz-1] of AnsiChar;
+  Buff   : TBytes;
   Len, DataRead : LongInt;
 begin
 { basically what this is supposed to do is...}
@@ -492,16 +492,16 @@ begin
     Result := Result + C;
   until (AStream.Position = AStream.Size) or (C = #0);
 }
+  SetLength(Buff, BuffSiz);
   Result := '';
   repeat
     DataRead := AStream.Read(Buff, BuffSiz - 1);
-    Buff[DataRead] := #0;
-    Len := AnsiStrings.StrLen(Buff);
-    if Len > 0 then begin
-      SetLength(Result, Length(Result) + Len);
-      Move(Buff, Result[Length(Result) - Len + 1], Len);
-    end;
-    if Len < DataRead then begin
+    Buff[DataRead] := 0;
+    Len := TAbBytes.StrLen(Buff);
+    if Len > 0 then
+      Result := Result + TEncoding.ANSI.GetString(Buff);
+    if Len < DataRead then
+    begin
       AStream.Seek(Len - DataRead + 1, soCurrent);
       Break;
     end;
@@ -800,7 +800,7 @@ end;
 procedure TAbGzipItem.SetFileName(const Value: string);
 begin
   FFileName := Value;
-  FRawFileName := AbStringToUnixBytes(Value);
+  FRawFileName := Value;
   if Value <> '' then
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FNAME
   else

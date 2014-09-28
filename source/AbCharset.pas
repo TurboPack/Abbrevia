@@ -48,7 +48,7 @@ function AbIsOEM(const aValue: TBytes): Boolean;
 
 function AbRawBytesToString(const aValue: TBytes): string;
 
-function AbStringToUnixBytes(const aValue: string): RawByteString;
+function AbStringToUnixBytes(const aValue: string): TBytes;
 
 function AbSysCharSetIsUTF8: Boolean;
 
@@ -272,12 +272,12 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-function AbStringToUnixBytes(const aValue: string): RawByteString;
+function AbStringToUnixBytes(const aValue: string): TBytes;
 // Convert from a string to an appropriate encoding for Unix archive types (tar/gz)
 // Based on testing the system encoding should be used on Linux, and UTF-8
 // everywhere else.  Windows apps don't agree on whether to use ANSI, OEM, or UTF-8.
 begin
-  Result := UTF8Encode(aValue);
+  Result := TEncoding.UTF8.GetBytes(aValue);
 end;
 { -------------------------------------------------------------------------- }
 {$IFDEF MSWINDOWS}

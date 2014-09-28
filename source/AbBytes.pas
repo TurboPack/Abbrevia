@@ -5,10 +5,11 @@ interface
 type
   TAbBytes = record
   public
+    class function AsString(ASource: Pointer): string; static;
     class function StrLCopy(ADest: PByte; const ASource: string; AMaxLen: Cardinal): PByte; static;
     class function StrLen(ABuffer: Pointer): Cardinal; static;
     class function StrPCopy(ADest: PByte; const ASource: string): PByte; static;
-    class function StrPLCopy(ADest: PByte; const ASource: string; AMaxLen: Cardinal): PByte; static;
+    class function StrPLCopy(ADest: Pointer; const ASource: string; AMaxLen: Cardinal): PByte; static;
   end;
 
 implementation
@@ -17,6 +18,17 @@ uses
   System.SysUtils;
 
 { TAbBytes }
+
+class function TAbBytes.AsString(ASource: Pointer): string;
+var
+  iLen: Integer;
+  pBytes: TBytes;
+begin
+  iLen := StrLen(ASource);
+  SetLength(pBytes, iLen);
+  Move(ASource^, pBytes[0], iLen);
+  Result := TEncoding.ANSI.GetString(pBytes);
+end;
 
 class function TAbBytes.StrLCopy(ADest: PByte; const ASource: string; AMaxLen: Cardinal): PByte;
 var
@@ -51,7 +63,7 @@ begin
   Result := StrLCopy(ADest, ASource, Length(ASource));
 end;
 
-class function TAbBytes.StrPLCopy(ADest: PByte; const ASource: string; AMaxLen: Cardinal): PByte;
+class function TAbBytes.StrPLCopy(ADest: Pointer; const ASource: string; AMaxLen: Cardinal): PByte;
 begin
   Result := StrLCopy(ADest, ASource, AMaxLen);
 end;
