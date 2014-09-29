@@ -223,7 +223,7 @@ type
                         { 257-264, $101-108, identifier, usually 'ustar'#00'00' }
     UsrName : array [0..AB_TAR_TUSRNAMELEN-1] of Byte;
                         { 265-296, $109-128, username, null terminated ASCII string }
-    GrpName : array [0..AB_TAR_TGRPNAMELEN-1] of AnsiChar;
+    GrpName : array [0..AB_TAR_TGRPNAMELEN-1] of Byte;
                         { 297-328, $129-148, groupname, null terminated ASCII string }
     DevMajor: Arr8;     { 329-336, $149-150, major device ID (UNIX style, ASCII coded Octal) }
     DevMinor: Arr8;     { 337-344, $151-158, minor device ID (UNIX style, ASCII coded Octal) }
@@ -457,8 +457,7 @@ uses
   {$IFDEF MSWINDOWS}
   Windows, // Fix inline warnings
   {$ENDIF MSWINDOWS}
-  Math, RTLConsts, SysUtils, IOUtils, AnsiStrings, AbBytes, AbCharset, AbVMStrm,
-  AbExcept;
+  Math, RTLConsts, SysUtils, IOUtils, AbBytes, AbCharset, AbVMStrm, AbExcept;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function OctalToInt(const Oct : Pointer; aLen : integer): Int64;
@@ -483,9 +482,9 @@ begin
   end;
 end;
 
-function IntToOctal(Value : Int64): AnsiString;
+function IntToOctal(Value : Int64): string;
 const
-  OctDigits  : array[0..7] of AnsiChar = '01234567';
+  OctDigits  : array[0..7] of Char = '01234567';
 begin
   if Value = 0 then
     Result := '0'
@@ -544,7 +543,7 @@ begin
   Strm.Position := StartPos;
 end;
 
-function PadString(const S : AnsiString; Places : Integer) : AnsiString;
+function PadString(const S : string; Places : Integer) : string;
 {
 Pads a string (S) with one right space and as many left spaces as
 needed to fill Places
@@ -559,7 +558,7 @@ begin
     Result := S
   else begin
     Result := S + ' ';
-    Result := StringOfChar(AnsiChar(' '), Places - Length(Result)) + Result;
+    Result := StringOfChar(' ', Places - Length(Result)) + Result;
   end;
 end;
 
@@ -945,7 +944,7 @@ begin
   FTarItem.Magic := TAbBytes.AsString(@PTarHeader.Magic.value);
   FTarItem.Version := OctalToInt(@PTarHeader.Magic.version, SizeOf(PTarHeader.Magic.version));
   FTarItem.UsrName := TAbBytes.AsString(@PTarHeader.UsrName); { Extended in PAX Headers }
-  FTarItem.GrpName := string(PTarHeader.GrpName); { Extended in PAX Headers }
+  FTarItem.GrpName := TAbBytes.AsString(@PTarHeader.GrpName); { Extended in PAX Headers }
   FTarItem.DevMajor := OctalToInt(@PTarHeader.DevMajor, SizeOf(PTarHeader.DevMajor));
   FTarItem.DevMinor := OctalToInt(@PTarHeader.DevMinor, SizeOf(PTarHeader.DevMinor));
   GetFileNameFromHeaders;
@@ -1053,10 +1052,11 @@ var
   j : Integer;
   PHeader :  PAbTarHeaderRec;
   HdrChkSum : Integer;
-  HdrChkStr : AnsiString;
+  HdrChkStr : string;
   HdrBuffer : PAnsiChar;
   SkipNextChkSum: Integer;
   SkipChkSum: Boolean;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1108,7 +1108,8 @@ begin
         HdrChkSum := HdrChkSum + Ord(HdrBuffer[j]);
       { set the checksum in the header }
       HdrChkStr := PadString(IntToOctal(HdrChkSum), SizeOf(PHeader.ChkSum));
-      Move(HdrChkStr[1], PHeader.ChkSum, Length(HdrChkStr));
+      pBytes := TEncoding.ANSI.GetBytes(HdrChkStr);
+      Move(pBytes[0], PHeader.ChkSum, Length(pBytes));
     end; { end Skip Check Sum }
     { write header to the file }
     AStream.Write(PHeader^, AB_TAR_RECORDSIZE);
@@ -1119,20 +1120,23 @@ end;
 
 procedure TAbTarItem.SetCompressedSize(const Value: Int64);
 var
-  S : AnsiString;
+  S: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   { Size is extendable in PAX Headers, Remember PAX extended Header Over Rule File Headers }
   FTarItem.Size := Value; { Store our Vitrual Copy }
   S := PadString(IntToOctal(Value), SizeOf(Arr12));{ Stuff to header }
-  Move(S[1], PTarHeader.Size, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.Size, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
 procedure TAbTarItem.SetDevMajor(const Value: Integer);
 var
-  S : AnsiString;
+  S: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1140,13 +1144,15 @@ begin
   { Otherwise they are stuffed with #00 }
   FTarItem.DevMajor := Value; { Store to the struct }
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
-  Move(S[1], PTarHeader.DevMajor, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.DevMajor, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
 procedure TAbTarItem.SetDevMinor(const Value: Integer);
 var
-  S : AnsiString;
+  S: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1154,22 +1160,25 @@ begin
   { Otherwise they are stuffed with #00 }
   FTarItem.DevMinor := Value;
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
-  Move(S[1], PTarHeader.DevMinor, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.DevMinor, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
 procedure TAbTarItem.SetExternalFileAttributes(Value: LongWord);
 var
-  S : AnsiString;
+  S : string;
   I: Integer;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   FTarItem.Mode := Value;
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
+  pBytes := TEncoding.ANSI.GetBytes(S);
   for I := 0 to FTarHeaderList.Count - 1 do
     if TAbTarHeaderType(FTarHeaderTypeList.Items[I]) in [FILE_HEADER, META_DATA_HEADER] then
-      Move(S[1], PAbTarHeaderRec(FTarHeaderList.Items[I]).Mode, Length(S));
+      Move(pBytes[0], PAbTarHeaderRec(FTarHeaderList.Items[I]).Mode, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
@@ -1183,7 +1192,8 @@ var
   TotalNewNumHeaders: Integer;
   NumHeaders: Integer;
   ExtraName: Integer;
-  tempStr: AnsiString;
+  tempStr: string;
+  pBytes: TBytes;
 begin
   PHeader := FTarHeaderList.Items[I];
 
@@ -1193,7 +1203,8 @@ begin
 
   { Save off the new Length, so we don't have to change the pointers later. }
   tempStr := PadString(IntToOctal(Length(Value)+1), SizeOf(PHeader.Size));
-  Move(tempStr[1], PHeader.Size, Length(tempStr));
+  pBytes := TEncoding.ANSI.GetBytes(tempStr);
+  Move(pBytes[0], PHeader.Size, Length(pBytes));
 
   TotalOldNumHeaders := Ceil(OldNameLength / AB_TAR_RECORDSIZE);
   TotalNewNumHeaders := Ceil((Length(Value)+1) / AB_TAR_RECORDSIZE);{ Null terminated }
@@ -1220,22 +1231,22 @@ begin
   NumHeaders := (Length(Value)+1) div AB_TAR_RECORDSIZE; { Include Null terminator }
   ExtraName := (Length(Value)+1) mod AB_TAR_RECORDSIZE; { Chars in the last Header }
   { Now we have the number of headers set up, stuff the name in the Headers }
-  TempStr := AnsiString(Value);
+  pBytes := TEncoding.ANSI.GetBytes(Value);
   for J := 1 to NumHeaders do
   begin
     { Copy entire next AB_TAR_RECORDSIZE bytes of tempString to content of Header }
     { There may only be AB_TAR_RECORDSIZE-1 bytes if this is the last rounded header }
     PHeader := FTarHeaderList.Items[I+J];
-    Move(TempStr[1], PHeader^, AB_TAR_RECORDSIZE);
-    if Length(TempStr) >= AB_TAR_RECORDSIZE then
-      Delete(TempStr, 1, AB_TAR_RECORDSIZE);{ Crop string }
+    Move(pBytes[0], PHeader^, AB_TAR_RECORDSIZE);
+    if Length(pBytes) >= AB_TAR_RECORDSIZE then
+      Delete(pBytes, 1, AB_TAR_RECORDSIZE);{ Crop string }
   end;
   if ExtraName <> 0 then
   begin
     { Copy whatever is left in tempStr into the rest of the buffer }
     PHeader := FTarHeaderList.Items[I+NumHeaders+1];
     FillChar(PHeader^, AB_TAR_RECORDSIZE, #0); { Zero the whole block }
-    Move(TempStr[1], PHeader^, ExtraName-1); { The string is null terminated }
+    Move(pBytes[0], PHeader^, ExtraName-1); { The string is null terminated }
   end
   else { We already copied the entire name, but it must be null terminated }
   begin
@@ -1244,10 +1255,11 @@ begin
 
   { Finally we need to stuff the file type Header. }
   { Note: Value.length > AB_TAR_NAMESIZE(100) }
+  pBytes := TEncoding.ANSI.GetBytes(Value);
   if LinkFlag = AB_TAR_LF_LONGNAME then
-    Move(Value[1], PTarHeader.Name, AB_TAR_NAMESIZE)
+    Move(pBytes[0], PTarHeader.Name, AB_TAR_NAMESIZE)
   else
-    Move(Value[1], PTarHeader.LinkName, AB_TAR_NAMESIZE);
+    Move(pBytes[0], PTarHeader.LinkName, AB_TAR_NAMESIZE);
 end;
 
 
@@ -1258,7 +1270,8 @@ var
   J: Integer;
   NumHeaders: Integer;
   ExtraName: Integer;
-  tempStr: AnsiString;
+  tempStr: string;
+  pBytes: TBytes;
 begin
   { We have a GNU_FORMAT, and no L/K Headers.}
   { Add a new MD Header and MD Data Headers }
@@ -1272,13 +1285,14 @@ begin
   TAbBytes.StrPCopy(@PHeader.uid, AB_TAR_L_HDR_ARR8_0);  { Stuff zeros }
   TAbBytes.StrPCopy(@PHeader.gid, AB_TAR_L_HDR_ARR8_0);  { Stuff zeros }
   tempStr := PadString(IntToOctal(Length(Value)+1), SizeOf(PHeader.Size)); { Stuff Size }
-  Move(tempStr[1], PHeader.Size, Length(tempStr));
+  pBytes := TEncoding.ANSI.GetBytes(tempStr);
+  Move(pBytes[0], PHeader.Size, Length(pBytes));
   TAbBytes.StrPCopy(@PHeader.ModTime, AB_TAR_L_HDR_ARR12_0);  { Stuff zeros }
   { Check sum will be calculated as the Dirty flag is in caller. }
   PHeader.LinkFlag := Ord(LinkFlag);  { Stuff Link FlagSize }
   TAbBytes.StrPCopy(@PHeader.Magic.gnuOld, AB_TAR_MAGIC_GNUOLD); { Stuff the magic }
   TAbBytes.StrPCopy(@PHeader.UsrName, AB_TAR_L_HDR_USR_NAME);
-  AnsiStrings.StrPCopy(PHeader.GrpName, AB_TAR_L_HDR_GRP_NAME);
+  TAbBytes.StrPCopy(@PHeader.GrpName, AB_TAR_L_HDR_GRP_NAME);
   { All else stays as Zeros. }
   { Completed with L/K Header }
 
@@ -1287,7 +1301,7 @@ begin
   NumHeaders := Ceil((Length(Value)+1) / AB_TAR_RECORDSIZE); { Include Null terminator }
   ExtraName := (Length(Value)+1) mod AB_TAR_RECORDSIZE; { Chars in the last Header }
   { Now we have the number of headers set up, stuff the name in the Headers }
-  TempStr := AnsiString(Value);
+  pBytes := TEncoding.ANSI.GetBytes(Value);
   for J := 1 to NumHeaders-1 do
   begin
     { Make a buffer, and copy entire next AB_TAR_RECORDSIZE bytes of tempStr to content of Header }
@@ -1295,9 +1309,9 @@ begin
     GetMem(PHeader, AB_TAR_RECORDSIZE);
     FTarHeaderList.Insert(J+I, PHeader);
     FTarHeaderTypeList.Insert(J+I, Pointer(MD_DATA_HEADER));{ We are adding MD Data headers here }
-    Move(TempStr[1], PHeader^, AB_TAR_RECORDSIZE);
-    if Length(TempStr) >= AB_TAR_RECORDSIZE then
-      Delete(TempStr, 1, AB_TAR_RECORDSIZE);{ Crop string }
+    Move(pBytes[0], PHeader^, AB_TAR_RECORDSIZE);
+    if Length(pBytes) >= AB_TAR_RECORDSIZE then
+      Delete(pBytes, 0, AB_TAR_RECORDSIZE);{ Crop string }
   end;
   if ExtraName <> 0 then
   begin
@@ -1307,7 +1321,7 @@ begin
     FTarHeaderList.Insert(I+NumHeaders, PHeader);{ Insert: Inserts at base index }
     FTarHeaderTypeList.Insert(I+NumHeaders, Pointer(MD_DATA_HEADER));{ We are only adding MD Data headers here }
     FillChar(PHeader^, AB_TAR_RECORDSIZE, #0); { Zero the whole block }
-    Move(TempStr[1], PHeader^, ExtraName-1); { The string is null terminated in the header }
+    Move(pBytes[0], PHeader^, ExtraName-1); { The string is null terminated in the header }
   end
   else { We already copied the entire name, but it must be null terminated }
   begin
@@ -1316,10 +1330,11 @@ begin
 
   { Finally we need to stuff the file type Header. }
   { Note: Value.length > AB_TAR_NAMESIZE(100) }
+  pBytes := TEncoding.ANSI.GetBytes(Value);
   if LinkFlag = AB_TAR_LF_LONGNAME then
-    Move(Value[1], PHeader.Name, AB_TAR_NAMESIZE)
+    Move(pBytes[0], PHeader.Name, AB_TAR_NAMESIZE)
   else
-    Move(Value[1], PHeader.LinkName, AB_TAR_NAMESIZE);
+    Move(pBytes[0], PHeader.LinkName, AB_TAR_NAMESIZE);
 end;
 
 procedure TAbTarItem.SetFileName(const Value: string);
@@ -1458,14 +1473,16 @@ end;
 
 procedure TAbTarItem.SetGroupID(const Value: Integer);
 var
-  S : AnsiString;
+  S: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   { gid is extendable in PAX Headers, Rember PAX extended Header Over Rule File Headers }
   FTarItem.gid := Value;
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
-  Move(S[1], PTarHeader.gid, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.gid, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
@@ -1475,7 +1492,7 @@ begin
     Exit;
   { GrpName is extendable in PAX Headers, Rember PAX extended Header Over Rule File Headers }
   FTarItem.GrpName := Value;
-  AnsiStrings.StrPLCopy(PTarHeader.GrpName, AnsiString(Value), SizeOf(PTarHeader.GrpName));
+  TAbBytes.StrPLCopy(@PTarHeader.GrpName, Value, SizeOf(PTarHeader.GrpName));
   FTarItem.Dirty := True;
 end;
 
@@ -1629,27 +1646,31 @@ end;
 
 procedure TAbTarItem.SetUncompressedSize(const Value: Int64);
 var
-  S : AnsiString;
+  S : string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   { Size is extendable in PAX Headers, Remember PAX extended Header Over Rule File Headers }
   FTarItem.Size := Value; { Store our Vitrual Copy }
   S := PadString(IntToOctal(Value), SizeOf(Arr12));{ Stuff to header }
-  Move(S[1], PTarHeader.Size, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.Size, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
 procedure TAbTarItem.SetUserID(const Value: Integer);
 var
-  S : AnsiString;
+  S: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   { uid is extendable in PAX Headers, Remember PAX extended Header Over Rule File Headers }
   FTarItem.uid := Value;
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
-  Move(S[1], PTarHeader.uid, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.uid, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
@@ -1665,14 +1686,16 @@ end;
 
 procedure TAbTarItem.SetModTime(const Value: Int64);
 var
-  S: AnsiString;
+  S: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   { ModTime is extendable in PAX Headers, Remember PAX extended Header Over Rule File Headers }
   FTarItem.ModTime := Value; { Store our Virtual Copy }
   S := PadString(IntToOctal(Value), SizeOf(Arr12));{ Stuff to header }
-  Move(S[1], PTarHeader.ModTime, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.ModTime, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
