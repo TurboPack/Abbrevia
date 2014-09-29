@@ -38,6 +38,7 @@ interface
 uses
   Classes,
   Types,
+  Generics.Collections,
   AbUtils;
 
 { ===== TAbArchiveItem ====================================================== }
@@ -157,7 +158,7 @@ type
 
   TAbArchiveList = class
   protected {private}
-    FList     : TList;
+    FList     : TList<TAbArchiveItem>;
     FOwnsItems: Boolean;
     HashTable : array[0..1020] of TAbArchiveItem;
   protected {methods}
@@ -784,7 +785,7 @@ end;
 constructor TAbArchiveList.Create(AOwnsItems: Boolean);
 begin
   inherited Create;
-  FList := TList.Create;
+  FList := TList<TAbArchiveItem>.Create;
   FOwnsItems := AOwnsItems;
 end;
 { -------------------------------------------------------------------------- }
@@ -813,7 +814,7 @@ var
 begin
   if FOwnsItems then
     for i := 0 to Count - 1 do
-      TObject(FList[i]).Free;
+      FList[i].Free;
   FList.Clear;
   FillChar(HashTable, SizeOf(HashTable), #0);
 end;
@@ -825,7 +826,7 @@ var
   FN : string;
 begin
   if FOwnsItems then begin
-    FN := TAbArchiveItem(FList[Index]).FileName;
+    FN := FList[Index].FileName;
     Last := @HashTable[GenerateHash(FN)];
     Look := Last^;
     while Look <> nil do begin
@@ -836,7 +837,7 @@ begin
       Last := @Look.NextItem;
       Look := Last^;
     end;
-    TObject(FList[Index]).Free;
+    FList[Index].Free;
   end;
   FList.Delete(Index);
 end;
@@ -888,7 +889,7 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveList.Get(Index : Integer): TAbArchiveItem;
 begin
-  Result := TAbArchiveItem(FList[Index]);
+  Result := FList[Index];
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveList.GetCount : Integer;
@@ -936,7 +937,7 @@ var
   FN : string;
 begin
   if FOwnsItems then begin
-    FN := TAbArchiveItem(FList[Index]).FileName;
+    FN := FList[Index].FileName;
     Last := @HashTable[GenerateHash(FN)];
     Look := Last^;
     { Delete old index }
@@ -949,7 +950,7 @@ begin
       Look := Last^;
     end;
     { Free old instance }
-    TObject(FList[Index]).Free;
+    FList[Index].Free;
     { Add new index }
     H := GenerateHash(Item.FileName);
     Item.NextItem := HashTable[H];

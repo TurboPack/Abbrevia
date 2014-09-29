@@ -10,8 +10,8 @@ type
   public
     class function AsString(ASource: Pointer): string; overload; static;
     class function AsString(ASource: Pointer; ALen: Integer): string; overload; static;
-    class function Equals(const ALeft: string; ARight: Pointer): Boolean; static; overload;
-    class function Equals(const ALeft: Pointer; ARight: string): Boolean; static; overload;
+    class function Equals(const ALeft: string; ARight: Pointer): Boolean; overload; static;
+    class function Equals(const ALeft: Pointer; ARight: string): Boolean; overload; static;
     class procedure FromString(const ASource: string; ADest: Pointer); static;
     class function StrLCopy(ADest: PByte; const ASource: string; AMaxLen: Cardinal): PByte; static;
     class function StrLen(ABuffer: Pointer): Cardinal; static;
