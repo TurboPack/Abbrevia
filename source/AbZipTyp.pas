@@ -602,6 +602,7 @@ uses
   Windows,
   {$ENDIF}
   Math,
+  IOUtils,
   AbCharset,
   AbResString,
   AbExcept,
@@ -1455,7 +1456,7 @@ var
   FieldStream: TStream;
   InfoZipField: PInfoZipUnicodePathRec;
   UnicodeName: UnicodeString;
-  UTF8Name: AnsiString;
+  UTF8Name: string;
   XceedField: PXceedUnicodePathRec;
   pBuffer: TBytes;
 begin
@@ -1470,7 +1471,7 @@ begin
      (InfoZipField.NameCRC32 = AbCRC32Of(TEncoding.ANSI.GetBytes(FItemInfo.FileName))) then begin
     SetString(UTF8Name, InfoZipField.UnicodeName,
       FieldSize - SizeOf(TInfoZipUnicodePathRec) + 1);
-    FFileName := UTF8ToString(UTF8Name);
+    FFileName := UTF8Name;
   end
   else if FItemInfo.ExtraField.Get(Ab_XceedUnicodePathSubfieldID, Pointer(XceedField), FieldSize) and
      (FieldSize > SizeOf(TXceedUnicodePathRec)) and
@@ -1924,7 +1925,7 @@ begin
       {Does the filename contain a drive or a leading backslash? }
       if not ((Pos(':', lValue) = 2) or (Pos(AbPathDelim, lValue) = 1)) then
         {If not, add the BaseDirectory to the filename.}
-        lValue := AbAddBackSlash(BaseDirectory) + lValue;
+        lValue := TPath.Combine(BaseDirectory, lValue);
     end;
     lValue := AbGetShortFileSpec( lValue );
   end;

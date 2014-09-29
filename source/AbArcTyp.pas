@@ -560,6 +560,7 @@ implementation
 uses
   RTLConsts,
   SysUtils,
+  IOUtils,
   AbExcept,
   AbDfBase,
   AbConst,
@@ -1096,9 +1097,11 @@ var
                     Item := CreateItem(Files[i]);
                     Add(Item);
                   end;
-                end else begin
-                  if (AbAddBackSlash(FBaseDirectory) + Files[i]) <> FArchiveName
-                    then begin
+                end
+                else
+                begin
+                  if TPath.Combine(FBaseDirectory, Files[i]) <> FArchiveName then
+                  begin
                       Item := CreateItem(Files[i]);
                       Add(Item);
                     end;
@@ -1217,7 +1220,7 @@ begin
   else
     UseName := NewName;
   if (AbGetPathType(UseName) <> ptAbsolute) then
-    UseName := AbAddBackSlash(BaseDirectory) + UseName;
+    UseName := TPath.Combine(BaseDirectory, UseName);
 
   Path := ExtractFileDir(UseName);
   if (Path <> '') and not DirectoryExists(Path) then
@@ -1553,7 +1556,7 @@ begin
       {Does the filename contain a drive or a leading backslash? }
       if not ((Pos(':', lValue) = 2) or (Pos(AbPathDelim, lValue) = 1)) then
         {If not, add the BaseDirectory to the filename.}
-        lValue := AbAddBackSlash(BaseDirectory) + lValue;
+        lValue := TPath.Combine(BaseDirectory, lValue);
     end;
     lValue := AbGetShortFileSpec(lValue);
   end;
@@ -1715,7 +1718,7 @@ begin
         AbFindFiles(Item.FileName, faAnyFile and not faDirectory, Files,
                      True);
         if Files.Count > 0 then begin
-          DName := AbAddBackSlash(BaseDirectory) + Files[0];
+          DName := TPath.Combine(BaseDirectory, Files[0]);
           AbUnfixName(DName);
           Item.DiskFileName := DName;
         end
@@ -1731,7 +1734,7 @@ begin
   end
   else begin
     if (BaseDirectory <> '') then
-      DName := AbAddBackSlash(BaseDirectory) + Item.FileName
+      DName := TPath.Combine(BaseDirectory, Item.FileName)
     else
       if AbGetPathType(Item.DiskFileName) = ptAbsolute then
         DName := Item.DiskFileName
