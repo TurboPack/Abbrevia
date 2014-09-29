@@ -456,7 +456,7 @@ uses
   {$IFDEF MSWINDOWS}
   Windows, // Fix inline warnings
   {$ENDIF MSWINDOWS}
-  Math, RTLConsts, SysUtils, IOUtils, AbBytes, AbCharset, AbVMStrm, AbExcept;
+  Math, RTLConsts, SysUtils, IOUtils, Character, AbBytes, AbCharset, AbVMStrm, AbExcept;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function OctalToInt(const Oct : Pointer; aLen : integer): Int64;
@@ -795,13 +795,13 @@ begin
       begin
         { Copy entire content of Header to String }
         PHeader := FTarHeaderList.Items[I+J];
-        SetString(TempStr, PAnsiChar(PHeader), AB_TAR_RECORDSIZE);
+        TempStr := TAbBytes.AsString(@PHeader, AB_TAR_RECORDSIZE);
         RawFileName := RawFileName + TempStr;
       end;
       if ExtraName <> 0 then
       begin
         PHeader := FTarHeaderList.Items[I+NumMHeaders+1];
-        SetString(TempStr, PAnsiChar(PHeader), ExtraName-1);
+        TempStr := TAbBytes.AsString(@PHeader, ExtraName-1);
         RawFileName := RawFileName + TempStr;
       end
       else { We already copied the entire name, but the string is still null terminated. }
@@ -871,13 +871,13 @@ begin
       begin
         { Copy entire content of Header to String }
         PHeader := FTarHeaderList.Items[I+J];
-        SetString(TempStr, PAnsiChar(PHeader), AB_TAR_RECORDSIZE);
+        TempStr := TAbBytes.AsString(@PHeader, AB_TAR_RECORDSIZE);
         RawLinkName := RawLinkName + TempStr;
       end;
       if ExtraName <> 0 then
       begin
         PHeader := FTarHeaderList.Items[I+NumMHeaders+1];
-        SetString(TempStr, PAnsiChar(PHeader), ExtraName-1);
+        TempStr := TAbBytes.AsString(@PHeader, ExtraName-1);
         RawLinkName := RawLinkName + TempStr;
       end
       else { We already copied the entire name, but the string is still null terminated. }
@@ -1052,7 +1052,7 @@ var
   PHeader :  PAbTarHeaderRec;
   HdrChkSum : Integer;
   HdrChkStr : string;
-  HdrBuffer : PAnsiChar;
+  HdrBuffer : PByte;
   SkipNextChkSum: Integer;
   SkipChkSum: Boolean;
   pBytes: TBytes;
@@ -1100,7 +1100,7 @@ begin
       { ChkSum field itself is #20'd and has an effect on the sum }
       TAbBytes.FromString(AB_TAR_CHKBLANKS, @PHeader.ChkSum);
       { Set up the buffers }
-      HdrBuffer := PAnsiChar(PHeader);
+      HdrBuffer := PByte(PHeader);
       HdrChkSum := 0;
       { Calculate the checksum, a simple sum of the bytes in the header }
       for j := 0 to (AB_TAR_RECORDSIZE-1) do
@@ -1837,7 +1837,7 @@ end;
 
 procedure TAbTarStreamHelper.WriteArchiveItemSize(AStream: TStream; Size: Int64);
 var
-  PadBuff : PAnsiChar;
+  PadBuff : PByte;
   PadSize : Integer;
 begin
   if Size = 0 then
@@ -1856,7 +1856,7 @@ end;
 
 procedure TAbTarStreamHelper.WriteArchiveTail;
 var
-  PadBuff : PAnsiChar;
+  PadBuff : PByte;
   PadSize : Integer;
 begin
   { append 2 terminating null blocks }

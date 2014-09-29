@@ -129,7 +129,7 @@ type
 type
   TAbDfLZStream = class { LZ77 token stream}
     private
-      FCurPos      : PAnsiChar;
+      FCurPos      : PByte;
       FDistBuckets : PAbDfDistBuckets;
       FDistCount   : integer;
       FLitBuckets  : PAbDfLitBuckets;
@@ -138,8 +138,8 @@ type
       FSlideWin    : TAbDfInputWindow;
       FStartOfs    : Int64;
       FStoredSize  : LongWord;
-      FStream      : PAnsiChar;
-      FStrmEnd     : PAnsiChar;
+      FStream      : PByte;
+      FStrmEnd     : PByte;
       {$IFDEF UseLogging}
       FSWPos       : longint;
       {$ENDIF}
@@ -157,7 +157,7 @@ type
 
       function AddLenDist(aLen : integer; aDist : integer) : boolean;
         { returns true if the stream is "full"}
-      function AddLiteral(aCh : AnsiChar) : boolean;
+      function AddLiteral(aCh : Byte) : boolean;
         { returns true if the stream is "full"}
 
       procedure Clear;
@@ -876,7 +876,7 @@ function TAbDfLZStream.AddLenDist(aLen : integer; aDist : integer)
 var
   LenSymbol  : integer;
   DistSymbol : integer;
-  CurPos     : PAnsiChar;
+  CurPos     : PByte;
 begin
   {$IFDEF UseLogging}
   {log it}
@@ -891,7 +891,7 @@ begin
 
   {write a length/distance record to the stream}
   CurPos := FCurPos;
-  CurPos^ := AnsiChar(false);
+  CurPos^ := Byte(false);
   inc(CurPos);
   PWord(CurPos)^ := word(aLen - 1);
   inc(CurPos, sizeof(word));
@@ -943,9 +943,9 @@ begin
 end;
 {$ENDIF}
 {--------}
-function TAbDfLZStream.AddLiteral(aCh : AnsiChar) : boolean;
+function TAbDfLZStream.AddLiteral(aCh : Byte) : boolean;
 var
-  CurPos : PAnsiChar;
+  CurPos : PByte;
 begin
   {$IFDEF UseLogging}
   {log it}
@@ -957,7 +957,7 @@ begin
 
   {write a literal to the internal stream}
   CurPos := FCurPos;
-  CurPos^ := AnsiChar(true);
+  CurPos^ := Byte(true);
   inc(CurPos);
   CurPos^ := aCh;
   inc(CurPos);
@@ -1001,8 +1001,8 @@ var
   Len       : integer;
   Dist      : integer;
   Symbol    : integer;
-  CurPos    : PAnsiChar;
-  StrmEnd   : PAnsiChar;
+  CurPos    : PByte;
+  StrmEnd   : PByte;
   Code      : longint;
   ExtraBits : longint;
 begin

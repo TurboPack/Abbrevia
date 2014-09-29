@@ -97,7 +97,7 @@ type
     ISize : LongWord;  { size of uncompressed data }
   end;
 
-  TAbGzExtraFieldSubID = array[0..1] of AnsiChar;
+  TAbGzExtraFieldSubID = array[0..1] of Byte;
 
 type
   TAbGzipExtraField = class(TAbExtraField)
@@ -289,8 +289,8 @@ uses
   {$IFDEF MSWINDOWS}
   Windows,
   {$ENDIF}
-  AnsiStrings, SysUtils, AbBitBkt, AbCharset, AbDfBase, AbDfDec, AbDfEnc,
-  AbExcept, AbResString, AbBytes;
+  SysUtils, AbBitBkt, AbCharset, AbDfBase, AbDfDec, AbDfEnc, AbExcept, AbResString,
+  AbBytes;
 
 const
   { Header Signature Values}

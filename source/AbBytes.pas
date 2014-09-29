@@ -2,10 +2,14 @@ unit AbBytes;
 
 interface
 
+uses
+  System.SysUtils;
+
 type
   TAbBytes = record
   public
-    class function AsString(ASource: Pointer): string; static;
+    class function AsString(ASource: Pointer): string; overload; static;
+    class function AsString(ASource: Pointer; ALen: Integer): string; overload; static;
     class function Equals(const ALeft: string; ARight: Pointer): Boolean; static;
     class procedure FromString(const ASource: string; ADest: Pointer); static;
     class function StrLCopy(ADest: PByte; const ASource: string; AMaxLen: Cardinal): PByte; static;
@@ -16,19 +20,19 @@ type
 
 implementation
 
-uses
-  System.SysUtils;
-
 { TAbBytes }
 
 class function TAbBytes.AsString(ASource: Pointer): string;
+begin
+  Result := AsString(ASource, StrLen(ASource));
+end;
+
+class function TAbBytes.AsString(ASource: Pointer; ALen: Integer): string;
 var
-  iLen: Integer;
   pBytes: TBytes;
 begin
-  iLen := StrLen(ASource);
-  SetLength(pBytes, iLen);
-  Move(ASource^, pBytes[0], iLen);
+  SetLength(pBytes, ALen);
+  Move(ASource^, pBytes[0], ALen);
   Result := TEncoding.ANSI.GetString(pBytes);
 end;
 

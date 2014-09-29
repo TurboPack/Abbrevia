@@ -50,7 +50,7 @@ type
   TAbDfMatch = record
     maLen  : integer;
     maDist : integer;
-    maLit  : AnsiChar;
+    maLit  : Byte;
   end;
 
 type
@@ -60,21 +60,21 @@ type
   TAbDfInputWindow = class
     private
       FAdvanceStart : boolean;
-      FBuffer       : PAnsiChar;
-      FBufferEnd    : PAnsiChar;
+      FBuffer       : PByte;
+      FBufferEnd    : PByte;
       FBytesUsed    : longint;
       FChainLen     : integer;
       FHashChains   : PAbPointerList;
       FHashHeads    : PAbPointerList;
       FHashIndex    : integer;
       FChecksum     : longint;
-      FCurrent      : PAnsiChar;
-      FLookAheadEnd : PAnsiChar;
+      FCurrent      : PByte;
+      FLookAheadEnd : PByte;
       FMaxMatchLen  : integer;
       FMustSlide    : boolean;
       FOnProgress   : TAbProgressStep;
-      FSlidePoint   : PAnsiChar;
-      FStart        : PAnsiChar;
+      FSlidePoint   : PByte;
+      FStart        : PByte;
       FStartOffset  : longint;
       FStream       : TStream;
       FStreamSize   : Int64;
@@ -102,7 +102,7 @@ type
       function FindLongestMatch(aAmpleLength : integer;
                             var aMatch       : TAbDfMatch;
                           const aPrevMatch   : TAbDfMatch) : boolean;
-      function GetNextChar : AnsiChar;
+      function GetNextChar : Byte;
       function GetNextKeyLength : integer;
       function Position : longint;
       procedure ReadBuffer(var aBuffer; aCount  : longint;
@@ -234,7 +234,7 @@ var
   HashChains: PAbPointerList;
   HashHeads : PAbPointerList;
   HashInx   : integer;
-  CurPos    : PAnsiChar;
+  CurPos    : PByte;
 begin
   Assert((FLookAheadEnd - FCurrent) >= aCount,
          'TAbDfInputWindow.Advance: seem to be advancing into the unknown');
@@ -374,8 +374,8 @@ var
   MaxDist    : longint;
   MaxMatch   : integer;
   ChainLen   : integer;
-  PrevStrPos : PAnsiChar;
-  CurPos     : PAnsiChar;
+  PrevStrPos : PByte;
+  CurPos     : PByte;
   {$IFDEF UseGreedyAsm}
   CurWord    : word;
   MaxWord    : word;
@@ -620,7 +620,7 @@ begin
   end;
 end;
 {--------}
-function TAbDfInputWindow.GetNextChar : AnsiChar;
+function TAbDfInputWindow.GetNextChar : Byte;
 begin
   Result := FCurrent^;
   inc(FCurrent);
