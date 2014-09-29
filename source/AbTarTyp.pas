@@ -41,8 +41,7 @@ unit AbTarTyp;
 interface
 
 uses
-  Classes,
-  AbUtils, AbArcTyp;
+  Classes, Generics.Collections, AbUtils, AbArcTyp;
 
 const
   AB_TAR_RECORDSIZE  = 512; {Note: SizeOf(TAbTarHeaderRec) = AB_TAR_RECORDSIZE}
@@ -282,8 +281,8 @@ type
     procedure DoGNUNewLongNameLink(LinkFlag: Char; I: Integer; const Value: string);
   protected {private}
     PTarHeader: PAbTarHeaderRec;{ Points to FTarHeaderList.Items[FTarHeaderList.Count-1] }
-    FTarHeaderList: TList;      { List of The Headers }
-    FTarHeaderTypeList: TList;  { List of the Header Types }
+    FTarHeaderList: TList<PAbTarHeaderRec>;      { List of The Headers }
+    FTarHeaderTypeList: TList<TAbTarHeaderType>;  { List of the Header Types }
     FTarItem: TAbTarItemRec;    { Data about current TAR Item }
   protected
     function GetDevMajor: Integer;
@@ -500,12 +499,12 @@ end;
 
 function CalcTarHeaderChkSum(const TarH : TAbTarHeaderRec): LongInt;
 var
-  HdrBuffer : PAnsiChar;
+  HdrBuffer : PByte;
   HdrChkSum : LongInt;
   j : Integer;
 begin
   { prepare for the checksum calculation }
-  HdrBuffer := PAnsiChar(@TarH);
+  HdrBuffer := PByte(@TarH);
   HdrChkSum := 0;
 
   {calculate the checksum, a simple sum of the bytes in the header}
@@ -574,12 +573,12 @@ end;
 constructor TAbTarItem.Create;
 begin
   inherited Create;
-  FTarHeaderList := TList.Create;
-  FTarHeaderTypeList := TList.Create;
+  FTarHeaderList := TList<PAbTarHeaderRec>.Create;
+  FTarHeaderTypeList := TList<TAbTarHeaderType>.Create;
   GetMem(PTarHeader, AB_TAR_RECORDSIZE); { PTarHeader is our new Header }
   FillChar(PTarHeader^, AB_TAR_RECORDSIZE, #0);
   FTarHeaderList.Add(PTarHeader);
-  FTarHeaderTypeList.Add(Pointer(FILE_HEADER));
+  FTarHeaderTypeList.Add(FILE_HEADER);
   FTarItem.FileHeaderCount := 1;
   { set defaults }
   FTarItem.ArchiveFormat := UNKNOWN_FORMAT;
@@ -909,7 +908,7 @@ begin
   { Check sums are in valid headers but NOT in the data headers. }
   for I := 0 to FTarHeaderList.Count - 1 do
   begin
-    if TAbTarHeaderType(FTarHeaderTypeList.Items[I]) in [FILE_HEADER, META_DATA_HEADER] then
+    if FTarHeaderTypeList.Items[I] in [FILE_HEADER, META_DATA_HEADER] then
     begin
       PHeader := FTarHeaderList.Items[i];
       { Save off old Check sum }
@@ -993,7 +992,7 @@ begin
         FTarItem.ArchiveFormat := OLDGNU_FORMAT; { We have a OLDGNU_FORMAT, has L/K headers }
       { There can be a unknown number of Headers of data }
       { We are for sure going to read at least one more header, but are we going to read more than that? }
-      FTarHeaderTypeList.Add(Pointer(META_DATA_HEADER));
+      FTarHeaderTypeList.Add(META_DATA_HEADER);
       NumMHeaders := Ceil(OctalToInt(@PTarHeader.Size, SizeOf(PTarHeader.Size)) / AB_TAR_RECORDSIZE);
       { NumMHeasder should never be zero }
       for I := 1 to NumMHeaders do
@@ -1001,7 +1000,7 @@ begin
         GetMem(PTarHeader, AB_TAR_RECORDSIZE); { Create a new Header }
         AStream.ReadBuffer(PTarHeader^, AB_TAR_RECORDSIZE); { Get the Meta Data }
         FTarHeaderList.Add(PTarHeader); { Store the Header to the list }
-        FTarHeaderTypeList.Add(Pointer(MD_DATA_HEADER));
+        FTarHeaderTypeList.Add(MD_DATA_HEADER);
       end;
       { Loop and reparse }
     end
@@ -1011,19 +1010,19 @@ begin
       FTarItem.ItemType := SUPPORTED_ITEM;
       if FTarItem.ItemReadOnly then            { Since some of the Headers are read only. }
         FTarItem.ItemType := UNSUPPORTED_ITEM; { This Item is unsupported }
-      FTarHeaderTypeList.Add(Pointer(FILE_HEADER));
+      FTarHeaderTypeList.Add(FILE_HEADER);
     end
     else if CharInSet(Chr(PTarHeader.LinkFlag), AB_UNSUPPORTED_F_HEADERS) then
     begin { This Header type is in the Set of unsupported File type Headers }
       FoundItem := True; { Exit Criterion }
       FTarItem.ItemType := UNSUPPORTED_ITEM;
-      FTarHeaderTypeList.Add(Pointer(FILE_HEADER));
+      FTarHeaderTypeList.Add(FILE_HEADER);
     end
     else { These are unknown header types }
     begin { Note: Some of these unknown types could have known Meta-data headers }
       FoundItem := True;
       FTarItem.ItemType := UNKNOWN_ITEM;
-      FTarHeaderTypeList.Add(Pointer(UNKNOWN_HEADER));
+      FTarHeaderTypeList.Add(UNKNOWN_HEADER);
     end;{ end LinkFlag parsing }
   end; { end Found Item While }
   { PTarHeader points to FTarHeaderList.Items[FTarHeaderList.Count-1]; }
@@ -1177,7 +1176,7 @@ begin
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
   pBytes := TEncoding.ANSI.GetBytes(S);
   for I := 0 to FTarHeaderList.Count - 1 do
-    if TAbTarHeaderType(FTarHeaderTypeList.Items[I]) in [FILE_HEADER, META_DATA_HEADER] then
+    if FTarHeaderTypeList.Items[I] in [FILE_HEADER, META_DATA_HEADER] then
       Move(pBytes[0], PAbTarHeaderRec(FTarHeaderList.Items[I]).Mode, Length(pBytes));
   FTarItem.Dirty := True;
 end;
@@ -1223,7 +1222,7 @@ begin
     begin { Old < New, Need more Headers, Insert }
       GetMem(PHeader, AB_TAR_RECORDSIZE);
       FTarHeaderList.Insert(I+1,PHeader);{ Insert: Inserts at index }
-      FTarHeaderTypeList.Insert(I+1,Pointer(MD_DATA_HEADER));{ We are only adding MD Data headers here }
+      FTarHeaderTypeList.Insert(I+1,MD_DATA_HEADER);{ We are only adding MD Data headers here }
       J := J + 1;
     end;
   end;{ end numHeaders while }
@@ -1278,7 +1277,7 @@ begin
   { Make an L/K header }
   GetMem(PHeader, AB_TAR_RECORDSIZE);
   FTarHeaderList.Insert(I, PHeader);{ Insert: Inserts at base index }
-  FTarHeaderTypeList.Insert(I, Pointer( META_DATA_HEADER));{ This is the L/K Header }
+  FTarHeaderTypeList.Insert(I, META_DATA_HEADER);{ This is the L/K Header }
   FillChar(PHeader^, AB_TAR_RECORDSIZE, #0); { Zero the whole block }
   TAbBytes.StrPCopy(@PHeader.Name, AB_TAR_L_HDR_NAME); { Stuff L/K String Name }
   TAbBytes.StrPCopy(@PHeader.Mode, AB_TAR_L_HDR_ARR8_0); { Stuff zeros }
@@ -1308,7 +1307,7 @@ begin
     { There may only be AB_TAR_RECORDSIZE-1 bytes if this is the last rounded header }
     GetMem(PHeader, AB_TAR_RECORDSIZE);
     FTarHeaderList.Insert(J+I, PHeader);
-    FTarHeaderTypeList.Insert(J+I, Pointer(MD_DATA_HEADER));{ We are adding MD Data headers here }
+    FTarHeaderTypeList.Insert(J+I, MD_DATA_HEADER);{ We are adding MD Data headers here }
     Move(pBytes[0], PHeader^, AB_TAR_RECORDSIZE);
     if Length(pBytes) >= AB_TAR_RECORDSIZE then
       Delete(pBytes, 0, AB_TAR_RECORDSIZE);{ Crop string }
@@ -1319,7 +1318,7 @@ begin
     { Create the last MD Data Header }
     GetMem(PHeader, AB_TAR_RECORDSIZE);
     FTarHeaderList.Insert(I+NumHeaders, PHeader);{ Insert: Inserts at base index }
-    FTarHeaderTypeList.Insert(I+NumHeaders, Pointer(MD_DATA_HEADER));{ We are only adding MD Data headers here }
+    FTarHeaderTypeList.Insert(I+NumHeaders, MD_DATA_HEADER);{ We are only adding MD Data headers here }
     FillChar(PHeader^, AB_TAR_RECORDSIZE, #0); { Zero the whole block }
     Move(pBytes[0], PHeader^, ExtraName-1); { The string is null terminated in the header }
   end
@@ -1967,7 +1966,7 @@ begin
     except
       if ExceptObject is EAbUserAbort then
         FStatus := asInvalid;
-      DeleteFile(UseName);
+      TFile.Delete(UseName);
       raise;
     end;
   end;
