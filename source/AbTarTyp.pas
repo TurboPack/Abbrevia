@@ -122,9 +122,9 @@ type
   TAbTarMagicType = (GNU_OLD, NORMAL);
   TAbTarMagicRec = packed record
     case TAbTarMagicType of
-      GNU_OLD: (gnuOld : array[0..7] of AnsiChar); { Old GNU magic: (Magic.gnuOld) }
-      NORMAL : (value  : array[0..5] of AnsiChar;  {   Magic value: (Magic.value)}
-                version: array[0..1] of AnsiChar); {       Version: (Magic.version) }
+      GNU_OLD: (gnuOld : array[0..7] of Byte); { Old GNU magic: (Magic.gnuOld) }
+      NORMAL : (value  : array[0..5] of Byte;  {   Magic value: (Magic.value)}
+                version: array[0..1] of Byte); {       Version: (Magic.version) }
   end;
 
 { Notes from GNU Tar & POSIX Spec.: }
@@ -252,7 +252,7 @@ type
     LinkFlag   : Byte;     { Link Flag, Echos the actual File Type of this Item. }
     ItemType   : TAbTarItemType; { Item Type Assigned from LinkFlag Header Types. }
     LinkName   : string;   { Link Name }
-    Magic      : AnsiString;   { Magic value }
+    Magic      : string;   { Magic value }
     Version    : Integer;  { Version Number }
     UsrName    : string;   { User Name, for User ID }
     GrpName    : string;   { Group Name, for Group ID }
@@ -593,7 +593,8 @@ begin
   { ModTime }
   LinkFlag := Ord(AB_TAR_LF_OLDNORMAL);
   { Link Name }
-  PTarHeader.Magic.gnuOld := AB_TAR_MAGIC_V7_NONE; { Default to GNU type }
+  TAbBytes.FromString(AB_TAR_MAGIC_V7_NONE, @PTarHeader.Magic.gnuOld);
+  { Default to GNU type }
   UserName := '';
   GroupName := '';
   DevMajor := 0;
@@ -738,7 +739,7 @@ begin
   { GNU_FORMAT is detected by the presence of GNU extended headers. }
 
   { These detections are similar to GNU tar's. }
-  if (PTarHeader.Magic.value = AB_TAR_MAGIC_VAL) then
+  if TAbBytes.Equals(AB_TAR_MAGIC_VAL, @PTarHeader.Magic.value) then
   begin { We have one of three types, STAR_FORMAT, USTAR_FORMAT, POSIX_FORMAT }
     { Detect STAR format.  Leave disabled until explicit STAR support is added. }
     {if (PTarHeader.star.Prefix[130] = #00) and
@@ -754,7 +755,7 @@ begin
     { This can define false positives, Pax headers/ STAR format could be detected as this }
     FTarItem.ArchiveFormat := USTAR_FORMAT;
   end
-  else if (PTarHeader.Magic.gnuOld = AB_TAR_MAGIC_GNUOLD) then
+  else if TAbBytes.Equals(AB_TAR_MAGIC_GNUOLD, @PTarHeader.Magic.gnuOld) then
   begin
     FTarItem.ArchiveFormat := OLDGNU_FORMAT;
   end
@@ -904,7 +905,6 @@ var
   TarChkSumArr : Arr8; { ChkSum field is Arr8 }
   PHeader: PAbTarHeaderRec;
   I: Integer;
-  iByte: Integer;
 begin
   Result := True;
   { Check sums are in valid headers but NOT in the data headers. }
@@ -917,8 +917,7 @@ begin
       Move(PHeader.ChkSum, TarChkSumArr, SizeOf(PHeader.ChkSum));
       TarChkSum := OctalToInt(@TarChkSumArr, SizeOf(TarChkSumArr));
       { Set to Generator Value }
-      for iByte := 0 to SizeOf(PHeader.ChkSum) - 1 do
-        PHeader.ChkSum[iByte] := Ord(AB_TAR_CHKBLANKS[iByte + 1]);
+      TAbBytes.FromString(AB_TAR_CHKBLANKS, @PHeader.ChkSum);
       if CalcTarHeaderChkSum(PHeader^) <> TarChkSum then
         Result := False; { Pass unless one miss-compares }
       { Save back old checksum }
@@ -943,7 +942,7 @@ begin
   FTarItem.ChkSumPass := TestCheckSum();
   FTarItem.LinkFlag := PTarHeader.LinkFlag;
   GetLinkNameFromHeaders; { Extended in PAX Headers }
-  FTarItem.Magic := PTarHeader.Magic.value;
+  FTarItem.Magic := TAbBytes.AsString(@PTarHeader.Magic.value);
   FTarItem.Version := OctalToInt(@PTarHeader.Magic.version, SizeOf(PTarHeader.Magic.version));
   FTarItem.UsrName := string(PTarHeader.UsrName); { Extended in PAX Headers }
   FTarItem.GrpName := string(PTarHeader.GrpName); { Extended in PAX Headers }
@@ -988,7 +987,8 @@ begin
     begin { This Header type is in the Set of un/supported Meta data type headers }
       if CharInSet(Chr(PTarHeader.LinkFlag), AB_UNSUPPORTED_MD_HEADERS) then
         FTarItem.ItemReadOnly := True; { We don't fully support this meta-data type }
-      if CharInSet(Chr(PTarHeader.LinkFlag), AB_PAX_MD_HEADERS) and (PTarHeader.Magic.value = AB_TAR_MAGIC_VAL) then
+      if CharInSet(Chr(PTarHeader.LinkFlag), AB_PAX_MD_HEADERS) and
+        TAbBytes.Equals(AB_TAR_MAGIC_VAL, @PTarHeader.Magic.value) then
         FTarItem.ArchiveFormat := POSIX_FORMAT; { We have a POSIX_FORMAT, has x headers, and Magic matches }
       if CharInSet(Chr(PTarHeader.LinkFlag), AB_GNU_MD_HEADERS) then
         FTarItem.ArchiveFormat := OLDGNU_FORMAT; { We have a OLDGNU_FORMAT, has L/K headers }
@@ -1057,7 +1057,6 @@ var
   HdrBuffer : PAnsiChar;
   SkipNextChkSum: Integer;
   SkipChkSum: Boolean;
-  iByte: Integer;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1100,8 +1099,7 @@ begin
     begin { We are Calculating the Checksum for this Header }
       {Tar ChkSum is "odd" The check sum field is filled with #20 chars as empty }
       { ChkSum field itself is #20'd and has an effect on the sum }
-      for iByte := 0 to SizeOf(PHeader.ChkSum) - 1 do
-        PHeader.ChkSum[iByte] := Ord(AB_TAR_CHKBLANKS[iByte + 1]);
+      TAbBytes.FromString(AB_TAR_CHKBLANKS, @PHeader.ChkSum);
       { Set up the buffers }
       HdrBuffer := PAnsiChar(PHeader);
       HdrChkSum := 0;
@@ -1278,7 +1276,7 @@ begin
   TAbBytes.StrPCopy(@PHeader.ModTime, AB_TAR_L_HDR_ARR12_0);  { Stuff zeros }
   { Check sum will be calculated as the Dirty flag is in caller. }
   PHeader.LinkFlag := Ord(LinkFlag);  { Stuff Link FlagSize }
-  AnsiStrings.StrPCopy(PHeader.Magic.gnuOld, AB_TAR_MAGIC_GNUOLD); { Stuff the magic }
+  TAbBytes.StrPCopy(@PHeader.Magic.gnuOld, AB_TAR_MAGIC_GNUOLD); { Stuff the magic }
   AnsiStrings.StrPCopy(PHeader.UsrName, AB_TAR_L_HDR_USR_NAME);
   AnsiStrings.StrPCopy(PHeader.GrpName, AB_TAR_L_HDR_GRP_NAME);
   { All else stays as Zeros. }
@@ -1624,7 +1622,7 @@ procedure TAbTarItem.SetMagic(const Value: String);
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
-  FTarItem.Magic := AnsiString(Value);
+  FTarItem.Magic := Value;
   Move(Value[1], PTarHeader.Magic, SizeOf(TAbTarMagicRec));
   FTarItem.Dirty := True;
 end;

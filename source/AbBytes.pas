@@ -6,6 +6,8 @@ type
   TAbBytes = record
   public
     class function AsString(ASource: Pointer): string; static;
+    class function Equals(const ALeft: string; ARight: Pointer): Boolean; static;
+    class procedure FromString(const ASource: string; ADest: Pointer); static;
     class function StrLCopy(ADest: PByte; const ASource: string; AMaxLen: Cardinal): PByte; static;
     class function StrLen(ABuffer: Pointer): Cardinal; static;
     class function StrPCopy(ADest: Pointer; const ASource: string): PByte; static;
@@ -28,6 +30,30 @@ begin
   SetLength(pBytes, iLen);
   Move(ASource^, pBytes[0], iLen);
   Result := TEncoding.ANSI.GetString(pBytes);
+end;
+
+class function TAbBytes.Equals(const ALeft: string; ARight: Pointer): Boolean;
+var
+  iByte: Integer;
+  pBuffer: PByte;
+begin
+  pBuffer := PByte(ARight);
+  for iByte := 1 to Length(ALeft) do
+  begin
+    if pBuffer[iByte - 1] <> Ord(ALeft[iByte]) then
+      Exit(False);
+  end;
+  Exit(True);
+end;
+
+class procedure TAbBytes.FromString(const ASource: string; ADest: Pointer);
+var
+  iByte: Integer;
+  pBuffer: PByte;
+begin
+  pBuffer := PByte(ADest);
+  for iByte := 1 to Length(ASource) do
+    pBuffer[iByte - 1] := Ord(ASource[iByte]);
 end;
 
 class function TAbBytes.StrLCopy(ADest: PByte; const ASource: string; AMaxLen: Cardinal): PByte;
