@@ -8,7 +8,7 @@ type
     class function AsString(ASource: Pointer): string; static;
     class function StrLCopy(ADest: PByte; const ASource: string; AMaxLen: Cardinal): PByte; static;
     class function StrLen(ABuffer: Pointer): Cardinal; static;
-    class function StrPCopy(ADest: PByte; const ASource: string): PByte; static;
+    class function StrPCopy(ADest: Pointer; const ASource: string): PByte; static;
     class function StrPLCopy(ADest: Pointer; const ASource: string; AMaxLen: Cardinal): PByte; static;
   end;
 
@@ -58,7 +58,7 @@ begin
   end;
 end;
 
-class function TAbBytes.StrPCopy(ADest: PByte; const ASource: string): PByte;
+class function TAbBytes.StrPCopy(ADest: Pointer; const ASource: string): PByte;
 begin
   Result := StrLCopy(ADest, ASource, Length(ASource));
 end;

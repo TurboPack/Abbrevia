@@ -158,8 +158,8 @@ type
 
   TAbLogger = class(TStream)
     private
-      FBuffer    : PAnsiChar;
-      FCurPos    : PAnsiChar;
+      FBuffer    : PByte;
+      FCurPos    : PByte;
       FLineDelim : TAbLineDelimiter;
       FStream    : TFileStream;
     protected
@@ -504,7 +504,7 @@ end;
 {--------}
 function TAbLogger.Write(const Buffer; Count : longint) : longint;
 var
-  UserBuf      : PAnsiChar;
+  UserBuf      : PByte;
   BytesToGo    : longint;
   BytesToWrite : longint;
 begin
@@ -561,21 +561,21 @@ end;
 {--------}
 procedure TAbLogger.WriteLine(const S : string);
 const
-  cLF : AnsiChar = ^J;
-  cCRLF : array [0..1] of AnsiChar = ^M^J;
+  cLF : Char = ^J;
+  cCRLF : array [0..1] of Char = ^M^J;
 begin
   if (length(S) > 0) then
-    Write(S[1], length(S));
+    Write(S[1], length(S) * SizeOf(Char));
   case FLineDelim of
     ldLF   : Write(cLF, sizeof(cLF));
-    ldCRLF : Write(cCRLF, sizeof(cCRLF));
+    ldCRLF : Write(cCRLF, sizeof(cCRLF) * SizeOf(Char));
   end;
 end;
 {--------}
 procedure TAbLogger.WriteStr(const S : string);
 begin
   if (length(S) > 0) then
-    Write(S[1], length(S));
+    Write(S[1], length(S) * SizeOf(Char));
 end;
 {====================================================================}
 
@@ -587,7 +587,7 @@ var
   S1 : LongWord;
   S2 : LongWord;
   i  : integer;
-  Buffer     : PAnsiChar;
+  Buffer     : PByte;
   BytesToUse : integer;
 begin
   {Note: this algorithm will *only* work if the buffer is 4KB or less,
@@ -644,7 +644,7 @@ procedure AbUpdateCRCBuffer(var aCRC : longint;
 var
   i      : integer;
   CRC    : LongWord;
-  Buffer : PAnsiChar;
+  Buffer : PByte;
 begin
 {$R-}{$Q-}
   {reference the user buffer as a PChar: it makes it easier}
@@ -780,7 +780,7 @@ end;
 {--------}
 function TAbNodeManager.nmAllocNewPage : pointer;
 var
-  NewPage  : PAnsiChar;
+  NewPage  : PByte;
   i        : integer;
   FreeList : pointer;
   NodeSize : integer;

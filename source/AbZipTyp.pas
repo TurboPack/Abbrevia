@@ -148,7 +148,7 @@ type
   TInfoZipUnicodePathRec = packed record
     Version: Byte;
     NameCRC32: LongInt;
-    UnicodeName: array[0..0] of AnsiChar;
+    UnicodeName: array[0..0] of Byte;
   end;
 
   PXceedUnicodePathRec = ^TXceedUnicodePathRec;
@@ -602,6 +602,7 @@ uses
   Windows,
   {$ENDIF}
   Math,
+  Character,
   IOUtils,
   AbCharset,
   AbResString,
@@ -721,9 +722,9 @@ const
 var
   StartPos  : Int64;
   TailRec   : TAbZipEndOfCentralDirectoryRecord;
-  Buffer    : PAnsiChar;
+  Buffer    : PByte;
   Offset    : Int64;
-  TestPos   : PAnsiChar;
+  TestPos   : PByte;
   Done      : boolean;
   BytesRead : Int64;
   BufSize   : Int64;
@@ -1396,7 +1397,7 @@ end;
 function TAbZipItem.GetIsDirectory: Boolean;
 begin
   Result := ((ExternalFileAttributes and faDirectory) <> 0) or
-    ((FileName <> '') and CharInSet(Filename[Length(FFilename)], ['\','/']));
+    ((FileName <> '') and Filename[Length(FFilename)].IsInArray(['\','/']));
 end;
 { -------------------------------------------------------------------------- }
 function TAbZipItem.GetIsEncrypted : Boolean;
@@ -1468,9 +1469,11 @@ begin
   else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
      (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
      (InfoZipField.Version = 1) and
-     (InfoZipField.NameCRC32 = AbCRC32Of(TEncoding.ANSI.GetBytes(FItemInfo.FileName))) then begin
-    SetString(UTF8Name, InfoZipField.UnicodeName,
-      FieldSize - SizeOf(TInfoZipUnicodePathRec) + 1);
+     (InfoZipField.NameCRC32 = AbCRC32Of(TEncoding.ANSI.GetBytes(FItemInfo.FileName))) then
+  begin
+    SetLength(pBuffer, FieldSize - SizeOf(TInfoZipUnicodePathRec) + 1);
+    Move(InfoZipField.UnicodeName, pBuffer[0], Length(pBuffer));
+    UTF8Name := TEncoding.UTF8.GetString(pBuffer);
     FFileName := UTF8Name;
   end
   else if FItemInfo.ExtraField.Get(Ab_XceedUnicodePathSubfieldID, Pointer(XceedField), FieldSize) and

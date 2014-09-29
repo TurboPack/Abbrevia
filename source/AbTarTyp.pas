@@ -111,8 +111,8 @@ const
 
 
 type
-  Arr8  = array [0..7] of AnsiChar;
-  Arr12 = array [0..11] of AnsiChar;
+  Arr8  = array [0..7] of Byte;
+  Arr12 = array [0..11] of Byte;
   Arr12B = array[0..11] of Byte;
   ArrName = array [0..AB_TAR_NAMESIZE-1] of Byte;
   TAbTarHeaderFormat = (UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT,
@@ -461,21 +461,24 @@ uses
   AbExcept;
 
 { ****************** Helper functions Not from Classes Above ***************** }
-function OctalToInt(const Oct : PAnsiChar; aLen : integer): Int64;
+function OctalToInt(const Oct : Pointer; aLen : integer): Int64;
 var
   i : integer;
+  pBuffer: PByte;
 begin
+  pBuffer := PByte(oct);
+
   Result := 0;
 
   i := 0;
-  while (i < aLen) and (Oct[i] = ' ') do
+  while (i < aLen) and (pBuffer[i] = Ord(' ')) do
     inc(i);
 
   if (i = aLen) then
     Exit;
 
-  while (i < aLen) and (Oct[i] in ['0'..'7']) do begin
-    Result := (Result * 8) + (Ord(Oct[i]) - Ord('0'));
+  while (i < aLen) and (pBuffer[i] in [Ord('0')..Ord('7')]) do begin
+    Result := (Result * 8) + (Ord(pBuffer[i]) - Ord('0'));
     inc(i);
   end;
 end;
@@ -784,7 +787,7 @@ begin
     begin
       FoundName := True;
       RawFileName := '';
-      NameLength := OctalToInt(PHeader.Size, SizeOf(PHeader.Size));
+      NameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));
       NumMHeaders := NameLength div AB_TAR_RECORDSIZE;
       ExtraName := NameLength mod AB_TAR_RECORDSIZE; { Chars in the last Header }
       { NumMHeaders should never be zero }
@@ -860,7 +863,7 @@ begin
     begin
       FoundName := True;
       RawLinkName := '';
-      NameLength := OctalToInt(PHeader.Size, SizeOf(PHeader.Size));
+      NameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));
       NumMHeaders := NameLength div AB_TAR_RECORDSIZE;
       ExtraName := NameLength mod AB_TAR_RECORDSIZE; { Chars in the last Header }
       { NumMHeaders should never be zero }
@@ -901,6 +904,7 @@ var
   TarChkSumArr : Arr8; { ChkSum field is Arr8 }
   PHeader: PAbTarHeaderRec;
   I: Integer;
+  iByte: Integer;
 begin
   Result := True;
   { Check sums are in valid headers but NOT in the data headers. }
@@ -911,9 +915,10 @@ begin
       PHeader := FTarHeaderList.Items[i];
       { Save off old Check sum }
       Move(PHeader.ChkSum, TarChkSumArr, SizeOf(PHeader.ChkSum));
-      TarChkSum := OctalToInt(TarChkSumArr, SizeOf(TarChkSumArr));
+      TarChkSum := OctalToInt(@TarChkSumArr, SizeOf(TarChkSumArr));
       { Set to Generator Value }
-      PHeader.ChkSum := AB_TAR_CHKBLANKS;
+      for iByte := 0 to SizeOf(PHeader.ChkSum) - 1 do
+        PHeader.ChkSum[iByte] := Ord(AB_TAR_CHKBLANKS[iByte + 1]);
       if CalcTarHeaderChkSum(PHeader^) <> TarChkSum then
         Result := False; { Pass unless one miss-compares }
       { Save back old checksum }
@@ -928,22 +933,22 @@ begin
   DetectHeaderFormat;
   { Long term this parsing is not correct, as the values in extended headers
     override the later values in this header }
-  FTarItem.Mode := OctalToInt(PTarHeader.Mode, SizeOf(PTarHeader.Mode));
-  FTarItem.uid := OctalToInt(PTarHeader.uid, SizeOf(PTarHeader.uid)); { Extended in PAX Headers }
-  FTarItem.gid := OctalToInt(PTarHeader.gid, SizeOf(PTarHeader.gid)); { Extended in PAX Headers }
-  FTarItem.Size := OctalToInt(PTarHeader.Size, SizeOf(PTarHeader.Size)); { Extended in PAX Headers }
+  FTarItem.Mode := OctalToInt(@PTarHeader.Mode, SizeOf(PTarHeader.Mode));
+  FTarItem.uid := OctalToInt(@PTarHeader.uid, SizeOf(PTarHeader.uid)); { Extended in PAX Headers }
+  FTarItem.gid := OctalToInt(@PTarHeader.gid, SizeOf(PTarHeader.gid)); { Extended in PAX Headers }
+  FTarItem.Size := OctalToInt(@PTarHeader.Size, SizeOf(PTarHeader.Size)); { Extended in PAX Headers }
   { ModTime should be an Int64 but no tool support, No issues until Feb 6th, 2106 :) }
   { ModTime is Extended in PAX Headers }
-  FTarItem.ModTime := OctalToInt(PTarHeader.ModTime, SizeOf(PTarHeader.ModTime));
+  FTarItem.ModTime := OctalToInt(@PTarHeader.ModTime, SizeOf(PTarHeader.ModTime));
   FTarItem.ChkSumPass := TestCheckSum();
   FTarItem.LinkFlag := PTarHeader.LinkFlag;
   GetLinkNameFromHeaders; { Extended in PAX Headers }
   FTarItem.Magic := PTarHeader.Magic.value;
-  FTarItem.Version := OctalToInt(PTarHeader.Magic.version, SizeOf(PTarHeader.Magic.version));
+  FTarItem.Version := OctalToInt(@PTarHeader.Magic.version, SizeOf(PTarHeader.Magic.version));
   FTarItem.UsrName := string(PTarHeader.UsrName); { Extended in PAX Headers }
   FTarItem.GrpName := string(PTarHeader.GrpName); { Extended in PAX Headers }
-  FTarItem.DevMajor := OctalToInt(PTarHeader.DevMajor, SizeOf(PTarHeader.DevMajor));
-  FTarItem.DevMinor := OctalToInt(PTarHeader.DevMinor, SizeOf(PTarHeader.DevMinor));
+  FTarItem.DevMajor := OctalToInt(@PTarHeader.DevMajor, SizeOf(PTarHeader.DevMajor));
+  FTarItem.DevMinor := OctalToInt(@PTarHeader.DevMinor, SizeOf(PTarHeader.DevMinor));
   GetFileNameFromHeaders;
   { FTarItem.ArchiveFormat;  Already stuffed }
   { FTarItem.StreamPosition: Already Stuffed }
@@ -990,7 +995,7 @@ begin
       { There can be a unknown number of Headers of data }
       { We are for sure going to read at least one more header, but are we going to read more than that? }
       FTarHeaderTypeList.Add(Pointer(META_DATA_HEADER));
-      NumMHeaders := Ceil(OctalToInt(PTarHeader.Size, SizeOf(PTarHeader.Size)) / AB_TAR_RECORDSIZE);
+      NumMHeaders := Ceil(OctalToInt(@PTarHeader.Size, SizeOf(PTarHeader.Size)) / AB_TAR_RECORDSIZE);
       { NumMHeasder should never be zero }
       for I := 1 to NumMHeaders do
       begin
@@ -1052,6 +1057,7 @@ var
   HdrBuffer : PAnsiChar;
   SkipNextChkSum: Integer;
   SkipChkSum: Boolean;
+  iByte: Integer;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1071,7 +1077,7 @@ begin
       if CharInSet(Chr(PHeader.LinkFlag), (AB_SUPPORTED_MD_HEADERS+AB_UNSUPPORTED_MD_HEADERS)) then
       begin { We have a Meta-Data Header, Calculate how many headers to skip. }
         { These meta-data headers have non-Header buffers after this Header }
-        SkipNextChkSum := Ceil(OctalToInt(PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
+        SkipNextChkSum := Ceil(OctalToInt(@PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
         { Ceil will mandate one run through, and will handle 512 correctly }
       end
       else if CharInSet(Chr(PHeader.LinkFlag), AB_SUPPORTED_F_HEADERS) then
@@ -1094,7 +1100,8 @@ begin
     begin { We are Calculating the Checksum for this Header }
       {Tar ChkSum is "odd" The check sum field is filled with #20 chars as empty }
       { ChkSum field itself is #20'd and has an effect on the sum }
-      PHeader.ChkSum := AB_TAR_CHKBLANKS;
+      for iByte := 0 to SizeOf(PHeader.ChkSum) - 1 do
+        PHeader.ChkSum[iByte] := Ord(AB_TAR_CHKBLANKS[iByte + 1]);
       { Set up the buffers }
       HdrBuffer := PAnsiChar(PHeader);
       HdrChkSum := 0;
@@ -1183,7 +1190,7 @@ begin
   PHeader := FTarHeaderList.Items[I];
 
   { Need this data from the old header }
-  OldNameLength := OctalToInt(PHeader.Size, SizeOf(PHeader.Size));{ inlcudes Null termination }
+  OldNameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));{ inlcudes Null termination }
   { Length(FTarItem.Name)+1 = OldNameLength; }{ This should be true, always }
 
   { Save off the new Length, so we don't have to change the pointers later. }
@@ -1263,12 +1270,12 @@ begin
   FTarHeaderTypeList.Insert(I, Pointer( META_DATA_HEADER));{ This is the L/K Header }
   FillChar(PHeader^, AB_TAR_RECORDSIZE, #0); { Zero the whole block }
   TAbBytes.StrPCopy(@PHeader.Name, AB_TAR_L_HDR_NAME); { Stuff L/K String Name }
-  AnsiStrings.StrPCopy(PHeader.Mode, AB_TAR_L_HDR_ARR8_0); { Stuff zeros }
-  AnsiStrings.StrPCopy(PHeader.uid, AB_TAR_L_HDR_ARR8_0);  { Stuff zeros }
-  AnsiStrings.StrPCopy(PHeader.gid, AB_TAR_L_HDR_ARR8_0);  { Stuff zeros }
+  TAbBytes.StrPCopy(@PHeader.Mode, AB_TAR_L_HDR_ARR8_0); { Stuff zeros }
+  TAbBytes.StrPCopy(@PHeader.uid, AB_TAR_L_HDR_ARR8_0);  { Stuff zeros }
+  TAbBytes.StrPCopy(@PHeader.gid, AB_TAR_L_HDR_ARR8_0);  { Stuff zeros }
   tempStr := PadString(IntToOctal(Length(Value)+1), SizeOf(PHeader.Size)); { Stuff Size }
   Move(tempStr[1], PHeader.Size, Length(tempStr));
-  AnsiStrings.StrPCopy(PHeader.ModTime, AB_TAR_L_HDR_ARR12_0);  { Stuff zeros }
+  TAbBytes.StrPCopy(@PHeader.ModTime, AB_TAR_L_HDR_ARR12_0);  { Stuff zeros }
   { Check sum will be calculated as the Dirty flag is in caller. }
   PHeader.LinkFlag := Ord(LinkFlag);  { Stuff Link FlagSize }
   AnsiStrings.StrPCopy(PHeader.Magic.gnuOld, AB_TAR_MAGIC_GNUOLD); { Stuff the magic }
@@ -1426,7 +1433,7 @@ begin
         if CharInSet(Chr(PHeader.LinkFlag), [AB_TAR_LF_LONGNAME]) then
         begin  { Delete this Header, and the data Headers. }
           FoundMetaDataHeader := True;
-          TotalOldNumHeaders := Ceil( OctalToInt(PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
+          TotalOldNumHeaders := Ceil( OctalToInt(@PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
           for J := TotalOldNumHeaders downto 0 do
           begin { Note 0 will delete the Long Link MD Header }
             FreeMem(FTarHeaderList.Items[I+J]); { This list holds PAbTarHeaderRec's }
@@ -1594,7 +1601,7 @@ begin
         if CharInSet(Chr(PHeader.LinkFlag), [AB_TAR_LF_LONGLINK]) then
         begin  { Delete this Header, and the data Headers. }
           FoundMetaDataHeader := True;
-          TotalOldNumHeaders := Ceil( OctalToInt(PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
+          TotalOldNumHeaders := Ceil( OctalToInt(@PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
           for J := TotalOldNumHeaders downto 0 do
           begin { Note 0 will delete the Long Link MD Header }
             FreeMem(FTarHeaderList.Items[I+J]); { This list holds PAbTarHeaderRec's }
@@ -1713,7 +1720,7 @@ begin
     if CharInSet(Chr(FTarHeader.LinkFlag), (AB_SUPPORTED_MD_HEADERS+AB_UNSUPPORTED_MD_HEADERS)) then
     begin { We have a un/supported Meta-Data Header }
       { FoundItem := False } { Value remains False. }
-      SkipHdrs := Ceil(OctalToInt(FTarHeader.Size, SizeOf(FTarHeader.Size))/AB_TAR_RECORDSIZE);
+      SkipHdrs := Ceil(OctalToInt(@FTarHeader.Size, SizeOf(FTarHeader.Size))/AB_TAR_RECORDSIZE);
       FStream.Seek(SkipHdrs*AB_TAR_RECORDSIZE, soCurrent);
       { Tally new Headers: Consumed + Current }
       FCurrItemPreHdrs := FCurrItemPreHdrs + SkipHdrs + 1;
@@ -1724,7 +1731,7 @@ begin
     begin { We have a un/supported File Header. }
       FoundItem := True;
       if not CharInSet(Chr(FTarHeader.LinkFlag), AB_IGNORE_SIZE_HEADERS) then
-        FCurrItemSize := OctalToInt(FTarHeader.Size, SizeOf(FTarHeader.Size))
+        FCurrItemSize := OctalToInt(@FTarHeader.Size, SizeOf(FTarHeader.Size))
       else FCurrItemSize := 0; { Per The spec these Headers do not have file content }
       FCurrItemPreHdrs := FCurrItemPreHdrs + 1; { Tally current header }
     end
