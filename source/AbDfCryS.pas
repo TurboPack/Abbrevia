@@ -109,7 +109,7 @@ type
 
   TAbDfEncryptStream = class(TStream)
     private
-      FBuffer  : PAnsiChar;
+      FBuffer  : PByte;
       FBufSize : integer;
       FEngine  : TAbZipEncryptEngine;
       FStream  : TStream;
@@ -192,7 +192,7 @@ procedure TAbZipDecryptEngine.DecodeBuffer(var aBuffer; aCount : integer);
 var
   i      : integer;
   Temp   : longint;
-  Buffer : PAnsiChar;
+  Buffer : PByte;
   WorkState : array [0..2] of longint;
 begin
   {check for programming error}
@@ -212,7 +212,7 @@ begin
 
     {calculate the next decoded byte (uses inlined decrypt_byte)}
     Temp := (WorkState[2] and $FFFF) or 2;
-    Buffer^ := AnsiChar(
+    Buffer^ := Byte(
                   byte(Buffer^) xor ((Temp * (Temp xor 1)) shr 8));
 
     {mix the decoded byte into the state (uses inlined update_keys)}
@@ -499,7 +499,7 @@ var
   Ch     : byte;
   i      : integer;
   Temp   : longint;
-  Buffer : PAnsiChar;
+  Buffer : PByte;
   WorkState : array [0..2] of longint;
 begin
   {check for programming error}
@@ -520,7 +520,7 @@ begin
     {calculate the next encoded byte (uses inlined decrypt_byte)}
     Temp := (WorkState[2] and $FFFF) or 2;
     Ch := byte(Buffer^);
-    Buffer^ := AnsiChar(Ch xor ((Temp * (Temp xor 1)) shr 8));
+    Buffer^ := Byte(Ch xor ((Temp * (Temp xor 1)) shr 8));
 
     {mix the decoded byte into the state (uses inlined update_keys)}
     WorkState[0] := AbUpdateCrc32(Ch, WorkState[0]);

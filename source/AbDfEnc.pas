@@ -682,7 +682,7 @@ function DeflateStored(aSource : TStream; aDest : TStream;
 const
   StoredBlockSize = $FFFF;
 var
-  Buffer    : PAnsiChar;
+  Buffer    : PByte;
   BytesRead : LongWord;
   ByteCount : Int64;
   BytesToGo : Int64;

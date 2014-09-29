@@ -382,10 +382,10 @@ var
   {$ENDIF}
   {$IFDEF UseGreedyPascal}
   Len        : longint;
-  MatchStr   : PAnsiChar;
-  CurrentCh  : PAnsiChar;
-  CurCh      : AnsiChar;
-  MaxCh      : AnsiChar;
+  MatchStr   : PByte;
+  CurrentCh  : PByte;
+  CurCh      : Byte;
+  MaxCh      : Byte;
   {$ENDIF}
 begin
   {calculate the hash index for the current position; using the
@@ -725,7 +725,7 @@ begin
     dec(ListItem^, ByteCount);
     if (ListItem^ < Buffer) then
       ListItem^ := 0;
-    inc(PAnsiChar(ListItem), sizeof(pointer));
+    inc(PByte(ListItem), sizeof(pointer));
   end;
 
   {..the chain pointers}
@@ -734,7 +734,7 @@ begin
     dec(ListItem^, ByteCount);
     if (ListItem^ < Buffer) then
       ListItem^ := 0;
-    inc(PAnsiChar(ListItem), sizeof(pointer));
+    inc(PByte(ListItem), sizeof(pointer));
   end;
 
   {now read some more data from the stream}

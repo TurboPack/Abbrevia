@@ -68,9 +68,9 @@ type
     private
       FBitBuffer : TAb32bit;
       FBitsLeft  : integer;
-      FBufEnd    : PAnsiChar;
-      FBuffer    : PAnsiChar;
-      FBufPos    : PAnsiChar;
+      FBufEnd    : PByte;
+      FBuffer    : PByte;
+      FBufPos    : PByte;
       FByteCount : longint;
       FFakeCount : integer;
       FOnProgress: TAbProgressStep;
@@ -105,9 +105,9 @@ type
     private
       FBitBuffer : TAb32bit;
       FBitsUsed  : integer;
-      FBufEnd    : PAnsiChar;
-      FBuffer    : PAnsiChar;
-      FBufPos    : PAnsiChar;
+      FBufEnd    : PByte;
+      FBuffer    : PByte;
+      FBufPos    : PByte;
       FStream    : TStream;
     protected
       procedure obsEmptyBuffer;
@@ -183,9 +183,9 @@ type
   TAbDfCodeLenStream = class { codelength token stream}
     private
       FBuckets  : PAbDfCodeLenBuckets;
-      FPosition : PAnsiChar;
-      FStream   : PAnsiChar; {array [0..285+32*2] of byte;}
-      FStrmEnd  : PAnsiChar;
+      FPosition : PByte;
+      FStream   : PByte; {array [0..285+32*2] of byte;}
+      FStrmEnd  : PByte;
     protected
     public
       constructor Create(aLog : TAbLogger);
@@ -350,7 +350,7 @@ var
   BytesToRead : longint;
   i           : integer;
   Percent     : integer;
-  Buffer      : PAnsiChar;
+  Buffer      : PByte;
   BufferCount : integer;
 begin
   {check for dumb programming mistakes: this routine should only be
@@ -391,7 +391,7 @@ begin
     if (BytesRead = 0) and ((BufferCount mod 4) <> 0) then begin
       FFakeCount := 4 - (BufferCount mod 4);
       for i := 0 to pred(FFakeCount) do begin
-        FBufEnd^ := #0;
+        FBufEnd^ := 0;
         inc(FBufEnd);
       end;
     end;
@@ -523,7 +523,7 @@ end;
 procedure TAbDfInBitStream.ReadBuffer(var aBuffer; aCount : integer);
 var
   i : integer;
-  Buffer : PAnsiChar;
+  Buffer : PByte;
   BytesToRead   : integer;
   BytesInBuffer : integer;
 begin
@@ -541,7 +541,7 @@ begin
   if (FBitsLeft > 0) then begin
     BytesToRead := FBitsLeft div 8;
     for i := 0 to pred(BytesToRead) do begin
-      Buffer^ := AnsiChar(FBitBuffer and $FF);
+      Buffer^ := Byte(FBitBuffer and $FF);
       inc(Buffer);
       FBitBuffer := FBitBuffer shr 8;
     end;
@@ -635,7 +635,7 @@ begin
 
       {flush the bit buffer}
       for i := 1 to (FBitsUsed div 8) do begin
-        FBufPos^ := AnsiChar(FBitBuffer);
+        FBufPos^ := Byte(FBitBuffer);
         FBitBuffer := FBitBuffer shr 8;
         inc(FBufPos);
       end;
@@ -750,7 +750,7 @@ end;
 {--------}
 procedure TAbDfOutBitStream.WriteBuffer(var aBuffer; aCount : integer);
 var
-  Buffer : PAnsiChar;
+  Buffer : PByte;
   BytesToCopy : integer;
 begin
   {guard against dumb programming errors: we must be byte aligned}
@@ -764,7 +764,7 @@ begin
   while (FBitsUsed <> 0) do begin
     if (FBufEnd = FBufPos) then
       obsEmptyBuffer;
-    FBufPos^ := AnsiChar(FBitBuffer and $FF);
+    FBufPos^ := Byte(FBitBuffer and $FF);
     inc(FBufPos);
     FBitBuffer := FBitBuffer shr 8;
     dec(FBitsUsed, 8);
@@ -1293,7 +1293,7 @@ var
   ThisCount   : integer;
   CodeLen     : integer;
   PrevCodeLen : integer;
-  CurPos      : PAnsiChar;
+  CurPos      : PByte;
   Buckets     : PAbDfCodeLenBuckets;
 begin
   {start the automaton}
@@ -1330,7 +1330,7 @@ begin
 
           {otherwise output the previous code}
           else begin
-            CurPos^ := AnsiChar(PrevCodeLen);
+            CurPos^ := Byte(PrevCodeLen);
             inc(CurPos);
             inc(Buckets^[PrevCodeLen]);
             PrevCodeLen := CodeLen;
@@ -1349,9 +1349,9 @@ begin
           {otherwise output the previous two similar codes, move back
            to the initial state}
           else begin
-            CurPos^ := AnsiChar(PrevCodeLen);
+            CurPos^ := Byte(PrevCodeLen);
             inc(CurPos);
-            CurPos^ := AnsiChar(PrevCodeLen);
+            CurPos^ := Byte(PrevCodeLen);
             inc(CurPos);
             inc(Buckets^[PrevCodeLen], 2);
             PrevCodeLen := CodeLen;
@@ -1379,7 +1379,7 @@ begin
                  individually}
                 if (Count < 3) then begin
                   while (Count <> 0) do begin
-                    CurPos^ := #0;
+                    CurPos^ := 0;
                     inc(CurPos);
                     inc(Buckets^[0]);
                     dec(Count);
@@ -1389,10 +1389,10 @@ begin
                 {if there are less than 11 successive zero codes,
                  output a 17 code and the count of zeros}
                 else if (Count < 11) then begin
-                  CurPos^ := #17;
+                  CurPos^ := 17;
                   inc(CurPos);
                   inc(Buckets^[17]);
-                  CurPos^ := AnsiChar(Count - 3);
+                  CurPos^ := Byte(Count - 3);
                   inc(CurPos);
                   Count := 0;
                 end
@@ -1402,10 +1402,10 @@ begin
                   ThisCount := Count;
                   if (ThisCount > 138) then
                     ThisCount := 138;
-                  CurPos^ := #18;
+                  CurPos^ := 18;
                   inc(CurPos);
                   inc(Buckets^[18]);
-                  CurPos^ := AnsiChar(ThisCount - 11);
+                  CurPos^ := Byte(ThisCount - 11);
                   inc(CurPos);
                   dec(Count, ThisCount);
                 end;
@@ -1416,7 +1416,7 @@ begin
             else begin
 
               {output the first code}
-              CurPos^ := AnsiChar(PrevCodeLen);
+              CurPos^ := Byte(PrevCodeLen);
               inc(CurPos);
               inc(Buckets^[PrevCodeLen]);
               dec(Count);
@@ -1428,7 +1428,7 @@ begin
                  individually}
                 if (Count < 3) then begin
                   while (Count <> 0) do begin
-                    CurPos^ := AnsiChar(PrevCodeLen);
+                    CurPos^ := Byte(PrevCodeLen);
                     inc(CurPos);
                     inc(Buckets^[PrevCodeLen]);
                     dec(Count);
@@ -1440,10 +1440,10 @@ begin
                   ThisCount := Count;
                   if (ThisCount > 6) then
                     ThisCount := 6;
-                  CurPos^ := #16;
+                  CurPos^ := 16;
                   inc(CurPos);
                   inc(Buckets^[16]);
-                  CurPos^ := AnsiChar(ThisCount - 3);
+                  CurPos^ := Byte(ThisCount - 3);
                   inc(CurPos);
                   dec(Count, ThisCount);
                 end;
@@ -1469,8 +1469,8 @@ var
   Symbol    : integer;
   ExtraData : integer;
   Code      : longint;
-  CurPos    : PAnsiChar;
-  StrmEnd   : PAnsiChar;
+  CurPos    : PByte;
+  StrmEnd   : PByte;
 begin
   {prepare for the loop}
   CurPos := FPosition;

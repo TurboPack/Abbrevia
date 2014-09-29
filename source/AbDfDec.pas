@@ -260,7 +260,7 @@ begin
   while ((Symbol <> 256) {and (ExtraBitCount <> 15)}) do begin
     {for a literal, just output it to the sliding window}
     if (Symbol < 256) then begin
-      aOutWindow.AddLiteral(AnsiChar(Symbol));
+      aOutWindow.AddLiteral(Byte(Symbol));
       {$IFOPT C+}
       aInStrm.DiscardBits(SymbolCodeLen);
       {$ELSE}
