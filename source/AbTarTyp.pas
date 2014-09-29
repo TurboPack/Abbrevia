@@ -197,7 +197,7 @@ type
   end;
   { Star End Format }
   TAbTarEnd_Star_Rec = packed record
-    Prefix: array[0..AB_TAR_STAR_PREFIX_SIZE-1] of AnsiChar;
+    Prefix: array[0..AB_TAR_STAR_PREFIX_SIZE-1] of Byte;
                    { 345-499, $159-1F3, prefix of file & path name, null terminated ASCII string }
     Atime : Arr12; { 476-487, $1DC-1E7, time of last access (UNIX Date in ASCII coded Octal)}
     Ctime : Arr12; { 488-499, $1E8-1F3, time of last status change (UNIX Date in ASCII coded Octal)}
@@ -221,7 +221,7 @@ type
     LinkName: ArrName;  { 157-256, $ 9D-100, name of link, null terminated ASCII string }
     Magic   : TAbTarMagicRec;
                         { 257-264, $101-108, identifier, usually 'ustar'#00'00' }
-    UsrName : array [0..AB_TAR_TUSRNAMELEN-1] of AnsiChar;
+    UsrName : array [0..AB_TAR_TUSRNAMELEN-1] of Byte;
                         { 265-296, $109-128, username, null terminated ASCII string }
     GrpName : array [0..AB_TAR_TGRPNAMELEN-1] of AnsiChar;
                         { 297-328, $129-148, groupname, null terminated ASCII string }
@@ -944,7 +944,7 @@ begin
   GetLinkNameFromHeaders; { Extended in PAX Headers }
   FTarItem.Magic := TAbBytes.AsString(@PTarHeader.Magic.value);
   FTarItem.Version := OctalToInt(@PTarHeader.Magic.version, SizeOf(PTarHeader.Magic.version));
-  FTarItem.UsrName := string(PTarHeader.UsrName); { Extended in PAX Headers }
+  FTarItem.UsrName := TAbBytes.AsString(@PTarHeader.UsrName); { Extended in PAX Headers }
   FTarItem.GrpName := string(PTarHeader.GrpName); { Extended in PAX Headers }
   FTarItem.DevMajor := OctalToInt(@PTarHeader.DevMajor, SizeOf(PTarHeader.DevMajor));
   FTarItem.DevMinor := OctalToInt(@PTarHeader.DevMinor, SizeOf(PTarHeader.DevMinor));
@@ -1277,7 +1277,7 @@ begin
   { Check sum will be calculated as the Dirty flag is in caller. }
   PHeader.LinkFlag := Ord(LinkFlag);  { Stuff Link FlagSize }
   TAbBytes.StrPCopy(@PHeader.Magic.gnuOld, AB_TAR_MAGIC_GNUOLD); { Stuff the magic }
-  AnsiStrings.StrPCopy(PHeader.UsrName, AB_TAR_L_HDR_USR_NAME);
+  TAbBytes.StrPCopy(@PHeader.UsrName, AB_TAR_L_HDR_USR_NAME);
   AnsiStrings.StrPCopy(PHeader.GrpName, AB_TAR_L_HDR_GRP_NAME);
   { All else stays as Zeros. }
   { Completed with L/K Header }
@@ -1659,7 +1659,7 @@ begin
     Exit;
   { UsrName is extendable in PAX Headers, Remember PAX extended Header Over Rule File Headers }
   FTarItem.UsrName := Value;
-  AnsiStrings.StrPLCopy(PTarHeader.UsrName, AnsiString(Value), SizeOf(PTarHeader.UsrName));
+  TAbBytes.StrPLCopy(@PTarHeader.UsrName, Value, SizeOf(PTarHeader.UsrName));
   FTarItem.Dirty := True;
 end;
 
