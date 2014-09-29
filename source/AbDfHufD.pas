@@ -268,7 +268,7 @@ begin
     DecoderLen := PowerOfTwo[FMaxCodeLen];
     GetMem(FDecodes, DecoderLen * sizeof(longint));
     {$IFDEF CPU386}
-    DecodesEnd := PAnsiChar(FDecodes) + (DecoderLen * sizeof(longint));
+    DecodesEnd := PByte(FDecodes) + (DecoderLen * sizeof(longint));
     {$ENDIF}
     {$IFOPT C+}
     FillChar(FDecodes^, DecoderLen * sizeof(longint), $FF);
