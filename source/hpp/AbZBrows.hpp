@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZBrows.pas' rev: 28.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbZBrows.pas' rev: 28.00 (iOS)
 
 #ifndef AbzbrowsHPP
 #define AbzbrowsHPP
@@ -27,6 +27,7 @@ namespace Abzbrows
 {
 //-- type declarations -------------------------------------------------------
 class DELPHICLASS TAbCustomZipBrowser;
+#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbCustomZipBrowser : public Abbrowse::TAbBaseBrowser
 {
 	typedef Abbrowse::TAbBaseBrowser inherited;
@@ -39,23 +40,23 @@ private:
 	void __fastcall SetTarAutoHandle(const bool Value);
 	
 protected:
-	System::AnsiString FPassword;
+	System::UnicodeString FPassword;
 	Abarctyp::TAbRequestDiskEvent FOnRequestLastDisk;
 	Abarctyp::TAbRequestNthDiskEvent FOnRequestNthDisk;
 	Abarctyp::TAbRequestDiskEvent FOnRequestBlankDisk;
 	bool FTarAutoHandle;
 	HIDESBASE virtual Abziptyp::TAbZipItem* __fastcall GetItem(int Index);
 	System::Classes::TStream* __fastcall GetStream(void);
-	System::AnsiString __fastcall GetZipfileComment(void);
+	System::UnicodeString __fastcall GetZipfileComment(void);
 	virtual void __fastcall InitArchive(void);
 	virtual void __fastcall SetFileName(const System::UnicodeString aFileName);
 	void __fastcall SetStream(System::Classes::TStream* aValue);
 	void __fastcall SetOnRequestLastDisk(Abarctyp::TAbRequestDiskEvent Value);
 	void __fastcall SetOnRequestNthDisk(Abarctyp::TAbRequestNthDiskEvent Value);
 	void __fastcall SetOnRequestBlankDisk(Abarctyp::TAbRequestDiskEvent Value);
-	void __fastcall SetPassword(const System::AnsiString Value);
-	virtual void __fastcall SetZipfileComment(const System::AnsiString Value);
-	__property System::AnsiString Password = {read=FPassword, write=SetPassword};
+	void __fastcall SetPassword(const System::UnicodeString Value);
+	virtual void __fastcall SetZipfileComment(const System::UnicodeString Value);
+	__property System::UnicodeString Password = {read=FPassword, write=SetPassword};
 	__property Abarctyp::TAbRequestDiskEvent OnRequestLastDisk = {read=FOnRequestLastDisk, write=SetOnRequestLastDisk};
 	__property Abarctyp::TAbRequestNthDiskEvent OnRequestNthDisk = {read=FOnRequestNthDisk, write=SetOnRequestNthDisk};
 	__property Abarctyp::TAbRequestDiskEvent OnRequestBlankDisk = {read=FOnRequestBlankDisk, write=SetOnRequestBlankDisk};
@@ -66,12 +67,14 @@ public:
 	__property Abziptyp::TAbZipItem* Items[int Index] = {read=GetItem/*, default*/};
 	__property System::Classes::TStream* Stream = {read=GetStream, write=SetStream};
 	__property Abarctyp::TAbArchive* ZipArchive = {read=FArchive};
-	__property System::AnsiString ZipfileComment = {read=GetZipfileComment, write=SetZipfileComment};
+	__property System::UnicodeString ZipfileComment = {read=GetZipfileComment, write=SetZipfileComment};
 	__property bool TarAutoHandle = {read=GetTarAutoHandle, write=SetTarAutoHandle, nodefault};
 };
 
+#pragma pack(pop)
 
 class DELPHICLASS TAbZipBrowser;
+#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbZipBrowser : public TAbCustomZipBrowser
 {
 	typedef TAbCustomZipBrowser inherited;
@@ -99,6 +102,7 @@ public:
 	
 };
 
+#pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
 }	/* namespace Abzbrows */

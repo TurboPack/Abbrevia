@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbSelfEx.pas' rev: 28.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbSelfEx.pas' rev: 28.00 (iOS)
 
 #ifndef AbselfexHPP
 #define AbselfexHPP
@@ -25,6 +25,7 @@ namespace Abselfex
 typedef void __fastcall (__closure *TAbGetFileEvent)(System::TObject* Sender, System::UnicodeString &aFilename, bool &Abort);
 
 class DELPHICLASS TAbMakeSelfExe;
+#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbMakeSelfExe : public Abbase::TAbBaseComponent
 {
 	typedef Abbase::TAbBaseComponent inherited;
@@ -57,6 +58,7 @@ public:
 	
 };
 
+#pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
 }	/* namespace Abselfex */

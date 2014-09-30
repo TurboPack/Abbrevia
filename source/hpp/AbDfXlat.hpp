@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfXlat.pas' rev: 28.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbDfXlat.pas' rev: 28.00 (iOS)
 
 #ifndef AbdfxlatHPP
 #define AbdfxlatHPP
@@ -28,7 +28,7 @@ class PASCALIMPLEMENTATION TAbDfTranslator : public System::TObject
 	typedef System::TObject inherited;
 	
 private:
-	char *FBuffer;
+	System::Byte *FBuffer;
 	System::Sysutils::TByteArray *FLenSymbols;
 	System::Sysutils::TByteArray *FLongDistSymbols;
 	System::Sysutils::TByteArray *FMediumDistSymbols;

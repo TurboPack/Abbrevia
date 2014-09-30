@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbVMStrm.pas' rev: 28.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbVMStrm.pas' rev: 28.00 (iOS)
 
 #ifndef AbvmstrmHPP
 #define AbvmstrmHPP
@@ -15,6 +15,10 @@
 #include <System.hpp>	// Pascal unit
 #include <SysInit.hpp>	// Pascal unit
 #include <System.Classes.hpp>	// Pascal unit
+#include <System.Generics.Collections.hpp>	// Pascal unit
+#include <System.SysUtils.hpp>	// Pascal unit
+#include <System.Generics.Defaults.hpp>	// Pascal unit
+#include <System.Types.hpp>	// Pascal unit
 
 //-- user supplied -----------------------------------------------------------
 
@@ -46,7 +50,7 @@ protected:
 	int vmsLRU;
 	unsigned vmsMaxMemToUse;
 	int vmsMaxPages;
-	System::Classes::TList* vmsPageList;
+	System::Generics::Collections::TList__1<PvmsPage> * vmsPageList;
 	__int64 vmsPosition;
 	__int64 vmsSize;
 	System::UnicodeString vmsSwapFileDir;
@@ -75,10 +79,10 @@ public:
 	/* Hoisted overloads: */
 	
 public:
-	inline int __fastcall  Read(System::DynamicArray<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Read(Buffer, Offset, Count); }
-	inline int __fastcall  Read(System::DynamicArray<System::Byte> &Buffer, int Count){ return System::Classes::TStream::Read(Buffer, Count); }
-	inline int __fastcall  Write(const System::DynamicArray<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Write(Buffer, Offset, Count); }
-	inline int __fastcall  Write(const System::DynamicArray<System::Byte> Buffer, int Count){ return System::Classes::TStream::Write(Buffer, Count); }
+	inline int __fastcall  Read(System::TArray__1<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Read(Buffer, Offset, Count); }
+	inline int __fastcall  Read(System::TArray__1<System::Byte> &Buffer, int Count){ return System::Classes::TStream::Read(Buffer, Count); }
+	inline int __fastcall  Write(const System::TArray__1<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Write(Buffer, Offset, Count); }
+	inline int __fastcall  Write(const System::TArray__1<System::Byte> Buffer, int Count){ return System::Classes::TStream::Write(Buffer, Count); }
 	inline int __fastcall  Seek(int Offset, System::Word Origin){ return System::Classes::TStream::Seek(Offset, Origin); }
 	inline __int64 __fastcall  Seek _DEPRECATED_ATTRIBUTE0 (const __int64 Offset, System::Word Origin){ return System::Classes::TStream::Seek(Offset, Origin); }
 	
@@ -89,8 +93,8 @@ protected:
 
 
 //-- var, const, procedure ---------------------------------------------------
-static const System::Word AB_VMSPageSize = System::Word(0x1000);
-static const System::Word AB_VMSMaxPages = System::Word(0x800);
+static constexpr System::Word AB_VMSPageSize = System::Word(0x1000);
+static constexpr System::Word AB_VMSMaxPages = System::Word(0x800);
 }	/* namespace Abvmstrm */
 #if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABVMSTRM)
 using namespace Abvmstrm;

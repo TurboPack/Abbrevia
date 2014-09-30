@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfCryS.pas' rev: 28.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbDfCryS.pas' rev: 28.00 (iOS)
 
 #ifndef AbdfcrysHPP
 #define AbdfcrysHPP
@@ -34,13 +34,13 @@ private:
 	System::StaticArray<int, 3> FState;
 	
 protected:
-	void __fastcall zdeInitState(const System::AnsiString aPassphrase);
+	void __fastcall zdeInitState(const System::UnicodeString aPassphrase);
 	
 public:
 	__fastcall TAbZipDecryptEngine(void);
 	System::Byte __fastcall Decode(System::Byte aCh);
 	void __fastcall DecodeBuffer(void *aBuffer, int aCount);
-	bool __fastcall VerifyHeader(const TAbZipEncryptHeader &aHeader, const System::AnsiString aPassphrase, int aCheckValue);
+	bool __fastcall VerifyHeader(const TAbZipEncryptHeader &aHeader, const System::UnicodeString aPassphrase, int aCheckValue);
 public:
 	/* TObject.Destroy */ inline __fastcall virtual ~TAbZipDecryptEngine(void) { }
 	
@@ -58,12 +58,12 @@ private:
 	int FCheckValue;
 	TAbZipDecryptEngine* FEngine;
 	bool FOwnsStream;
-	System::AnsiString FPassphrase;
+	System::UnicodeString FPassphrase;
 	bool FReady;
 	System::Classes::TStream* FStream;
 	
 public:
-	__fastcall TAbDfDecryptStream(System::Classes::TStream* aStream, int aCheckValue, const System::AnsiString aPassphrase);
+	__fastcall TAbDfDecryptStream(System::Classes::TStream* aStream, int aCheckValue, const System::UnicodeString aPassphrase);
 	__fastcall virtual ~TAbDfDecryptStream(void);
 	bool __fastcall IsValid(void);
 	virtual int __fastcall Read(void *aBuffer, int aCount)/* overload */;
@@ -73,12 +73,12 @@ public:
 	/* Hoisted overloads: */
 	
 public:
-	inline int __fastcall  Read(System::DynamicArray<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Read(Buffer, Offset, Count); }
-	inline int __fastcall  Read(System::DynamicArray<System::Byte> &Buffer, int Count){ return System::Classes::TStream::Read(Buffer, Count); }
+	inline int __fastcall  Read(System::TArray__1<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Read(Buffer, Offset, Count); }
+	inline int __fastcall  Read(System::TArray__1<System::Byte> &Buffer, int Count){ return System::Classes::TStream::Read(Buffer, Count); }
 	inline __int64 __fastcall  Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin){ return System::Classes::TStream::Seek(Offset, Origin); }
 	inline __int64 __fastcall  Seek _DEPRECATED_ATTRIBUTE0 (const __int64 Offset, System::Word Origin){ return System::Classes::TStream::Seek(Offset, Origin); }
-	inline int __fastcall  Write(const System::DynamicArray<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Write(Buffer, Offset, Count); }
-	inline int __fastcall  Write(const System::DynamicArray<System::Byte> Buffer, int Count){ return System::Classes::TStream::Write(Buffer, Count); }
+	inline int __fastcall  Write(const System::TArray__1<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Write(Buffer, Offset, Count); }
+	inline int __fastcall  Write(const System::TArray__1<System::Byte> Buffer, int Count){ return System::Classes::TStream::Write(Buffer, Count); }
 	
 };
 
@@ -95,13 +95,13 @@ private:
 	System::StaticArray<int, 3> FState;
 	
 protected:
-	void __fastcall zeeInitState(const System::AnsiString aPassphrase);
+	void __fastcall zeeInitState(const System::UnicodeString aPassphrase);
 	
 public:
 	__fastcall TAbZipEncryptEngine(void);
 	System::Byte __fastcall Encode(System::Byte aCh);
 	void __fastcall EncodeBuffer(void *aBuffer, int aCount);
-	void __fastcall CreateHeader(TAbZipEncryptHeader &aHeader, const System::AnsiString aPassphrase, int aCheckValue);
+	void __fastcall CreateHeader(TAbZipEncryptHeader &aHeader, const System::UnicodeString aPassphrase, int aCheckValue);
 public:
 	/* TObject.Destroy */ inline __fastcall virtual ~TAbZipEncryptEngine(void) { }
 	
@@ -116,13 +116,13 @@ class PASCALIMPLEMENTATION TAbDfEncryptStream : public System::Classes::TStream
 	typedef System::Classes::TStream inherited;
 	
 private:
-	char *FBuffer;
+	System::Byte *FBuffer;
 	int FBufSize;
 	TAbZipEncryptEngine* FEngine;
 	System::Classes::TStream* FStream;
 	
 public:
-	__fastcall TAbDfEncryptStream(System::Classes::TStream* aStream, int aCheckValue, const System::AnsiString aPassphrase);
+	__fastcall TAbDfEncryptStream(System::Classes::TStream* aStream, int aCheckValue, const System::UnicodeString aPassphrase);
 	__fastcall virtual ~TAbDfEncryptStream(void);
 	virtual int __fastcall Read(void *aBuffer, int aCount)/* overload */;
 	virtual int __fastcall Seek(int aOffset, System::Word aOrigin)/* overload */;
@@ -130,12 +130,12 @@ public:
 	/* Hoisted overloads: */
 	
 public:
-	inline int __fastcall  Read(System::DynamicArray<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Read(Buffer, Offset, Count); }
-	inline int __fastcall  Read(System::DynamicArray<System::Byte> &Buffer, int Count){ return System::Classes::TStream::Read(Buffer, Count); }
+	inline int __fastcall  Read(System::TArray__1<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Read(Buffer, Offset, Count); }
+	inline int __fastcall  Read(System::TArray__1<System::Byte> &Buffer, int Count){ return System::Classes::TStream::Read(Buffer, Count); }
 	inline __int64 __fastcall  Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin){ return System::Classes::TStream::Seek(Offset, Origin); }
 	inline __int64 __fastcall  Seek _DEPRECATED_ATTRIBUTE0 (const __int64 Offset, System::Word Origin){ return System::Classes::TStream::Seek(Offset, Origin); }
-	inline int __fastcall  Write(const System::DynamicArray<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Write(Buffer, Offset, Count); }
-	inline int __fastcall  Write(const System::DynamicArray<System::Byte> Buffer, int Count){ return System::Classes::TStream::Write(Buffer, Count); }
+	inline int __fastcall  Write(const System::TArray__1<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Write(Buffer, Offset, Count); }
+	inline int __fastcall  Write(const System::TArray__1<System::Byte> Buffer, int Count){ return System::Classes::TStream::Write(Buffer, Count); }
 	
 };
 

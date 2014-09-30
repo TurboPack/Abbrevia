@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbGzTyp.pas' rev: 28.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbGzTyp.pas' rev: 28.00 (iOS)
 
 #ifndef AbgztypHPP
 #define AbgztypHPP
@@ -14,6 +14,7 @@
 #pragma pack(push,8)
 #include <System.hpp>	// Pascal unit
 #include <SysInit.hpp>	// Pascal unit
+#include <System.SysUtils.hpp>	// Pascal unit
 #include <System.Classes.hpp>	// Pascal unit
 #include <AbUtils.hpp>	// Pascal unit
 #include <AbArcTyp.hpp>	// Pascal unit
@@ -55,7 +56,7 @@ public:
 #pragma pack(pop)
 
 
-typedef System::StaticArray<char, 2> TAbGzExtraFieldSubID;
+typedef System::StaticArray<System::Byte, 2> TAbGzExtraFieldSubID;
 
 class DELPHICLASS TAbGzipExtraField;
 #pragma pack(push,4)
@@ -72,9 +73,9 @@ protected:
 	
 public:
 	__fastcall TAbGzipExtraField(PAbGzHeader aGZHeader);
-	HIDESBASE void __fastcall Delete(TAbGzExtraFieldSubID aID);
-	HIDESBASE bool __fastcall Get(TAbGzExtraFieldSubID aID, /* out */ void * &aData, /* out */ System::Word &aDataSize);
-	HIDESBASE void __fastcall Put(TAbGzExtraFieldSubID aID, const void *aData, System::Word aDataSize);
+	HIDESBASE void __fastcall Delete(const TAbGzExtraFieldSubID &aID);
+	HIDESBASE bool __fastcall Get(const TAbGzExtraFieldSubID &aID, /* out */ void * &aData, /* out */ System::Word &aDataSize);
+	HIDESBASE void __fastcall Put(const TAbGzExtraFieldSubID &aID, const void *aData, System::Word aDataSize);
 	__property TAbGzExtraFieldSubID IDs[int aIndex] = {read=GetID};
 public:
 	/* TObject.Destroy */ inline __fastcall virtual ~TAbGzipExtraField(void) { }
@@ -88,17 +89,19 @@ class PASCALIMPLEMENTATION TAbGzipItem : public Abarctyp::TAbArchiveItem
 {
 	typedef Abarctyp::TAbArchiveItem inherited;
 	
+private:
+	System::TArray__1<System::Byte> FRawFileName;
+	
 protected:
 	TAbGzHeader FGZHeader;
 	TAbGzipExtraField* FExtraField;
-	System::AnsiString FFileComment;
-	System::AnsiString FRawFileName;
+	System::UnicodeString FFileComment;
 	TAbGzFileSystem __fastcall GetFileSystem(void);
 	bool __fastcall GetHasExtraField(void);
 	bool __fastcall GetHasFileComment(void);
 	bool __fastcall GetHasFileName(void);
 	bool __fastcall GetIsText(void);
-	void __fastcall SetFileComment(const System::AnsiString Value);
+	void __fastcall SetFileComment(const System::UnicodeString Value);
 	void __fastcall SetFileSystem(const TAbGzFileSystem Value);
 	void __fastcall SetIsText(const bool Value);
 	virtual unsigned __fastcall GetExternalFileAttributes(void);
@@ -119,7 +122,7 @@ public:
 	__property System::Byte CompressionMethod = {read=FGZHeader.CompMethod, nodefault};
 	__property System::Byte ExtraFlags = {read=FGZHeader.XtraFlags, write=FGZHeader.XtraFlags, nodefault};
 	__property System::Byte Flags = {read=FGZHeader.Flags, nodefault};
-	__property System::AnsiString FileComment = {read=FFileComment, write=SetFileComment};
+	__property System::UnicodeString FileComment = {read=FFileComment, write=SetFileComment};
 	__property TAbGzFileSystem FileSystem = {read=GetFileSystem, write=SetFileSystem, nodefault};
 	__property TAbGzipExtraField* ExtraField = {read=FExtraField};
 	__property bool IsEncrypted = {read=GetIsEncrypted, nodefault};

@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbUnzper.pas' rev: 28.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbUnzper.pas' rev: 28.00 (iOS)
 
 #ifndef AbunzperHPP
 #define AbunzperHPP
@@ -27,6 +27,7 @@ namespace Abunzper
 {
 //-- type declarations -------------------------------------------------------
 class DELPHICLASS TAbCustomUnZipper;
+#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbCustomUnZipper : public Abzbrows::TAbCustomZipBrowser
 {
 	typedef Abzbrows::TAbCustomZipBrowser inherited;
@@ -37,7 +38,7 @@ protected:
 	Abziptyp::TAbNeedPasswordEvent FOnNeedPassword;
 	System::Byte FPasswordRetries;
 	virtual void __fastcall DoConfirmOverwrite(System::UnicodeString &Name, bool &Confirm);
-	virtual void __fastcall DoNeedPassword(System::TObject* Sender, System::AnsiString &NewPassword);
+	virtual void __fastcall DoNeedPassword(System::TObject* Sender, System::UnicodeString &NewPassword);
 	virtual void __fastcall InitArchive(void);
 	void __fastcall SetExtractOptions(Abarctyp::TAbExtractOptions Value);
 	void __fastcall SetPasswordRetries(System::Byte Value);
@@ -61,8 +62,10 @@ public:
 	void __fastcall TestTaggedItems(void);
 };
 
+#pragma pack(pop)
 
 class DELPHICLASS TAbUnZipper;
+#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbUnZipper : public TAbCustomUnZipper
 {
 	typedef TAbCustomUnZipper inherited;
@@ -96,6 +99,7 @@ public:
 	
 };
 
+#pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
 }	/* namespace Abunzper */

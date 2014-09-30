@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZLTyp.pas' rev: 28.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbZLTyp.pas' rev: 28.00 (iOS)
 
 #ifndef AbzltypHPP
 #define AbzltypHPP
@@ -102,17 +102,17 @@ public:
 #pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
-static const System::Int8 AB_ZL_PRESET_DICT = System::Int8(0x20);
-static const System::Int8 AB_ZL_DEF_COMPRESSIONMETHOD = System::Int8(0x8);
-static const System::Int8 AB_ZL_DEF_COMPRESSIONINFO = System::Int8(0x7);
-static const System::Int8 AB_ZL_FASTEST_COMPRESSION = System::Int8(0x0);
-static const System::Int8 AB_ZL_FAST_COMPRESSION = System::Int8(0x1);
-static const System::Int8 AB_ZL_DEFAULT_COMPRESSION = System::Int8(0x2);
-static const System::Int8 AB_ZL_MAXIMUM_COMPRESSION = System::Int8(0x3);
-static const System::Int8 AB_ZL_FCHECK_MASK = System::Int8(0x1f);
-static const System::Byte AB_ZL_CINFO_MASK = System::Byte(0xf0);
-static const System::Byte AB_ZL_FLEVEL_MASK = System::Byte(0xc0);
-static const System::Int8 AB_ZL_CM_MASK = System::Int8(0xf);
+static constexpr System::Int8 AB_ZL_PRESET_DICT = System::Int8(0x20);
+static constexpr System::Int8 AB_ZL_DEF_COMPRESSIONMETHOD = System::Int8(0x8);
+static constexpr System::Int8 AB_ZL_DEF_COMPRESSIONINFO = System::Int8(0x7);
+static constexpr System::Int8 AB_ZL_FASTEST_COMPRESSION = System::Int8(0x0);
+static constexpr System::Int8 AB_ZL_FAST_COMPRESSION = System::Int8(0x1);
+static constexpr System::Int8 AB_ZL_DEFAULT_COMPRESSION = System::Int8(0x2);
+static constexpr System::Int8 AB_ZL_MAXIMUM_COMPRESSION = System::Int8(0x3);
+static constexpr System::Int8 AB_ZL_FCHECK_MASK = System::Int8(0x1f);
+static constexpr System::Byte AB_ZL_CINFO_MASK = System::Byte(0xf0);
+static constexpr System::Byte AB_ZL_FLEVEL_MASK = System::Byte(0xc0);
+static constexpr System::Int8 AB_ZL_CM_MASK = System::Int8(0xf);
 }	/* namespace Abzltyp */
 #if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABZLTYP)
 using namespace Abzltyp;

@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZipper.pas' rev: 28.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbZipper.pas' rev: 28.00 (iOS)
 
 #ifndef AbzipperHPP
 #define AbzipperHPP
@@ -27,6 +27,7 @@ namespace Abzipper
 {
 //-- type declarations -------------------------------------------------------
 class DELPHICLASS TAbCustomZipper;
+#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbCustomZipper : public Abzbrows::TAbCustomZipBrowser
 {
 	typedef Abzbrows::TAbCustomZipBrowser inherited;
@@ -52,7 +53,7 @@ protected:
 	virtual void __fastcall SetFileName(const System::UnicodeString aFileName);
 	void __fastcall SetStoreOptions(Abarctyp::TAbStoreOptions Value);
 	void __fastcall SetArchiveSaveProgressMeter(const Abbrowse::_di_IAbProgressMeter Value);
-	virtual void __fastcall SetZipfileComment(const System::AnsiString Value);
+	virtual void __fastcall SetZipfileComment(const System::UnicodeString Value);
 	void __fastcall ZipProc(System::TObject* Sender, Abarctyp::TAbArchiveItem* Item, System::Classes::TStream* OutStream);
 	void __fastcall ZipFromStreamProc(System::TObject* Sender, Abarctyp::TAbArchiveItem* Item, System::Classes::TStream* OutStream, System::Classes::TStream* InStream);
 	virtual void __fastcall Notification(System::Classes::TComponent* Component, System::Classes::TOperation Operation);
@@ -85,8 +86,10 @@ public:
 	void __fastcall Replace(Abarctyp::TAbArchiveItem* aItem);
 };
 
+#pragma pack(pop)
 
 class DELPHICLASS TAbZipper;
+#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbZipper : public TAbCustomZipper
 {
 	typedef TAbCustomZipper inherited;
@@ -127,6 +130,7 @@ public:
 	
 };
 
+#pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
 }	/* namespace Abzipper */

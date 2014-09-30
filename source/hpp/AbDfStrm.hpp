@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfStrm.pas' rev: 28.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbDfStrm.pas' rev: 28.00 (iOS)
 
 #ifndef AbdfstrmHPP
 #define AbdfstrmHPP
@@ -39,6 +39,7 @@ typedef System::StaticArray<int, 19> TAbDfCodeLenBuckets;
 typedef TAbDfCodeLenBuckets *PAbDfCodeLenBuckets;
 
 class DELPHICLASS TAbDfInBitStream;
+#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbDfInBitStream : public System::TObject
 {
 	typedef System::TObject inherited;
@@ -46,9 +47,9 @@ class PASCALIMPLEMENTATION TAbDfInBitStream : public System::TObject
 private:
 	int FBitBuffer;
 	int FBitsLeft;
-	char *FBufEnd;
-	char *FBuffer;
-	char *FBufPos;
+	System::Byte *FBufEnd;
+	System::Byte *FBuffer;
+	System::Byte *FBufPos;
 	int FByteCount;
 	int FFakeCount;
 	Abdfbase::TAbProgressStep FOnProgress;
@@ -74,6 +75,7 @@ public:
 	__property int BitsLeft = {read=FBitsLeft, write=FBitsLeft, nodefault};
 };
 
+#pragma pack(pop)
 
 class DELPHICLASS TAbDfOutBitStream;
 #pragma pack(push,4)
@@ -84,9 +86,9 @@ class PASCALIMPLEMENTATION TAbDfOutBitStream : public System::TObject
 private:
 	int FBitBuffer;
 	int FBitsUsed;
-	char *FBufEnd;
-	char *FBuffer;
-	char *FBufPos;
+	System::Byte *FBufEnd;
+	System::Byte *FBuffer;
+	System::Byte *FBufPos;
 	System::Classes::TStream* FStream;
 	
 protected:
@@ -113,7 +115,7 @@ class PASCALIMPLEMENTATION TAbDfLZStream : public System::TObject
 	typedef System::TObject inherited;
 	
 private:
-	char *FCurPos;
+	System::Byte *FCurPos;
 	TAbDfDistBuckets *FDistBuckets;
 	int FDistCount;
 	TAbDfLitBuckets *FLitBuckets;
@@ -122,8 +124,8 @@ private:
 	Abdfinw::TAbDfInputWindow* FSlideWin;
 	__int64 FStartOfs;
 	unsigned FStoredSize;
-	char *FStream;
-	char *FStrmEnd;
+	System::Byte *FStream;
+	System::Byte *FStrmEnd;
 	bool FUseDeflate64;
 	
 protected:
@@ -136,7 +138,7 @@ public:
 	__fastcall TAbDfLZStream(Abdfinw::TAbDfInputWindow* aSlideWin, bool aUseDeflate64, Abdfbase::TAbLogger* aLog);
 	__fastcall virtual ~TAbDfLZStream(void);
 	bool __fastcall AddLenDist(int aLen, int aDist);
-	bool __fastcall AddLiteral(char aCh);
+	bool __fastcall AddLiteral(System::Byte aCh);
 	void __fastcall Clear(void);
 	void __fastcall Encode(TAbDfOutBitStream* aBitStrm, Abdfhufd::TAbDfDecodeHuffmanTree* aLitTree, Abdfhufd::TAbDfDecodeHuffmanTree* aDistTree, bool aUseDeflate64);
 	void __fastcall Rewind(void);
@@ -158,9 +160,9 @@ class PASCALIMPLEMENTATION TAbDfCodeLenStream : public System::TObject
 	
 private:
 	TAbDfCodeLenBuckets *FBuckets;
-	char *FPosition;
-	char *FStream;
-	char *FStrmEnd;
+	System::Byte *FPosition;
+	System::Byte *FStream;
+	System::Byte *FStrmEnd;
 	
 public:
 	__fastcall TAbDfCodeLenStream(Abdfbase::TAbLogger* aLog);

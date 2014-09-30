@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfOutW.pas' rev: 28.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbDfOutW.pas' rev: 28.00 (iOS)
 
 #ifndef AbdfoutwHPP
 #define AbdfoutwHPP
@@ -29,9 +29,9 @@ class PASCALIMPLEMENTATION TAbDfOutputWindow : public System::TObject
 	typedef System::TObject inherited;
 	
 private:
-	char *FBuffer;
+	System::Byte *FBuffer;
 	int FChecksum;
-	char *FCurrent;
+	System::Byte *FCurrent;
 	Abdfbase::TAbLogger* FLog;
 	int FPartSize;
 	int FSlideCount;
@@ -39,7 +39,7 @@ private:
 	int FStreamPos;
 	bool FTestOnly;
 	bool FUseCRC32;
-	char *FWritePoint;
+	System::Byte *FWritePoint;
 	
 protected:
 	int __fastcall swGetChecksum(void);
@@ -49,7 +49,7 @@ public:
 	__fastcall TAbDfOutputWindow(System::Classes::TStream* aStream, bool aUseDeflate64, bool aUseCRC32, int aPartSize, bool aTestOnly, Abdfbase::TAbLogger* aLog);
 	__fastcall virtual ~TAbDfOutputWindow(void);
 	void __fastcall AddBuffer(void *aBuffer, int aCount);
-	void __fastcall AddLiteral(char aCh);
+	void __fastcall AddLiteral(System::Byte aCh);
 	void __fastcall AddLenDist(int aLen, int aDist);
 	int __fastcall Position(void);
 	__property int Checksum = {read=swGetChecksum, nodefault};

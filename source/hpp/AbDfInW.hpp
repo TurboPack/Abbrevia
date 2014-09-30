@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfInW.pas' rev: 28.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbDfInW.pas' rev: 28.00 (iOS)
 
 #ifndef AbdfinwHPP
 #define AbdfinwHPP
@@ -27,7 +27,7 @@ struct DECLSPEC_DRECORD TAbDfMatch
 public:
 	int maLen;
 	int maDist;
-	char maLit;
+	System::Byte maLit;
 };
 
 
@@ -42,21 +42,21 @@ class PASCALIMPLEMENTATION TAbDfInputWindow : public System::TObject
 	
 private:
 	bool FAdvanceStart;
-	char *FBuffer;
-	char *FBufferEnd;
+	System::Byte *FBuffer;
+	System::Byte *FBufferEnd;
 	int FBytesUsed;
 	int FChainLen;
 	TAbPointerList *FHashChains;
 	TAbPointerList *FHashHeads;
 	int FHashIndex;
 	int FChecksum;
-	char *FCurrent;
-	char *FLookAheadEnd;
+	System::Byte *FCurrent;
+	System::Byte *FLookAheadEnd;
 	int FMaxMatchLen;
 	bool FMustSlide;
 	Abdfbase::TAbProgressStep FOnProgress;
-	char *FSlidePoint;
-	char *FStart;
+	System::Byte *FSlidePoint;
+	System::Byte *FStart;
 	int FStartOffset;
 	System::Classes::TStream* FStream;
 	__int64 FStreamSize;
@@ -77,7 +77,7 @@ public:
 	void __fastcall Advance(int aCount, int aHashCount);
 	void __fastcall AdvanceByOne(void);
 	bool __fastcall FindLongestMatch(int aAmpleLength, TAbDfMatch &aMatch, const TAbDfMatch &aPrevMatch);
-	char __fastcall GetNextChar(void);
+	System::Byte __fastcall GetNextChar(void);
 	int __fastcall GetNextKeyLength(void);
 	int __fastcall Position(void);
 	void __fastcall ReadBuffer(void *aBuffer, int aCount, __int64 aOffset);

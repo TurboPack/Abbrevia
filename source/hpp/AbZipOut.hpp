@@ -137,7 +137,7 @@ protected:
 	bool FLogging;
 	int FSpanningThreshold;
 	TAbZipDisplayOutline* FOutline;
-	System::AnsiString FPassword;
+	System::UnicodeString FPassword;
 	System::Byte FPasswordRetries;
 	Abarctyp::TAbStoreOptions FStoreOptions;
 	System::UnicodeString FTempDirectory;
@@ -196,7 +196,7 @@ protected:
 	HIDESBASE virtual void __fastcall DoMouseDown(System::TObject* Sender, System::Uitypes::TMouseButton Button, System::Classes::TShiftState Shift, int X, int Y);
 	virtual void __fastcall DoMouseMove(System::TObject* Sender, System::Classes::TShiftState Shift, int X, int Y);
 	HIDESBASE virtual void __fastcall DoMouseUp(System::TObject* Sender, System::Uitypes::TMouseButton Button, System::Classes::TShiftState Shift, int X, int Y);
-	virtual void __fastcall DoNeedPassword(System::TObject* Sender, System::AnsiString &NewPassword);
+	virtual void __fastcall DoNeedPassword(System::TObject* Sender, System::UnicodeString &NewPassword);
 	virtual void __fastcall DoSave(System::TObject* Sender);
 	virtual void __fastcall DoOnStartDrag(System::TObject* Sender, Vcl::Controls::TDragObject* &DragObject);
 	virtual void __fastcall DoWindowsDrop(System::TObject* Sender, System::UnicodeString FileName);
@@ -218,7 +218,7 @@ protected:
 	Abziptyp::TAbZipItem* __fastcall GetSelectedZipItem(void);
 	Abarctyp::TAbArchiveStatus __fastcall GetStatus(void);
 	System::UnicodeString __fastcall GetVersion(void);
-	System::AnsiString __fastcall GetZipfileComment(void);
+	System::UnicodeString __fastcall GetZipfileComment(void);
 	void __fastcall InitArchive(void);
 	virtual void __fastcall Loaded(void);
 	virtual void __fastcall Notification(System::Classes::TComponent* Component, System::Classes::TOperation Operation);
@@ -245,7 +245,7 @@ protected:
 	void __fastcall SetOnRequestNthDisk(Abarctyp::TAbRequestNthDiskEvent Value);
 	void __fastcall SetOnRequestBlankDisk(Abarctyp::TAbRequestDiskEvent Value);
 	void __fastcall SetOnWindowsDrop(TWindowsDropEvent Value);
-	void __fastcall SetPassword(System::AnsiString Value);
+	void __fastcall SetPassword(System::UnicodeString Value);
 	void __fastcall SetPasswordRetries(System::Byte Value);
 	void __fastcall SetPictureDirectory(Vcl::Graphics::TBitmap* Value);
 	void __fastcall SetPictureFile(Vcl::Graphics::TBitmap* Value);
@@ -260,7 +260,7 @@ protected:
 	void __fastcall SetTempDirectory(System::UnicodeString Value);
 	void __fastcall SetSpanningThreshold(int Value);
 	void __fastcall SetVersion(System::UnicodeString Value);
-	void __fastcall SetZipfileComment(System::AnsiString Value);
+	void __fastcall SetZipfileComment(System::UnicodeString Value);
 	void __fastcall TestItemProc(System::TObject* Sender, Abarctyp::TAbArchiveItem* Item);
 	void __fastcall UnzipProc(System::TObject* Sender, Abarctyp::TAbArchiveItem* Item, const System::UnicodeString NewName);
 	void __fastcall UnzipToStreamProc(System::TObject* Sender, Abarctyp::TAbArchiveItem* Item, System::Classes::TStream* OutStream);
@@ -286,7 +286,7 @@ protected:
 	__property System::UnicodeString LogFile = {read=FLogFile, write=SetLogFile};
 	__property bool Logging = {read=FLogging, write=SetLogging, nodefault};
 	__property TWindowsDropEvent OnWindowsDrop = {read=FOnWindowsDrop, write=SetOnWindowsDrop};
-	__property System::AnsiString Password = {read=FPassword, write=SetPassword};
+	__property System::UnicodeString Password = {read=FPassword, write=SetPassword};
 	__property System::Byte PasswordRetries = {read=FPasswordRetries, write=SetPasswordRetries, default=3};
 	__property Vcl::Graphics::TBitmap* PictureDirectory = {read=GetPictureDirectory, write=SetPictureDirectory};
 	__property Vcl::Graphics::TBitmap* PictureFile = {read=GetPictureFile, write=SetPictureFile};
@@ -368,7 +368,7 @@ public:
 	__property Abziptyp::TAbZipItem* SelectedZipItem = {read=GetSelectedZipItem};
 	__property Abarctyp::TAbArchiveStatus Status = {read=GetStatus, nodefault};
 	__property System::UnicodeString TempDirectory = {read=FTempDirectory, write=SetTempDirectory};
-	__property System::AnsiString ZipfileComment = {read=GetZipfileComment, write=SetZipfileComment};
+	__property System::UnicodeString ZipfileComment = {read=GetZipfileComment, write=SetZipfileComment};
 public:
 	/* TWinControl.CreateParented */ inline __fastcall TAbCustomZipOutline(HWND ParentWindow) : Vcl::Controls::TWinControl(ParentWindow) { }
 	
