@@ -268,7 +268,7 @@ begin
     end;
 
     csUTF8:
-      Result := UTF8ToString(aValue);
+      Result := TEncoding.UTF8.GetString(aValue);
   end;
 end;
 { -------------------------------------------------------------------------- }

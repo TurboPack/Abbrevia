@@ -1156,8 +1156,17 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 procedure AbSetFileAttr(const aFileName : string; aAttr: Integer);
+{$IFDEF POSIX}
+var
+  pMarshaller: TMarshaller;
+{$ENDIF}
 begin
-  TFile.SetAttributes(aFileName, TFile.IntegerToFileAttributes(aAttr));
+{$IFDEF MSWINDOWS}
+  FileSetAttr(aFileName, aAttr);
+{$ENDIF}
+{$IFDEF POSIX}
+  chmod(pMarshaller.AsAnsi(aFileName).ToPointer, aAttr);
+{$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 function AbFileGetSize(const aFileName : string) : Int64;

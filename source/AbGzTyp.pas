@@ -45,7 +45,7 @@ unit AbGzTyp;
 interface
 
 uses
-  Classes, AbUtils, AbArcTyp, AbTarTyp, AbVMStrm;
+  SysUtils, Classes, AbUtils, AbArcTyp, AbTarTyp, AbVMStrm;
 
 type
   { pre-defined "operating system" (really more FILE system)
@@ -118,11 +118,12 @@ type
   end;
 
   TAbGzipItem = class(TAbArchiveItem)
+  private
+    FRawFileName : TBytes;
   protected {private}
     FGZHeader : TAbGzHeader;
     FExtraField : TAbGzipExtraField;
     FFileComment : string;
-    FRawFileName : string;
 
   protected
     function GetFileSystem: TAbGzFileSystem;
@@ -289,7 +290,7 @@ uses
   {$IFDEF MSWINDOWS}
   Windows,
   {$ENDIF}
-  SysUtils, AbBitBkt, AbCharset, AbDfBase, AbDfDec, AbDfEnc, AbExcept, AbResString,
+  IOUtils, AbBitBkt, AbCharset, AbDfBase, AbDfDec, AbDfEnc, AbExcept, AbResString,
   AbBytes;
 
 const
@@ -472,7 +473,7 @@ begin
   inherited;
 end;
 
-function ReadCStringInStream(AStream: TStream): string;
+function ReadCStringInStream(AStream: TStream): TBytes;
 {
 locate next instance of a null character in a stream
 leaves stream positioned just past that,
@@ -493,13 +494,13 @@ begin
   until (AStream.Position = AStream.Size) or (C = #0);
 }
   SetLength(Buff, BuffSiz);
-  Result := '';
+  Result := nil;
   repeat
     DataRead := AStream.Read(Buff, BuffSiz - 1);
     Buff[DataRead] := 0;
     Len := TAbBytes.StrLen(Buff);
     if Len > 0 then
-      Result := Result + TEncoding.ANSI.GetString(Buff, 0, Len);
+      Result := Result + System.Copy(Buff, 0, Len);
     if Len < DataRead then
     begin
       AStream.Seek(Len - DataRead + 1, soCurrent);
@@ -727,14 +728,14 @@ begin
   { Get Filename, if any }
   if HasFileName then begin
     FRawFileName := ReadCStringInStream(AStream);
-    FFileName := AbRawBytesToString(TEncoding.ANSI.GetBytes(FRawFileName))
+    FFileName := AbRawBytesToString(FRawFileName)
   end
   else
     FFileName := 'unknown';
 
   { any comment present? }
   if HasFileComment then
-    FFileComment := ReadCStringInStream(AStream)
+    FFileComment := TEncoding.ANSI.GetString(ReadCStringInStream(AStream))
   else
     FFileComment := '';
 
@@ -778,7 +779,7 @@ begin
   { add filename if any (and include final #0 from string) }
   if HasFileName then
   begin
-    pBytes := TEncoding.ANSI.GetBytes(FRawFileName);
+    pBytes := FRawFileName;
     pBytes := pBytes + [0];
     AStream.Write(pBytes[0], Length(pBytes));
   end;
@@ -809,7 +810,7 @@ end;
 procedure TAbGzipItem.SetFileName(const Value: string);
 begin
   FFileName := Value;
-  FRawFileName := Value;
+  FRawFileName := TEncoding.ANSI.GetBytes(Value);
   if Value <> '' then
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FNAME
   else
@@ -952,11 +953,11 @@ begin
       on E : EAbUserAbort do begin
         FStatus := asInvalid;
         if FileExists(UseName) then
-          DeleteFile(UseName);
+          TFile.Delete(UseName);
         raise;
       end else begin
         if FileExists(UseName) then
-          DeleteFile(UseName);
+          TFile.Delete(UseName);
         raise;
       end;
     end;

@@ -39,7 +39,7 @@ unit AbZipTyp;
 interface
 
 uses
-  Classes, AbArcTyp, AbUtils, AbSpanSt;
+  SysUtils, Classes, AbArcTyp, AbUtils, AbSpanSt;
 
 const
   { note  #$50 = 'P', #$4B = 'K'}
@@ -300,6 +300,7 @@ type
 { TAbZipDirectoryFileHeader interface ====================================== }
   TAbZipDirectoryFileHeader = class( TAbZipFileHeader )
   protected {private}
+    FRawFileName            : TBytes;
     FVersionMadeBy          : Word;
     FDiskNumberStart        : Word;
     FInternalFileAttributes : Word;
@@ -607,8 +608,7 @@ uses
   AbCharset,
   AbResString,
   AbExcept,
-  AbVMStrm,
-  SysUtils;
+  AbVMStrm;
 
 function VerifyZip(Strm : TStream) : TAbArchiveType;
 { determine if stream appears to be in PkZip format }
@@ -1142,16 +1142,19 @@ begin
 
     if FileNameLength > 0 then
     begin
-      SetLength(pBytes, FileNameLength);
-      Read(pBytes, Length(pBytes));
-      case AbDetectCharSet(pBytes) of
-        csASCII: FFileName := TEncoding.ASCII.GetString(pBytes);
-        csANSI: FFileName := TEncoding.ANSI.GetString(pBytes);
-        csUTF8: FFileName := TEncoding.UTF8.GetString(pBytes);
+      SetLength(FRawFileName, FileNameLength);
+      Read(FRawFileName, Length(FRawFileName));
+      case AbDetectCharSet(FRawFileName) of
+        csASCII: FFileName := TEncoding.ASCII.GetString(FRawFileName);
+        csANSI: FFileName := TEncoding.ANSI.GetString(FRawFileName);
+        csUTF8: FFileName := TEncoding.UTF8.GetString(FRawFileName);
       end;
     end
     else
+    begin
       FFileName := '';
+      FRawFileName := nil;
+    end;
 
     FExtraField.LoadFromStream( Stream, ExtraFieldLength );
 
@@ -1464,8 +1467,8 @@ begin
   FItemInfo.LoadFromStream( Stream );
 
   { decode filename (ANSI/OEM/UTF-8) }
-  if FItemInfo.IsUTF8 or (AbDetectCharSet(TEncoding.ANSI.GetBytes(FItemInfo.FileName)) = csUTF8) then
-    FFileName := UTF8ToString(TEncoding.ANSI.GetBytes(FItemInfo.FileName))
+  if FItemInfo.IsUTF8 or (AbDetectCharSet(FItemInfo.FRawFileName) = csUTF8) then
+    FFileName := TEncoding.UTF8.GetString(FItemInfo.FRawFileName)
   else if FItemInfo.ExtraField.Get(Ab_InfoZipUnicodePathSubfieldID, Pointer(InfoZipField), FieldSize) and
      (FieldSize > SizeOf(TInfoZipUnicodePathRec)) and
      (InfoZipField.Version = 1) and
@@ -1492,7 +1495,7 @@ begin
   end
   {$ENDIF}
   else
-    FFileName := string(FItemInfo.FileName);
+    FFileName := FItemInfo.FileName;
 
   { read ZIP64 extended header }
   FUncompressedSize := FItemInfo.UncompressedSize;
