@@ -1162,7 +1162,9 @@ var
 {$ENDIF}
 begin
 {$IFDEF MSWINDOWS}
+{$WARN SYMBOL_PLATFORM OFF}
   FileSetAttr(aFileName, aAttr);
+{$WARN SYMBOL_PLATFORM ON}
 {$ENDIF}
 {$IFDEF POSIX}
   chmod(pMarshaller.AsAnsi(aFileName).ToPointer, aAttr);
