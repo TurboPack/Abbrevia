@@ -71,8 +71,7 @@ type
       override;
     procedure SetStoreOptions( Value : TAbStoreOptions );
     procedure SetArchiveSaveProgressMeter(const Value: IAbProgressMeter);
-    procedure SetZipfileComment(const Value : AnsiString);
-      override;
+    procedure SetZipfileComment(const Value : string); override;
     procedure ZipProc(Sender : TObject; Item : TAbArchiveItem;
                       OutStream : TStream);
     procedure ZipFromStreamProc(Sender : TObject; Item : TAbArchiveItem;
@@ -519,7 +518,7 @@ begin
   ReferenceInterface(FArchiveSaveProgressMeter, opInsert);
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomZipper.SetZipfileComment(const Value : AnsiString);
+procedure TAbCustomZipper.SetZipfileComment(const Value : string);
 begin
   if (FArchive is TAbZipArchive) then
     TAbZipArchive(FArchive).ZipfileComment := Value

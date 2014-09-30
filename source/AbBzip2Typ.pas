@@ -47,7 +47,7 @@ const
   { Default Stream Header for Bzip2s is 'BZhX', where X is the block size setting 1-9 in ASCII }
   { Each block has the following header: '1AY&SY', and are in units of 100kilobytes NOT 100kibiBytes }
   AB_BZIP2_FILE_HEADER  = 'BZh';
-  AB_BZIP2_BLOCK_SIZE   = ['1','2','3','4','5','6','7','8','9'];
+  AB_BZIP2_BLOCK_SIZE: array[0..8]of Char = ('1','2','3','4','5','6','7','8','9');
   AB_BZIP2_BLOCK_HEADER = '1AY&SY'; { Note: $314159265359, BCD for Pi :) }
   { Note that Blocks are bit aligned, as such the only time you will "for sure" see
     the block header is on the start of stream/File }
@@ -57,9 +57,9 @@ const
 type
   PAbBzip2Header = ^TAbBzip2Header; { File Header }
   TAbBzip2Header = packed record  { SizeOf(TAbBzip2Header) = 10 }
-    FileHeader  : array[0..2] of AnsiChar;{ 'BZh';    $42,5A,68 }
-    BlockSize   : AnsiChar;               { '1'..'9'; $31-$39 }
-    BlockHeader : array[0..5] of AnsiChar;{ '1AY&SY'; $31,41,59,26,53,59 }
+    FileHeader  : array[0..2] of Byte;{ 'BZh';    $42,5A,68 }
+    BlockSize   : Byte;               { '1'..'9'; $31-$39 }
+    BlockHeader : array[0..5] of Byte;{ '1AY&SY'; $31,41,59,26,53,59 }
   end;
 
 { The Purpose for this Item is the placeholder for aaAdd and aaDelete Support. }
@@ -117,15 +117,15 @@ uses
 {$IFDEF MSWINDOWS}
   Windows, // Fix inline warnings
 {$ENDIF}
-  StrUtils, SysUtils,
-  AbBzip2, AbExcept, AbVMStrm, AbBitBkt;
+  StrUtils, SysUtils, Character,
+  AbBzip2, AbExcept, AbVMStrm, AbBitBkt, AbBytes;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function VerifyHeader(const Header : TAbBzip2Header) : Boolean;
 begin
-  Result := (Header.FileHeader = AB_BZIP2_FILE_HEADER) and
-            (Header.BlockSize in AB_BZIP2_BLOCK_SIZE)  and
-            (Header.BlockHeader = AB_BZIP2_BLOCK_HEADER);
+  Result := TAbBytes.Equals(@Header.FileHeader, AB_BZIP2_FILE_HEADER) and
+            Char(Header.BlockSize).IsInArray(AB_BZIP2_BLOCK_SIZE)  and
+            TAbBytes.Equals(@Header.BlockHeader, AB_BZIP2_BLOCK_HEADER);
 end;
 { -------------------------------------------------------------------------- }
 function VerifyBzip2(Strm : TStream) : TAbArchiveType;

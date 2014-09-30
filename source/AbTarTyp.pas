@@ -41,8 +41,7 @@ unit AbTarTyp;
 interface
 
 uses
-  Classes,
-  AbUtils, AbArcTyp;
+  Classes, Generics.Collections, AbUtils, AbArcTyp;
 
 const
   AB_TAR_RECORDSIZE  = 512; {Note: SizeOf(TAbTarHeaderRec) = AB_TAR_RECORDSIZE}
@@ -90,17 +89,17 @@ const
   AB_TAR_LF_VOLHDR    = 'V';  {  FH, Extra GNU, File is Volume Header }
   AB_TAR_LF_EXHDR     = 'X';  { MDH, Extra GNU, Solaris Extended Header }
   { The only questionable MetaData type is 'V', file or meta-data? will treat as file header }
-  AB_SUPPORTED_F_HEADERS   = [AB_TAR_LF_OLDNORMAL, AB_TAR_LF_NORMAL, AB_TAR_LF_LINK,
-                              AB_TAR_LF_SYMLINK, AB_TAR_LF_DIR];
-  AB_UNSUPPORTED_F_HEADERS = [AB_TAR_LF_CHR, AB_TAR_LF_BLK, AB_TAR_LF_FIFO,
+  AB_SUPPORTED_F_HEADERS   : array[0..4] of Char = (AB_TAR_LF_OLDNORMAL, AB_TAR_LF_NORMAL,
+                              AB_TAR_LF_LINK, AB_TAR_LF_SYMLINK, AB_TAR_LF_DIR);
+  AB_UNSUPPORTED_F_HEADERS : array[0..7] of Char = (AB_TAR_LF_CHR, AB_TAR_LF_BLK, AB_TAR_LF_FIFO,
                               AB_TAR_LF_CONTIG, AB_TAR_LF_DUMPDIR, AB_TAR_LF_MULTIVOL,
-                              AB_TAR_LF_SPARSE, AB_TAR_LF_VOLHDR];
-  AB_SUPPORTED_MD_HEADERS  = [AB_TAR_LF_LONGNAME, AB_TAR_LF_LONGLINK];
-  AB_UNSUPPORTED_MD_HEADERS= [AB_TAR_LF_XHDR, AB_TAR_LF_XGL, AB_TAR_LF_EXHDR];
-  AB_GNU_MD_HEADERS        = [AB_TAR_LF_LONGLINK, AB_TAR_LF_LONGNAME]; { If present then OLD_/GNU_FORMAT }
-  AB_PAX_MD_HEADERS        = [AB_TAR_LF_XHDR, AB_TAR_LF_XGL]; { If present then POSIX_FORMAT }
-  AB_IGNORE_SIZE_HEADERS   = [AB_TAR_LF_LINK, AB_TAR_LF_SYMLINK, AB_TAR_LF_CHR,
-                              AB_TAR_LF_BLK, AB_TAR_LF_DIR, AB_TAR_LF_FIFO];
+                              AB_TAR_LF_SPARSE, AB_TAR_LF_VOLHDR);
+  AB_SUPPORTED_MD_HEADERS  : array[0..1] of Char = (AB_TAR_LF_LONGNAME, AB_TAR_LF_LONGLINK);
+  AB_UNSUPPORTED_MD_HEADERS: array[0..2] of Char = (AB_TAR_LF_XHDR, AB_TAR_LF_XGL, AB_TAR_LF_EXHDR);
+  AB_GNU_MD_HEADERS        : array[0..1] of Char = (AB_TAR_LF_LONGLINK, AB_TAR_LF_LONGNAME); { If present then OLD_/GNU_FORMAT }
+  AB_PAX_MD_HEADERS        : array[0..1] of Char = (AB_TAR_LF_XHDR, AB_TAR_LF_XGL); { If present then POSIX_FORMAT }
+  AB_IGNORE_SIZE_HEADERS   : array[0..5] of Char = (AB_TAR_LF_LINK, AB_TAR_LF_SYMLINK, AB_TAR_LF_CHR,
+                              AB_TAR_LF_BLK, AB_TAR_LF_DIR, AB_TAR_LF_FIFO);
 { The rest of the Chars are unsupported and unknown types Treat those headers as File types }
 { Further link types may be defined later. }
 
@@ -111,10 +110,10 @@ const
 
 
 type
-  Arr8  = array [0..7] of AnsiChar;
-  Arr12 = array [0..11] of AnsiChar;
+  Arr8  = array [0..7] of Byte;
+  Arr12 = array [0..11] of Byte;
   Arr12B = array[0..11] of Byte;
-  ArrName = array [0..AB_TAR_NAMESIZE-1] of AnsiChar;
+  ArrName = array [0..AB_TAR_NAMESIZE-1] of Byte;
   TAbTarHeaderFormat = (UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT,
                         USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT);
   TAbTarItemType = (SUPPORTED_ITEM, UNSUPPORTED_ITEM, UNKNOWN_ITEM);
@@ -122,9 +121,9 @@ type
   TAbTarMagicType = (GNU_OLD, NORMAL);
   TAbTarMagicRec = packed record
     case TAbTarMagicType of
-      GNU_OLD: (gnuOld : array[0..7] of AnsiChar); { Old GNU magic: (Magic.gnuOld) }
-      NORMAL : (value  : array[0..5] of AnsiChar;  {   Magic value: (Magic.value)}
-                version: array[0..1] of AnsiChar); {       Version: (Magic.version) }
+      GNU_OLD: (gnuOld : array[0..7] of Byte); { Old GNU magic: (Magic.gnuOld) }
+      NORMAL : (value  : array[0..5] of Byte;  {   Magic value: (Magic.value)}
+                version: array[0..1] of Byte); {       Version: (Magic.version) }
   end;
 
 { Notes from GNU Tar & POSIX Spec.: }
@@ -177,7 +176,7 @@ type
   end;
   { UStar End Format }
   TAbTarEnd_UStar_Rec = packed record
-    Prefix: array[0..AB_TAR_USTAR_PREFIX_SIZE-1] of AnsiChar;
+    Prefix: array[0..AB_TAR_USTAR_PREFIX_SIZE-1] of Byte;
                    { 345-499, $159-1F3, Prefix of file & path name, null terminated ASCII string }
     Empty : Arr12B;{ 500-512, $1F4-1FF, Empty Space }
   end;
@@ -197,7 +196,7 @@ type
   end;
   { Star End Format }
   TAbTarEnd_Star_Rec = packed record
-    Prefix: array[0..AB_TAR_STAR_PREFIX_SIZE-1] of AnsiChar;
+    Prefix: array[0..AB_TAR_STAR_PREFIX_SIZE-1] of Byte;
                    { 345-499, $159-1F3, prefix of file & path name, null terminated ASCII string }
     Atime : Arr12; { 476-487, $1DC-1E7, time of last access (UNIX Date in ASCII coded Octal)}
     Ctime : Arr12; { 488-499, $1E8-1F3, time of last status change (UNIX Date in ASCII coded Octal)}
@@ -217,13 +216,13 @@ type
     ModTime : Arr12;    { 136-147, $ 88- 93, time of last modification.(UNIX Date in ASCII coded Octal)
                                              UTC time }
     ChkSum  : Arr8;     { 148-155, $ 94- 9B, checksum of header (6 bytes ASCII coded Octal, #00, #20) }
-    LinkFlag: AnsiChar; {     156, $     9C, type of item, one of the Link Flag constants from above }
+    LinkFlag: Byte; {     156, $     9C, type of item, one of the Link Flag constants from above }
     LinkName: ArrName;  { 157-256, $ 9D-100, name of link, null terminated ASCII string }
     Magic   : TAbTarMagicRec;
                         { 257-264, $101-108, identifier, usually 'ustar'#00'00' }
-    UsrName : array [0..AB_TAR_TUSRNAMELEN-1] of AnsiChar;
+    UsrName : array [0..AB_TAR_TUSRNAMELEN-1] of Byte;
                         { 265-296, $109-128, username, null terminated ASCII string }
-    GrpName : array [0..AB_TAR_TGRPNAMELEN-1] of AnsiChar;
+    GrpName : array [0..AB_TAR_TGRPNAMELEN-1] of Byte;
                         { 297-328, $129-148, groupname, null terminated ASCII string }
     DevMajor: Arr8;     { 329-336, $149-150, major device ID (UNIX style, ASCII coded Octal) }
     DevMinor: Arr8;     { 337-344, $151-158, minor device ID (UNIX style, ASCII coded Octal) }
@@ -249,10 +248,10 @@ type
     Size       : Int64;    { Tared File size }
     ModTime    : Int64;    { Last time of Modification, in UnixTime }
     ChkSumPass : Boolean;  { Header Check sum found to be good }
-    LinkFlag   : AnsiChar; { Link Flag, Echos the actual File Type of this Item. }
+    LinkFlag   : Byte;     { Link Flag, Echos the actual File Type of this Item. }
     ItemType   : TAbTarItemType; { Item Type Assigned from LinkFlag Header Types. }
     LinkName   : string;   { Link Name }
-    Magic      : AnsiString;   { Magic value }
+    Magic      : string;   { Magic value }
     Version    : Integer;  { Version Number }
     UsrName    : string;   { User Name, for User ID }
     GrpName    : string;   { Group Name, for Group ID }
@@ -278,12 +277,12 @@ type
     procedure GetFileNameFromHeaders; { Helper to pull name from Headers }
     procedure GetLinkNameFromHeaders; { Helper to pull name from Headers }
     function  TestCheckSum: Boolean;  { Helper to Calculate Checksum of a header. }
-    procedure DoGNUExistingLongNameLink(LinkFlag: AnsiChar; I: Integer; const Value: AnsiString);
-    procedure DoGNUNewLongNameLink(LinkFlag: AnsiChar; I: Integer; const Value: AnsiString);
+    procedure DoGNUExistingLongNameLink(LinkFlag: Char; I: Integer; const Value: string);
+    procedure DoGNUNewLongNameLink(LinkFlag: Char; I: Integer; const Value: string);
   protected {private}
     PTarHeader: PAbTarHeaderRec;{ Points to FTarHeaderList.Items[FTarHeaderList.Count-1] }
-    FTarHeaderList: TList;      { List of The Headers }
-    FTarHeaderTypeList: TList;  { List of the Header Types }
+    FTarHeaderList: TList<PAbTarHeaderRec>;      { List of The Headers }
+    FTarHeaderTypeList: TList<TAbTarHeaderType>;  { List of the Header Types }
     FTarItem: TAbTarItemRec;    { Data about current TAR Item }
   protected
     function GetDevMajor: Integer;
@@ -302,7 +301,7 @@ type
     procedure SetDevMinor(const Value: Integer);
     procedure SetGroupID(const Value: Integer);  { Extended Headers }
     procedure SetGroupName(const Value: string); { Extended Headers }
-    procedure SetLinkFlag(Value: AnsiChar);
+    procedure SetLinkFlag(Value: Byte);
     procedure SetLinkName(const Value: string);  { Extended Headers }
     procedure SetUserID(const Value: Integer);   { Extended Headers }
     procedure SetUserName(const Value: string);  { Extended Headers }
@@ -356,7 +355,7 @@ type
 
     property CheckSumGood: Boolean
       read FTarItem.ChkSumPass; { Header Check sum found to be good }
-    property LinkFlag : AnsiChar { Link Flag of File Header }
+    property LinkFlag : Byte { Link Flag of File Header }
       read FTarItem.LinkFlag write SetLinkFlag;
     property LinkName : string { Link Name }
       read GetLinkName write SetLinkName;
@@ -457,31 +456,34 @@ uses
   {$IFDEF MSWINDOWS}
   Windows, // Fix inline warnings
   {$ENDIF MSWINDOWS}
-  Math, RTLConsts, SysUtils, AnsiStrings, AbCharset, AbVMStrm, AbExcept;
+  Math, RTLConsts, SysUtils, IOUtils, Character, AbBytes, AbCharset, AbVMStrm, AbExcept;
 
 { ****************** Helper functions Not from Classes Above ***************** }
-function OctalToInt(const Oct : PAnsiChar; aLen : integer): Int64;
+function OctalToInt(const Oct : Pointer; aLen : integer): Int64;
 var
   i : integer;
+  pBuffer: PByte;
 begin
+  pBuffer := PByte(oct);
+
   Result := 0;
 
   i := 0;
-  while (i < aLen) and (Oct[i] = ' ') do
+  while (i < aLen) and (pBuffer[i] = Ord(' ')) do
     inc(i);
 
   if (i = aLen) then
     Exit;
 
-  while (i < aLen) and (Oct[i] in ['0'..'7']) do begin
-    Result := (Result * 8) + (Ord(Oct[i]) - Ord('0'));
+  while (i < aLen) and (pBuffer[i] in [Ord('0')..Ord('7')]) do begin
+    Result := (Result * 8) + (Ord(pBuffer[i]) - Ord('0'));
     inc(i);
   end;
 end;
 
-function IntToOctal(Value : Int64): AnsiString;
+function IntToOctal(Value : Int64): string;
 const
-  OctDigits  : array[0..7] of AnsiChar = '01234567';
+  OctDigits  : array[0..7] of Char = '01234567';
 begin
   if Value = 0 then
     Result := '0'
@@ -497,12 +499,12 @@ end;
 
 function CalcTarHeaderChkSum(const TarH : TAbTarHeaderRec): LongInt;
 var
-  HdrBuffer : PAnsiChar;
+  HdrBuffer : PByte;
   HdrChkSum : LongInt;
   j : Integer;
 begin
   { prepare for the checksum calculation }
-  HdrBuffer := PAnsiChar(@TarH);
+  HdrBuffer := PByte(@TarH);
   HdrChkSum := 0;
 
   {calculate the checksum, a simple sum of the bytes in the header}
@@ -540,7 +542,7 @@ begin
   Strm.Position := StartPos;
 end;
 
-function PadString(const S : AnsiString; Places : Integer) : AnsiString;
+function PadString(const S : string; Places : Integer) : string;
 {
 Pads a string (S) with one right space and as many left spaces as
 needed to fill Places
@@ -555,7 +557,7 @@ begin
     Result := S
   else begin
     Result := S + ' ';
-    Result := StringOfChar(AnsiChar(' '), Places - Length(Result)) + Result;
+    Result := StringOfChar(' ', Places - Length(Result)) + Result;
   end;
 end;
 
@@ -571,12 +573,12 @@ end;
 constructor TAbTarItem.Create;
 begin
   inherited Create;
-  FTarHeaderList := TList.Create;
-  FTarHeaderTypeList := TList.Create;
+  FTarHeaderList := TList<PAbTarHeaderRec>.Create;
+  FTarHeaderTypeList := TList<TAbTarHeaderType>.Create;
   GetMem(PTarHeader, AB_TAR_RECORDSIZE); { PTarHeader is our new Header }
   FillChar(PTarHeader^, AB_TAR_RECORDSIZE, #0);
   FTarHeaderList.Add(PTarHeader);
-  FTarHeaderTypeList.Add(Pointer(FILE_HEADER));
+  FTarHeaderTypeList.Add(FILE_HEADER);
   FTarItem.FileHeaderCount := 1;
   { set defaults }
   FTarItem.ArchiveFormat := UNKNOWN_FORMAT;
@@ -587,9 +589,10 @@ begin
   GroupID := 0;
   UncompressedSize := 0;
   { ModTime }
-  LinkFlag := AB_TAR_LF_OLDNORMAL;
+  LinkFlag := Ord(AB_TAR_LF_OLDNORMAL);
   { Link Name }
-  PTarHeader.Magic.gnuOld := AB_TAR_MAGIC_V7_NONE; { Default to GNU type }
+  TAbBytes.FromString(AB_TAR_MAGIC_V7_NONE, @PTarHeader.Magic.gnuOld);
+  { Default to GNU type }
   UserName := '';
   GroupName := '';
   DevMajor := 0;
@@ -652,7 +655,7 @@ end;
 
 function TAbTarItem.GetIsDirectory: Boolean;
 begin
-  Result := (LinkFlag = AB_TAR_LF_DIR);
+  Result := (LinkFlag = Ord(AB_TAR_LF_DIR));
 end;
 
 function TAbTarItem.GetIsEncrypted: Boolean;
@@ -734,7 +737,7 @@ begin
   { GNU_FORMAT is detected by the presence of GNU extended headers. }
 
   { These detections are similar to GNU tar's. }
-  if (PTarHeader.Magic.value = AB_TAR_MAGIC_VAL) then
+  if TAbBytes.Equals(AB_TAR_MAGIC_VAL, @PTarHeader.Magic.value) then
   begin { We have one of three types, STAR_FORMAT, USTAR_FORMAT, POSIX_FORMAT }
     { Detect STAR format.  Leave disabled until explicit STAR support is added. }
     {if (PTarHeader.star.Prefix[130] = #00) and
@@ -750,7 +753,7 @@ begin
     { This can define false positives, Pax headers/ STAR format could be detected as this }
     FTarItem.ArchiveFormat := USTAR_FORMAT;
   end
-  else if (PTarHeader.Magic.gnuOld = AB_TAR_MAGIC_GNUOLD) then
+  else if TAbBytes.Equals(AB_TAR_MAGIC_GNUOLD, @PTarHeader.Magic.gnuOld) then
   begin
     FTarItem.ArchiveFormat := OLDGNU_FORMAT;
   end
@@ -769,7 +772,8 @@ var
   NameLength : Int64;
   NumMHeaders: integer;
   ExtraName: integer;
-  RawFileName, TempStr: AnsiString;
+  RawFileName: string;
+  TempStr: string;
 begin
  {  UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT }
   FoundName := False;
@@ -777,11 +781,11 @@ begin
   while (not FoundName) and (I <= (FTarHeaderList.Count - 1)) do
   begin
     PHeader := FTarHeaderList.Items[I];
-    if PHeader.LinkFlag = AB_TAR_LF_LONGNAME then
+    if PHeader.LinkFlag = Ord(AB_TAR_LF_LONGNAME) then
     begin
       FoundName := True;
       RawFileName := '';
-      NameLength := OctalToInt(PHeader.Size, SizeOf(PHeader.Size));
+      NameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));
       NumMHeaders := NameLength div AB_TAR_RECORDSIZE;
       ExtraName := NameLength mod AB_TAR_RECORDSIZE; { Chars in the last Header }
       { NumMHeaders should never be zero }
@@ -790,13 +794,13 @@ begin
       begin
         { Copy entire content of Header to String }
         PHeader := FTarHeaderList.Items[I+J];
-        SetString(TempStr, PAnsiChar(PHeader), AB_TAR_RECORDSIZE);
+        TempStr := TAbBytes.AsString(@PHeader, AB_TAR_RECORDSIZE);
         RawFileName := RawFileName + TempStr;
       end;
       if ExtraName <> 0 then
       begin
         PHeader := FTarHeaderList.Items[I+NumMHeaders+1];
-        SetString(TempStr, PAnsiChar(PHeader), ExtraName-1);
+        TempStr := TAbBytes.AsString(@PHeader, ExtraName-1);
         RawFileName := RawFileName + TempStr;
       end
       else { We already copied the entire name, but the string is still null terminated. }
@@ -812,14 +816,19 @@ begin
   if not FoundName then
   begin
     if (FTarItem.ArchiveFormat = USTAR_FORMAT) and
-       (PTarHeader.ustar.Prefix[0] <> #0) then
-      RawFileName := PTarHeader.ustar.Prefix+'/'+PTarHeader.Name
+       (PTarHeader.ustar.Prefix[0] <> 0) then
+    begin
+      RawFileName := TAbBytes.AsString(@PTarHeader.ustar.Prefix);
+      RawFileName := RawFileName + TAbBytes.AsString(@PTarHeader.Name);
+    end
     else
-      { V7_FORMAT, OLDGNU_FORMAT }
-      RawFileName := PTarHeader.Name;
+      begin
+        { V7_FORMAT, OLDGNU_FORMAT }
+        RawFileName := TAbBytes.AsString(@PTarHeader.Name);
+      end;
   end; { End not FoundName }
 
-  FTarItem.Name := AbRawBytesToString(RawFileName);
+  FTarItem.Name := AbRawBytesToString(TEncoding.ANSI.GetBytes(RawFileName));
 end;
 
 { Extract the file name from the headers }
@@ -831,7 +840,7 @@ var
   NameLength : Int64;
   NumMHeaders: integer;
   ExtraName: integer;
-  RawLinkName, TempStr: AnsiString;
+  RawLinkName, TempStr: string;
 begin
  {  UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT }
   PHeader := nil;
@@ -841,11 +850,11 @@ begin
   while (not FoundName) and (I <= (FTarHeaderList.Count - 1)) do
   begin
     PHeader := FTarHeaderList.Items[I];
-    if PHeader.LinkFlag = AB_TAR_LF_LONGLINK then
+    if PHeader.LinkFlag = Ord(AB_TAR_LF_LONGLINK) then
     begin
       FoundName := True;
       RawLinkName := '';
-      NameLength := OctalToInt(PHeader.Size, SizeOf(PHeader.Size));
+      NameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));
       NumMHeaders := NameLength div AB_TAR_RECORDSIZE;
       ExtraName := NameLength mod AB_TAR_RECORDSIZE; { Chars in the last Header }
       { NumMHeaders should never be zero }
@@ -854,13 +863,13 @@ begin
       begin
         { Copy entire content of Header to String }
         PHeader := FTarHeaderList.Items[I+J];
-        SetString(TempStr, PAnsiChar(PHeader), AB_TAR_RECORDSIZE);
+        TempStr := TAbBytes.AsString(@PHeader, AB_TAR_RECORDSIZE);
         RawLinkName := RawLinkName + TempStr;
       end;
       if ExtraName <> 0 then
       begin
         PHeader := FTarHeaderList.Items[I+NumMHeaders+1];
-        SetString(TempStr, PAnsiChar(PHeader), ExtraName-1);
+        TempStr := TAbBytes.AsString(@PHeader, ExtraName-1);
         RawLinkName := RawLinkName + TempStr;
       end
       else { We already copied the entire name, but the string is still null terminated. }
@@ -874,9 +883,9 @@ begin
   end; { End While }
 
   if not FoundName then
-    RawLinkName := PHeader.LinkName;
+    RawLinkName := TAbBytes.AsString(@PHeader.LinkName);
 
-  FTarItem.LinkName := AbRawBytesToString(RawLinkName);
+  FTarItem.LinkName := AbRawBytesToString(TEncoding.ANSI.GetBytes(RawLinkName));
 end;
 
 { Return True if CheckSum passes out. }
@@ -891,14 +900,14 @@ begin
   { Check sums are in valid headers but NOT in the data headers. }
   for I := 0 to FTarHeaderList.Count - 1 do
   begin
-    if TAbTarHeaderType(FTarHeaderTypeList.Items[I]) in [FILE_HEADER, META_DATA_HEADER] then
+    if FTarHeaderTypeList.Items[I] in [FILE_HEADER, META_DATA_HEADER] then
     begin
       PHeader := FTarHeaderList.Items[i];
       { Save off old Check sum }
       Move(PHeader.ChkSum, TarChkSumArr, SizeOf(PHeader.ChkSum));
-      TarChkSum := OctalToInt(TarChkSumArr, SizeOf(TarChkSumArr));
+      TarChkSum := OctalToInt(@TarChkSumArr, SizeOf(TarChkSumArr));
       { Set to Generator Value }
-      PHeader.ChkSum := AB_TAR_CHKBLANKS;
+      TAbBytes.FromString(AB_TAR_CHKBLANKS, @PHeader.ChkSum);
       if CalcTarHeaderChkSum(PHeader^) <> TarChkSum then
         Result := False; { Pass unless one miss-compares }
       { Save back old checksum }
@@ -913,22 +922,22 @@ begin
   DetectHeaderFormat;
   { Long term this parsing is not correct, as the values in extended headers
     override the later values in this header }
-  FTarItem.Mode := OctalToInt(PTarHeader.Mode, SizeOf(PTarHeader.Mode));
-  FTarItem.uid := OctalToInt(PTarHeader.uid, SizeOf(PTarHeader.uid)); { Extended in PAX Headers }
-  FTarItem.gid := OctalToInt(PTarHeader.gid, SizeOf(PTarHeader.gid)); { Extended in PAX Headers }
-  FTarItem.Size := OctalToInt(PTarHeader.Size, SizeOf(PTarHeader.Size)); { Extended in PAX Headers }
+  FTarItem.Mode := OctalToInt(@PTarHeader.Mode, SizeOf(PTarHeader.Mode));
+  FTarItem.uid := OctalToInt(@PTarHeader.uid, SizeOf(PTarHeader.uid)); { Extended in PAX Headers }
+  FTarItem.gid := OctalToInt(@PTarHeader.gid, SizeOf(PTarHeader.gid)); { Extended in PAX Headers }
+  FTarItem.Size := OctalToInt(@PTarHeader.Size, SizeOf(PTarHeader.Size)); { Extended in PAX Headers }
   { ModTime should be an Int64 but no tool support, No issues until Feb 6th, 2106 :) }
   { ModTime is Extended in PAX Headers }
-  FTarItem.ModTime := OctalToInt(PTarHeader.ModTime, SizeOf(PTarHeader.ModTime));
+  FTarItem.ModTime := OctalToInt(@PTarHeader.ModTime, SizeOf(PTarHeader.ModTime));
   FTarItem.ChkSumPass := TestCheckSum();
   FTarItem.LinkFlag := PTarHeader.LinkFlag;
   GetLinkNameFromHeaders; { Extended in PAX Headers }
-  FTarItem.Magic := PTarHeader.Magic.value;
-  FTarItem.Version := OctalToInt(PTarHeader.Magic.version, SizeOf(PTarHeader.Magic.version));
-  FTarItem.UsrName := string(PTarHeader.UsrName); { Extended in PAX Headers }
-  FTarItem.GrpName := string(PTarHeader.GrpName); { Extended in PAX Headers }
-  FTarItem.DevMajor := OctalToInt(PTarHeader.DevMajor, SizeOf(PTarHeader.DevMajor));
-  FTarItem.DevMinor := OctalToInt(PTarHeader.DevMinor, SizeOf(PTarHeader.DevMinor));
+  FTarItem.Magic := TAbBytes.AsString(@PTarHeader.Magic.value);
+  FTarItem.Version := OctalToInt(@PTarHeader.Magic.version, SizeOf(PTarHeader.Magic.version));
+  FTarItem.UsrName := TAbBytes.AsString(@PTarHeader.UsrName); { Extended in PAX Headers }
+  FTarItem.GrpName := TAbBytes.AsString(@PTarHeader.GrpName); { Extended in PAX Headers }
+  FTarItem.DevMajor := OctalToInt(@PTarHeader.DevMajor, SizeOf(PTarHeader.DevMajor));
+  FTarItem.DevMinor := OctalToInt(@PTarHeader.DevMinor, SizeOf(PTarHeader.DevMinor));
   GetFileNameFromHeaders;
   { FTarItem.ArchiveFormat;  Already stuffed }
   { FTarItem.StreamPosition: Already Stuffed }
@@ -964,47 +973,49 @@ begin
     AStream.ReadBuffer(PTarHeader^, AB_TAR_RECORDSIZE);
     FTarHeaderList.Add(PTarHeader); { Store the Header to the list }
     { Parse header based on LinkFlag }
-    if PTarHeader.LinkFlag in (AB_SUPPORTED_MD_HEADERS+AB_UNSUPPORTED_MD_HEADERS) then
+    if Char(PTarHeader.LinkFlag).IsInArray(AB_SUPPORTED_MD_HEADERS) or
+      Char(PTarHeader.LinkFlag).IsInArray(AB_UNSUPPORTED_MD_HEADERS) then
     begin { This Header type is in the Set of un/supported Meta data type headers }
-      if PTarHeader.LinkFlag in AB_UNSUPPORTED_MD_HEADERS then
+      if Char(PTarHeader.LinkFlag).IsInArray(AB_UNSUPPORTED_MD_HEADERS) then
         FTarItem.ItemReadOnly := True; { We don't fully support this meta-data type }
-      if (PTarHeader.LinkFlag in AB_PAX_MD_HEADERS) and (PTarHeader.Magic.value = AB_TAR_MAGIC_VAL) then
+      if Char(PTarHeader.LinkFlag).IsInArray(AB_PAX_MD_HEADERS) and
+        TAbBytes.Equals(AB_TAR_MAGIC_VAL, @PTarHeader.Magic.value) then
         FTarItem.ArchiveFormat := POSIX_FORMAT; { We have a POSIX_FORMAT, has x headers, and Magic matches }
-      if PTarHeader.LinkFlag in AB_GNU_MD_HEADERS then
+      if Char(PTarHeader.LinkFlag).IsInArray(AB_GNU_MD_HEADERS) then
         FTarItem.ArchiveFormat := OLDGNU_FORMAT; { We have a OLDGNU_FORMAT, has L/K headers }
       { There can be a unknown number of Headers of data }
       { We are for sure going to read at least one more header, but are we going to read more than that? }
-      FTarHeaderTypeList.Add(Pointer(META_DATA_HEADER));
-      NumMHeaders := Ceil(OctalToInt(PTarHeader.Size, SizeOf(PTarHeader.Size)) / AB_TAR_RECORDSIZE);
+      FTarHeaderTypeList.Add(META_DATA_HEADER);
+      NumMHeaders := Ceil(OctalToInt(@PTarHeader.Size, SizeOf(PTarHeader.Size)) / AB_TAR_RECORDSIZE);
       { NumMHeasder should never be zero }
       for I := 1 to NumMHeaders do
       begin
         GetMem(PTarHeader, AB_TAR_RECORDSIZE); { Create a new Header }
         AStream.ReadBuffer(PTarHeader^, AB_TAR_RECORDSIZE); { Get the Meta Data }
         FTarHeaderList.Add(PTarHeader); { Store the Header to the list }
-        FTarHeaderTypeList.Add(Pointer(MD_DATA_HEADER));
+        FTarHeaderTypeList.Add(MD_DATA_HEADER);
       end;
       { Loop and reparse }
     end
-    else if PTarHeader.LinkFlag in AB_SUPPORTED_F_HEADERS then
+    else if Char(PTarHeader.LinkFlag).IsInArray(AB_SUPPORTED_F_HEADERS) then
     begin { This Header type is in the Set of supported File type Headers }
       FoundItem := True; { Exit Criterion }
       FTarItem.ItemType := SUPPORTED_ITEM;
       if FTarItem.ItemReadOnly then            { Since some of the Headers are read only. }
         FTarItem.ItemType := UNSUPPORTED_ITEM; { This Item is unsupported }
-      FTarHeaderTypeList.Add(Pointer(FILE_HEADER));
+      FTarHeaderTypeList.Add(FILE_HEADER);
     end
-    else if PTarHeader.LinkFlag in AB_UNSUPPORTED_F_HEADERS then
+    else if Char(PTarHeader.LinkFlag).IsInArray(AB_UNSUPPORTED_F_HEADERS) then
     begin { This Header type is in the Set of unsupported File type Headers }
       FoundItem := True; { Exit Criterion }
       FTarItem.ItemType := UNSUPPORTED_ITEM;
-      FTarHeaderTypeList.Add(Pointer(FILE_HEADER));
+      FTarHeaderTypeList.Add(FILE_HEADER);
     end
     else { These are unknown header types }
     begin { Note: Some of these unknown types could have known Meta-data headers }
       FoundItem := True;
       FTarItem.ItemType := UNKNOWN_ITEM;
-      FTarHeaderTypeList.Add(Pointer(UNKNOWN_HEADER));
+      FTarHeaderTypeList.Add(UNKNOWN_HEADER);
     end;{ end LinkFlag parsing }
   end; { end Found Item While }
   { PTarHeader points to FTarHeaderList.Items[FTarHeaderList.Count-1]; }
@@ -1033,10 +1044,11 @@ var
   j : Integer;
   PHeader :  PAbTarHeaderRec;
   HdrChkSum : Integer;
-  HdrChkStr : AnsiString;
-  HdrBuffer : PAnsiChar;
+  HdrChkStr : string;
+  HdrBuffer : PByte;
   SkipNextChkSum: Integer;
   SkipChkSum: Boolean;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1053,13 +1065,14 @@ begin
     PHeader := FTarHeaderList.Items[i];
     if (SkipNextChkSum = 0) then
     begin { We need to parse this header }
-      if PHeader.LinkFlag in (AB_SUPPORTED_MD_HEADERS+AB_UNSUPPORTED_MD_HEADERS) then
+      if Char(PHeader.LinkFlag).IsInArray(AB_SUPPORTED_MD_HEADERS) or
+        Char(PHeader.LinkFlag).IsInArray(AB_UNSUPPORTED_MD_HEADERS) then
       begin { We have a Meta-Data Header, Calculate how many headers to skip. }
         { These meta-data headers have non-Header buffers after this Header }
-        SkipNextChkSum := Ceil(OctalToInt(PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
+        SkipNextChkSum := Ceil(OctalToInt(@PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
         { Ceil will mandate one run through, and will handle 512 correctly }
       end
-      else if PHeader.LinkFlag in AB_SUPPORTED_F_HEADERS then
+      else if Char(PHeader.LinkFlag).IsInArray(AB_SUPPORTED_F_HEADERS) then
       begin
         SkipNextChkSum := 0;
       end
@@ -1079,16 +1092,17 @@ begin
     begin { We are Calculating the Checksum for this Header }
       {Tar ChkSum is "odd" The check sum field is filled with #20 chars as empty }
       { ChkSum field itself is #20'd and has an effect on the sum }
-      PHeader.ChkSum := AB_TAR_CHKBLANKS;
+      TAbBytes.FromString(AB_TAR_CHKBLANKS, @PHeader.ChkSum);
       { Set up the buffers }
-      HdrBuffer := PAnsiChar(PHeader);
+      HdrBuffer := PByte(PHeader);
       HdrChkSum := 0;
       { Calculate the checksum, a simple sum of the bytes in the header }
       for j := 0 to (AB_TAR_RECORDSIZE-1) do
         HdrChkSum := HdrChkSum + Ord(HdrBuffer[j]);
       { set the checksum in the header }
       HdrChkStr := PadString(IntToOctal(HdrChkSum), SizeOf(PHeader.ChkSum));
-      Move(HdrChkStr[1], PHeader.ChkSum, Length(HdrChkStr));
+      pBytes := TEncoding.ANSI.GetBytes(HdrChkStr);
+      Move(pBytes[0], PHeader.ChkSum, Length(pBytes));
     end; { end Skip Check Sum }
     { write header to the file }
     AStream.Write(PHeader^, AB_TAR_RECORDSIZE);
@@ -1099,20 +1113,23 @@ end;
 
 procedure TAbTarItem.SetCompressedSize(const Value: Int64);
 var
-  S : AnsiString;
+  S: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   { Size is extendable in PAX Headers, Remember PAX extended Header Over Rule File Headers }
   FTarItem.Size := Value; { Store our Vitrual Copy }
   S := PadString(IntToOctal(Value), SizeOf(Arr12));{ Stuff to header }
-  Move(S[1], PTarHeader.Size, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.Size, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
 procedure TAbTarItem.SetDevMajor(const Value: Integer);
 var
-  S : AnsiString;
+  S: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1120,13 +1137,15 @@ begin
   { Otherwise they are stuffed with #00 }
   FTarItem.DevMajor := Value; { Store to the struct }
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
-  Move(S[1], PTarHeader.DevMajor, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.DevMajor, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
 procedure TAbTarItem.SetDevMinor(const Value: Integer);
 var
-  S : AnsiString;
+  S: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1134,27 +1153,30 @@ begin
   { Otherwise they are stuffed with #00 }
   FTarItem.DevMinor := Value;
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
-  Move(S[1], PTarHeader.DevMinor, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.DevMinor, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
 procedure TAbTarItem.SetExternalFileAttributes(Value: LongWord);
 var
-  S : AnsiString;
+  S : string;
   I: Integer;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   FTarItem.Mode := Value;
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
+  pBytes := TEncoding.ANSI.GetBytes(S);
   for I := 0 to FTarHeaderList.Count - 1 do
-    if TAbTarHeaderType(FTarHeaderTypeList.Items[I]) in [FILE_HEADER, META_DATA_HEADER] then
-      Move(S[1], PAbTarHeaderRec(FTarHeaderList.Items[I]).Mode, Length(S));
+    if FTarHeaderTypeList.Items[I] in [FILE_HEADER, META_DATA_HEADER] then
+      Move(pBytes[0], PAbTarHeaderRec(FTarHeaderList.Items[I]).Mode, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
 { Add/Remove Headers as needed To/From Existing GNU Long (Link/Name) TarItems }
-procedure TAbTarItem.DoGNUExistingLongNameLink(LinkFlag: AnsiChar; I: Integer; const Value: AnsiString);
+procedure TAbTarItem.DoGNUExistingLongNameLink(LinkFlag: Char; I: Integer; const Value: string);
 var
   PHeader: PAbTarHeaderRec;
   J: Integer;
@@ -1163,17 +1185,19 @@ var
   TotalNewNumHeaders: Integer;
   NumHeaders: Integer;
   ExtraName: Integer;
-  tempStr: AnsiString;
+  tempStr: string;
+  pBytes: TBytes;
 begin
   PHeader := FTarHeaderList.Items[I];
 
   { Need this data from the old header }
-  OldNameLength := OctalToInt(PHeader.Size, SizeOf(PHeader.Size));{ inlcudes Null termination }
+  OldNameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));{ inlcudes Null termination }
   { Length(FTarItem.Name)+1 = OldNameLength; }{ This should be true, always }
 
   { Save off the new Length, so we don't have to change the pointers later. }
   tempStr := PadString(IntToOctal(Length(Value)+1), SizeOf(PHeader.Size));
-  Move(tempStr[1], PHeader.Size, Length(tempStr));
+  pBytes := TEncoding.ANSI.GetBytes(tempStr);
+  Move(pBytes[0], PHeader.Size, Length(pBytes));
 
   TotalOldNumHeaders := Ceil(OldNameLength / AB_TAR_RECORDSIZE);
   TotalNewNumHeaders := Ceil((Length(Value)+1) / AB_TAR_RECORDSIZE);{ Null terminated }
@@ -1192,7 +1216,7 @@ begin
     begin { Old < New, Need more Headers, Insert }
       GetMem(PHeader, AB_TAR_RECORDSIZE);
       FTarHeaderList.Insert(I+1,PHeader);{ Insert: Inserts at index }
-      FTarHeaderTypeList.Insert(I+1,Pointer(MD_DATA_HEADER));{ We are only adding MD Data headers here }
+      FTarHeaderTypeList.Insert(I+1,MD_DATA_HEADER);{ We are only adding MD Data headers here }
       J := J + 1;
     end;
   end;{ end numHeaders while }
@@ -1200,22 +1224,22 @@ begin
   NumHeaders := (Length(Value)+1) div AB_TAR_RECORDSIZE; { Include Null terminator }
   ExtraName := (Length(Value)+1) mod AB_TAR_RECORDSIZE; { Chars in the last Header }
   { Now we have the number of headers set up, stuff the name in the Headers }
-  TempStr := AnsiString(Value);
+  pBytes := TEncoding.ANSI.GetBytes(Value);
   for J := 1 to NumHeaders do
   begin
     { Copy entire next AB_TAR_RECORDSIZE bytes of tempString to content of Header }
     { There may only be AB_TAR_RECORDSIZE-1 bytes if this is the last rounded header }
     PHeader := FTarHeaderList.Items[I+J];
-    Move(TempStr[1], PHeader^, AB_TAR_RECORDSIZE);
-    if Length(TempStr) >= AB_TAR_RECORDSIZE then
-      Delete(TempStr, 1, AB_TAR_RECORDSIZE);{ Crop string }
+    Move(pBytes[0], PHeader^, AB_TAR_RECORDSIZE);
+    if Length(pBytes) >= AB_TAR_RECORDSIZE then
+      Delete(pBytes, 1, AB_TAR_RECORDSIZE);{ Crop string }
   end;
   if ExtraName <> 0 then
   begin
     { Copy whatever is left in tempStr into the rest of the buffer }
     PHeader := FTarHeaderList.Items[I+NumHeaders+1];
     FillChar(PHeader^, AB_TAR_RECORDSIZE, #0); { Zero the whole block }
-    Move(TempStr[1], PHeader^, ExtraName-1); { The string is null terminated }
+    Move(pBytes[0], PHeader^, ExtraName-1); { The string is null terminated }
   end
   else { We already copied the entire name, but it must be null terminated }
   begin
@@ -1224,41 +1248,44 @@ begin
 
   { Finally we need to stuff the file type Header. }
   { Note: Value.length > AB_TAR_NAMESIZE(100) }
+  pBytes := TEncoding.ANSI.GetBytes(Value);
   if LinkFlag = AB_TAR_LF_LONGNAME then
-    Move(Value[1], PTarHeader.Name, AB_TAR_NAMESIZE)
+    Move(pBytes[0], PTarHeader.Name, AB_TAR_NAMESIZE)
   else
-    Move(Value[1], PTarHeader.LinkName, AB_TAR_NAMESIZE);
+    Move(pBytes[0], PTarHeader.LinkName, AB_TAR_NAMESIZE);
 end;
 
 
 { Always inserts the L/K Headers at index 0+ }
-procedure TAbTarItem.DoGNUNewLongNameLink(LinkFlag: AnsiChar; I: Integer; const Value: AnsiString);
+procedure TAbTarItem.DoGNUNewLongNameLink(LinkFlag: Char; I: Integer; const Value: string);
 var
   PHeader: PAbTarHeaderRec;
   J: Integer;
   NumHeaders: Integer;
   ExtraName: Integer;
-  tempStr: AnsiString;
+  tempStr: string;
+  pBytes: TBytes;
 begin
   { We have a GNU_FORMAT, and no L/K Headers.}
   { Add a new MD Header and MD Data Headers }
   { Make an L/K header }
   GetMem(PHeader, AB_TAR_RECORDSIZE);
   FTarHeaderList.Insert(I, PHeader);{ Insert: Inserts at base index }
-  FTarHeaderTypeList.Insert(I, Pointer( META_DATA_HEADER));{ This is the L/K Header }
+  FTarHeaderTypeList.Insert(I, META_DATA_HEADER);{ This is the L/K Header }
   FillChar(PHeader^, AB_TAR_RECORDSIZE, #0); { Zero the whole block }
-  AnsiStrings.StrPCopy(PHeader.Name, AB_TAR_L_HDR_NAME); { Stuff L/K String Name }
-  AnsiStrings.StrPCopy(PHeader.Mode, AB_TAR_L_HDR_ARR8_0); { Stuff zeros }
-  AnsiStrings.StrPCopy(PHeader.uid, AB_TAR_L_HDR_ARR8_0);  { Stuff zeros }
-  AnsiStrings.StrPCopy(PHeader.gid, AB_TAR_L_HDR_ARR8_0);  { Stuff zeros }
+  TAbBytes.StrPCopy(@PHeader.Name, AB_TAR_L_HDR_NAME); { Stuff L/K String Name }
+  TAbBytes.StrPCopy(@PHeader.Mode, AB_TAR_L_HDR_ARR8_0); { Stuff zeros }
+  TAbBytes.StrPCopy(@PHeader.uid, AB_TAR_L_HDR_ARR8_0);  { Stuff zeros }
+  TAbBytes.StrPCopy(@PHeader.gid, AB_TAR_L_HDR_ARR8_0);  { Stuff zeros }
   tempStr := PadString(IntToOctal(Length(Value)+1), SizeOf(PHeader.Size)); { Stuff Size }
-  Move(tempStr[1], PHeader.Size, Length(tempStr));
-  AnsiStrings.StrPCopy(PHeader.ModTime, AB_TAR_L_HDR_ARR12_0);  { Stuff zeros }
+  pBytes := TEncoding.ANSI.GetBytes(tempStr);
+  Move(pBytes[0], PHeader.Size, Length(pBytes));
+  TAbBytes.StrPCopy(@PHeader.ModTime, AB_TAR_L_HDR_ARR12_0);  { Stuff zeros }
   { Check sum will be calculated as the Dirty flag is in caller. }
-  PHeader.LinkFlag := LinkFlag;  { Stuff Link FlagSize }
-  AnsiStrings.StrPCopy(PHeader.Magic.gnuOld, AB_TAR_MAGIC_GNUOLD); { Stuff the magic }
-  AnsiStrings.StrPCopy(PHeader.UsrName, AB_TAR_L_HDR_USR_NAME);
-  AnsiStrings.StrPCopy(PHeader.GrpName, AB_TAR_L_HDR_GRP_NAME);
+  PHeader.LinkFlag := Ord(LinkFlag);  { Stuff Link FlagSize }
+  TAbBytes.StrPCopy(@PHeader.Magic.gnuOld, AB_TAR_MAGIC_GNUOLD); { Stuff the magic }
+  TAbBytes.StrPCopy(@PHeader.UsrName, AB_TAR_L_HDR_USR_NAME);
+  TAbBytes.StrPCopy(@PHeader.GrpName, AB_TAR_L_HDR_GRP_NAME);
   { All else stays as Zeros. }
   { Completed with L/K Header }
 
@@ -1267,17 +1294,17 @@ begin
   NumHeaders := Ceil((Length(Value)+1) / AB_TAR_RECORDSIZE); { Include Null terminator }
   ExtraName := (Length(Value)+1) mod AB_TAR_RECORDSIZE; { Chars in the last Header }
   { Now we have the number of headers set up, stuff the name in the Headers }
-  TempStr := AnsiString(Value);
+  pBytes := TEncoding.ANSI.GetBytes(Value);
   for J := 1 to NumHeaders-1 do
   begin
     { Make a buffer, and copy entire next AB_TAR_RECORDSIZE bytes of tempStr to content of Header }
     { There may only be AB_TAR_RECORDSIZE-1 bytes if this is the last rounded header }
     GetMem(PHeader, AB_TAR_RECORDSIZE);
     FTarHeaderList.Insert(J+I, PHeader);
-    FTarHeaderTypeList.Insert(J+I, Pointer(MD_DATA_HEADER));{ We are adding MD Data headers here }
-    Move(TempStr[1], PHeader^, AB_TAR_RECORDSIZE);
-    if Length(TempStr) >= AB_TAR_RECORDSIZE then
-      Delete(TempStr, 1, AB_TAR_RECORDSIZE);{ Crop string }
+    FTarHeaderTypeList.Insert(J+I, MD_DATA_HEADER);{ We are adding MD Data headers here }
+    Move(pBytes[0], PHeader^, AB_TAR_RECORDSIZE);
+    if Length(pBytes) >= AB_TAR_RECORDSIZE then
+      Delete(pBytes, 0, AB_TAR_RECORDSIZE);{ Crop string }
   end;
   if ExtraName <> 0 then
   begin
@@ -1285,9 +1312,9 @@ begin
     { Create the last MD Data Header }
     GetMem(PHeader, AB_TAR_RECORDSIZE);
     FTarHeaderList.Insert(I+NumHeaders, PHeader);{ Insert: Inserts at base index }
-    FTarHeaderTypeList.Insert(I+NumHeaders, Pointer(MD_DATA_HEADER));{ We are only adding MD Data headers here }
+    FTarHeaderTypeList.Insert(I+NumHeaders, MD_DATA_HEADER);{ We are only adding MD Data headers here }
     FillChar(PHeader^, AB_TAR_RECORDSIZE, #0); { Zero the whole block }
-    Move(TempStr[1], PHeader^, ExtraName-1); { The string is null terminated in the header }
+    Move(pBytes[0], PHeader^, ExtraName-1); { The string is null terminated in the header }
   end
   else { We already copied the entire name, but it must be null terminated }
   begin
@@ -1296,10 +1323,11 @@ begin
 
   { Finally we need to stuff the file type Header. }
   { Note: Value.length > AB_TAR_NAMESIZE(100) }
+  pBytes := TEncoding.ANSI.GetBytes(Value);
   if LinkFlag = AB_TAR_LF_LONGNAME then
-    Move(Value[1], PHeader.Name, AB_TAR_NAMESIZE)
+    Move(pBytes[0], PHeader.Name, AB_TAR_NAMESIZE)
   else
-    Move(Value[1], PHeader.LinkName, AB_TAR_NAMESIZE);
+    Move(pBytes[0], PHeader.LinkName, AB_TAR_NAMESIZE);
 end;
 
 procedure TAbTarItem.SetFileName(const Value: string);
@@ -1308,7 +1336,7 @@ var
   PHeader: PAbTarHeaderRec;
   I, J: Integer;
   TotalOldNumHeaders: Integer;
-  RawFileName: AnsiString;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do  Not Save }
     Exit;
@@ -1333,19 +1361,19 @@ begin
          OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
 
       Add headers to length of new Name Length, update name in file header, update name fields }
-  RawFileName := AbStringToUnixBytes(Value);
+  pBytes := TEncoding.ANSI.GetBytes(Value);
   { In all cases zero out the name fields in the File Header. }
-  if Length(RawFileName) > AB_TAR_NAMESIZE then begin { Must be null terminated except at 100 char length }
+  if Length(pBytes) > AB_TAR_NAMESIZE then begin { Must be null terminated except at 100 char length }
     { Look for long name meta-data headers already in the archive. }
     FoundMetaDataHeader := False;
     I := 0;
     { FTarHeaderList.Count <= 1 always }
     while (not FoundMetaDataHeader) and (I <= (FTarHeaderList.Count - 1)) do begin
       PHeader := FTarHeaderList.Items[I];
-      if PHeader.LinkFlag = AB_TAR_LF_LONGNAME then begin
+      if PHeader.LinkFlag = Ord(AB_TAR_LF_LONGNAME) then begin
         { We are growing or Shriking the Name MD Data fields.  }
         FoundMetaDataHeader := True;
-        DoGNUExistingLongNameLink(AB_TAR_LF_LONGNAME, I, RawFileName);
+        DoGNUExistingLongNameLink(AB_TAR_LF_LONGNAME, I, Value);
         { Need to copy the Name to the header. }
         FTarItem.Name := Value;
       end
@@ -1366,25 +1394,25 @@ begin
             {0123456789012345, Length = 15, NameLength = 5, PrefixLength = 9}
             { AAAA/BBBB/C.txt, Stored as Name := 'C.txt', Prefix := 'AAAA/BBBB' }
             { That means Theoretical maximum is 256 for Length(RawFileName) }
-            if Length(RawFileName) > (AB_TAR_NAMESIZE+AB_TAR_USTAR_PREFIX_SIZE+1) then { Check the obvious one. }
+            if Length(pBytes) > (AB_TAR_NAMESIZE+AB_TAR_USTAR_PREFIX_SIZE+1) then { Check the obvious one. }
               raise EAbTarBadFileName.Create; { File Name to Long }
-            for I := Length(RawFileName) downto Length(RawFileName)-AB_TAR_NAMESIZE-1 do begin
-              if RawFileName[I] = '/' then begin
-                if (I <= AB_TAR_USTAR_PREFIX_SIZE+1) and (Length(RawFileName)-I <= AB_TAR_NAMESIZE) then begin
+            for I := Length(pBytes) - 1 downto Length(pBytes)-AB_TAR_NAMESIZE-2 do begin
+              if pBytes[I] = Ord('/') then begin
+                if (I <= AB_TAR_USTAR_PREFIX_SIZE) and (Length(pBytes)-I <= AB_TAR_NAMESIZE + 1) then begin
                   { We have a successfull parse. }
                   FillChar(PTarHeader.Name, SizeOf(PTarHeader.Name), #0);
                   FillChar(PTarHeader.ustar.Prefix, SizeOf(PTarHeader.ustar.Prefix), #0);
-                  Move(RawFileName[I+1], PTarHeader.Name, Length(RawFileName)-I);
-                  Move(RawFileName[1], PTarHeader.ustar.Prefix, I);
+                  Move(pBytes[I+1], PTarHeader.Name, Length(pBytes)-I);
+                  Move(pBytes[0], PTarHeader.ustar.Prefix, I);
                   break;
                 end
-                else if (Length(RawFileName)-I > AB_TAR_NAMESIZE) then
+                else if (Length(pbytes)-I + 1 > AB_TAR_NAMESIZE) then
                   raise EAbTarBadFileName.Create { File Name not splittable }
                 { else continue; }
               end;
             end;{ End for I... }
           end; { End USTAR Format }
-        OLDGNU_FORMAT: DoGNUNewLongNameLink(AB_TAR_LF_LONGNAME, 0, RawFileName); {GNU_FORMAT}
+        OLDGNU_FORMAT: DoGNUNewLongNameLink(AB_TAR_LF_LONGNAME, 0, Value); {GNU_FORMAT}
         else begin
           { UNKNOWN_FORMAT, STAR_FORMAT, POSIX_FORMAT }
           raise EAbTarBadOp.Create; { Unknown Archive Format }
@@ -1408,10 +1436,10 @@ begin
       while not FoundMetaDataHeader and (I <= (FTarHeaderList.Count - 1)) do
       begin
         PHeader := FTarHeaderList.Items[I];
-        if PHeader.LinkFlag in [AB_TAR_LF_LONGNAME] then
+        if Char(PHeader.LinkFlag) = AB_TAR_LF_LONGNAME then
         begin  { Delete this Header, and the data Headers. }
           FoundMetaDataHeader := True;
-          TotalOldNumHeaders := Ceil( OctalToInt(PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
+          TotalOldNumHeaders := Ceil( OctalToInt(@PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
           for J := TotalOldNumHeaders downto 0 do
           begin { Note 0 will delete the Long Link MD Header }
             FreeMem(FTarHeaderList.Items[I+J]); { This list holds PAbTarHeaderRec's }
@@ -1426,7 +1454,7 @@ begin
     { Save off the new name and store to the Header }
     FTarItem.Name := Value;
     { Must add Null Termination before we store to Header }
-    AnsiStrings.StrPLCopy(PTarHeader.Name, RawFileName, AB_TAR_NAMESIZE);
+    TAbBytes.StrPLCopy(@PTarHeader.Name, Value, AB_TAR_NAMESIZE);
   end;{ End else Short new name,... }
 
   { Update the inherited file names. }
@@ -1438,14 +1466,16 @@ end;
 
 procedure TAbTarItem.SetGroupID(const Value: Integer);
 var
-  S : AnsiString;
+  S: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   { gid is extendable in PAX Headers, Rember PAX extended Header Over Rule File Headers }
   FTarItem.gid := Value;
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
-  Move(S[1], PTarHeader.gid, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.gid, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
@@ -1455,7 +1485,7 @@ begin
     Exit;
   { GrpName is extendable in PAX Headers, Rember PAX extended Header Over Rule File Headers }
   FTarItem.GrpName := Value;
-  AnsiStrings.StrPLCopy(PTarHeader.GrpName, AnsiString(Value), SizeOf(PTarHeader.GrpName));
+  TAbBytes.StrPLCopy(@PTarHeader.GrpName, Value, SizeOf(PTarHeader.GrpName));
   FTarItem.Dirty := True;
 end;
 
@@ -1492,7 +1522,7 @@ begin
   SetModTime(AbLocalDateTimeToUnixTime(Value));    // also updates headers
 end;
 
-procedure TAbTarItem.SetLinkFlag(Value: AnsiChar);
+procedure TAbTarItem.SetLinkFlag(Value: Byte);
 begin
   if FTarItem.ItemReadOnly then
     Exit;
@@ -1507,7 +1537,7 @@ var
   PHeader: PAbTarHeaderRec;
   I, J: Integer;
   TotalOldNumHeaders: Integer;
-  RawLinkName: AnsiString;
+  RawLinkName: string;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
@@ -1527,7 +1557,7 @@ begin
       if old was Long,
          OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
       STAR & PAX: And should not yet get here.}
-  RawLinkName := AbStringToUnixBytes(Value);
+  RawLinkName := Value;
   if Length(RawLinkName) > AB_TAR_NAMESIZE then { Must be null terminated except at 100 char length }
   begin
     { Look for long name meta-data headers already in the archive. }
@@ -1536,7 +1566,7 @@ begin
     { FTarHeaderList.Count <= 1 always }
     while (not FoundMetaDataHeader) and (I <= (FTarHeaderList.Count - 1)) do begin
       PHeader := FTarHeaderList.Items[I];
-      if PHeader.LinkFlag = AB_TAR_LF_LONGLINK then
+      if PHeader.LinkFlag = Ord(AB_TAR_LF_LONGLINK) then
       begin { We are growing or Shriking the Name MD Data fields.  }
         FoundMetaDataHeader := True;
         DoGNUExistingLongNameLink(AB_TAR_LF_LONGLINK, I, RawLinkName);
@@ -1576,10 +1606,10 @@ begin
       while not FoundMetaDataHeader and (I <= (FTarHeaderList.Count - 1)) do
       begin
         PHeader := FTarHeaderList.Items[I];
-        if PHeader.LinkFlag in [AB_TAR_LF_LONGLINK] then
+        if Char(PHeader.LinkFlag) = AB_TAR_LF_LONGLINK then
         begin  { Delete this Header, and the data Headers. }
           FoundMetaDataHeader := True;
-          TotalOldNumHeaders := Ceil( OctalToInt(PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
+          TotalOldNumHeaders := Ceil( OctalToInt(@PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
           for J := TotalOldNumHeaders downto 0 do
           begin { Note 0 will delete the Long Link MD Header }
             FreeMem(FTarHeaderList.Items[I+J]); { This list holds PAbTarHeaderRec's }
@@ -1593,43 +1623,50 @@ begin
     end; { End if GNU... }
     { Save off the new name and store to the Header }
     FTarItem.LinkName := Value;
-    AnsiStrings.StrPLCopy(PTarHeader.LinkName, RawLinkName, AB_TAR_NAMESIZE);
+    TAbBytes.StrPLCopy(@PTarHeader.LinkName, RawLinkName, AB_TAR_NAMESIZE);
   end;{ End else Short new name,... }
   FTarItem.Dirty := True;
 end;
 
 procedure TAbTarItem.SetMagic(const Value: String);
+var
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
-  FTarItem.Magic := AnsiString(Value);
-  Move(Value[1], PTarHeader.Magic, SizeOf(TAbTarMagicRec));
+  FTarItem.Magic := Value;
+  pBytes := TEncoding.ANSI.GetBytes(Value);
+  Move(pBytes[0], PTarHeader.Magic, SizeOf(TAbTarMagicRec));
   FTarItem.Dirty := True;
 end;
 
 procedure TAbTarItem.SetUncompressedSize(const Value: Int64);
 var
-  S : AnsiString;
+  S : string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   { Size is extendable in PAX Headers, Remember PAX extended Header Over Rule File Headers }
   FTarItem.Size := Value; { Store our Vitrual Copy }
   S := PadString(IntToOctal(Value), SizeOf(Arr12));{ Stuff to header }
-  Move(S[1], PTarHeader.Size, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.Size, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
 procedure TAbTarItem.SetUserID(const Value: Integer);
 var
-  S : AnsiString;
+  S: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   { uid is extendable in PAX Headers, Remember PAX extended Header Over Rule File Headers }
   FTarItem.uid := Value;
   S := PadString(IntToOctal(Value), SizeOf(Arr8));
-  Move(S[1], PTarHeader.uid, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.uid, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
@@ -1639,20 +1676,22 @@ begin
     Exit;
   { UsrName is extendable in PAX Headers, Remember PAX extended Header Over Rule File Headers }
   FTarItem.UsrName := Value;
-  AnsiStrings.StrPLCopy(PTarHeader.UsrName, AnsiString(Value), SizeOf(PTarHeader.UsrName));
+  TAbBytes.StrPLCopy(@PTarHeader.UsrName, Value, SizeOf(PTarHeader.UsrName));
   FTarItem.Dirty := True;
 end;
 
 procedure TAbTarItem.SetModTime(const Value: Int64);
 var
-  S: AnsiString;
+  S: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   { ModTime is extendable in PAX Headers, Remember PAX extended Header Over Rule File Headers }
   FTarItem.ModTime := Value; { Store our Virtual Copy }
   S := PadString(IntToOctal(Value), SizeOf(Arr12));{ Stuff to header }
-  Move(S[1], PTarHeader.ModTime, Length(S));
+  pBytes := TEncoding.ANSI.GetBytes(S);
+  Move(pBytes[0], PTarHeader.ModTime, Length(pBytes));
   FTarItem.Dirty := True;
 end;
 
@@ -1693,23 +1732,25 @@ begin
   DataRead := FStream.Read(FTarHeader, AB_TAR_RECORDSIZE); { Read in a header }
   { DataRead <> AB_TAR_RECORDSIZE means end of stream, and the End Of Archive
     record is all #0's, which the StrLen(FTarHeader.Name) check will catch }
-  while (DataRead = AB_TAR_RECORDSIZE) and (AnsiStrings.StrLen(FTarHeader.Name) > 0) and not FoundItem do
+  while (DataRead = AB_TAR_RECORDSIZE) and (TAbBytes.StrLen(@FTarHeader.Name) > 0) and not FoundItem do
   begin { Either exit when we find a supported file or end of file or an invalid header name. }
-    if FTarHeader.LinkFlag in (AB_SUPPORTED_MD_HEADERS+AB_UNSUPPORTED_MD_HEADERS) then
+    if Char(FTarHeader.LinkFlag).IsInArray(AB_SUPPORTED_MD_HEADERS) or
+      Char(FTarHeader.LinkFlag).IsInArray(AB_UNSUPPORTED_MD_HEADERS) then
     begin { We have a un/supported Meta-Data Header }
       { FoundItem := False } { Value remains False. }
-      SkipHdrs := Ceil(OctalToInt(FTarHeader.Size, SizeOf(FTarHeader.Size))/AB_TAR_RECORDSIZE);
+      SkipHdrs := Ceil(OctalToInt(@FTarHeader.Size, SizeOf(FTarHeader.Size))/AB_TAR_RECORDSIZE);
       FStream.Seek(SkipHdrs*AB_TAR_RECORDSIZE, soCurrent);
       { Tally new Headers: Consumed + Current }
       FCurrItemPreHdrs := FCurrItemPreHdrs + SkipHdrs + 1;
       { Read our next header, Loop, and re-parse }
       DataRead := FStream.Read(FTarHeader, AB_TAR_RECORDSIZE);
     end
-    else if FTarHeader.LinkFlag in (AB_SUPPORTED_F_HEADERS+AB_UNSUPPORTED_F_HEADERS) then
+    else if Char(FTarHeader.LinkFlag).IsInArray(AB_SUPPORTED_F_HEADERS) or
+      Char(FTarHeader.LinkFlag).IsInArray(AB_UNSUPPORTED_F_HEADERS) then
     begin { We have a un/supported File Header. }
       FoundItem := True;
-      if not (FTarHeader.LinkFlag in AB_IGNORE_SIZE_HEADERS) then
-        FCurrItemSize := OctalToInt(FTarHeader.Size, SizeOf(FTarHeader.Size))
+      if not Char(FTarHeader.LinkFlag).IsInArray(AB_IGNORE_SIZE_HEADERS) then
+        FCurrItemSize := OctalToInt(@FTarHeader.Size, SizeOf(FTarHeader.Size))
       else FCurrItemSize := 0; { Per The spec these Headers do not have file content }
       FCurrItemPreHdrs := FCurrItemPreHdrs + 1; { Tally current header }
     end
@@ -1795,7 +1836,7 @@ end;
 
 procedure TAbTarStreamHelper.WriteArchiveItemSize(AStream: TStream; Size: Int64);
 var
-  PadBuff : PAnsiChar;
+  PadBuff : PByte;
   PadSize : Integer;
 begin
   if Size = 0 then
@@ -1814,7 +1855,7 @@ end;
 
 procedure TAbTarStreamHelper.WriteArchiveTail;
 var
-  PadBuff : PAnsiChar;
+  PadBuff : PByte;
   PadSize : Integer;
 begin
   { append 2 terminating null blocks }
@@ -1854,13 +1895,13 @@ begin
     if FArchFormat in [OLDGNU_FORMAT, GNU_FORMAT] then
     begin
       Item.ArchiveFormat := FArchFormat;
-      Item.LinkFlag := AB_TAR_LF_NORMAL;
+      Item.LinkFlag := Ord(AB_TAR_LF_NORMAL);
       Item.Magic := AB_TAR_MAGIC_GNUOLD;
     end
     else if FArchFormat in [USTAR_FORMAT] then
     begin
       Item.ArchiveFormat := USTAR_FORMAT;
-      Item.LinkFlag := AB_TAR_LF_NORMAL;
+      Item.LinkFlag := Ord(AB_TAR_LF_NORMAL);
       Item.Magic := AB_TAR_MAGIC_VAL+AB_TAR_MAGIC_VER;
     end
     else if (FArchFormat = V7_FORMAT) and (Length(S) > 100) then
@@ -1924,7 +1965,7 @@ begin
     except
       if ExceptObject is EAbUserAbort then
         FStatus := asInvalid;
-      DeleteFile(UseName);
+      TFile.Delete(UseName);
       raise;
     end;
   end;
@@ -2060,8 +2101,8 @@ begin
     AbStripDrive( lValue );
 
   { check for a leading slash }
-  if lValue[1] = AbPathDelim then
-    System.Delete( lValue, 1, 1 );
+  if lValue.Chars[0] = AbPathDelim then
+    lValue.Remove(0, 1 );
 
   if soStripPath in StoreOptions then
     lValue := ExtractFileName(lValue);
@@ -2158,7 +2199,7 @@ begin
               { TODO: uid, gid, uname, gname should be added here }
               { TODO: Add support for different types of files here }
               if (AttrEx.Mode and AB_FMODE_DIR) <> 0 then begin
-                CurItem.LinkFlag := AB_TAR_LF_DIR;
+                CurItem.LinkFlag := Ord(AB_TAR_LF_DIR);
                 CurItem.UncompressedSize := 0;
                 CurItem.SaveTarHeaderToStream(NewStream);
               end

@@ -112,7 +112,7 @@ uses
 {$IFDEF PosixAPI}
   Posix.SysStat,
 {$ENDIF}
-  Math, SysUtils, Variants,
+  Math, SysUtils, IOUtils, Variants,
   AbUtils;
 
 var
@@ -139,19 +139,19 @@ begin
     else if j = Length(d2) then cmp := -1
     else cmp := CompareText(d1[i].Name, d2[j].Name); // Allow case insensitive matches on case-sensitive filesystems
     if cmp < 0 then begin
-      Check(not FileExists(AbAddBackSlash(aDir1) + d1[i].Name),
+      Check(not FileExists(TPath.Combine(aDir1, d1[i].Name)),
         d1[i].Name + ' is missing in ' + aDir2);
       Inc(i);
     end
     else if cmp > 0 then begin
-      Check(not FileExists(AbAddBackSlash(aDir2) + d2[j].Name),
+      Check(not FileExists(TPath.Combine(aDir2, d2[j].Name)),
         d2[j].Name + ' is missing in ' + aDir1);
       Inc(j);
     end
     else begin
       CheckEquals(d1[i].Size, d2[j].Size, d1[i].Name + 'sizes do not match');
       if (d1[i].Size > 0) or (d2[j].Size > 0) then
-        CheckFilesMatch(AbAddBackSlash(aDir1) + d1[i].Name, AbAddBackSlash(aDir2) + d2[i].Name,
+        CheckFilesMatch(TPath.Combine(aDir1, d1[i].Name), TPath.Combine(aDir2, d2[i].Name),
           d1[i].Name + ' does not match');
       Inc(i);
       Inc(j);
@@ -312,7 +312,7 @@ begin
   if not DirectoryExists(aDir) then
     raise ETestFailure.Create('Directory Requested does not exist : ' + aDir);
   Result := nil;
-  if FindFirst(AbAddBackSlash(aDir) + '*', faAnyFile, SR) = 0 then begin
+  if FindFirst(TPath.Combine(aDir,  '*'), faAnyFile, SR) = 0 then begin
     repeat
       if (SR.Attr and faDirectory = 0) and  // Don't include sub directories
          (Pos('?', SR.Name) = 0) then begin // Don't include Unicode filenames in ANSI builds
@@ -376,7 +376,7 @@ begin
    result := '/etc/'
  {$ELSE}
    GetWindowsDirectory(aDirBuf,SizeOf(aDirBuf));
-   result := AbAddBackSlash(string(aDirBuf));
+   result := IncludeTrailingPathDelimiter(string(aDirBuf));
  {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }

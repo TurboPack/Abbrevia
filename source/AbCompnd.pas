@@ -612,7 +612,7 @@ begin
   while Length(LocKey) > 0 do begin
     while LocKey[1] = '\' do
     begin
-      Delete(LocKey, 1, 1);
+      System.Delete(LocKey, 1, 1);
       if Length(LocKey) = 0 then
         exit;
     end;

@@ -51,6 +51,7 @@ uses
 {$IFDEF POSIX}
   DateUtils,
 {$ENDIF}
+  Types,
   SysUtils,
   Classes,
   AbCharset;
@@ -85,27 +86,13 @@ type
   TAbArchiveType = (atUnknown, atZip, atSpannedZip, atSelfExtZip,
                     atTar, atGzip, atGzippedTar, atCab, atBzip2, atBzippedTar);
 
-
-{$IF NOT DECLARED(DWORD)}
 type
-  DWORD = LongWord;
-{$IFEND}
-
-{$IF NOT DECLARED(PtrInt)}
-type
-  // Delphi 7-2007 declared NativeInt incorrectly
-  {$IFDEF CPU386}
-  PtrInt = LongInt;
-  PtrUInt = LongWord;
-  {$ELSE}
   PtrInt = NativeInt;
   PtrUInt = NativeUInt;
-  {$ENDIF}
-{$IFEND}
 
 { System-encoded SBCS string (formerly AnsiString) }
 type
-  AbSysString = {$IFDEF Posix}UTF8String{$ELSE}AnsiString{$ENDIF};
+  AbSysString = string;
 
 const
   AbCrc32Table : array[0..255] of DWord = (
@@ -207,8 +194,6 @@ type
   procedure AbFindFilesEx( const FileMask : string; SearchAttr : Integer;
                          FileList : TStrings; Recurse : Boolean );
 
-  function AbAddBackSlash(const DirName : string) : string;
-
   function AbFindNthSlash( const Path : string; n : Integer ) : Integer;
     {return the position of the character just before the nth backslash}
 
@@ -259,7 +244,7 @@ type
   function AbUpdateCRC32(CurByte : Byte; CurCrc : LongInt) : LongInt;
     {-Returns an updated crc32}
 
-  function AbCRC32Of( const aValue : RawByteString ) : LongInt;
+  function AbCRC32Of(const aValue : TBytes): LongInt;
 
 
   function AbWriteVolumeLabel(const VolName : string;
@@ -347,11 +332,12 @@ implementation
 
 uses
   StrUtils,
+  IOUtils,
   AbConst,
   AbExcept;
 
 {$IFDEF POSIX}
-function mktemp(template: PAnsiChar): PAnsiChar; cdecl; external libc name _PU + 'mktemp';
+function mktemp(template: MarshaledAString): MarshaledAString; cdecl; external libc name _PU + 'mktemp';
 {$ENDIF}
 
 {===platform independent routines for platform dependent stuff=======}
@@ -460,9 +446,10 @@ var
 {$IFDEF POSIX}
   hFile: Integer;
   FileName: AbSysString;
+  M: TMarshaller;
 {$ENDIF}
 begin
-  if DirectoryExists(Dir) then
+  if TDirectory.Exists(Dir) then
     TempPath := Dir
   else
     TempPath := AbGetTempDirectory;
@@ -471,9 +458,9 @@ begin
   Result := string(FileNameZ);
 {$ENDIF}
 {$IFDEF POSIX}
-  FileName := AbSysString(TempPath) + 'VMSXXXXXX';
-  mktemp(PAnsiChar(AbSysString(FileName)));
-  Result := string(FileName);
+  FileName := TempPath + 'VMSXXXXXX';
+  mktemp(M.AsAnsi(FileName).ToPointer);
+  Result := FileName;
   if CreateIt then begin
     hFile := FileCreate(Result);
     if hFile <> -1 then
@@ -492,7 +479,7 @@ begin
   if (iPos <= 0) then
     Result := 'A'
   else
-    Result := Path[1];
+    Result := Path.Chars[0];
 end;
 { -------------------------------------------------------------------------- }
 function AbDriveIsRemovable(const ArchiveName : string) : Boolean;
@@ -510,7 +497,7 @@ begin
   Path := IncludeTrailingPathDelimiter(ExtractFileDrive(Path));
   Result := GetDriveType(PChar(Path)) = DRIVE_REMOVABLE;
 {$ENDIF}
-{$IFDEF MACOS}
+{$IFDEF POSIX}
   Result := False;
 {$ENDIF}
 end;
@@ -529,13 +516,14 @@ begin
     Result := -1;
 {$ENDIF}
 {$IFDEF POSIX}
-var
-  FStats : _statvfs;
+//var
+//  FStats : _statvfs;
 begin
-  if statvfs(PAnsiChar(AbSysString(ExtractFilePath(ArchiveName))), FStats) = 0 then
-    Result := Int64(FStats.f_bavail) * Int64(FStats.f_bsize)
-  else
-    Result := -1;
+  Result := -1;
+//  if statvfs(PAnsiChar(AbSysString(ExtractFilePath(ArchiveName))), FStats) = 0 then
+//    Result := Int64(FStats.f_bavail) * Int64(FStats.f_bsize)
+//  else
+//    Result := -1;
 {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
@@ -626,18 +614,6 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-function AbAddBackSlash(const DirName : string) : string;
-{ Add a default slash to a directory name }
-const
-  AbDelimSet : set of AnsiChar = [AbPathDelim, ':', #0];
-begin
-  Result := DirName;
-  if Length(DirName) = 0 then
-    Exit;
-  if not CharInSet(DirName[Length(DirName)], AbDelimSet) then
-    Result := DirName + AbPathDelim;
-end;
-{ -------------------------------------------------------------------------- }
 function AbFindNthSlash( const Path : string; n : Integer ) : Integer;
 { return the position of the character just before the nth slash }
 var
@@ -671,7 +647,7 @@ begin
 {$ENDIF MSWINDOWS}
 {$IFDEF POSIX}
 { UNIX absolute paths start with a slash }
-  if (Value[1] = AbPathDelim) then
+  if (Value.Chars[0] = AbPathDelim) then
 {$ENDIF UNIX}
     Result := ptAbsolute
   else if ( Pos( AbPathDelim, Value ) > 0 ) or ( Pos( AB_ZIPPATHDELIM, Value ) > 0 ) then
@@ -737,7 +713,7 @@ begin
   if (Length(Ext) < 2) then
     Ext := '.' + Format('%.2d', [I])
   else
-    Ext := Ext[1] + Ext[2] + Format('%.2d', [I]);
+    Ext := Ext.Chars[0] + Ext.Chars[1] + Format('%.2d', [I]);
   Filename := ChangeFileExt(Filename, Ext);
 end;
 { -------------------------------------------------------------------------- }
@@ -767,8 +743,8 @@ begin
   else if iColon > 0 then begin
     Drive := Copy( Path, 1, iColon );
     Delete( Path, 1, iColon );
-    if Path[1] = AbPathDelim then
-      Delete( Path, 1, 1 );
+    if Path.Chars[0] = AbPathDelim then
+      Path.Remove(0, 1);
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -942,10 +918,10 @@ begin
             ((CurCrc shr 8) and DWORD($00FFFFFF)));
 end;
 { -------------------------------------------------------------------------- }
-function AbCRC32Of( const aValue : RawByteString ) : LongInt;
+function AbCRC32Of(const aValue: TBytes) : LongInt;
 begin
   Result := -1;
-  AbUpdateCRC(Result, aValue[1], Length(aValue));
+  AbUpdateCRC(Result, aValue[0], Length(aValue));
   Result := not Result;
 end;
 { -------------------------------------------------------------------------- }
@@ -1180,15 +1156,17 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 procedure AbSetFileAttr(const aFileName : string; aAttr: Integer);
+{$IFDEF POSIX}
+var
+  pMarshaller: TMarshaller;
+{$ENDIF}
 begin
-  {$WARN SYMBOL_PLATFORM OFF}
-  {$IFDEF MSWINDOWS}
+{$IFDEF MSWINDOWS}
   FileSetAttr(aFileName, aAttr);
-  {$ENDIF}
-  {$IFDEF POSIX}
-  chmod(PAnsiChar(AbSysString(aFileName)), aAttr);
-  {$ENDIF}
-  {$WARN SYMBOL_PLATFORM ON}
+{$ENDIF}
+{$IFDEF POSIX}
+  chmod(pMarshaller.AsAnsi(aFileName).ToPointer, aAttr);
+{$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 function AbFileGetSize(const aFileName : string) : Int64;
@@ -1210,6 +1188,7 @@ var
 {$ENDIF}
 {$IFDEF POSIX}
   StatBuf: _stat;
+  M: TMarshaller;
 {$ENDIF}
 begin
   aAttr.Time := 0;
@@ -1229,7 +1208,7 @@ begin
   end;
 {$ENDIF}
 {$IFDEF POSIX}
-  Result := (stat(PAnsiChar(AbSysString(aFileName)), StatBuf) = 0);
+  Result := (stat(M.AsAnsi(aFileName).ToPointer, StatBuf) = 0);
   if Result then begin
     aAttr.Time := FileDateToDateTime(StatBuf.st_mtime);
     aAttr.Size := StatBuf.st_size;

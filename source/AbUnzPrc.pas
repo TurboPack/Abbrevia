@@ -852,7 +852,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure RequestPassword(Archive : TAbZipArchive; var Abort : Boolean);
 var
-  APassPhrase : AnsiString;
+  APassPhrase : string;
 begin
   APassPhrase := Archive.Password;
   Abort := False;

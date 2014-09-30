@@ -105,6 +105,7 @@ contains
   AbZipPrc in '..\..\source\AbZipPrc.pas',
   AbZipTyp in '..\..\source\AbZipTyp.pas',
   AbZLTyp in '..\..\source\AbZLTyp.pas',
-  AbLZMAStream in '..\..\source\AbLZMAStream.pas';
+  AbLZMAStream in '..\..\source\AbLZMAStream.pas',
+  AbBytes in '..\..\source\AbBytes.pas';
 
 end.

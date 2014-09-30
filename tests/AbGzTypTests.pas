@@ -49,6 +49,7 @@ type
     procedure SetUp; override;
     procedure TearDown; override;
 
+    function StrToTAbGzExtraFieldSubID(Const S: string): TAbGzExtraFieldSubID;
   published
     procedure TextEmptyField;
     procedure TestAddZeroLengthAttr;
@@ -96,6 +97,14 @@ begin
   FillChar(FGzHeader, SizeOf(FGzHeader), 0);
   FExtraField := TAbGzipExtraField.Create(@FGzHeader);
 end;
+function TAbGzipExtraFieldTests.StrToTAbGzExtraFieldSubID(const S: string): TAbGzExtraFieldSubID;
+var
+  iCount: Integer;
+begin
+  for iCount := 0 to SizeOf(Result) do
+    Result[iCount] := Ord(S[iCount + 1]);
+end;
+
 { -------------------------------------------------------------------------- }
 procedure TAbGzipExtraFieldTests.TearDown;
 begin
@@ -142,7 +151,7 @@ var
   Data: Pointer;
   Size: Word;
 begin
-  Check(FExtraField.Get(aID, Data, Size), 'Subfield ' + aID + ' not found');
+  Check(FExtraField.Get(aID, Data, Size), 'Subfield ' + Char(aID) + ' not found');
   CheckMemEquals(@aExpectedData, aExpectedSize, Data, Size, 'Subfield');
 end;
 { -------------------------------------------------------------------------- }
@@ -152,13 +161,13 @@ var
   Size : Word;
 begin
   CheckFalse(FExtraField.Get(aID, Data, Size),
-    aID + ' found when it shouldn''t exist');
+    Char(aID) + ' found when it shouldn''t exist');
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbGzipExtraFieldTests.TextEmptyField;
 begin
   CheckSubfieldCount(0);
-  CheckSubfieldNotFound('Ab');
+  CheckSubfieldNotFound(StrToTAbGzExtraFieldSubID('Ab'));
   CheckFieldEquals(nil^, 0);
 end;
 { -------------------------------------------------------------------------- }
@@ -166,10 +175,10 @@ procedure TAbGzipExtraFieldTests.TestAddZeroLengthAttr;
 const
   ExpectedBuf: array[0..3] of Byte = (65, 98, 0, 0);
 begin
-  FExtraField.Put('Ab', nil^, 0);
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('Ab'), nil^, 0);
   CheckSubfieldCount(1);
-  CheckSubfieldEquals('Ab', nil^, 0);
-  CheckSubfieldNotFound('AB');
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('Ab'), nil^, 0);
+  CheckSubfieldNotFound(StrToTAbGzExtraFieldSubID('AB'));
   CheckFieldEquals(ExpectedBuf, SizeOf(ExpectedBuf));
 end;
 { -------------------------------------------------------------------------- }
@@ -180,9 +189,9 @@ var
   Data: LongWord;
 begin
   Data := $11223344;
-  FExtraField.Put('Ab', Data, SizeOf(Data));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('Ab'), Data, SizeOf(Data));
   CheckSubfieldCount(1);
-  CheckSubfieldEquals('Ab', Data, SizeOf(Data));
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('Ab'), Data, SizeOf(Data));
   CheckFieldEquals(ExpectedBuf, SizeOf(ExpectedBuf));
 end;
 { -------------------------------------------------------------------------- }
@@ -192,12 +201,12 @@ const
 var
   Data: LongWord;
 begin
-  FExtraField.Put('A1', nil^, 0);
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A1'), nil^, 0);
   Data := $11223344;
-  FExtraField.Put('A2', Data, SizeOf(Data));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A2'), Data, SizeOf(Data));
   CheckSubfieldCount(2);
-  CheckSubfieldEquals('A1', nil^, 0);
-  CheckSubfieldEquals('A2', Data, SizeOf(Data));
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('A1'), nil^, 0);
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('A2'), Data, SizeOf(Data));
   CheckFieldEquals(ExpectedBuf, SizeOf(ExpectedBuf));
 end;
 { -------------------------------------------------------------------------- }
@@ -208,13 +217,13 @@ var
   Data: LongWord;
 begin
   Data := $11223344;
-  FExtraField.Put('A1', Data, SizeOf(Data));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A1'), Data, SizeOf(Data));
   Data := $55667788;
-  FExtraField.Put('A2', Data, SizeOf(Data));
-  FExtraField.Delete('A1');
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A2'), Data, SizeOf(Data));
+  FExtraField.Delete(StrToTAbGzExtraFieldSubID('A1'));
   CheckSubfieldCount(1);
-  CheckSubfieldNotFound('A1');
-  CheckSubfieldEquals('A2', Data, SizeOf(Data));
+  CheckSubfieldNotFound(StrToTAbGzExtraFieldSubID('A1'));
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('A2'), Data, SizeOf(Data));
   CheckFieldEquals(ExpectedBuf, SizeOf(ExpectedBuf));
 end;
 { -------------------------------------------------------------------------- }
@@ -226,13 +235,13 @@ var
   Data2: LongWord;
 begin
   Data1 := $1122;
-  FExtraField.Put('A1', Data1, SizeOf(Data1));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A1'), Data1, SizeOf(Data1));
   Data2 := $33445566;
-  FExtraField.Put('A2', Data2, SizeOf(Data2));
-  FExtraField.Delete('A2');
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A2'), Data2, SizeOf(Data2));
+  FExtraField.Delete(StrToTAbGzExtraFieldSubID('A2'));
   CheckSubfieldCount(1);
-  CheckSubfieldEquals('A1', Data1, SizeOf(Data1));
-  CheckSubfieldNotFound('A2');
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('A1'), Data1, SizeOf(Data1));
+  CheckSubfieldNotFound(StrToTAbGzExtraFieldSubID('A2'));
   CheckFieldEquals(ExpectedBuf, Length(ExpectedBuf));
 end;
 { -------------------------------------------------------------------------- }
@@ -246,15 +255,15 @@ var
   Data3: Int64;
 begin
   Data1 := $1122;
-  FExtraField.Put('A1', Data1, SizeOf(Data1));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A1'), Data1, SizeOf(Data1));
   Data2 := $33445566;
-  FExtraField.Put('A2', Data2, SizeOf(Data2));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A2'), Data2, SizeOf(Data2));
   Data3 := $0123456789ABCDEF;
-  FExtraField.Put('A3', Data3, SizeOf(Data3));
-  FExtraField.Delete('A2');
-  CheckSubfieldEquals('A1', Data1, SizeOf(Data1));
-  CheckSubfieldNotFound('A2');
-  CheckSubfieldEquals('A3', Data3, SizeOf(Data3));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A3'), Data3, SizeOf(Data3));
+  FExtraField.Delete(StrToTAbGzExtraFieldSubID('A2'));
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('A1'), Data1, SizeOf(Data1));
+  CheckSubfieldNotFound(StrToTAbGzExtraFieldSubID('A2'));
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('A3'), Data3, SizeOf(Data3));
   CheckFieldEquals(ExpectedBuf, SizeOf(ExpectedBuf));
 end;
 { -------------------------------------------------------------------------- }
@@ -263,10 +272,10 @@ var
   Data: Word;
 begin
   Data := $1122;
-  FExtraField.Put('A1', Data, SizeOf(Data));
-  FExtraField.Put('A2', Data, SizeOf(Data));
-  FExtraField.Delete('A1');
-  FExtraField.Delete('A2');
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A1'), Data, SizeOf(Data));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A2'), Data, SizeOf(Data));
+  FExtraField.Delete(StrToTAbGzExtraFieldSubID('A1'));
+  FExtraField.Delete(StrToTAbGzExtraFieldSubID('A2'));
   CheckSubfieldCount(0);
   CheckFieldEquals(nil^, 0);
 end;
@@ -276,20 +285,20 @@ var
   Data: Word;
 begin
   Data := $1122;
-  FExtraField.Put('A1', Data, SizeOf(Data));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A1'), Data, SizeOf(Data));
   Data := $3344;
-  FExtraField.Put('A2', Data, SizeOf(Data));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A2'), Data, SizeOf(Data));
   Data := $5566;
-  FExtraField.Put('A3', Data, SizeOf(Data));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A3'), Data, SizeOf(Data));
   Data := $7788;
-  FExtraField.Put('A2', Data, SizeOf(Data));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A2'), Data, SizeOf(Data));
   CheckSubfieldCount(3);
   Data := $1122;
-  CheckSubfieldEquals('A1', Data, SizeOf(Data));
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('A1'), Data, SizeOf(Data));
   Data := $7788;
-  CheckSubfieldEquals('A2', Data, SizeOf(Data));
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('A2'), Data, SizeOf(Data));
   Data := $5566;
-  CheckSubfieldEquals('A3', Data, SizeOf(Data));
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('A3'), Data, SizeOf(Data));
 end;
 {----------------------------------------------------------------------------}
 procedure TAbGzipExtraFieldTests.TestReplaceDiffSize;
@@ -298,17 +307,17 @@ var
   BigData2: LongWord;
 begin
   Data1 := $1122;
-  FExtraField.Put('A1', Data1, SizeOf(Data1));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A1'), Data1, SizeOf(Data1));
   SmallData2 := $3344;
-  FExtraField.Put('A2', SmallData2, SizeOf(SmallData2));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A2'), SmallData2, SizeOf(SmallData2));
   Data3 := $5566;
-  FExtraField.Put('A3', Data3, SizeOf(Data3));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A3'), Data3, SizeOf(Data3));
   BigData2 := $01234567;
-  FExtraField.Put('A2', BigData2, SizeOf(BigData2));
+  FExtraField.Put(StrToTAbGzExtraFieldSubID('A2'), BigData2, SizeOf(BigData2));
   CheckSubfieldCount(3);
-  CheckSubfieldEquals('A1', Data1, SizeOf(Data1));
-  CheckSubfieldEquals('A2', BigData2, SizeOf(BigData2));
-  CheckSubfieldEquals('A3', Data3, SizeOf(Data3));
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('A1'), Data1, SizeOf(Data1));
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('A2'), BigData2, SizeOf(BigData2));
+  CheckSubfieldEquals(StrToTAbGzExtraFieldSubID('A3'), Data3, SizeOf(Data3));
 end;
 
 {----------------------------------------------------------------------------}

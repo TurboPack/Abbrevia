@@ -38,6 +38,7 @@ interface
 uses
   Classes,
   Types,
+  Generics.Collections,
   AbUtils;
 
 { ===== TAbArchiveItem ====================================================== }
@@ -157,7 +158,7 @@ type
 
   TAbArchiveList = class
   protected {private}
-    FList     : TList;
+    FList     : TList<TAbArchiveItem>;
     FOwnsItems: Boolean;
     HashTable : array[0..1020] of TAbArchiveItem;
   protected {methods}
@@ -560,6 +561,7 @@ implementation
 uses
   RTLConsts,
   SysUtils,
+  IOUtils,
   AbExcept,
   AbDfBase,
   AbConst,
@@ -783,7 +785,7 @@ end;
 constructor TAbArchiveList.Create(AOwnsItems: Boolean);
 begin
   inherited Create;
-  FList := TList.Create;
+  FList := TList<TAbArchiveItem>.Create;
   FOwnsItems := AOwnsItems;
 end;
 { -------------------------------------------------------------------------- }
@@ -812,7 +814,7 @@ var
 begin
   if FOwnsItems then
     for i := 0 to Count - 1 do
-      TObject(FList[i]).Free;
+      FList[i].Free;
   FList.Clear;
   FillChar(HashTable, SizeOf(HashTable), #0);
 end;
@@ -824,7 +826,7 @@ var
   FN : string;
 begin
   if FOwnsItems then begin
-    FN := TAbArchiveItem(FList[Index]).FileName;
+    FN := FList[Index].FileName;
     Last := @HashTable[GenerateHash(FN)];
     Look := Last^;
     while Look <> nil do begin
@@ -835,7 +837,7 @@ begin
       Last := @Look.NextItem;
       Look := Last^;
     end;
-    TObject(FList[Index]).Free;
+    FList[Index].Free;
   end;
   FList.Delete(Index);
 end;
@@ -887,7 +889,7 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveList.Get(Index : Integer): TAbArchiveItem;
 begin
-  Result := TAbArchiveItem(FList[Index]);
+  Result := FList[Index];
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveList.GetCount : Integer;
@@ -935,7 +937,7 @@ var
   FN : string;
 begin
   if FOwnsItems then begin
-    FN := TAbArchiveItem(FList[Index]).FileName;
+    FN := FList[Index].FileName;
     Last := @HashTable[GenerateHash(FN)];
     Look := Last^;
     { Delete old index }
@@ -948,7 +950,7 @@ begin
       Look := Last^;
     end;
     { Free old instance }
-    TObject(FList[Index]).Free;
+    FList[Index].Free;
     { Add new index }
     H := GenerateHash(Item.FileName);
     Item.NextItem := HashTable[H];
@@ -1096,9 +1098,11 @@ var
                     Item := CreateItem(Files[i]);
                     Add(Item);
                   end;
-                end else begin
-                  if (AbAddBackSlash(FBaseDirectory) + Files[i]) <> FArchiveName
-                    then begin
+                end
+                else
+                begin
+                  if TPath.Combine(FBaseDirectory, Files[i]) <> FArchiveName then
+                  begin
                       Item := CreateItem(Files[i]);
                       Add(Item);
                     end;
@@ -1217,7 +1221,7 @@ begin
   else
     UseName := NewName;
   if (AbGetPathType(UseName) <> ptAbsolute) then
-    UseName := AbAddBackSlash(BaseDirectory) + UseName;
+    UseName := TPath.Combine(BaseDirectory, UseName);
 
   Path := ExtractFileDir(UseName);
   if (Path <> '') and not DirectoryExists(Path) then
@@ -1553,7 +1557,7 @@ begin
       {Does the filename contain a drive or a leading backslash? }
       if not ((Pos(':', lValue) = 2) or (Pos(AbPathDelim, lValue) = 1)) then
         {If not, add the BaseDirectory to the filename.}
-        lValue := AbAddBackSlash(BaseDirectory) + lValue;
+        lValue := TPath.Combine(BaseDirectory, lValue);
     end;
     lValue := AbGetShortFileSpec(lValue);
   end;
@@ -1564,8 +1568,8 @@ begin
     AbStripDrive(lValue);
 
   {check for a leading backslash}
-  if lValue[1] = AbPathDelim then
-    System.Delete(lValue, 1, 1);
+  if lValue.Chars[0] = AbPathDelim then
+    lValue.Remove(0, 1);
 
   if soStripPath in StoreOptions then begin
     lValue := ExtractFileName(lValue);
@@ -1715,7 +1719,7 @@ begin
         AbFindFiles(Item.FileName, faAnyFile and not faDirectory, Files,
                      True);
         if Files.Count > 0 then begin
-          DName := AbAddBackSlash(BaseDirectory) + Files[0];
+          DName := TPath.Combine(BaseDirectory, Files[0]);
           AbUnfixName(DName);
           Item.DiskFileName := DName;
         end
@@ -1731,7 +1735,7 @@ begin
   end
   else begin
     if (BaseDirectory <> '') then
-      DName := AbAddBackSlash(BaseDirectory) + Item.FileName
+      DName := TPath.Combine(BaseDirectory, Item.FileName)
     else
       if AbGetPathType(Item.DiskFileName) = ptAbsolute then
         DName := Item.DiskFileName

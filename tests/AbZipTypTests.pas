@@ -61,14 +61,14 @@ type
   TAbZipCompressTest = class(TAbArchiveCompressTest)
   private
     FMethod: TAbZipSupportedMethod;
-    FPassword: AnsiString;
+    FPassword: string;
   protected
     function CreateArchive(const aFileName: string; aMode : Word): TAbArchive;
       override;
   public
     constructor Create(aParent: TAbArchiveTestsClass;
       const aTestName, aSourceDir: string; aMethod: TAbZipSupportedMethod;
-      const aPassword: AnsiString); reintroduce;
+      const aPassword: string); reintroduce;
   end;
 
   TAbZip64Tests = class(TAbTestCase)
@@ -273,7 +273,7 @@ end;
 {----------------------------------------------------------------------------}
 constructor TAbZipCompressTest.Create(aParent: TAbArchiveTestsClass;
   const aTestName, aSourceDir: string; aMethod: TAbZipSupportedMethod;
-  const aPassword: AnsiString);
+  const aPassword: string);
 begin
   inherited Create(aParent, aTestName, aSourceDir);
   FMethod := aMethod;

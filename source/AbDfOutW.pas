@@ -62,9 +62,9 @@ uses
 type
   TAbDfOutputWindow = class
     private
-      FBuffer     : PAnsiChar;
+      FBuffer     : PByte;
       FChecksum   : longint;
-      FCurrent    : PAnsiChar;
+      FCurrent    : PByte;
       FLog        : TAbLogger;
       FPartSize   : longint;
       FSlideCount : integer;
@@ -72,7 +72,7 @@ type
       FStreamPos  : longint;
       FTestOnly   : boolean;
       FUseCRC32   : boolean;
-      FWritePoint : PAnsiChar;
+      FWritePoint : PByte;
     protected
       function swGetChecksum : longint;
       procedure swWriteToStream(aFlush : boolean);
@@ -86,7 +86,7 @@ type
       destructor Destroy; override;
 
       procedure AddBuffer(var aBuffer; aCount : integer);
-      procedure AddLiteral(aCh : AnsiChar);
+      procedure AddLiteral(aCh : Byte);
       procedure AddLenDist(aLen : integer; aDist : integer);
       function Position : longint;
 
@@ -175,7 +175,7 @@ end;
 {--------}
 procedure TAbDfOutputWindow.AddBuffer(var aBuffer; aCount : integer);
 var
-  Buffer : PAnsiChar;
+  Buffer : PByte;
   BytesToWrite : integer;
 begin
   {if we've advanced to the point when we need to write, do so}
@@ -239,8 +239,8 @@ end;
 procedure TAbDfOutputWindow.AddLenDist(aLen : integer; aDist : integer);
 var
   i : integer;
-  ToChar   : PAnsiChar;
-  FromChar : PAnsiChar;
+  ToChar   : PByte;
+  FromChar : PByte;
 begin
   {log it}
   {$IFDEF UseLogging}
@@ -278,18 +278,18 @@ end;
 {--------}
 procedure AddLiteralToLog(aLog     : TAbLogger;
                           aPosn    : longint;
-                          aCh      : AnsiChar);
+                          aCh      : Byte);
 begin
   {NOTE the reason for this separate routine is to avoid string
         allocations and try..finally blocks in the main method: an
         optimization issue}
-  if (' ' < aCh) and (aCh <= '~') then
+  if (Ord(' ') < aCh) and (aCh <= Ord('~')) then
     aLog.WriteLine(Format('%8x Char: %3d $%2x [%s]', [aPosn, ord(aCh), ord(aCh), aCh]))
   else
     aLog.WriteLine(Format('%8x Char: %3d $%2x', [aPosn, ord(aCh), ord(aCh)]));
 end;
 {--------}
-procedure TAbDfOutputWindow.AddLiteral(aCh : AnsiChar);
+procedure TAbDfOutputWindow.AddLiteral(aCh : Byte);
 begin
   {log it}
   {$IFDEF UseLogging}
@@ -338,7 +338,7 @@ end;
 {--------}
 procedure TAbDfOutputWindow.swWriteToStream(aFlush : boolean);
 var
-  FromPtr : PAnsiChar;
+  FromPtr : PByte;
 begin
   {if the request was to flush, write all remaining data after
    updating the checksum}

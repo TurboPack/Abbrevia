@@ -41,7 +41,7 @@ uses
 type
   TAbDfTranslator = class
     private
-      FBuffer : PAnsiChar;
+      FBuffer : PByte;
       FLenSymbols        : PByteArray;
                            {for lengths 3..258}
       FLongDistSymbols   : PByteArray;

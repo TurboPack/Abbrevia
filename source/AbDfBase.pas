@@ -110,7 +110,7 @@ type
       FSizeNormal     : Int64;
       FStreamSize     : Int64;
       FWindowSize     : longint;
-      FZipOption      : AnsiChar;
+      FZipOption      : Char;
     protected
       procedure dhSetAmpleLength(aValue : longint);
       procedure dhSetChainLength(aValue : longint);
@@ -119,7 +119,7 @@ type
       procedure dhSetOnProgressStep(aValue : TAbProgressStep);
       procedure dhSetOptions(aValue : longint);
       procedure dhSetWindowSize(aValue : longint);
-      procedure dhSetZipOption(aValue : AnsiChar);
+      procedure dhSetZipOption(aValue : Char);
     public
       constructor Create;
 
@@ -137,7 +137,7 @@ type
                   read FOptions write dhSetOptions;
       property PartialSize : Int64
                   read FPartSize write FPartSize;
-      property PKZipOption : AnsiChar
+      property PKZipOption : Char
                   read FZipOption write dhSetZipOption;
       property StreamSize : Int64
                   read FStreamSize write FStreamSize;
@@ -158,8 +158,8 @@ type
 
   TAbLogger = class(TStream)
     private
-      FBuffer    : PAnsiChar;
-      FCurPos    : PAnsiChar;
+      FBuffer    : PByte;
+      FCurPos    : PByte;
       FLineDelim : TAbLineDelimiter;
       FStream    : TFileStream;
     protected
@@ -329,7 +329,7 @@ begin
   end;
 end;
 {--------}
-procedure TAbDeflateHelper.dhSetZipOption(aValue : AnsiChar);
+procedure TAbDeflateHelper.dhSetZipOption(aValue : Char);
 begin
   {notes:
      The original Abbrevia code used the following table for
@@ -349,7 +349,7 @@ begin
 
   {force to lower case}
   if ('A' <= aValue) and (aValue <= 'Z') then
-    aValue := AnsiChar(ord(aValue) + ord('a') - ord('A'));
+    aValue := Char(ord(aValue) + ord('a') - ord('A'));
 
   {if the value has changed...}
   if (aValue <> PKZipOption) then begin
@@ -504,7 +504,7 @@ end;
 {--------}
 function TAbLogger.Write(const Buffer; Count : longint) : longint;
 var
-  UserBuf      : PAnsiChar;
+  UserBuf      : PByte;
   BytesToGo    : longint;
   BytesToWrite : longint;
 begin
@@ -561,11 +561,16 @@ end;
 {--------}
 procedure TAbLogger.WriteLine(const S : string);
 const
-  cLF : AnsiChar = ^J;
-  cCRLF : array [0..1] of AnsiChar = ^M^J;
+  cLF : Byte = Ord(^J);
+  cCRLF : array [0..1] of Byte = (Ord(^M), Ord(^J));
+var
+  pBuffer: TBytes;
 begin
-  if (length(S) > 0) then
-    Write(S[1], length(S));
+  if length(S) > 0 then
+  begin
+    pBuffer := TEncoding.ANSI.GetBytes(S);
+    Write(pBuffer[0], length(pBuffer));
+  end;
   case FLineDelim of
     ldLF   : Write(cLF, sizeof(cLF));
     ldCRLF : Write(cCRLF, sizeof(cCRLF));
@@ -573,9 +578,14 @@ begin
 end;
 {--------}
 procedure TAbLogger.WriteStr(const S : string);
+var
+  pBuffer: TBytes;
 begin
-  if (length(S) > 0) then
-    Write(S[1], length(S));
+  if length(S) > 0 then
+  begin
+    pBuffer := TEncoding.ANSI.GetBytes(S);
+    Write(pBuffer[0], length(pBuffer));
+  end;
 end;
 {====================================================================}
 
@@ -587,7 +597,7 @@ var
   S1 : LongWord;
   S2 : LongWord;
   i  : integer;
-  Buffer     : PAnsiChar;
+  Buffer     : PByte;
   BytesToUse : integer;
 begin
   {Note: this algorithm will *only* work if the buffer is 4KB or less,
@@ -644,7 +654,7 @@ procedure AbUpdateCRCBuffer(var aCRC : longint;
 var
   i      : integer;
   CRC    : LongWord;
-  Buffer : PAnsiChar;
+  Buffer : PByte;
 begin
 {$R-}{$Q-}
   {reference the user buffer as a PChar: it makes it easier}
@@ -780,7 +790,7 @@ end;
 {--------}
 function TAbNodeManager.nmAllocNewPage : pointer;
 var
-  NewPage  : PAnsiChar;
+  NewPage  : PByte;
   i        : integer;
   FreeList : pointer;
   NodeSize : integer;

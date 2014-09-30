@@ -46,7 +46,7 @@ type
     function GetTarAutoHandle: Boolean;
     procedure SetTarAutoHandle(const Value: Boolean);
   protected {private}
-    FPassword          : AnsiString;
+    FPassword          : string;
     FOnRequestLastDisk : TAbRequestDiskEvent;
     FOnRequestNthDisk  : TAbRequestNthDiskEvent;
     FOnRequestBlankDisk     : TAbRequestDiskEvent;
@@ -55,9 +55,8 @@ type
   protected {methods}
     function  GetItem(Index : Integer) : TAbZipItem; virtual;
     function  GetStream: TStream;
-    function  GetZipfileComment : AnsiString;
-    procedure InitArchive;
-      override;
+    function  GetZipfileComment : string;
+    procedure InitArchive; override;
     procedure SetFileName(const aFileName : string);
       override;
     procedure SetStream(aValue: TStream);
@@ -65,14 +64,11 @@ type
     procedure SetOnRequestNthDisk(Value : TAbRequestNthDiskEvent);
     procedure SetOnRequestBlankDisk(Value : TAbRequestDiskEvent);
 
-    procedure SetPassword(const Value : AnsiString);
-    procedure SetZipfileComment(const Value : AnsiString);
-      virtual;
+    procedure SetPassword(const Value : string);
+    procedure SetZipfileComment(const Value : string); virtual;
 
   protected {properties}
-    property Password : AnsiString
-      read  FPassword
-      write SetPassword;
+    property Password : string read FPassword write SetPassword;
 
   protected {events}
     property OnRequestLastDisk : TAbRequestDiskEvent
@@ -96,9 +92,7 @@ type
       read GetStream write SetStream;
     property ZipArchive : {TAbZipArchive} TAbArchive
       read FArchive;
-    property ZipfileComment : AnsiString
-      read GetZipfileComment
-      write SetZipfileComment;
+    property ZipfileComment : string read GetZipfileComment write SetZipfileComment;
 
     property TarAutoHandle : Boolean
       read GetTarAutoHandle
@@ -166,7 +160,7 @@ begin
     Result := TAbBzip2Archive(FArchive).TarAutoHandle;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomZipBrowser.GetZipfileComment : AnsiString;
+function TAbCustomZipBrowser.GetZipfileComment : string;
 begin
   if FArchive is TAbZipArchive then
     Result := TAbZipArchive(FArchive).ZipfileComment
@@ -328,7 +322,7 @@ begin
     TAbZipArchive(FArchive).OnRequestNthDisk := FOnRequestNthDisk;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomZipBrowser.SetPassword(const Value : AnsiString);
+procedure TAbCustomZipBrowser.SetPassword(const Value : string);
 begin
   FPassword := Value;
   if FArchive is TAbZipArchive then
@@ -357,7 +351,7 @@ begin
   end;
 end;
 
-procedure TAbCustomZipBrowser.SetZipfileComment(const Value : AnsiString);
+procedure TAbCustomZipBrowser.SetZipfileComment(const Value : string);
 begin
   {NOP - descendents wishing to set this property should override}
 end;

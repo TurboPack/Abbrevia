@@ -45,7 +45,7 @@ unit AbGzTyp;
 interface
 
 uses
-  Classes, AbUtils, AbArcTyp, AbTarTyp, AbVMStrm;
+  SysUtils, Classes, AbUtils, AbArcTyp, AbTarTyp, AbVMStrm;
 
 type
   { pre-defined "operating system" (really more FILE system)
@@ -97,7 +97,7 @@ type
     ISize : LongWord;  { size of uncompressed data }
   end;
 
-  TAbGzExtraFieldSubID = array[0..1] of AnsiChar;
+  TAbGzExtraFieldSubID = array[0..1] of Byte;
 
 type
   TAbGzipExtraField = class(TAbExtraField)
@@ -118,11 +118,12 @@ type
   end;
 
   TAbGzipItem = class(TAbArchiveItem)
+  private
+    FRawFileName : TBytes;
   protected {private}
     FGZHeader : TAbGzHeader;
     FExtraField : TAbGzipExtraField;
-    FFileComment : AnsiString;
-    FRawFileName : AnsiString;
+    FFileComment : string;
 
   protected
     function GetFileSystem: TAbGzFileSystem;
@@ -131,7 +132,7 @@ type
     function GetHasFileName: Boolean;
     function GetIsText: Boolean;
 
-    procedure SetFileComment(const Value : AnsiString);
+    procedure SetFileComment(const Value : string);
     procedure SetFileSystem(const Value: TAbGzFileSystem);
     procedure SetIsText(const Value: Boolean);
 
@@ -160,8 +161,7 @@ type
     property Flags : Byte
       read FGZHeader.Flags;
 
-    property FileComment : AnsiString
-      read FFileComment write SetFileComment;
+    property FileComment : string read FFileComment write SetFileComment;
 
     property FileSystem : TAbGzFileSystem {Default: osFat (Windows); osUnix (Linux)}
       read GetFileSystem write SetFileSystem;
@@ -290,8 +290,8 @@ uses
   {$IFDEF MSWINDOWS}
   Windows,
   {$ENDIF}
-  AnsiStrings, SysUtils, AbBitBkt, AbCharset, AbDfBase, AbDfDec, AbDfEnc,
-  AbExcept, AbResString;
+  IOUtils, AbBitBkt, AbCharset, AbDfBase, AbDfDec, AbDfEnc, AbExcept, AbResString,
+  AbBytes;
 
 const
   { Header Signature Values}
@@ -473,7 +473,7 @@ begin
   inherited;
 end;
 
-function ReadCStringInStream(AStream: TStream): AnsiString;
+function ReadCStringInStream(AStream: TStream): TBytes;
 {
 locate next instance of a null character in a stream
 leaves stream positioned just past that,
@@ -483,7 +483,7 @@ Result is the entire read string.
 const
   BuffSiz = 1024;
 var
-  Buff   : array [0..BuffSiz-1] of AnsiChar;
+  Buff   : TBytes;
   Len, DataRead : LongInt;
 begin
 { basically what this is supposed to do is...}
@@ -493,16 +493,16 @@ begin
     Result := Result + C;
   until (AStream.Position = AStream.Size) or (C = #0);
 }
-  Result := '';
+  SetLength(Buff, BuffSiz);
+  Result := nil;
   repeat
     DataRead := AStream.Read(Buff, BuffSiz - 1);
-    Buff[DataRead] := #0;
-    Len := AnsiStrings.StrLen(Buff);
-    if Len > 0 then begin
-      SetLength(Result, Length(Result) + Len);
-      Move(Buff, Result[Length(Result) - Len + 1], Len);
-    end;
-    if Len < DataRead then begin
+    Buff[DataRead] := 0;
+    Len := TAbBytes.StrLen(Buff);
+    if Len > 0 then
+      Result := Result + System.Copy(Buff, 0, Len);
+    if Len < DataRead then
+    begin
       AStream.Seek(Len - DataRead + 1, soCurrent);
       Break;
     end;
@@ -735,7 +735,7 @@ begin
 
   { any comment present? }
   if HasFileComment then
-    FFileComment := ReadCStringInStream(AStream)
+    FFileComment := TEncoding.ANSI.GetString(ReadCStringInStream(AStream))
   else
     FFileComment := '';
 
@@ -753,6 +753,7 @@ end;
 procedure TAbGzipItem.SaveGzHeaderToStream(AStream: TStream);
 var
   LenW : Word;
+  pBytes: TBytes;
 begin
   { default ID fields }
   FGzHeader.ID1 := AB_GZ_HDR_ID1;
@@ -777,11 +778,19 @@ begin
 
   { add filename if any (and include final #0 from string) }
   if HasFileName then
-    AStream.Write(FRawFileName[1], Length(FRawFileName) + 1);
+  begin
+    pBytes := FRawFileName;
+    pBytes := pBytes + [0];
+    AStream.Write(pBytes[0], Length(pBytes));
+  end;
 
   { add file comment if any (and include final #0 from string) }
   if HasFileComment then
-    AStream.Write(FFileComment[1], Length(FFileComment) + 1);
+  begin
+    pBytes := TEncoding.ANSI.GetBytes(FFileComment);
+    pBytes := pBytes + [0];
+    AStream.Write(pBytes[0], Length(pBytes));
+  end;
 end;
 
 procedure TAbGzipItem.SetExternalFileAttributes(Value: LongWord);
@@ -789,7 +798,7 @@ begin
   { do nothing }
 end;
 
-procedure TAbGzipItem.SetFileComment(const Value: AnsiString);
+procedure TAbGzipItem.SetFileComment(const Value: string);
 begin
   FFileComment := Value;
   if FFileComment <> '' then
@@ -801,7 +810,7 @@ end;
 procedure TAbGzipItem.SetFileName(const Value: string);
 begin
   FFileName := Value;
-  FRawFileName := AbStringToUnixBytes(Value);
+  FRawFileName := TEncoding.ANSI.GetBytes(Value);
   if Value <> '' then
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FNAME
   else
@@ -944,11 +953,11 @@ begin
       on E : EAbUserAbort do begin
         FStatus := asInvalid;
         if FileExists(UseName) then
-          DeleteFile(UseName);
+          TFile.Delete(UseName);
         raise;
       end else begin
         if FileExists(UseName) then
-          DeleteFile(UseName);
+          TFile.Delete(UseName);
         raise;
       end;
     end;

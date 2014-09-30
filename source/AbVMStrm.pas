@@ -36,7 +36,7 @@ unit AbVMStrm;
 interface
 
 uses
-  Classes;
+  Classes, Generics.Collections;
 
 const
   AB_VMSPageSize = 4096; {must be a power of two}
@@ -58,7 +58,7 @@ type
       vmsLRU          : Longint;    {'tick' value}
       vmsMaxMemToUse  : Longword;   {maximum memory to use for data}
       vmsMaxPages     : Integer;    {maximum data pages}
-      vmsPageList     : TList;      {page array, sorted by offset}
+      vmsPageList     : TList<PvmsPage>; {page array, sorted by offset}
       vmsPosition     : Int64;      {position of stream}
       vmsSize         : Int64;      {size of stream}
       vmsSwapFileDir  : string;     {swap file directory}
@@ -107,7 +107,7 @@ uses
   {$IFDEF MSWINDOWS}
   Windows, // Fix warning about unexpanded inline functions
   {$ENDIF}
-  SysUtils,
+  SysUtils, IOUtils,
   AbExcept,
   AbUtils;
 
@@ -121,7 +121,7 @@ var
 begin
   inherited Create;
   {create the page array}
-  vmsPageList := TList.Create;
+  vmsPageList := TList<PvmsPage>.Create;
   {create the first page}
   New(Page);
   with Page^ do begin
@@ -130,7 +130,7 @@ begin
     vpDirty := False;
     FillChar(vpData, AB_VMSPageSize, 0);
   end;
-  vmsPageList.Insert(0, pointer(Page));
+  vmsPageList.Insert(0, Page);
   {prime the cache, from now on the cache will never be nil}
   vmsCachePage := Page;
   {default to using all allowed pages}
@@ -146,7 +146,7 @@ begin
   {throw away all pages in the list}
   if (vmsPageList <> nil) then begin
     for Inx := 0 to pred(vmsPageList.Count) do
-      Dispose(PvmsPage(vmsPageList[Inx]));
+      Dispose(vmsPageList[Inx]);
     vmsPageList.Destroy;
   end;
   {let our ancestor clean up}
@@ -229,7 +229,7 @@ begin
      it be beyond the end of the stream anyway}
     {never delete the last page here}
     for Inx := pred(vmsPageList.Count) downto 1 do begin
-      Page := PvmsPage(vmsPageList[Inx]);
+      Page := vmsPageList[Inx];
       if (Page^.vpStmOfs >= NewSize) then begin
         Dispose(Page);
         vmsPageList.Delete(Inx);
@@ -303,7 +303,7 @@ begin
   OldestInx := -1;
   OldestLRU := LastLRUValue;
   for Inx := 0 to pred(vmsPageList.Count) do begin
-    Page := PvmsPage(vmsPageList[Inx]);
+    Page := vmsPageList[Inx];
     if (Page^.vpLRU < OldestLRU) then begin
       OldestInx := Inx;
       OldestLRU := Page^.vpLRU;
@@ -319,7 +319,7 @@ begin
   if (vmsLRU = LastLRUValue) then begin
     {reset all LRUs in list}
     for Inx := 0 to pred(vmsPageList.Count) do
-      PvmsPage(vmsPageList[Inx])^.vpLRU := 0;
+      vmsPageList[Inx]^.vpLRU := 0;
     vmsLRU := 0;
   end;
   inc(vmsLRU);
@@ -340,7 +340,7 @@ begin
   if (vmsPageList.Count < 4) then begin
     L := vmsPageList.Count;
     for M := 0 to pred(vmsPageList.Count) do begin
-      Page := PvmsPage(vmsPageList[M]);
+      Page := vmsPageList[M];
       PageOfs := Page^.vpStmOfs;
       if (aOffset < PageOfs) then begin
         L := M;
@@ -359,7 +359,7 @@ begin
     R := pred(vmsPageList.Count);
     repeat
       M := (L + R) div 2;
-      Page := PvmsPage(vmsPageList[M]);
+      Page := vmsPageList[M];
       PageOfs := Page^.vpStmOfs;
       if (aOffset < PageOfs) then
         R := pred(M)
@@ -410,7 +410,7 @@ begin
       vmsSwapFileRead(Page);
     end;
     {insert the page into the correct spot}
-    vmsPageList.Insert(L, pointer(Page));
+    vmsPageList.Insert(L, Page);
     {return the page, remembering to save it in the cache}
     vmsCachePage := Page;
     Result := Page;
@@ -432,7 +432,7 @@ begin
     try
       vmsSwapStream := TFileStream.Create(vmsSwapFileName, fmCreate);
     except
-      DeleteFile(vmsSwapFileName);
+      TFile.Delete(vmsSwapFileName);
       raise EAbVMSErrorOpenSwap.Create( vmsSwapFileName );
     end;
     vmsSwapFileSize := 0;
@@ -443,7 +443,7 @@ procedure TAbVirtualMemoryStream.vmsSwapFileDestroy;
 begin
   if (vmsSwapStream <> nil) then begin
     FreeAndNil(vmsSwapStream);
-    DeleteFile(vmsSwapFileName);
+    TFile.Delete(vmsSwapFileName);
   end;
 end;
 {--------}

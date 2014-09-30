@@ -36,21 +36,19 @@ unit AbCharset;
 
 interface
 
-{$IFDEF MSWINDOWS}
 uses
-  Windows;
-{$ENDIF}
+  SysUtils{$IFDEF MSWINDOWS}, Windows{$ENDIF};
 
 type
   TAbCharSet = (csASCII, csANSI, csUTF8);
 
-function AbDetectCharSet(const aValue: RawByteString): TAbCharSet;
+function AbDetectCharSet(const aValue: TBytes): TAbCharSet;
 
-function AbIsOEM(const aValue: RawByteString): Boolean;
+function AbIsOEM(const aValue: TBytes): Boolean;
 
-function AbRawBytesToString(const aValue: RawByteString): string;
+function AbRawBytesToString(const aValue: TBytes): string;
 
-function AbStringToUnixBytes(const aValue: string): RawByteString;
+function AbStringToUnixBytes(const aValue: string): TBytes;
 
 function AbSysCharSetIsUTF8: Boolean;
 
@@ -61,26 +59,23 @@ function AbTryEncode(const aValue: UnicodeString; aCodePage: UINT;
 
 implementation
 
-uses
-  SysUtils;
-
-function AbDetectCharSet(const aValue: RawByteString): TAbCharSet;
+function AbDetectCharSet(const aValue: TBytes): TAbCharSet;
 var
   i, TrailCnt: Integer;
 begin
   Result := csASCII;
   TrailCnt := 0;
-  for i := 1 to Length(aValue) do begin
-    if Byte(aValue[i]) >= $80 then
+  for i := 0 to Length(aValue) - 1 do begin
+    if aValue[i] >= $80 then
       Result := csANSI;
     if TrailCnt > 0 then
-      if Byte(aValue[i]) in [$80..$BF] then
+      if aValue[i] in [$80..$BF] then
         Dec(TrailCnt)
       else Exit
-    else if Byte(aValue[i]) in [$80..$BF] then
+    else if aValue[i] in [$80..$BF] then
       Exit
     else
-      case Byte(aValue[i]) of
+      case aValue[i] of
         $C0..$C1, $F5..$FF: Exit;
         $C2..$DF: TrailCnt := 1;
         $E0..$EF: TrailCnt := 2;
@@ -91,7 +86,7 @@ begin
     Result := csUTF8;
 end;
 { -------------------------------------------------------------------------- }
-function AbIsOEM(const aValue: RawByteString): Boolean;
+function AbIsOEM(const aValue: TBytes): Boolean;
 // Detect whether a string of bytes is likely to be the system's ANSI or OEM codepage
 {$IFDEF MSWINDOWS}
 const
@@ -249,37 +244,40 @@ begin
   {$IFDEF MSWINDOWS}
   Result := False;
   {$ENDIF}
+  {$IFDEF ANDROID}
+  Result := True;
+  {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
-function AbRawBytesToString(const aValue: RawByteString): string;
+function AbRawBytesToString(const aValue: TBytes): string;
 // Detect encoding of raw bytes and convert to a string
 begin
   case AbDetectCharSet(aValue) of
     csASCII:
-      Result := string(aValue);
+      Result := TEncoding.ASCII.GetString(aValue);
 
     csANSI: begin
       {$IFDEF MSWINDOWS}
       if AbIsOEM(aValue) then begin
         SetLength(Result, Length(aValue));
-        OemToCharBuff(PAnsiChar(aValue), PChar(Result), Length(Result));
+        OemToCharBuff(@aValue[0], PChar(Result), Length(Result));
       end
       else
       {$ENDIF}
-        Result := string(aValue);
+        Result := TEncoding.ANSI.GetString(aValue);
     end;
 
     csUTF8:
-      Result := UTF8ToString(aValue);
+      Result := TEncoding.UTF8.GetString(aValue);
   end;
 end;
 { -------------------------------------------------------------------------- }
-function AbStringToUnixBytes(const aValue: string): RawByteString;
+function AbStringToUnixBytes(const aValue: string): TBytes;
 // Convert from a string to an appropriate encoding for Unix archive types (tar/gz)
 // Based on testing the system encoding should be used on Linux, and UTF-8
 // everywhere else.  Windows apps don't agree on whether to use ANSI, OEM, or UTF-8.
 begin
-  Result := UTF8Encode(aValue);
+  Result := TEncoding.UTF8.GetBytes(aValue);
 end;
 { -------------------------------------------------------------------------- }
 {$IFDEF MSWINDOWS}

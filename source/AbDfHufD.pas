@@ -149,7 +149,7 @@ begin
     Result := 'no code'
   else begin
     SetLength(Result, 32);
-    FillChar(Result[1], 32, ' ');
+    FillChar(Result[1], 32 * SizeOf(Char), ' ');
     for i := 32 downto (33-aLen) do begin
       if Odd(aCode) then
         Result[i] := '1'
@@ -268,7 +268,7 @@ begin
     DecoderLen := PowerOfTwo[FMaxCodeLen];
     GetMem(FDecodes, DecoderLen * sizeof(longint));
     {$IFDEF CPU386}
-    DecodesEnd := PAnsiChar(FDecodes) + (DecoderLen * sizeof(longint));
+    DecodesEnd := PByte(FDecodes) + (DecoderLen * sizeof(longint));
     {$ENDIF}
     {$IFOPT C+}
     FillChar(FDecodes^, DecoderLen * sizeof(longint), $FF);
