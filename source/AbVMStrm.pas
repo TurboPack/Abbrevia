@@ -107,7 +107,7 @@ uses
   {$IFDEF MSWINDOWS}
   Windows, // Fix warning about unexpanded inline functions
   {$ENDIF}
-  SysUtils,
+  SysUtils, IOUtils,
   AbExcept,
   AbUtils;
 
@@ -432,7 +432,7 @@ begin
     try
       vmsSwapStream := TFileStream.Create(vmsSwapFileName, fmCreate);
     except
-      DeleteFile(vmsSwapFileName);
+      TFile.Delete(vmsSwapFileName);
       raise EAbVMSErrorOpenSwap.Create( vmsSwapFileName );
     end;
     vmsSwapFileSize := 0;
@@ -443,7 +443,7 @@ procedure TAbVirtualMemoryStream.vmsSwapFileDestroy;
 begin
   if (vmsSwapStream <> nil) then begin
     FreeAndNil(vmsSwapStream);
-    DeleteFile(vmsSwapFileName);
+    TFile.Delete(vmsSwapFileName);
   end;
 end;
 {--------}

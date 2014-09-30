@@ -89,17 +89,17 @@ const
   AB_TAR_LF_VOLHDR    = 'V';  {  FH, Extra GNU, File is Volume Header }
   AB_TAR_LF_EXHDR     = 'X';  { MDH, Extra GNU, Solaris Extended Header }
   { The only questionable MetaData type is 'V', file or meta-data? will treat as file header }
-  AB_SUPPORTED_F_HEADERS   = [AB_TAR_LF_OLDNORMAL, AB_TAR_LF_NORMAL, AB_TAR_LF_LINK,
-                              AB_TAR_LF_SYMLINK, AB_TAR_LF_DIR];
-  AB_UNSUPPORTED_F_HEADERS = [AB_TAR_LF_CHR, AB_TAR_LF_BLK, AB_TAR_LF_FIFO,
+  AB_SUPPORTED_F_HEADERS   : array[0..4] of Char = (AB_TAR_LF_OLDNORMAL, AB_TAR_LF_NORMAL,
+                              AB_TAR_LF_LINK, AB_TAR_LF_SYMLINK, AB_TAR_LF_DIR);
+  AB_UNSUPPORTED_F_HEADERS : array[0..7] of Char = (AB_TAR_LF_CHR, AB_TAR_LF_BLK, AB_TAR_LF_FIFO,
                               AB_TAR_LF_CONTIG, AB_TAR_LF_DUMPDIR, AB_TAR_LF_MULTIVOL,
-                              AB_TAR_LF_SPARSE, AB_TAR_LF_VOLHDR];
-  AB_SUPPORTED_MD_HEADERS  = [AB_TAR_LF_LONGNAME, AB_TAR_LF_LONGLINK];
-  AB_UNSUPPORTED_MD_HEADERS= [AB_TAR_LF_XHDR, AB_TAR_LF_XGL, AB_TAR_LF_EXHDR];
-  AB_GNU_MD_HEADERS        = [AB_TAR_LF_LONGLINK, AB_TAR_LF_LONGNAME]; { If present then OLD_/GNU_FORMAT }
-  AB_PAX_MD_HEADERS        = [AB_TAR_LF_XHDR, AB_TAR_LF_XGL]; { If present then POSIX_FORMAT }
-  AB_IGNORE_SIZE_HEADERS   = [AB_TAR_LF_LINK, AB_TAR_LF_SYMLINK, AB_TAR_LF_CHR,
-                              AB_TAR_LF_BLK, AB_TAR_LF_DIR, AB_TAR_LF_FIFO];
+                              AB_TAR_LF_SPARSE, AB_TAR_LF_VOLHDR);
+  AB_SUPPORTED_MD_HEADERS  : array[0..1] of Char = (AB_TAR_LF_LONGNAME, AB_TAR_LF_LONGLINK);
+  AB_UNSUPPORTED_MD_HEADERS: array[0..2] of Char = (AB_TAR_LF_XHDR, AB_TAR_LF_XGL, AB_TAR_LF_EXHDR);
+  AB_GNU_MD_HEADERS        : array[0..1] of Char = (AB_TAR_LF_LONGLINK, AB_TAR_LF_LONGNAME); { If present then OLD_/GNU_FORMAT }
+  AB_PAX_MD_HEADERS        : array[0..1] of Char = (AB_TAR_LF_XHDR, AB_TAR_LF_XGL); { If present then POSIX_FORMAT }
+  AB_IGNORE_SIZE_HEADERS   : array[0..5] of Char = (AB_TAR_LF_LINK, AB_TAR_LF_SYMLINK, AB_TAR_LF_CHR,
+                              AB_TAR_LF_BLK, AB_TAR_LF_DIR, AB_TAR_LF_FIFO);
 { The rest of the Chars are unsupported and unknown types Treat those headers as File types }
 { Further link types may be defined later. }
 
@@ -981,14 +981,15 @@ begin
     AStream.ReadBuffer(PTarHeader^, AB_TAR_RECORDSIZE);
     FTarHeaderList.Add(PTarHeader); { Store the Header to the list }
     { Parse header based on LinkFlag }
-    if CharInSet(Char(PTarHeader.LinkFlag), AB_SUPPORTED_MD_HEADERS+AB_UNSUPPORTED_MD_HEADERS) then
+    if Char(PTarHeader.LinkFlag).IsInArray(AB_SUPPORTED_MD_HEADERS) or
+      Char(PTarHeader.LinkFlag).IsInArray(AB_UNSUPPORTED_MD_HEADERS) then
     begin { This Header type is in the Set of un/supported Meta data type headers }
-      if CharInSet(Char(PTarHeader.LinkFlag), AB_UNSUPPORTED_MD_HEADERS) then
+      if Char(PTarHeader.LinkFlag).IsInArray(AB_UNSUPPORTED_MD_HEADERS) then
         FTarItem.ItemReadOnly := True; { We don't fully support this meta-data type }
-      if CharInSet(Char(PTarHeader.LinkFlag), AB_PAX_MD_HEADERS) and
+      if Char(PTarHeader.LinkFlag).IsInArray(AB_PAX_MD_HEADERS) and
         TAbBytes.Equals(AB_TAR_MAGIC_VAL, @PTarHeader.Magic.value) then
         FTarItem.ArchiveFormat := POSIX_FORMAT; { We have a POSIX_FORMAT, has x headers, and Magic matches }
-      if CharInSet(Char(PTarHeader.LinkFlag), AB_GNU_MD_HEADERS) then
+      if Char(PTarHeader.LinkFlag).IsInArray(AB_GNU_MD_HEADERS) then
         FTarItem.ArchiveFormat := OLDGNU_FORMAT; { We have a OLDGNU_FORMAT, has L/K headers }
       { There can be a unknown number of Headers of data }
       { We are for sure going to read at least one more header, but are we going to read more than that? }
@@ -1004,7 +1005,7 @@ begin
       end;
       { Loop and reparse }
     end
-    else if CharInSet(Char(PTarHeader.LinkFlag), AB_SUPPORTED_F_HEADERS) then
+    else if Char(PTarHeader.LinkFlag).IsInArray(AB_SUPPORTED_F_HEADERS) then
     begin { This Header type is in the Set of supported File type Headers }
       FoundItem := True; { Exit Criterion }
       FTarItem.ItemType := SUPPORTED_ITEM;
@@ -1012,7 +1013,7 @@ begin
         FTarItem.ItemType := UNSUPPORTED_ITEM; { This Item is unsupported }
       FTarHeaderTypeList.Add(FILE_HEADER);
     end
-    else if CharInSet(Char(PTarHeader.LinkFlag), AB_UNSUPPORTED_F_HEADERS) then
+    else if Char(PTarHeader.LinkFlag).IsInArray(AB_UNSUPPORTED_F_HEADERS) then
     begin { This Header type is in the Set of unsupported File type Headers }
       FoundItem := True; { Exit Criterion }
       FTarItem.ItemType := UNSUPPORTED_ITEM;
@@ -1072,13 +1073,14 @@ begin
     PHeader := FTarHeaderList.Items[i];
     if (SkipNextChkSum = 0) then
     begin { We need to parse this header }
-      if CharInSet(Char(PHeader.LinkFlag), (AB_SUPPORTED_MD_HEADERS+AB_UNSUPPORTED_MD_HEADERS)) then
+      if Char(PHeader.LinkFlag).IsInArray(AB_SUPPORTED_MD_HEADERS) or
+        Char(PHeader.LinkFlag).IsInArray(AB_UNSUPPORTED_MD_HEADERS) then
       begin { We have a Meta-Data Header, Calculate how many headers to skip. }
         { These meta-data headers have non-Header buffers after this Header }
         SkipNextChkSum := Ceil(OctalToInt(@PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
         { Ceil will mandate one run through, and will handle 512 correctly }
       end
-      else if CharInSet(Char(PHeader.LinkFlag), AB_SUPPORTED_F_HEADERS) then
+      else if Char(PHeader.LinkFlag).IsInArray(AB_SUPPORTED_F_HEADERS) then
       begin
         SkipNextChkSum := 0;
       end
@@ -1442,7 +1444,7 @@ begin
       while not FoundMetaDataHeader and (I <= (FTarHeaderList.Count - 1)) do
       begin
         PHeader := FTarHeaderList.Items[I];
-        if CharInSet(Char(PHeader.LinkFlag), [AB_TAR_LF_LONGNAME]) then
+        if Char(PHeader.LinkFlag) = AB_TAR_LF_LONGNAME then
         begin  { Delete this Header, and the data Headers. }
           FoundMetaDataHeader := True;
           TotalOldNumHeaders := Ceil( OctalToInt(@PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
@@ -1612,7 +1614,7 @@ begin
       while not FoundMetaDataHeader and (I <= (FTarHeaderList.Count - 1)) do
       begin
         PHeader := FTarHeaderList.Items[I];
-        if CharInSet(Char(PHeader.LinkFlag), [AB_TAR_LF_LONGLINK]) then
+        if Char(PHeader.LinkFlag) = AB_TAR_LF_LONGLINK then
         begin  { Delete this Header, and the data Headers. }
           FoundMetaDataHeader := True;
           TotalOldNumHeaders := Ceil( OctalToInt(@PHeader.Size, SizeOf(PHeader.Size)) / AB_TAR_RECORDSIZE);
@@ -1737,7 +1739,8 @@ begin
     record is all #0's, which the StrLen(FTarHeader.Name) check will catch }
   while (DataRead = AB_TAR_RECORDSIZE) and (TAbBytes.StrLen(@FTarHeader.Name) > 0) and not FoundItem do
   begin { Either exit when we find a supported file or end of file or an invalid header name. }
-    if CharInSet(Char(FTarHeader.LinkFlag), (AB_SUPPORTED_MD_HEADERS+AB_UNSUPPORTED_MD_HEADERS)) then
+    if Char(FTarHeader.LinkFlag).IsInArray(AB_SUPPORTED_MD_HEADERS) or
+      Char(FTarHeader.LinkFlag).IsInArray(AB_UNSUPPORTED_MD_HEADERS) then
     begin { We have a un/supported Meta-Data Header }
       { FoundItem := False } { Value remains False. }
       SkipHdrs := Ceil(OctalToInt(@FTarHeader.Size, SizeOf(FTarHeader.Size))/AB_TAR_RECORDSIZE);
@@ -1747,10 +1750,11 @@ begin
       { Read our next header, Loop, and re-parse }
       DataRead := FStream.Read(FTarHeader, AB_TAR_RECORDSIZE);
     end
-    else if CharInSet(Char(FTarHeader.LinkFlag), (AB_SUPPORTED_F_HEADERS+AB_UNSUPPORTED_F_HEADERS)) then
+    else if Char(FTarHeader.LinkFlag).IsInArray(AB_SUPPORTED_F_HEADERS) or
+      Char(FTarHeader.LinkFlag).IsInArray(AB_UNSUPPORTED_F_HEADERS) then
     begin { We have a un/supported File Header. }
       FoundItem := True;
-      if not CharInSet(Char(FTarHeader.LinkFlag), AB_IGNORE_SIZE_HEADERS) then
+      if not Char(FTarHeader.LinkFlag).IsInArray(AB_IGNORE_SIZE_HEADERS) then
         FCurrItemSize := OctalToInt(@FTarHeader.Size, SizeOf(FTarHeader.Size))
       else FCurrItemSize := 0; { Per The spec these Headers do not have file content }
       FCurrItemPreHdrs := FCurrItemPreHdrs + 1; { Tally current header }

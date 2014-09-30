@@ -47,7 +47,7 @@ const
   { Default Stream Header for Bzip2s is 'BZhX', where X is the block size setting 1-9 in ASCII }
   { Each block has the following header: '1AY&SY', and are in units of 100kilobytes NOT 100kibiBytes }
   AB_BZIP2_FILE_HEADER  = 'BZh';
-  AB_BZIP2_BLOCK_SIZE   = ['1','2','3','4','5','6','7','8','9'];
+  AB_BZIP2_BLOCK_SIZE: array[0..8]of Char = ('1','2','3','4','5','6','7','8','9');
   AB_BZIP2_BLOCK_HEADER = '1AY&SY'; { Note: $314159265359, BCD for Pi :) }
   { Note that Blocks are bit aligned, as such the only time you will "for sure" see
     the block header is on the start of stream/File }
@@ -117,14 +117,14 @@ uses
 {$IFDEF MSWINDOWS}
   Windows, // Fix inline warnings
 {$ENDIF}
-  StrUtils, SysUtils,
+  StrUtils, SysUtils, Character,
   AbBzip2, AbExcept, AbVMStrm, AbBitBkt, AbBytes;
 
 { ****************** Helper functions Not from Classes Above ***************** }
 function VerifyHeader(const Header : TAbBzip2Header) : Boolean;
 begin
   Result := TAbBytes.Equals(@Header.FileHeader, AB_BZIP2_FILE_HEADER) and
-            CharInSet(Char(Header.BlockSize), AB_BZIP2_BLOCK_SIZE)  and
+            Char(Header.BlockSize).IsInArray(AB_BZIP2_BLOCK_SIZE)  and
             TAbBytes.Equals(@Header.BlockHeader, AB_BZIP2_BLOCK_HEADER);
 end;
 { -------------------------------------------------------------------------- }
