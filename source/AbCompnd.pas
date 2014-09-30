@@ -356,7 +356,7 @@ type
 implementation
 
 uses
-  StrUtils, AnsiStrings, ABUtils;
+  SysUtils, StrUtils, AnsiStrings, ABUtils;
 
 {-----------------------------------------------------------------------------}
 {-----------------------------------------------------------------------------}
@@ -610,9 +610,9 @@ begin
 
   {- begin parsing}
   while Length(LocKey) > 0 do begin
-    while LocKey[1] = '\' do
+    while LocKey.Chars[0] = '\' do
     begin
-      Delete(LocKey, 1, 1);
+      LocKey.Remove(0, 1);
       if Length(LocKey) = 0 then
         exit;
     end;

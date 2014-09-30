@@ -149,7 +149,7 @@ begin
     Result := 'no code'
   else begin
     SetLength(Result, 32);
-    FillChar(Result[1], 32, ' ');
+    FillChar(Result[1], 32 * SizeOf(Char), ' ');
     for i := 32 downto (33-aLen) do begin
       if Odd(aCode) then
         Result[i] := '1'

@@ -1942,8 +1942,8 @@ begin
     AbStripDrive( lValue );
 
   {check for a leading backslash}
-  if (Length(lValue) > 1) and (lValue[1] = AbPathDelim) then
-    System.Delete( lValue, 1, 1 );
+  if (Length(lValue) > 1) and (lValue.Chars[0] = AbPathDelim) then
+    lValue.Remove(0, 1);
 
   if soStripPath in StoreOptions then begin
     lValue := ExtractFileName( lValue );

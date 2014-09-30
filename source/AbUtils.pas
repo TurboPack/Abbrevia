@@ -479,7 +479,7 @@ begin
   if (iPos <= 0) then
     Result := 'A'
   else
-    Result := Path[1];
+    Result := Path.Chars[0];
 end;
 { -------------------------------------------------------------------------- }
 function AbDriveIsRemovable(const ArchiveName : string) : Boolean;
@@ -647,7 +647,7 @@ begin
 {$ENDIF MSWINDOWS}
 {$IFDEF POSIX}
 { UNIX absolute paths start with a slash }
-  if (Value[1] = AbPathDelim) then
+  if (Value.Chars[0] = AbPathDelim) then
 {$ENDIF UNIX}
     Result := ptAbsolute
   else if ( Pos( AbPathDelim, Value ) > 0 ) or ( Pos( AB_ZIPPATHDELIM, Value ) > 0 ) then
@@ -713,7 +713,7 @@ begin
   if (Length(Ext) < 2) then
     Ext := '.' + Format('%.2d', [I])
   else
-    Ext := Ext[1] + Ext[2] + Format('%.2d', [I]);
+    Ext := Ext.Chars[0] + Ext.Chars[1] + Format('%.2d', [I]);
   Filename := ChangeFileExt(Filename, Ext);
 end;
 { -------------------------------------------------------------------------- }
@@ -743,8 +743,8 @@ begin
   else if iColon > 0 then begin
     Drive := Copy( Path, 1, iColon );
     Delete( Path, 1, iColon );
-    if Path[1] = AbPathDelim then
-      Delete( Path, 1, 1 );
+    if Path.Chars[0] = AbPathDelim then
+      Path.Remove(0, 1);
   end;
 end;
 { -------------------------------------------------------------------------- }

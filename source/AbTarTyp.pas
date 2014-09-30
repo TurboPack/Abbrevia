@@ -1336,7 +1336,7 @@ var
   PHeader: PAbTarHeaderRec;
   I, J: Integer;
   TotalOldNumHeaders: Integer;
-  RawFileName: string;
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do  Not Save }
     Exit;
@@ -1361,9 +1361,9 @@ begin
          OLD_GNU & GNU: Add N Headers for name, Update name in MD header, update name field in File Headers, min 3 headers
 
       Add headers to length of new Name Length, update name in file header, update name fields }
-  RawFileName := Value;
+  pBytes := TEncoding.ANSI.GetBytes(Value);
   { In all cases zero out the name fields in the File Header. }
-  if Length(RawFileName) > AB_TAR_NAMESIZE then begin { Must be null terminated except at 100 char length }
+  if Length(pBytes) > AB_TAR_NAMESIZE then begin { Must be null terminated except at 100 char length }
     { Look for long name meta-data headers already in the archive. }
     FoundMetaDataHeader := False;
     I := 0;
@@ -1373,7 +1373,7 @@ begin
       if PHeader.LinkFlag = Ord(AB_TAR_LF_LONGNAME) then begin
         { We are growing or Shriking the Name MD Data fields.  }
         FoundMetaDataHeader := True;
-        DoGNUExistingLongNameLink(AB_TAR_LF_LONGNAME, I, RawFileName);
+        DoGNUExistingLongNameLink(AB_TAR_LF_LONGNAME, I, Value);
         { Need to copy the Name to the header. }
         FTarItem.Name := Value;
       end
@@ -1394,25 +1394,25 @@ begin
             {0123456789012345, Length = 15, NameLength = 5, PrefixLength = 9}
             { AAAA/BBBB/C.txt, Stored as Name := 'C.txt', Prefix := 'AAAA/BBBB' }
             { That means Theoretical maximum is 256 for Length(RawFileName) }
-            if Length(RawFileName) > (AB_TAR_NAMESIZE+AB_TAR_USTAR_PREFIX_SIZE+1) then { Check the obvious one. }
+            if Length(pBytes) > (AB_TAR_NAMESIZE+AB_TAR_USTAR_PREFIX_SIZE+1) then { Check the obvious one. }
               raise EAbTarBadFileName.Create; { File Name to Long }
-            for I := Length(RawFileName) downto Length(RawFileName)-AB_TAR_NAMESIZE-1 do begin
-              if RawFileName[I] = '/' then begin
-                if (I <= AB_TAR_USTAR_PREFIX_SIZE+1) and (Length(RawFileName)-I <= AB_TAR_NAMESIZE) then begin
+            for I := Length(pBytes) - 1 downto Length(pBytes)-AB_TAR_NAMESIZE-2 do begin
+              if pBytes[I] = Ord('/') then begin
+                if (I <= AB_TAR_USTAR_PREFIX_SIZE) and (Length(pBytes)-I <= AB_TAR_NAMESIZE + 1) then begin
                   { We have a successfull parse. }
                   FillChar(PTarHeader.Name, SizeOf(PTarHeader.Name), #0);
                   FillChar(PTarHeader.ustar.Prefix, SizeOf(PTarHeader.ustar.Prefix), #0);
-                  Move(RawFileName[I+1], PTarHeader.Name, Length(RawFileName)-I);
-                  Move(RawFileName[1], PTarHeader.ustar.Prefix, I);
+                  Move(pBytes[I+1], PTarHeader.Name, Length(pBytes)-I);
+                  Move(pBytes[0], PTarHeader.ustar.Prefix, I);
                   break;
                 end
-                else if (Length(RawFileName)-I > AB_TAR_NAMESIZE) then
+                else if (Length(pbytes)-I + 1 > AB_TAR_NAMESIZE) then
                   raise EAbTarBadFileName.Create { File Name not splittable }
                 { else continue; }
               end;
             end;{ End for I... }
           end; { End USTAR Format }
-        OLDGNU_FORMAT: DoGNUNewLongNameLink(AB_TAR_LF_LONGNAME, 0, RawFileName); {GNU_FORMAT}
+        OLDGNU_FORMAT: DoGNUNewLongNameLink(AB_TAR_LF_LONGNAME, 0, Value); {GNU_FORMAT}
         else begin
           { UNKNOWN_FORMAT, STAR_FORMAT, POSIX_FORMAT }
           raise EAbTarBadOp.Create; { Unknown Archive Format }
@@ -1454,7 +1454,7 @@ begin
     { Save off the new name and store to the Header }
     FTarItem.Name := Value;
     { Must add Null Termination before we store to Header }
-    TAbBytes.StrPLCopy(@PTarHeader.Name, RawFileName, AB_TAR_NAMESIZE);
+    TAbBytes.StrPLCopy(@PTarHeader.Name, Value, AB_TAR_NAMESIZE);
   end;{ End else Short new name,... }
 
   { Update the inherited file names. }
@@ -1629,11 +1629,14 @@ begin
 end;
 
 procedure TAbTarItem.SetMagic(const Value: String);
+var
+  pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
     Exit;
   FTarItem.Magic := Value;
-  Move(Value[1], PTarHeader.Magic, SizeOf(TAbTarMagicRec));
+  pBytes := TEncoding.ANSI.GetBytes(Value);
+  Move(pBytes[0], PTarHeader.Magic, SizeOf(TAbTarMagicRec));
   FTarItem.Dirty := True;
 end;
 
@@ -2098,8 +2101,8 @@ begin
     AbStripDrive( lValue );
 
   { check for a leading slash }
-  if lValue[1] = AbPathDelim then
-    System.Delete( lValue, 1, 1 );
+  if lValue.Chars[0] = AbPathDelim then
+    lValue.Remove(0, 1 );
 
   if soStripPath in StoreOptions then
     lValue := ExtractFileName(lValue);

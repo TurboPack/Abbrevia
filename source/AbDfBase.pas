@@ -561,21 +561,31 @@ end;
 {--------}
 procedure TAbLogger.WriteLine(const S : string);
 const
-  cLF : Char = ^J;
-  cCRLF : array [0..1] of Char = ^M^J;
+  cLF : Byte = Ord(^J);
+  cCRLF : array [0..1] of Byte = (Ord(^M), Ord(^J));
+var
+  pBuffer: TBytes;
 begin
-  if (length(S) > 0) then
-    Write(S[1], length(S) * SizeOf(Char));
+  if length(S) > 0 then
+  begin
+    pBuffer := TEncoding.ANSI.GetBytes(S);
+    Write(pBuffer[0], length(pBuffer));
+  end;
   case FLineDelim of
     ldLF   : Write(cLF, sizeof(cLF));
-    ldCRLF : Write(cCRLF, sizeof(cCRLF) * SizeOf(Char));
+    ldCRLF : Write(cCRLF, sizeof(cCRLF));
   end;
 end;
 {--------}
 procedure TAbLogger.WriteStr(const S : string);
+var
+  pBuffer: TBytes;
 begin
-  if (length(S) > 0) then
-    Write(S[1], length(S) * SizeOf(Char));
+  if length(S) > 0 then
+  begin
+    pBuffer := TEncoding.ANSI.GetBytes(S);
+    Write(pBuffer[0], length(pBuffer));
+  end;
 end;
 {====================================================================}
 

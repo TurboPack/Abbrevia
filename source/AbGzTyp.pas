@@ -752,6 +752,7 @@ end;
 procedure TAbGzipItem.SaveGzHeaderToStream(AStream: TStream);
 var
   LenW : Word;
+  pBytes: TBytes;
 begin
   { default ID fields }
   FGzHeader.ID1 := AB_GZ_HDR_ID1;
@@ -776,11 +777,19 @@ begin
 
   { add filename if any (and include final #0 from string) }
   if HasFileName then
-    AStream.Write(FRawFileName[1], Length(FRawFileName) + 1);
+  begin
+    pBytes := TEncoding.ANSI.GetBytes(FRawFileName);
+    pBytes := pBytes + [0];
+    AStream.Write(pBytes[0], Length(pBytes));
+  end;
 
   { add file comment if any (and include final #0 from string) }
   if HasFileComment then
-    AStream.Write(FFileComment[1], Length(FFileComment) + 1);
+  begin
+    pBytes := TEncoding.ANSI.GetBytes(FFileComment);
+    pBytes := pBytes + [0];
+    AStream.Write(pBytes[0], Length(pBytes));
+  end;
 end;
 
 procedure TAbGzipItem.SetExternalFileAttributes(Value: LongWord);
