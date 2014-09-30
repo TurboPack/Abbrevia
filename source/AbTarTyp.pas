@@ -774,7 +774,6 @@ var
   ExtraName: integer;
   RawFileName: string;
   TempStr: string;
-  pBytes: TBytes;
 begin
  {  UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT }
   FoundName := False;
@@ -819,20 +818,13 @@ begin
     if (FTarItem.ArchiveFormat = USTAR_FORMAT) and
        (PTarHeader.ustar.Prefix[0] <> 0) then
     begin
-      SetLength(pBytes, SizeOf(PTarHeader.ustar.Prefix));
-      Move(PTarHeader.ustar.Prefix[0], pBytes[0], Length(pBytes));
-      RawFileName := TEncoding.ANSI.GetString(pBytes) + '/';
-
-      SetLength(pBytes, SizeOf(PTarHeader.Name));
-      Move(PTarHeader.Name[0], pBytes[0], Length(pBytes));
-      RawFileName := RawFileName + TEncoding.ANSI.GetString(pBytes);
+      RawFileName := TAbBytes.AsString(@PTarHeader.ustar.Prefix);
+      RawFileName := RawFileName + TAbBytes.AsString(@PTarHeader.Name);
     end
     else
       begin
         { V7_FORMAT, OLDGNU_FORMAT }
-        SetLength(pBytes, SizeOf(PTarHeader.Name));
-        Move(PTarHeader.Name[0], pBytes[0], Length(pBytes));
-        RawFileName := TEncoding.ANSI.GetString(pBytes);
+        RawFileName := TAbBytes.AsString(@PTarHeader.Name);
       end;
   end; { End not FoundName }
 

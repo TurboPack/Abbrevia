@@ -499,7 +499,7 @@ begin
     Buff[DataRead] := 0;
     Len := TAbBytes.StrLen(Buff);
     if Len > 0 then
-      Result := Result + TEncoding.ANSI.GetString(Buff);
+      Result := Result + TEncoding.ANSI.GetString(Buff, 0, Len);
     if Len < DataRead then
     begin
       AStream.Seek(Len - DataRead + 1, soCurrent);
