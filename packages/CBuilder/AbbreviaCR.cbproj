@@ -289,7 +289,7 @@
             <BuildOrder>37</BuildOrder>
         </DelphiCompile>
         <DelphiCompile Include="..\..\source\AbWavPack.pas">
-            <BuildOrder>49</BuildOrder>
+            <BuildOrder>50</BuildOrder>
         </DelphiCompile>
         <DelphiCompile Include="..\..\source\AbZBrows.pas">
             <BuildOrder>38</BuildOrder>
