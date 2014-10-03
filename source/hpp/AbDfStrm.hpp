@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfStrm.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbDfStrm.pas' rev: 28.00 (Windows)
 
 #ifndef AbdfstrmHPP
 #define AbdfstrmHPP
@@ -39,7 +39,6 @@ typedef System::StaticArray<int, 19> TAbDfCodeLenBuckets;
 typedef TAbDfCodeLenBuckets *PAbDfCodeLenBuckets;
 
 class DELPHICLASS TAbDfInBitStream;
-#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbDfInBitStream : public System::TObject
 {
 	typedef System::TObject inherited;
@@ -75,7 +74,6 @@ public:
 	__property int BitsLeft = {read=FBitsLeft, write=FBitsLeft, nodefault};
 };
 
-#pragma pack(pop)
 
 class DELPHICLASS TAbDfOutBitStream;
 #pragma pack(push,4)

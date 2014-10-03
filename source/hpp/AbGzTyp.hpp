@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbGzTyp.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbGzTyp.pas' rev: 28.00 (Windows)
 
 #ifndef AbgztypHPP
 #define AbgztypHPP
@@ -73,9 +73,9 @@ protected:
 	
 public:
 	__fastcall TAbGzipExtraField(PAbGzHeader aGZHeader);
-	HIDESBASE void __fastcall Delete(const TAbGzExtraFieldSubID &aID);
-	HIDESBASE bool __fastcall Get(const TAbGzExtraFieldSubID &aID, /* out */ void * &aData, /* out */ System::Word &aDataSize);
-	HIDESBASE void __fastcall Put(const TAbGzExtraFieldSubID &aID, const void *aData, System::Word aDataSize);
+	HIDESBASE void __fastcall Delete(TAbGzExtraFieldSubID aID);
+	HIDESBASE bool __fastcall Get(TAbGzExtraFieldSubID aID, /* out */ void * &aData, /* out */ System::Word &aDataSize);
+	HIDESBASE void __fastcall Put(TAbGzExtraFieldSubID aID, const void *aData, System::Word aDataSize);
 	__property TAbGzExtraFieldSubID IDs[int aIndex] = {read=GetID};
 public:
 	/* TObject.Destroy */ inline __fastcall virtual ~TAbGzipExtraField(void) { }
@@ -90,7 +90,7 @@ class PASCALIMPLEMENTATION TAbGzipItem : public Abarctyp::TAbArchiveItem
 	typedef Abarctyp::TAbArchiveItem inherited;
 	
 private:
-	System::TArray__1<System::Byte> FRawFileName;
+	System::DynamicArray<System::Byte> FRawFileName;
 	
 protected:
 	TAbGzHeader FGZHeader;

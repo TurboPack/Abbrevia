@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbCharset.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbCharset.pas' rev: 28.00 (Windows)
 
 #ifndef AbcharsetHPP
 #define AbcharsetHPP
@@ -15,6 +15,7 @@
 #include <System.hpp>	// Pascal unit
 #include <SysInit.hpp>	// Pascal unit
 #include <System.SysUtils.hpp>	// Pascal unit
+#include <Winapi.Windows.hpp>	// Pascal unit
 
 //-- user supplied -----------------------------------------------------------
 
@@ -24,11 +25,12 @@ namespace Abcharset
 enum DECLSPEC_DENUM TAbCharSet : unsigned char { csASCII, csANSI, csUTF8 };
 
 //-- var, const, procedure ---------------------------------------------------
-extern DELPHI_PACKAGE TAbCharSet __fastcall AbDetectCharSet(const System::TArray__1<System::Byte> aValue);
-extern DELPHI_PACKAGE bool __fastcall AbIsOEM(const System::TArray__1<System::Byte> aValue);
+extern DELPHI_PACKAGE TAbCharSet __fastcall AbDetectCharSet(const System::DynamicArray<System::Byte> aValue);
+extern DELPHI_PACKAGE bool __fastcall AbIsOEM(const System::DynamicArray<System::Byte> aValue);
 extern DELPHI_PACKAGE bool __fastcall AbSysCharSetIsUTF8(void);
-extern DELPHI_PACKAGE System::UnicodeString __fastcall AbRawBytesToString(const System::TArray__1<System::Byte> aValue);
-extern DELPHI_PACKAGE System::TArray__1<System::Byte> __fastcall AbStringToUnixBytes(const System::UnicodeString aValue);
+extern DELPHI_PACKAGE System::UnicodeString __fastcall AbRawBytesToString(const System::DynamicArray<System::Byte> aValue);
+extern DELPHI_PACKAGE System::DynamicArray<System::Byte> __fastcall AbStringToUnixBytes(const System::UnicodeString aValue);
+extern DELPHI_PACKAGE bool __fastcall AbTryEncode(const System::UnicodeString aValue, unsigned aCodePage, bool aAllowBestFit, /* out */ System::AnsiString &aResult);
 }	/* namespace Abcharset */
 #if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABCHARSET)
 using namespace Abcharset;

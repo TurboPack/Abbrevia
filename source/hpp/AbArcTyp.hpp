@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbArcTyp.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbArcTyp.pas' rev: 28.00 (Windows)
 
 #ifndef AbarctypHPP
 #define AbarctypHPP
@@ -120,17 +120,13 @@ class PASCALIMPLEMENTATION TAbArchiveList : public System::TObject
 {
 	typedef System::TObject inherited;
 	
-private:
-	typedef System::StaticArray<TAbArchiveItem*, 1021> _TAbArchiveList__1;
-	
-	
 public:
 	TAbArchiveItem* operator[](int Index) { return Items[Index]; }
 	
 protected:
-	System::Generics::Collections::TList__1<TAbArchiveItem*> * FList;
+	System::Generics::Collections::TList__1<TAbArchiveItem*>* FList;
 	bool FOwnsItems;
-	_TAbArchiveList__1 HashTable;
+	System::StaticArray<TAbArchiveItem*, 1021> HashTable;
 	int __fastcall GenerateHash(const System::UnicodeString S);
 	int __fastcall GetCount(void);
 	TAbArchiveItem* __fastcall Get(int Index);
@@ -427,12 +423,12 @@ public:
 #pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
-static constexpr bool AbDefAutoSave = false;
+static const bool AbDefAutoSave = false;
 #define AbDefExtractOptions (System::Set<TAbExtractOption, TAbExtractOption::eoCreateDirs, TAbExtractOption::eoRestorePath>() << TAbExtractOption::eoCreateDirs )
 #define AbDefStoreOptions (System::Set<TAbStoreOption, TAbStoreOption::soStripDrive, TAbStoreOption::soReplace>() << TAbStoreOption::soStripDrive << TAbStoreOption::soRemoveDots )
-static constexpr System::Word AbBufferSize = System::Word(0x8000);
-static constexpr System::Int8 AbLastDisk = System::Int8(-1);
-static constexpr System::Int8 AbLastImage = System::Int8(-1);
+static const System::Word AbBufferSize = System::Word(0x8000);
+static const System::Int8 AbLastDisk = System::Int8(-1);
+static const System::Int8 AbLastImage = System::Int8(-1);
 }	/* namespace Abarctyp */
 #if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABARCTYP)
 using namespace Abarctyp;

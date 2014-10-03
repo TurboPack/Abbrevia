@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfBase.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbDfBase.pas' rev: 28.00 (Windows)
 
 #ifndef AbdfbaseHPP
 #define AbdfbaseHPP
@@ -107,12 +107,12 @@ public:
 	/* Hoisted overloads: */
 	
 public:
-	inline int __fastcall  Read(System::TArray__1<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Read(Buffer, Offset, Count); }
-	inline int __fastcall  Read(System::TArray__1<System::Byte> &Buffer, int Count){ return System::Classes::TStream::Read(Buffer, Count); }
+	inline int __fastcall  Read(System::DynamicArray<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Read(Buffer, Offset, Count); }
+	inline int __fastcall  Read(System::DynamicArray<System::Byte> &Buffer, int Count){ return System::Classes::TStream::Read(Buffer, Count); }
 	inline int __fastcall  Seek(int Offset, System::Word Origin){ return System::Classes::TStream::Seek(Offset, Origin); }
 	inline __int64 __fastcall  Seek _DEPRECATED_ATTRIBUTE0 (const __int64 Offset, System::Word Origin){ return System::Classes::TStream::Seek(Offset, Origin); }
-	inline int __fastcall  Write(const System::TArray__1<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Write(Buffer, Offset, Count); }
-	inline int __fastcall  Write(const System::TArray__1<System::Byte> Buffer, int Count){ return System::Classes::TStream::Write(Buffer, Count); }
+	inline int __fastcall  Write(const System::DynamicArray<System::Byte> Buffer, int Offset, int Count){ return System::Classes::TStream::Write(Buffer, Offset, Count); }
+	inline int __fastcall  Write(const System::DynamicArray<System::Byte> Buffer, int Count){ return System::Classes::TStream::Write(Buffer, Count); }
 	
 };
 
@@ -153,12 +153,16 @@ class PASCALIMPLEMENTATION EAbAbortProgress : public System::Sysutils::Exception
 public:
 	/* Exception.Create */ inline __fastcall EAbAbortProgress(const System::UnicodeString Msg) : System::Sysutils::Exception(Msg) { }
 	/* Exception.CreateFmt */ inline __fastcall EAbAbortProgress(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
-	/* Exception.CreateRes */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateRes */ inline __fastcall EAbAbortProgress(NativeUInt Ident)/* overload */ : System::Sysutils::Exception(Ident) { }
+	/* Exception.CreateRes */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec)/* overload */ : System::Sysutils::Exception(ResStringRec) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbAbortProgress(NativeUInt Ident, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbAbortProgress(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
 	/* Exception.CreateFmtHelp */ inline __fastcall EAbAbortProgress(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
-	/* Exception.CreateResHelp */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbAbortProgress(NativeUInt Ident, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbAbortProgress(NativeUInt Ident, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbAbortProgress(void) { }
 	
 };
@@ -174,12 +178,16 @@ class PASCALIMPLEMENTATION EAbPartSizedInflate : public System::Sysutils::Except
 public:
 	/* Exception.Create */ inline __fastcall EAbPartSizedInflate(const System::UnicodeString Msg) : System::Sysutils::Exception(Msg) { }
 	/* Exception.CreateFmt */ inline __fastcall EAbPartSizedInflate(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
-	/* Exception.CreateRes */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateRes */ inline __fastcall EAbPartSizedInflate(NativeUInt Ident)/* overload */ : System::Sysutils::Exception(Ident) { }
+	/* Exception.CreateRes */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec)/* overload */ : System::Sysutils::Exception(ResStringRec) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbPartSizedInflate(NativeUInt Ident, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbPartSizedInflate(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
 	/* Exception.CreateFmtHelp */ inline __fastcall EAbPartSizedInflate(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
-	/* Exception.CreateResHelp */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbPartSizedInflate(NativeUInt Ident, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbPartSizedInflate(NativeUInt Ident, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbPartSizedInflate(void) { }
 	
 };
@@ -195,12 +203,16 @@ class PASCALIMPLEMENTATION EAbInflatePasswordError : public System::Sysutils::Ex
 public:
 	/* Exception.Create */ inline __fastcall EAbInflatePasswordError(const System::UnicodeString Msg) : System::Sysutils::Exception(Msg) { }
 	/* Exception.CreateFmt */ inline __fastcall EAbInflatePasswordError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
-	/* Exception.CreateRes */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateRes */ inline __fastcall EAbInflatePasswordError(NativeUInt Ident)/* overload */ : System::Sysutils::Exception(Ident) { }
+	/* Exception.CreateRes */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec)/* overload */ : System::Sysutils::Exception(ResStringRec) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbInflatePasswordError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbInflatePasswordError(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
 	/* Exception.CreateFmtHelp */ inline __fastcall EAbInflatePasswordError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
-	/* Exception.CreateResHelp */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbInflatePasswordError(NativeUInt Ident, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInflatePasswordError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbInflatePasswordError(void) { }
 	
 };
@@ -216,12 +228,16 @@ class PASCALIMPLEMENTATION EAbInternalInflateError : public System::Sysutils::Ex
 public:
 	/* Exception.Create */ inline __fastcall EAbInternalInflateError(const System::UnicodeString Msg) : System::Sysutils::Exception(Msg) { }
 	/* Exception.CreateFmt */ inline __fastcall EAbInternalInflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
-	/* Exception.CreateRes */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateRes */ inline __fastcall EAbInternalInflateError(NativeUInt Ident)/* overload */ : System::Sysutils::Exception(Ident) { }
+	/* Exception.CreateRes */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec)/* overload */ : System::Sysutils::Exception(ResStringRec) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbInternalInflateError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbInternalInflateError(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
 	/* Exception.CreateFmtHelp */ inline __fastcall EAbInternalInflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
-	/* Exception.CreateResHelp */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbInternalInflateError(NativeUInt Ident, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInternalInflateError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbInternalInflateError(void) { }
 	
 };
@@ -239,12 +255,16 @@ public:
 	__fastcall EAbInflateError(const System::UnicodeString aMsg, const System::UnicodeString aErrorMsg);
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbInflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
-	/* Exception.CreateRes */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateRes */ inline __fastcall EAbInflateError(NativeUInt Ident)/* overload */ : System::Sysutils::Exception(Ident) { }
+	/* Exception.CreateRes */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec)/* overload */ : System::Sysutils::Exception(ResStringRec) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbInflateError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbInflateError(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
 	/* Exception.CreateFmtHelp */ inline __fastcall EAbInflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
-	/* Exception.CreateResHelp */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbInflateError(NativeUInt Ident, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInflateError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbInflateError(void) { }
 	
 };
@@ -260,12 +280,16 @@ class PASCALIMPLEMENTATION EAbInternalDeflateError : public System::Sysutils::Ex
 public:
 	/* Exception.Create */ inline __fastcall EAbInternalDeflateError(const System::UnicodeString Msg) : System::Sysutils::Exception(Msg) { }
 	/* Exception.CreateFmt */ inline __fastcall EAbInternalDeflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
-	/* Exception.CreateRes */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateRes */ inline __fastcall EAbInternalDeflateError(NativeUInt Ident)/* overload */ : System::Sysutils::Exception(Ident) { }
+	/* Exception.CreateRes */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec)/* overload */ : System::Sysutils::Exception(ResStringRec) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbInternalDeflateError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbInternalDeflateError(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
 	/* Exception.CreateFmtHelp */ inline __fastcall EAbInternalDeflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
-	/* Exception.CreateResHelp */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbInternalDeflateError(NativeUInt Ident, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInternalDeflateError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbInternalDeflateError(void) { }
 	
 };
@@ -283,12 +307,16 @@ public:
 	__fastcall EAbDeflateError(const System::UnicodeString aMsg, const System::UnicodeString aErrorMsg);
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbDeflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
-	/* Exception.CreateRes */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateRes */ inline __fastcall EAbDeflateError(NativeUInt Ident)/* overload */ : System::Sysutils::Exception(Ident) { }
+	/* Exception.CreateRes */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec)/* overload */ : System::Sysutils::Exception(ResStringRec) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbDeflateError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbDeflateError(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
 	/* Exception.CreateFmtHelp */ inline __fastcall EAbDeflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
-	/* Exception.CreateResHelp */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbDeflateError(NativeUInt Ident, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, AHelpContext) { }
+	/* Exception.CreateResHelp */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbDeflateError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbDeflateError(void) { }
 	
 };
@@ -296,26 +324,26 @@ public:
 #pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
-static constexpr System::Int8 dfc_CodeLenCodeLength = System::Int8(0x7);
-static constexpr System::Int8 dfc_LitDistCodeLength = System::Int8(0xf);
-static constexpr System::Int8 dfc_MaxCodeLength = System::Int8(0xf);
-static constexpr System::Word dfc_MaxMatchLen = System::Word(0x102);
-static constexpr int dfc_MaxMatchLen64 = int(0x10000);
-static constexpr System::Word dfc_LitExtraOffset = System::Word(0x101);
+static const System::Int8 dfc_CodeLenCodeLength = System::Int8(0x7);
+static const System::Int8 dfc_LitDistCodeLength = System::Int8(0xf);
+static const System::Int8 dfc_MaxCodeLength = System::Int8(0xf);
+static const System::Word dfc_MaxMatchLen = System::Word(0x102);
+static const int dfc_MaxMatchLen64 = int(0x10000);
+static const System::Word dfc_LitExtraOffset = System::Word(0x101);
 extern DELPHI_PACKAGE System::StaticArray<System::Byte, 31> dfc_LitExtraBits;
-static constexpr System::Int8 dfc_DistExtraOffset = System::Int8(0x0);
+static const System::Int8 dfc_DistExtraOffset = System::Int8(0x0);
 extern DELPHI_PACKAGE System::StaticArray<System::Byte, 32> dfc_DistExtraBits;
 extern DELPHI_PACKAGE System::StaticArray<System::Word, 29> dfc_LengthBase;
 extern DELPHI_PACKAGE System::StaticArray<System::Word, 32> dfc_DistanceBase;
 extern DELPHI_PACKAGE System::StaticArray<System::Byte, 19> dfc_CodeLengthIndex;
-static constexpr System::Int8 dfc_CanUseStored = System::Int8(0x1);
-static constexpr System::Int8 dfc_CanUseStatic = System::Int8(0x2);
-static constexpr System::Int8 dfc_CanUseDynamic = System::Int8(0x4);
-static constexpr System::Int8 dfc_UseLazyMatch = System::Int8(0x8);
-static constexpr System::Int8 dfc_UseDeflate64 = System::Int8(0x10);
-static constexpr System::Int8 dfc_UseAdler32 = System::Int8(0x20);
-static constexpr System::Int8 dfc_CanUseHuffman = System::Int8(0x6);
-static constexpr int dfc_TestOnly = int(0x40000000);
+static const System::Int8 dfc_CanUseStored = System::Int8(0x1);
+static const System::Int8 dfc_CanUseStatic = System::Int8(0x2);
+static const System::Int8 dfc_CanUseDynamic = System::Int8(0x4);
+static const System::Int8 dfc_UseLazyMatch = System::Int8(0x8);
+static const System::Int8 dfc_UseDeflate64 = System::Int8(0x10);
+static const System::Int8 dfc_UseAdler32 = System::Int8(0x20);
+static const System::Int8 dfc_CanUseHuffman = System::Int8(0x6);
+static const int dfc_TestOnly = int(0x40000000);
 extern DELPHI_PACKAGE void __fastcall AbUpdateAdlerBuffer(int &aAdler, void *aBuffer, int aCount);
 extern DELPHI_PACKAGE void __fastcall AbUpdateCRCBuffer(int &aCRC, void *aBuffer, int aCount);
 extern DELPHI_PACKAGE void __fastcall AbortProgress(void);

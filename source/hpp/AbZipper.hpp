@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZipper.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbZipper.pas' rev: 28.00 (Windows)
 
 #ifndef AbzipperHPP
 #define AbzipperHPP
@@ -27,7 +27,6 @@ namespace Abzipper
 {
 //-- type declarations -------------------------------------------------------
 class DELPHICLASS TAbCustomZipper;
-#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbCustomZipper : public Abzbrows::TAbCustomZipBrowser
 {
 	typedef Abzbrows::TAbCustomZipBrowser inherited;
@@ -86,10 +85,8 @@ public:
 	void __fastcall Replace(Abarctyp::TAbArchiveItem* aItem);
 };
 
-#pragma pack(pop)
 
 class DELPHICLASS TAbZipper;
-#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbZipper : public TAbCustomZipper
 {
 	typedef TAbCustomZipper inherited;
@@ -130,7 +127,6 @@ public:
 	
 };
 
-#pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
 }	/* namespace Abzipper */

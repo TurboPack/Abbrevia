@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZBrows.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbZBrows.pas' rev: 28.00 (Windows)
 
 #ifndef AbzbrowsHPP
 #define AbzbrowsHPP
@@ -27,7 +27,6 @@ namespace Abzbrows
 {
 //-- type declarations -------------------------------------------------------
 class DELPHICLASS TAbCustomZipBrowser;
-#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbCustomZipBrowser : public Abbrowse::TAbBaseBrowser
 {
 	typedef Abbrowse::TAbBaseBrowser inherited;
@@ -71,10 +70,8 @@ public:
 	__property bool TarAutoHandle = {read=GetTarAutoHandle, write=SetTarAutoHandle, nodefault};
 };
 
-#pragma pack(pop)
 
 class DELPHICLASS TAbZipBrowser;
-#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbZipBrowser : public TAbCustomZipBrowser
 {
 	typedef TAbCustomZipBrowser inherited;
@@ -102,7 +99,6 @@ public:
 	
 };
 
-#pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
 }	/* namespace Abzbrows */

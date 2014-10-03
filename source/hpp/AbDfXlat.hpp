@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfXlat.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbDfXlat.pas' rev: 28.00 (Windows)
 
 #ifndef AbdfxlatHPP
 #define AbdfxlatHPP

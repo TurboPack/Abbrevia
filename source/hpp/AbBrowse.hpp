@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbBrowse.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbBrowse.pas' rev: 28.00 (Windows)
 
 #ifndef AbbrowseHPP
 #define AbbrowseHPP
@@ -35,7 +35,6 @@ public:
 };
 
 class DELPHICLASS TAbBaseBrowser;
-#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbBaseBrowser : public Abbase::TAbBaseComponent
 {
 	typedef Abbase::TAbBaseComponent inherited;
@@ -123,7 +122,6 @@ public:
 	__property Abarctyp::TAbArchiveEvent OnLoad = {read=FOnLoad, write=FOnLoad};
 };
 
-#pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
 extern DELPHI_PACKAGE Abutils::TAbArchiveType __fastcall AbDetermineArcType(const System::UnicodeString FN, Abutils::TAbArchiveType AssertType)/* overload */;

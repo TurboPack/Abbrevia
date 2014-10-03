@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZipTyp.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbZipTyp.pas' rev: 28.00 (Windows)
 
 #ifndef AbziptypHPP
 #define AbziptypHPP
@@ -305,7 +305,7 @@ class PASCALIMPLEMENTATION TAbZipDirectoryFileHeader : public TAbZipFileHeader
 	typedef TAbZipFileHeader inherited;
 	
 protected:
-	System::TArray__1<System::Byte> FRawFileName;
+	System::DynamicArray<System::Byte> FRawFileName;
 	System::Word FVersionMadeBy;
 	System::Word FDiskNumberStart;
 	System::Word FInternalFileAttributes;
@@ -515,7 +515,7 @@ public:
 
 
 //-- var, const, procedure ---------------------------------------------------
-static constexpr System::Int8 Ab_ZipVersion = System::Int8(0x3f);
+static const System::Int8 Ab_ZipVersion = System::Int8(0x3f);
 extern DELPHI_PACKAGE int Ab_ZipLocalFileHeaderSignature;
 extern DELPHI_PACKAGE int Ab_ZipDataDescriptorSignature;
 extern DELPHI_PACKAGE int Ab_ZipCentralDirectoryFileHeaderSignature;
@@ -529,11 +529,11 @@ extern DELPHI_PACKAGE int Ab_ArchiveExtraDataRecord;
 extern DELPHI_PACKAGE int Ab_DigitalSignature;
 extern DELPHI_PACKAGE System::Word Ab_WindowsExeSignature;
 extern DELPHI_PACKAGE int Ab_LinuxExeSignature;
-static constexpr System::Int8 AbDefZipSpanningThreshold = System::Int8(0x0);
-static constexpr System::Int8 AbDefPasswordRetries = System::Int8(0x3);
-static constexpr System::Int8 AbFileIsEncryptedFlag = System::Int8(0x1);
-static constexpr System::Int8 AbHasDataDescriptorFlag = System::Int8(0x8);
-static constexpr System::Word AbLanguageEncodingFlag = System::Word(0x800);
+static const System::Int8 AbDefZipSpanningThreshold = System::Int8(0x0);
+static const System::Int8 AbDefPasswordRetries = System::Int8(0x3);
+static const System::Int8 AbFileIsEncryptedFlag = System::Int8(0x1);
+static const System::Int8 AbHasDataDescriptorFlag = System::Int8(0x8);
+static const System::Word AbLanguageEncodingFlag = System::Word(0x800);
 extern DELPHI_PACKAGE System::Word Ab_Zip64SubfieldID;
 extern DELPHI_PACKAGE System::Word Ab_InfoZipUnicodePathSubfieldID;
 extern DELPHI_PACKAGE System::Word Ab_XceedUnicodePathSubfieldID;

@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbBase.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbBase.pas' rev: 28.00 (Windows)
 
 #ifndef AbbaseHPP
 #define AbbaseHPP
@@ -22,7 +22,6 @@ namespace Abbase
 {
 //-- type declarations -------------------------------------------------------
 class DELPHICLASS TAbBaseComponent;
-#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbBaseComponent : public System::Classes::TComponent
 {
 	typedef System::Classes::TComponent inherited;
@@ -37,7 +36,6 @@ public:
 	
 };
 
-#pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
 }	/* namespace Abbase */

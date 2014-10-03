@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbUnzper.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbUnzper.pas' rev: 28.00 (Windows)
 
 #ifndef AbunzperHPP
 #define AbunzperHPP
@@ -27,7 +27,6 @@ namespace Abunzper
 {
 //-- type declarations -------------------------------------------------------
 class DELPHICLASS TAbCustomUnZipper;
-#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbCustomUnZipper : public Abzbrows::TAbCustomZipBrowser
 {
 	typedef Abzbrows::TAbCustomZipBrowser inherited;
@@ -62,10 +61,8 @@ public:
 	void __fastcall TestTaggedItems(void);
 };
 
-#pragma pack(pop)
 
 class DELPHICLASS TAbUnZipper;
-#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbUnZipper : public TAbCustomUnZipper
 {
 	typedef TAbCustomUnZipper inherited;
@@ -99,7 +96,6 @@ public:
 	
 };
 
-#pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
 }	/* namespace Abunzper */

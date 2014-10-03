@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbBzip2Typ.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbBzip2Typ.pas' rev: 28.00 (Windows)
 
 #ifndef Abbzip2typHPP
 #define Abbzip2typHPP
@@ -95,10 +95,10 @@ public:
 
 
 //-- var, const, procedure ---------------------------------------------------
-#define AB_BZIP2_FILE_HEADER u"BZh"
+#define AB_BZIP2_FILE_HEADER L"BZh"
 extern DELPHI_PACKAGE System::StaticArray<System::WideChar, 9> AB_BZIP2_BLOCK_SIZE;
-#define AB_BZIP2_BLOCK_HEADER u"1AY&SY"
-#define AB_BZIP2_FILE_TAIL u"\u0017r$S\u2026\t\u0000"
+#define AB_BZIP2_BLOCK_HEADER L"1AY&SY"
+#define AB_BZIP2_FILE_TAIL L"\u0017r$S\u2026\t\u0000"
 extern DELPHI_PACKAGE Abutils::TAbArchiveType __fastcall VerifyBzip2(System::Classes::TStream* Strm);
 }	/* namespace Abbzip2typ */
 #if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABBZIP2TYP)

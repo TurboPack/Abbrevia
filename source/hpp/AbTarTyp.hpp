@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbTarTyp.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbTarTyp.pas' rev: 28.00 (Windows)
 
 #ifndef AbtartypHPP
 #define AbtartypHPP
@@ -210,8 +210,8 @@ private:
 	
 protected:
 	TAbTarHeaderRec *PTarHeader;
-	System::Generics::Collections::TList__1<PAbTarHeaderRec> * FTarHeaderList;
-	System::Generics::Collections::TList__1<TAbTarHeaderType> * FTarHeaderTypeList;
+	System::Generics::Collections::TList__1<PAbTarHeaderRec>* FTarHeaderList;
+	System::Generics::Collections::TList__1<TAbTarHeaderType>* FTarHeaderTypeList;
 	TAbTarItemRec FTarItem;
 	int __fastcall GetDevMajor(void);
 	int __fastcall GetDevMinor(void);
@@ -350,45 +350,45 @@ public:
 
 
 //-- var, const, procedure ---------------------------------------------------
-static constexpr System::Word AB_TAR_RECORDSIZE = System::Word(0x200);
-static constexpr System::Int8 AB_TAR_NAMESIZE = System::Int8(0x64);
-static constexpr System::Byte AB_TAR_V7_EMPTY_SIZE = System::Byte(0xa7);
-static constexpr System::Byte AB_TAR_USTAR_PREFIX_SIZE = System::Byte(0x9b);
-static constexpr System::Byte AB_TAR_STAR_PREFIX_SIZE = System::Byte(0x83);
-static constexpr System::Int8 AB_TAR_OLD_GNU_EMPTY1_SIZE = System::Int8(0x5);
-static constexpr System::Int8 AB_TAR_OLD_GNU_SPARSE_SIZE = System::Int8(0x60);
-static constexpr System::Int8 AB_TAR_OLD_GNU_EMPTY2_SIZE = System::Int8(0x11);
-static constexpr System::Byte AB_TAR_SIZE_AFTER_STDHDR = System::Byte(0xa7);
-static constexpr System::Int8 AB_TAR_TUSRNAMELEN = System::Int8(0x20);
-static constexpr System::Int8 AB_TAR_TGRPNAMELEN = System::Int8(0x20);
-#define AB_TAR_CHKBLANKS u"        "
-#define AB_TAR_L_HDR_NAME u"././@LongLink"
-#define AB_TAR_L_HDR_USR_NAME u"root"
-#define AB_TAR_L_HDR_GRP_NAME u"root"
-#define AB_TAR_L_HDR_ARR8_0 u"0000000\u0000"
-#define AB_TAR_L_HDR_ARR12_0 u"00000000000\u0000"
-#define AB_TAR_MAGIC_VAL u"ustar\u0000"
-#define AB_TAR_MAGIC_VER u"00"
-#define AB_TAR_MAGIC_GNUOLD u"ustar  \u0000"
-#define AB_TAR_MAGIC_V7_NONE u"\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
-static constexpr System::WideChar AB_TAR_LF_OLDNORMAL = (System::WideChar)(0x0);
-static constexpr System::WideChar AB_TAR_LF_NORMAL = (System::WideChar)(0x30);
-static constexpr System::WideChar AB_TAR_LF_LINK = (System::WideChar)(0x31);
-static constexpr System::WideChar AB_TAR_LF_SYMLINK = (System::WideChar)(0x32);
-static constexpr System::WideChar AB_TAR_LF_CHR = (System::WideChar)(0x33);
-static constexpr System::WideChar AB_TAR_LF_BLK = (System::WideChar)(0x34);
-static constexpr System::WideChar AB_TAR_LF_DIR = (System::WideChar)(0x35);
-static constexpr System::WideChar AB_TAR_LF_FIFO = (System::WideChar)(0x36);
-static constexpr System::WideChar AB_TAR_LF_CONTIG = (System::WideChar)(0x37);
-static constexpr System::WideChar AB_TAR_LF_XHDR = (System::WideChar)(0x78);
-static constexpr System::WideChar AB_TAR_LF_XGL = (System::WideChar)(0x67);
-static constexpr System::WideChar AB_TAR_LF_DUMPDIR = (System::WideChar)(0x44);
-static constexpr System::WideChar AB_TAR_LF_LONGLINK = (System::WideChar)(0x4b);
-static constexpr System::WideChar AB_TAR_LF_LONGNAME = (System::WideChar)(0x4c);
-static constexpr System::WideChar AB_TAR_LF_MULTIVOL = (System::WideChar)(0x4d);
-static constexpr System::WideChar AB_TAR_LF_SPARSE = (System::WideChar)(0x53);
-static constexpr System::WideChar AB_TAR_LF_VOLHDR = (System::WideChar)(0x56);
-static constexpr System::WideChar AB_TAR_LF_EXHDR = (System::WideChar)(0x58);
+static const System::Word AB_TAR_RECORDSIZE = System::Word(0x200);
+static const System::Int8 AB_TAR_NAMESIZE = System::Int8(0x64);
+static const System::Byte AB_TAR_V7_EMPTY_SIZE = System::Byte(0xa7);
+static const System::Byte AB_TAR_USTAR_PREFIX_SIZE = System::Byte(0x9b);
+static const System::Byte AB_TAR_STAR_PREFIX_SIZE = System::Byte(0x83);
+static const System::Int8 AB_TAR_OLD_GNU_EMPTY1_SIZE = System::Int8(0x5);
+static const System::Int8 AB_TAR_OLD_GNU_SPARSE_SIZE = System::Int8(0x60);
+static const System::Int8 AB_TAR_OLD_GNU_EMPTY2_SIZE = System::Int8(0x11);
+static const System::Byte AB_TAR_SIZE_AFTER_STDHDR = System::Byte(0xa7);
+static const System::Int8 AB_TAR_TUSRNAMELEN = System::Int8(0x20);
+static const System::Int8 AB_TAR_TGRPNAMELEN = System::Int8(0x20);
+#define AB_TAR_CHKBLANKS L"        "
+#define AB_TAR_L_HDR_NAME L"././@LongLink"
+#define AB_TAR_L_HDR_USR_NAME L"root"
+#define AB_TAR_L_HDR_GRP_NAME L"root"
+#define AB_TAR_L_HDR_ARR8_0 L"0000000\u0000"
+#define AB_TAR_L_HDR_ARR12_0 L"00000000000\u0000"
+#define AB_TAR_MAGIC_VAL L"ustar\u0000"
+#define AB_TAR_MAGIC_VER L"00"
+#define AB_TAR_MAGIC_GNUOLD L"ustar  \u0000"
+#define AB_TAR_MAGIC_V7_NONE L"\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
+static const System::WideChar AB_TAR_LF_OLDNORMAL = (System::WideChar)(0x0);
+static const System::WideChar AB_TAR_LF_NORMAL = (System::WideChar)(0x30);
+static const System::WideChar AB_TAR_LF_LINK = (System::WideChar)(0x31);
+static const System::WideChar AB_TAR_LF_SYMLINK = (System::WideChar)(0x32);
+static const System::WideChar AB_TAR_LF_CHR = (System::WideChar)(0x33);
+static const System::WideChar AB_TAR_LF_BLK = (System::WideChar)(0x34);
+static const System::WideChar AB_TAR_LF_DIR = (System::WideChar)(0x35);
+static const System::WideChar AB_TAR_LF_FIFO = (System::WideChar)(0x36);
+static const System::WideChar AB_TAR_LF_CONTIG = (System::WideChar)(0x37);
+static const System::WideChar AB_TAR_LF_XHDR = (System::WideChar)(0x78);
+static const System::WideChar AB_TAR_LF_XGL = (System::WideChar)(0x67);
+static const System::WideChar AB_TAR_LF_DUMPDIR = (System::WideChar)(0x44);
+static const System::WideChar AB_TAR_LF_LONGLINK = (System::WideChar)(0x4b);
+static const System::WideChar AB_TAR_LF_LONGNAME = (System::WideChar)(0x4c);
+static const System::WideChar AB_TAR_LF_MULTIVOL = (System::WideChar)(0x4d);
+static const System::WideChar AB_TAR_LF_SPARSE = (System::WideChar)(0x53);
+static const System::WideChar AB_TAR_LF_VOLHDR = (System::WideChar)(0x56);
+static const System::WideChar AB_TAR_LF_EXHDR = (System::WideChar)(0x58);
 extern DELPHI_PACKAGE System::StaticArray<System::WideChar, 5> AB_SUPPORTED_F_HEADERS;
 extern DELPHI_PACKAGE System::StaticArray<System::WideChar, 8> AB_UNSUPPORTED_F_HEADERS;
 extern DELPHI_PACKAGE System::StaticArray<System::WideChar, 2> AB_SUPPORTED_MD_HEADERS;
@@ -396,9 +396,9 @@ extern DELPHI_PACKAGE System::StaticArray<System::WideChar, 3> AB_UNSUPPORTED_MD
 extern DELPHI_PACKAGE System::StaticArray<System::WideChar, 2> AB_GNU_MD_HEADERS;
 extern DELPHI_PACKAGE System::StaticArray<System::WideChar, 2> AB_PAX_MD_HEADERS;
 extern DELPHI_PACKAGE System::StaticArray<System::WideChar, 6> AB_IGNORE_SIZE_HEADERS;
-static constexpr System::Word AB_TAR_TSUID = System::Word(0x800);
-static constexpr System::Word AB_TAR_TSGID = System::Word(0x400);
-static constexpr System::Word AB_TAR_TSVTX = System::Word(0x200);
+static const System::Word AB_TAR_TSUID = System::Word(0x800);
+static const System::Word AB_TAR_TSGID = System::Word(0x400);
+static const System::Word AB_TAR_TSVTX = System::Word(0x200);
 extern DELPHI_PACKAGE Abutils::TAbArchiveType __fastcall VerifyTar(System::Classes::TStream* Strm);
 }	/* namespace Abtartyp */
 #if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABTARTYP)

@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbBytes.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbBytes.pas' rev: 28.00 (Windows)
 
 #ifndef AbbytesHPP
 #define AbbytesHPP
@@ -21,7 +21,6 @@
 namespace Abbytes
 {
 //-- type declarations -------------------------------------------------------
-#pragma pack(push,4)
 struct DECLSPEC_DRECORD TAbBytes
 {
 public:
@@ -35,7 +34,6 @@ public:
 	static System::PByte __fastcall StrPCopy(void * ADest, const System::UnicodeString ASource);
 	static System::PByte __fastcall StrPLCopy(void * ADest, const System::UnicodeString ASource, unsigned AMaxLen);
 };
-#pragma pack(pop)
 
 
 //-- var, const, procedure ---------------------------------------------------

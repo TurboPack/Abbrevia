@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2014 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZipKit.pas' rev: 28.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbZipKit.pas' rev: 28.00 (Windows)
 
 #ifndef AbzipkitHPP
 #define AbzipkitHPP
@@ -28,7 +28,6 @@ namespace Abzipkit
 {
 //-- type declarations -------------------------------------------------------
 class DELPHICLASS TAbCustomZipKit;
-#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbCustomZipKit : public Abzipper::TAbCustomZipper
 {
 	typedef Abzipper::TAbCustomZipper inherited;
@@ -63,10 +62,8 @@ public:
 	__property Spanned;
 };
 
-#pragma pack(pop)
 
 class DELPHICLASS TAbZipKit;
-#pragma pack(push,4)
 class PASCALIMPLEMENTATION TAbZipKit : public TAbCustomZipKit
 {
 	typedef TAbCustomZipKit inherited;
@@ -78,6 +75,7 @@ __published:
 	__property BaseDirectory = {default=0};
 	__property CompressionMethodToUse = {default=2};
 	__property DeflationOption = {default=1};
+	__property DOSMode;
 	__property ExtractOptions = {default=1};
 	__property SpanningThreshold = {default=0};
 	__property ItemProgressMeter;
@@ -110,7 +108,6 @@ public:
 	
 };
 
-#pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
 }	/* namespace Abzipkit */
