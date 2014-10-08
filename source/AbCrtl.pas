@@ -55,8 +55,10 @@ procedure _llshl; cdecl;
   external 'msvcrt.dll';
 procedure _llushr; cdecl;
   external 'msvcrt.dll';
+{$WARN SYMBOL_PLATFORM OFF}
 procedure _ftol; cdecl;
-  external 'msvcrt.dll' {$IFDEF BCB}name '__ftol'{$ENDIF};
+  external 'msvcrt.dll' name '__ftol' delayed;
+{$WARN SYMBOL_PLATFORM ON}
 
 { ctype.h declarations ===================================================== }
 function isdigit(ch: Integer): Integer; cdecl;
