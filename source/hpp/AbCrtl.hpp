@@ -31,7 +31,6 @@ extern DELPHI_PACKAGE int _fltused;
 extern "C" void __cdecl abs(void);
 extern DELPHI_PACKAGE void __cdecl _llshl(void);
 extern DELPHI_PACKAGE void __cdecl _llushr(void);
-extern DELPHI_PACKAGE void __cdecl _ftol(void);
 extern "C" int __cdecl memcmp(void * s1, void * s2, unsigned numBytes);
 extern "C" System::WideChar * __cdecl wcscpy(System::WideChar * strDestination, System::WideChar * strSource);
 extern DELPHI_PACKAGE void __cdecl ___cpuid(System::PInteger CPUInfo, int InfoType);
@@ -48,6 +47,7 @@ extern DELPHI_PACKAGE void * __cdecl malloc(int Size);
 extern DELPHI_PACKAGE void __cdecl free(void * Ptr);
 extern DELPHI_PACKAGE void * __cdecl realloc(void * Ptr, int Size);
 extern DELPHI_PACKAGE NativeUInt __cdecl _beginthreadex(void * security, unsigned stack_size, void * start_address, void * arglist, unsigned initflag, unsigned &thrdaddr);
+extern DELPHI_PACKAGE int __cdecl _ftol(const double AValue);
 }	/* namespace Abcrtl */
 #if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABCRTL)
 using namespace Abcrtl;

@@ -55,8 +55,7 @@ procedure _llshl; cdecl;
   external 'msvcrt.dll';
 procedure _llushr; cdecl;
   external 'msvcrt.dll';
-procedure _ftol; cdecl;
-  external 'msvcrt.dll' {$IFDEF BCB}name '__ftol'{$ENDIF};
+function _ftol(const AValue: Double): Integer; cdecl;
 
 { ctype.h declarations ===================================================== }
 function isdigit(ch: Integer): Integer; cdecl;
@@ -130,17 +129,10 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 function strlen(P: PAnsiChar): Integer; cdecl;
-{$IF RTLVersion >= 20}
-asm
-  jmp System.@PCharLen
-end;
-{$ELSE}
 begin
-  Result := 0;
-  while P^ <> #0 do
-    Inc(P);
+  Result := Length(P);
 end;
-{$IFEND}
+
 { -------------------------------------------------------------------------- }
 function strcpy(Des, Src: PAnsiChar): PAnsiChar; cdecl;
 begin
@@ -187,6 +179,10 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 
+function _ftol(const AValue: Double): Integer; cdecl;
+begin
+  Result := Round(AValue);
+end;
 {$ENDIF}
 
 end.
