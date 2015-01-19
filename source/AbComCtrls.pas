@@ -557,7 +557,7 @@ end;
 destructor TAbCustomListView.Destroy;
 begin
   if FHeaderHandle <> 0 then
-    SetWindowLong(FHeaderHandle, GWL_WNDPROC, LongInt(FDefHeaderProc));
+    SetWindowLong(FHeaderHandle, GWL_WNDPROC, NativeInt(FDefHeaderProc));
   FreeObjectInstance(FHeaderInstance);
   if FSortUpBmp <> 0 then
     DeleteObject(FSortUpBmp);
@@ -591,7 +591,7 @@ begin
   FHeaderHandle := ListView_GetHeader(Handle);
   if FHeaderHandle <> 0 then begin
     FDefHeaderProc := TWindowProcPtr(GetWindowLong(FHeaderHandle, GWL_WNDPROC));
-    SetWindowLong(FHeaderHandle, GWL_WNDPROC, LongInt(FHeaderInstance));
+    SetWindowLong(FHeaderHandle, GWL_WNDPROC, NativeInt(FHeaderInstance));
   end;
   Header_SetImageList(ListView_GetHeader(Handle), FHeaderImages.Handle);
   UpdateColumns;
