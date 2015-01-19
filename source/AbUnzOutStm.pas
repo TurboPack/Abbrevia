@@ -52,8 +52,8 @@ type
   public
     constructor Create(aStream: TStream; aStreamSize: Int64);
 
-    function Read(var Buffer; Count: Longint): Longint; override;
-    function Write(const Buffer; Count: Longint): Longint; override;
+    function Read(var Buffer; Count: Integer): Integer; override;
+    function Write(const Buffer; Count: Integer): Integer; override;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
   end;
 
@@ -62,22 +62,22 @@ type
   TAbUnzipOutputStream = class( TStream )
   private
     FBytesWritten : Int64;
-    FCRC32 : LongInt;
+    FCRC32 : Integer;
     FCurrentProgress : Byte;
     FStream : TStream;
     FUncompressedSize : Int64;
     FOnProgress : TAbProgressEvent;
 
-    function GetCRC32 : LongInt;
+    function GetCRC32 : Integer;
 
   public
     constructor Create(aStream : TStream);
 
-    function Read(var Buffer; Count: Longint): Longint; override;
-    function Write(const Buffer; Count: Longint): Longint; override;
+    function Read(var Buffer; Count: Integer): Integer; override;
+    function Write(const Buffer; Count: Integer): Integer; override;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
 
-    property CRC32 : LongInt
+    property CRC32 : Integer
       read GetCRC32;
     property Stream : TStream
       read FStream
@@ -108,7 +108,7 @@ begin
   FEndPos := FStartPos + aStreamSize;
 end;
 { -------------------------------------------------------------------------- }
-function TAbUnzipSubsetStream.Read(var Buffer; Count: Longint): Longint;
+function TAbUnzipSubsetStream.Read(var Buffer; Count: Integer): Integer;
 begin
   if Count > FEndPos - FCurPos then
     Count := FEndPos - FCurPos;
@@ -120,7 +120,7 @@ begin
     Result := 0;
 end;
 { -------------------------------------------------------------------------- }
-function TAbUnzipSubsetStream.Write(const Buffer; Count: Longint): Longint;
+function TAbUnzipSubsetStream.Write(const Buffer; Count: Integer): Integer;
 begin
   raise EAbException.Create('TAbUnzipSubsetStream.Write not supported');
 end;
@@ -156,12 +156,12 @@ begin
   FCRC32 := -1;
 end;
 { -------------------------------------------------------------------------- }
-function TAbUnzipOutputStream.Read(var Buffer; Count: Integer): Longint;
+function TAbUnzipOutputStream.Read(var Buffer; Count: Integer): Integer;
 begin
   raise EAbException.Create('TAbUnzipOutputStream.Read not supported');
 end;
 { -------------------------------------------------------------------------- }
-function TAbUnzipOutputStream.Write(const Buffer; Count: Longint): Longint;
+function TAbUnzipOutputStream.Write(const Buffer; Count: Integer): Integer;
 var
   Abort : Boolean;
   NewProgress : Byte;
@@ -188,7 +188,7 @@ begin
   Result := FStream.Seek(Offset, Origin);
 end;
 { -------------------------------------------------------------------------- }
-function TAbUnzipOutputStream.GetCRC32: LongInt;
+function TAbUnzipOutputStream.GetCRC32: Integer;
 begin
   Result := not FCRC32;
 end;

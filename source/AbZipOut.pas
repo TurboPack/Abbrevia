@@ -177,7 +177,7 @@ type
     FHierarchy              : Boolean;
     FLogFile                : string;
     FLogging                : Boolean;
-    FSpanningThreshold      : Longint;
+    FSpanningThreshold      : Integer;
     FOutline                : TAbZipDisplayOutline;
     FPassword               : string;
     FPasswordRetries        : Byte;
@@ -273,7 +273,7 @@ type
     function GetPictureZipAttributeSelected : TBitmap;
     function GetPictureHeight : Integer;
     function GetPictureWidth : Integer;
-    function GetSelectedItem : LongInt;
+    function GetSelectedItem : Integer;
     function GetSelectedZipItem : TAbZipItem;
     function GetStatus : TAbArchiveStatus;
     function GetVersion : string;
@@ -315,10 +315,10 @@ type
     procedure SetPictureZipAttributeSelected(Value : TBitmap);
     procedure SetPictureHeight(Value : Integer);
     procedure SetPictureWidth(Value : Integer);
-    procedure SetSelectedItem(Value : LongInt);
+    procedure SetSelectedItem(Value : Integer);
     procedure SetStoreOptions(Value : TAbStoreOptions);
     procedure SetTempDirectory(Value : string);
-    procedure SetSpanningThreshold(Value : Longint);
+    procedure SetSpanningThreshold(Value : Integer);
     procedure SetVersion(Value : string);
     procedure SetZipfileComment(Value : string);
     procedure TestItemProc(Sender : TObject; Item : TAbArchiveItem);
@@ -381,7 +381,7 @@ type
              read  FHierarchy
              write SetHierarchy
              default AbDefHierarchy;
-    property SpanningThreshold : Longint
+    property SpanningThreshold : Integer
              read  FSpanningThreshold
              write SetSpanningThreshold
              default 0;
@@ -574,8 +574,8 @@ type
       {freshen all tagged items}
     procedure FullCollapse;
     procedure FullExpand;
-    function GetTextItem(const Value: string): LongInt;
-    function GetOutLineItem(X, Y : Integer): LongInt;
+    function GetTextItem(const Value: string): Integer;
+    function GetOutLineItem(X, Y : Integer): Integer;
     procedure Move(aItem : TAbArchiveItem; NewStoredPath : string);
     procedure OpenArchive(const aFileName : String);
       {opens the archive}
@@ -592,7 +592,7 @@ type
     property Items[Index : Integer] : TAbZipItem
              read GetItem
              write PutItem; default;
-    property SelectedItem: LongInt
+    property SelectedItem: Integer
              read GetSelectedItem
              write SetSelectedItem;
     property SelectedZipItem : TAbZipItem
@@ -977,7 +977,7 @@ procedure TAbCustomZipOutline.AddAttributeNodes( Item : TAbZipItem;
 var
   ExtAttrString : string;
   dt : TDateTime;
-  li : LongInt;
+  li : Integer;
   s : string;
   tmpNode : TTreeNode;
 begin
@@ -1067,7 +1067,7 @@ begin
       if (LastModFileDate + LastModFileTime = 0) then
         s := AbUnknownS
       else begin
-        li := LongInt(LastModFileDate) shl 16 + LastModFileTime;
+        li := Integer(LastModFileDate) shl 16 + LastModFileTime;
         dt := FileDateToDateTime(li);
         s := DateTimeToStr(dt);
       end;
@@ -1567,7 +1567,7 @@ begin
   Result := FOutline.FBitMapWidth;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomZipOutline.GetSelectedItem : LongInt;
+function TAbCustomZipOutline.GetSelectedItem : Integer;
 begin
   Result := FOutline.Selected.AbsoluteIndex;
 end;
@@ -1590,7 +1590,7 @@ begin
     Result := asInvalid;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomZipOutline.GetTextItem(const Value: string): LongInt;
+function TAbCustomZipOutline.GetTextItem(const Value: string): Integer;
 var
   oNode : TTreeNode;
   oHold : TTreeNode;
@@ -1616,7 +1616,7 @@ begin
      Result := oNode.AbsoluteIndex
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomZipOutline.GetOutLineItem(X, Y : Integer): LongInt;
+function TAbCustomZipOutline.GetOutLineItem(X, Y : Integer): Integer;
 var
   oNode : TTreeNode;
 begin
@@ -2033,7 +2033,7 @@ begin
   FOutline.FBitMapWidth := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomZipOutline.SetSelectedItem(Value : LongInt);
+procedure TAbCustomZipOutline.SetSelectedItem(Value : Integer);
 begin
   if ( Value >= 0 ) and ( Value <= pred( FOutline.Items.Count )) then
   FOutline.Selected := FOutline.Items[ Value ];
@@ -2053,7 +2053,7 @@ begin
     FArchive.TempDirectory := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomZipOutline.SetSpanningThreshold(Value : Longint);
+procedure TAbCustomZipOutline.SetSpanningThreshold(Value : Integer);
 begin
   FSpanningThreshold := Value;
   if Assigned(FArchive) then

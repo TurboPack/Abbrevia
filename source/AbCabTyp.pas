@@ -97,7 +97,7 @@ type
 
     {property variables}
     FCurrentCab         : Word;
-    FCabSize           : Longint;
+    FCabSize           : Integer;
     FCompressionType   : TAbCabCompressionType;
     FFileCount         : Word;
     FFolderThreshold   : LongWord;
@@ -148,7 +148,7 @@ type
   public {properties}
     property CurrentCab : Word
       read  FCurrentCab;
-    property CabSize : Longint
+    property CabSize : Integer
       read  FCabSize;
     property CompressionType : TAbCabCompressionType
       read  FCompressionType
@@ -251,8 +251,8 @@ begin
     raise EAbFCIFileCloseError.Create;
 end;
 { -------------------------------------------------------------------------- }
-function FCI_FileSeek(hFile: PtrInt; Offset: Longint;
-  Origin: Integer; PError: PInteger; Archive: TAbCabArchive) : Longint;
+function FCI_FileSeek(hFile: PtrInt; Offset: Integer;
+  Origin: Integer; PError: PInteger; Archive: TAbCabArchive) : Integer;
   cdecl;
   {reposition file pointer}
 begin
@@ -271,7 +271,7 @@ begin
     raise EAbFCIFileDeleteError.Create;
 end;
 { -------------------------------------------------------------------------- }
-function FCI_GetNextCab(lpCCab: PFCICabInfo; PrevCab: Longint;
+function FCI_GetNextCab(lpCCab: PFCICabInfo; PrevCab: Integer;
   Archive: TAbCabArchive) : Boolean;
   cdecl;
   {get next cabinet filename}
@@ -290,7 +290,7 @@ begin
   Result := not Abort;
 end;
 { -------------------------------------------------------------------------- }
-function FCI_FileDest(PCCab: PFCICabInfo; PFilename: PAnsiChar; cbFile: Longint;
+function FCI_FileDest(PCCab: PFCICabInfo; PFilename: PAnsiChar; cbFile: Integer;
   Continuation: Boolean; Archive: TAbCabArchive) : Integer;
   cdecl;
   {currently not used}
@@ -325,7 +325,7 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 function FCI_Status(Status: Word; cb1, cb2: DWord;
-                    Archive: TAbCabArchive) : Longint; cdecl;
+                    Archive: TAbCabArchive) : Integer; cdecl;
   {keep archive informed}
 var
   Abort : Boolean;
@@ -336,10 +336,10 @@ begin
     Archive.FCabSize := cb2;
     Result := cb2;
   end else if (Status = Word(csFolder)) then
-    Archive.FCabSize := Archive.FCabSize + Longint(cb2)
+    Archive.FCabSize := Archive.FCabSize + Integer(cb2)
   else if (Status = Word(csFile)) then begin
     Archive.DoCabItemProgress(cb2, Abort);
-    Result := Longint(Abort);
+    Result := Integer(Abort);
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -384,7 +384,7 @@ begin
   Result := TStream(hFile).Write(lpBuffer^, uBytes);
 end;
 { -------------------------------------------------------------------------- }
-function FDI_FileClose(hFile : PtrInt) : Longint;
+function FDI_FileClose(hFile : PtrInt) : Integer;
   cdecl;
   {close a file}
 begin
@@ -396,7 +396,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-function FDI_FileSeek(hFile : PtrInt; Offset : Longint; Origin : Integer) : Longint;
+function FDI_FileSeek(hFile : PtrInt; Offset : Integer; Origin : Integer) : Integer;
   cdecl;
   {reposition file pointer}
 begin
@@ -475,7 +475,7 @@ begin
       begin
         if Archive.FIIPName <> '' then begin
           FileSetDate(TFileStream(pfdin^.hf).Handle,
-            Longint(pfdin^.date) shl 16 + pfdin^.time);
+            Integer(pfdin^.date) shl 16 + pfdin^.time);
           TFileStream(pfdin^.hf).Free;
           FileSetAttr(Archive.FIIPName, pfdin^.attribs);
         end;

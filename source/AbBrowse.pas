@@ -52,7 +52,7 @@ type
   public
     FArchive : TAbArchive;
   protected {private}
-    FSpanningThreshold : Longint;
+    FSpanningThreshold : Integer;
     FItemProgressMeter : IAbProgressMeter;
     FArchiveProgressMeter : IAbProgressMeter;
     FBaseDirectory : string;
@@ -74,7 +74,7 @@ type
 
   protected {private methods}
     function  GetCount : Integer;
-    function  GetItem(Value : Longint) : TAbArchiveItem;
+    function  GetItem(Value : Integer) : TAbArchiveItem;
     function  GetSpanned : Boolean;
     function  GetStatus : TAbArchiveStatus;
     procedure ResetMeters; virtual;
@@ -82,7 +82,7 @@ type
     procedure SetCompressionType(const Value: TAbArchiveType);
     procedure SetBaseDirectory(const Value : string);
     procedure SetItemProgressMeter(const Value: IAbProgressMeter);
-    procedure SetSpanningThreshold(Value : Longint);
+    procedure SetSpanningThreshold(Value : Integer);
     procedure SetLogFile(const Value : string);
     procedure SetLogging(Value : Boolean);
     procedure SetTempDirectory(const Value : string);
@@ -129,7 +129,7 @@ type
     property FileName : string
       read  FFileName
       write SetFileName;
-    property SpanningThreshold : Longint
+    property SpanningThreshold : Integer
       read  FSpanningThreshold
       write SetSpanningThreshold
       default 0;
@@ -361,7 +361,7 @@ begin
     Result := 0;
 end;
 { -------------------------------------------------------------------------- }
-function TAbBaseBrowser.GetItem(Value : Longint) : TAbArchiveItem;
+function TAbBaseBrowser.GetItem(Value : Integer) : TAbArchiveItem;
 begin
   if Assigned(FArchive) then
     Result := FArchive.ItemList[Value]
@@ -430,7 +430,7 @@ begin
     FBaseDirectory := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbBaseBrowser.SetSpanningThreshold(Value : Longint);
+procedure TAbBaseBrowser.SetSpanningThreshold(Value : Integer);
 begin
   FSpanningThreshold := Value;
   if Assigned(FArchive) then

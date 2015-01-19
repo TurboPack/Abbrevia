@@ -63,24 +63,24 @@ type
   TAbDfOutputWindow = class
     private
       FBuffer     : PByte;
-      FChecksum   : longint;
+      FChecksum   : Integer;
       FCurrent    : PByte;
       FLog        : TAbLogger;
-      FPartSize   : longint;
+      FPartSize   : Integer;
       FSlideCount : integer;
       FStream     : TStream;
-      FStreamPos  : longint;
+      FStreamPos  : Integer;
       FTestOnly   : boolean;
       FUseCRC32   : boolean;
       FWritePoint : PByte;
     protected
-      function swGetChecksum : longint;
+      function swGetChecksum : Integer;
       procedure swWriteToStream(aFlush : boolean);
     public
       constructor Create(aStream       : TStream;
                          aUseDeflate64 : boolean;
                          aUseCRC32     : boolean;
-                         aPartSize     : longint;
+                         aPartSize     : Integer;
                          aTestOnly     : boolean;
                          aLog          : TAbLogger);
       destructor Destroy; override;
@@ -88,9 +88,9 @@ type
       procedure AddBuffer(var aBuffer; aCount : integer);
       procedure AddLiteral(aCh : Byte);
       procedure AddLenDist(aLen : integer; aDist : integer);
-      function Position : longint;
+      function Position : Integer;
 
-      property Checksum : longint read swGetChecksum;
+      property Checksum : Integer read swGetChecksum;
       property Log : TAbLogger read FLog;
   end;
 
@@ -116,7 +116,7 @@ uses
 constructor TAbDfOutputWindow.Create(aStream       : TStream;
                                      aUseDeflate64 : boolean;
                                      aUseCRC32     : boolean;
-                                     aPartSize     : longint;
+                                     aPartSize     : Integer;
                                      aTestOnly     : boolean;
                                      aLog          : TAbLogger);
 var
@@ -220,7 +220,7 @@ begin
 end;
 {--------}
 procedure AddLenDistToLog(aLog     : TAbLogger;
-                          aPosn    : longint;
+                          aPosn    : Integer;
                           aLen     : integer;
                           aDist    : integer;
                           aOverLap : boolean);
@@ -277,7 +277,7 @@ begin
 end;
 {--------}
 procedure AddLiteralToLog(aLog     : TAbLogger;
-                          aPosn    : longint;
+                          aPosn    : Integer;
                           aCh      : Byte);
 begin
   {NOTE the reason for this separate routine is to avoid string
@@ -312,7 +312,7 @@ begin
     swWriteToStream(false);
 end;
 {--------}
-function TAbDfOutputWindow.Position : longint;
+function TAbDfOutputWindow.Position : Integer;
 begin
   if FTestOnly then
     Result := FStreamPos + (FCurrent - FBuffer)
@@ -320,7 +320,7 @@ begin
     Result := FStream.Position + (FCurrent - FBuffer);
 end;
 {--------}
-function TAbDfOutputWindow.swGetChecksum : longint;
+function TAbDfOutputWindow.swGetChecksum : Integer;
 begin
   {since the checksum is calculated by the method that flushes to the
    stream, make sure any buffered data is written out first}

@@ -42,7 +42,7 @@ uses
   AbDfHufD;
 
 type
-  TAb32bit = longint; { a 32-bit type}
+  TAb32bit = Integer; { a 32-bit type}
 
   PAbDfLitBuckets = ^TAbDfLitBuckets;
   TAbDfLitBuckets = array [0..285] of integer;
@@ -71,20 +71,20 @@ type
       FBufEnd    : PByte;
       FBuffer    : PByte;
       FBufPos    : PByte;
-      FByteCount : longint;
+      FByteCount : Integer;
       FFakeCount : integer;
       FOnProgress: TAbProgressStep;
       {$IFOPT C+}
       FPeekCount : integer;
       {$ENDIF}
       FStream    : TStream;
-      FStreamSize: longint;
+      FStreamSize: Integer;
     protected
       function ibsFillBuffer : boolean;
     public
       constructor Create(aStream     : TStream;
                          aOnProgress : TAbProgressStep;
-                         aStreamSize : longint);
+                         aStreamSize : Integer);
       destructor Destroy; override;
 
       procedure AlignToByte;
@@ -116,7 +116,7 @@ type
       destructor Destroy; override;
 
       procedure AlignToByte;
-      function Position : longint;
+      function Position : Integer;
       procedure WriteBit(aBit : boolean);
       procedure WriteBits(aBits : integer; aCount : integer);
       procedure WriteBuffer(var aBuffer; aCount : integer);
@@ -141,7 +141,7 @@ type
       FStream      : PByte;
       FStrmEnd     : PByte;
       {$IFDEF UseLogging}
-      FSWPos       : longint;
+      FSWPos       : Integer;
       {$ENDIF}
       FUseDeflate64: boolean;
     protected
@@ -214,7 +214,7 @@ const
 {===TAbDfInBitStream=================================================}
 constructor TAbDfInBitStream.Create(aStream     : TStream;
                                     aOnProgress : TAbProgressStep;
-                                    aStreamSize : longint);
+                                    aStreamSize : Integer);
 begin
   {protect against dumb programming mistakes}
   Assert(aStream <> nil,
@@ -346,8 +346,8 @@ end;
 {--------}
 function TAbDfInBitStream.ibsFillBuffer : boolean;
 var
-  BytesRead   : longint;
-  BytesToRead : longint;
+  BytesRead   : Integer;
+  BytesToRead : Integer;
   i           : integer;
   Percent     : integer;
   Buffer      : PByte;
@@ -355,7 +355,7 @@ var
 begin
   {check for dumb programming mistakes: this routine should only be
    called if there are less than 4 bytes unused in the buffer}
-  Assert((FBufEnd - FBufPos) < sizeof(longint),
+  Assert((FBufEnd - FBufPos) < sizeof(Integer),
          'TAbDfInBitStream.ibsFillBuffer: the buffer should be almost empty');
 
   {if there are still 1, 2, or three bytes unused, move them to the
@@ -386,7 +386,7 @@ begin
     Result := true;
 
     {if we didn't read anything from the stream, we need to make sure
-     that enough buffer is zeroed out so that reading longint values
+     that enough buffer is zeroed out so that reading Integer values
      don't produce (dreadfully) bogus values}
     if (BytesRead = 0) and ((BufferCount mod 4) <> 0) then begin
       FFakeCount := 4 - (BufferCount mod 4);
@@ -672,7 +672,7 @@ end;
 procedure TAbDfOutBitStream.obsEmptyBuffer;
 var
   ByteCount    : integer;
-  BytesWritten : longint;
+  BytesWritten : Integer;
 begin
   {empty the buffer}
   ByteCount := FBufPos - FBuffer;
@@ -687,7 +687,7 @@ begin
   FBufPos := FBuffer;
 end;
 {--------}
-function TAbDfOutBitStream.Position : longint;
+function TAbDfOutBitStream.Position : Integer;
 begin
   Assert(false,
          'TAbDfOutBitStream.Position: not implemented yet!');
@@ -854,7 +854,7 @@ end;
 {--------}
 {$IFDEF UseLogging}
 procedure AddLenDistToLog(aLog     : TAbLogger;
-                          aPosn    : longint;
+                          aPosn    : Integer;
                           aLen     : integer;
                           aDist    : integer;
                           aOverLap : boolean);
@@ -930,7 +930,7 @@ end;
 {--------}
 {$IFDEF UseLogging}
 procedure AddLiteralToLog(aLog     : TAbLogger;
-                          aPosn    : longint;
+                          aPosn    : Integer;
                           aCh      : AnsiChar);
 begin
   {NOTE the reason for this separate routine is to avoid string
@@ -1003,8 +1003,8 @@ var
   Symbol    : integer;
   CurPos    : PByte;
   StrmEnd   : PByte;
-  Code      : longint;
-  ExtraBits : longint;
+  Code      : Integer;
+  ExtraBits : Integer;
 begin
   {rewind the LZ77 stream}
   Rewind;
@@ -1468,7 +1468,7 @@ procedure TAbDfCodeLenStream.Encode(aBitStrm : TAbDfOutBitStream;
 var
   Symbol    : integer;
   ExtraData : integer;
-  Code      : longint;
+  Code      : Integer;
   CurPos    : PByte;
   StrmEnd   : PByte;
 begin

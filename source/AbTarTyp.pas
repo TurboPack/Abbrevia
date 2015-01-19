@@ -318,7 +318,7 @@ type
     function GetLastModFileDate : Word; override;
     function GetLastModFileTime : Word; override;
     function GetLastModTimeAsDateTime: TDateTime; override;
-    function GetNativeFileAttributes : LongInt; override;
+    function GetNativeFileAttributes : Integer; override;
     function GetUncompressedSize : Int64; override;
 
     procedure SetCompressedSize(const Value : Int64); override;       { Extended Headers }
@@ -497,10 +497,10 @@ begin
 end;
 
 
-function CalcTarHeaderChkSum(const TarH : TAbTarHeaderRec): LongInt;
+function CalcTarHeaderChkSum(const TarH : TAbTarHeaderRec): Integer;
 var
   HdrBuffer : PByte;
-  HdrChkSum : LongInt;
+  HdrChkSum : Integer;
   j : Integer;
 begin
   { prepare for the checksum calculation }
@@ -553,7 +553,7 @@ Some TAR utilities evidently expect Octal numeric fields to be in
 this format
 }
 begin
-  if Length(S) >= LongInt(Places) then
+  if Length(S) >= Integer(Places) then
     Result := S
   else begin
     Result := S + ' ';
@@ -691,7 +691,7 @@ begin
   Result := string(FTarItem.Magic);
 end;
 
-function TAbTarItem.GetNativeFileAttributes : LongInt;
+function TAbTarItem.GetNativeFileAttributes : Integer;
 begin
   Result := GetExternalFileAttributes;
 {$IFDEF MSWINDOWS}
@@ -891,7 +891,7 @@ end;
 { Return True if CheckSum passes out. }
 function TAbTarItem.TestCheckSum : Boolean;
 var
-  TarChkSum : LongInt;
+  TarChkSum : Integer;
   TarChkSumArr : Arr8; { ChkSum field is Arr8 }
   PHeader: PAbTarHeaderRec;
   I: Integer;
@@ -1719,7 +1719,7 @@ end;
 { This function Should only be used from LoadArchive, as it is slow. }
 function TAbTarStreamHelper.FindItem: Boolean;
 var
-  DataRead : LongInt;
+  DataRead : Integer;
   FoundItem: Boolean;
   SkipHdrs : Integer;
 begin

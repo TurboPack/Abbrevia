@@ -82,9 +82,9 @@ type
       Stream: TStream );
     destructor Destroy;
       override;
-    function Read(var Buffer; Count: Longint): Longint;
+    function Read(var Buffer; Count: Integer): Integer;
       override;
-    function Write(const Buffer; Count: Longint): Longint;
+    function Write(const Buffer; Count: Integer): Integer;
       override;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
       override;
@@ -116,11 +116,11 @@ type
       Threshold: Int64 );
     destructor Destroy;
       override;
-    function Read(var Buffer; Count: Longint): Longint;
+    function Read(var Buffer; Count: Integer): Integer;
       override;
-    function Write(const Buffer; Count: Longint): Longint;
+    function Write(const Buffer; Count: Integer): Integer;
       override;
-    function WriteUnspanned(const Buffer; Count: Longint;
+    function WriteUnspanned(const Buffer; Count: Integer;
       FailOnSpan: Boolean = False): Boolean;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
       override;
@@ -221,9 +221,9 @@ begin
   FStream := TFileStream.Create(ImageName, fmOpenRead or fmShareDenyWrite);
 end;
 {------------------------------------------------------------------------------}
-function TAbSpanReadStream.Read(var Buffer; Count: Longint): Longint;
+function TAbSpanReadStream.Read(var Buffer; Count: Integer): Integer;
 var
-  BytesRead, BytesLeft: LongInt;
+  BytesRead, BytesLeft: Integer;
   PBuf: PByte;
 begin
   { read until the buffer's full, switching images if necessary }
@@ -246,7 +246,7 @@ begin
   end;
 end;
 {------------------------------------------------------------------------------}
-function TAbSpanReadStream.Write(const Buffer; Count: Longint): Longint;
+function TAbSpanReadStream.Write(const Buffer; Count: Integer): Integer;
 begin
   raise EAbException.Create('TAbSpanReadStream.Write unsupported');
 end;
@@ -320,14 +320,14 @@ begin
   FImageSize := 0;
 end;
 {------------------------------------------------------------------------------}
-function TAbSpanWriteStream.Read(var Buffer; Count: Longint): Longint;
+function TAbSpanWriteStream.Read(var Buffer; Count: Integer): Integer;
 begin
   raise EAbException.Create('TAbSpanWriteStream.Read unsupported');
 end;
 {------------------------------------------------------------------------------}
-function TAbSpanWriteStream.Write(const Buffer; Count: Longint): Longint;
+function TAbSpanWriteStream.Write(const Buffer; Count: Integer): Integer;
 var
-  BytesWritten, BytesLeft: LongInt;
+  BytesWritten, BytesLeft: Integer;
   PBuf: PByte;
 begin
   { write until the buffer is done, starting new spans if necessary }
@@ -350,10 +350,10 @@ begin
   end;
 end;
 {------------------------------------------------------------------------------}
-function TAbSpanWriteStream.WriteUnspanned(const Buffer; Count: Longint;
+function TAbSpanWriteStream.WriteUnspanned(const Buffer; Count: Integer;
   FailOnSpan: Boolean = False): Boolean;
 var
-  BytesWritten: LongInt;
+  BytesWritten: Integer;
 begin
   { write as a contiguous block, starting a new span if there isn't room.
     FailOnSpan (and result = false) can be used to update data before it's

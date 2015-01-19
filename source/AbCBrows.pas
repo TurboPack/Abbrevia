@@ -48,7 +48,7 @@ type
     FSetID : Word;
 
     function  GetCabArchive : TAbCabArchive;
-    function  GetCabSize : Longint;
+    function  GetCabSize : Integer;
     function  GetCurrentCab : Word;
     function  GetFolderCount : Word;
     function  GetItem(Index : Integer) : TAbCabItem; virtual;
@@ -61,7 +61,7 @@ type
     procedure SetSetID(Value : Word);
 
   protected {properties}
-    property CabSize : Longint
+    property CabSize : Integer
       read GetCabSize;
     property CurrentCab : Word
       read GetCurrentCab;
@@ -145,7 +145,7 @@ begin
     Result := nil;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomCabBrowser.GetCabSize : Longint;
+function TAbCustomCabBrowser.GetCabSize : Integer;
 begin
   if Assigned(Archive) then
     Result := TAbCabArchive(Archive).CabSize

@@ -44,21 +44,21 @@ uses
 const
   { note  #$50 = 'P', #$4B = 'K'}
   Ab_ZipVersion = 63;
-  Ab_ZipLocalFileHeaderSignature            : Longint = $04034B50;
-  Ab_ZipDataDescriptorSignature             : Longint = $08074B50;
-  Ab_ZipCentralDirectoryFileHeaderSignature : Longint = $02014B50;
-  Ab_Zip64EndCentralDirectorySignature      : Longint = $06064B50;
-  Ab_Zip64EndCentralDirectoryLocatorSignature:Longint = $07064B50;
-  Ab_ZipEndCentralDirectorySignature        : Longint = $06054B50;
-  Ab_ZipSpannedSetSignature                 : Longint = $08074B50;
-  Ab_ZipPossiblySpannedSignature            : Longint = $30304B50;
+  Ab_ZipLocalFileHeaderSignature            : Integer = $04034B50;
+  Ab_ZipDataDescriptorSignature             : Integer = $08074B50;
+  Ab_ZipCentralDirectoryFileHeaderSignature : Integer = $02014B50;
+  Ab_Zip64EndCentralDirectorySignature      : Integer = $06064B50;
+  Ab_Zip64EndCentralDirectoryLocatorSignature:Integer = $07064B50;
+  Ab_ZipEndCentralDirectorySignature        : Integer = $06054B50;
+  Ab_ZipSpannedSetSignature                 : Integer = $08074B50;
+  Ab_ZipPossiblySpannedSignature            : Integer = $30304B50;
   Ab_GeneralZipSignature                    : Word    = $4B50;
 
-  Ab_ArchiveExtraDataRecord                 : Longint = $08064B50;
-  Ab_DigitalSignature                       : Longint = $05054B50;
+  Ab_ArchiveExtraDataRecord                 : Integer = $08064B50;
+  Ab_DigitalSignature                       : Integer = $05054B50;
 
   Ab_WindowsExeSignature                    : Word    = $5A4D;
-  Ab_LinuxExeSignature                      : Longint = $464C457F;
+  Ab_LinuxExeSignature                      : Integer = $464C457F;
 
   AbDefZipSpanningThreshold = 0;
   AbDefPasswordRetries      = 3;
@@ -90,7 +90,7 @@ type
   TAbIntegerArray = array[0..65535 div sizeof(integer)-1] of integer;
 
   TAbZip64EndOfCentralDirectoryRecord = packed record
-    Signature               : Longint;
+    Signature               : Integer;
     RecordSize              : Int64;
     VersionMadeBy           : Word;
     VersionNeededToExtract  : Word;
@@ -103,14 +103,14 @@ type
   end;
 
   TAbZip64EndOfCentralDirectoryLocator = packed record
-    Signature               : Longint;
-    StartDiskNumber         : Longint;
+    Signature               : Integer;
+    StartDiskNumber         : Integer;
     RelativeOffset          : Int64;
-    TotalDisks              : Longint;
+    TotalDisks              : Integer;
   end;
 
   TAbZipEndOfCentralDirectoryRecord = packed record
-    Signature               : Longint;
+    Signature               : Integer;
     DiskNumber              : Word;
     StartDiskNumber         : Word;
     EntriesOnDisk           : Word;
@@ -134,7 +134,7 @@ type
     packed record
       case Byte of
         0 : (Code : Word; Value, BitLength : Byte);
-        1 : (L : Longint);
+        1 : (L : Integer);
     end;
   PAbSfTree = ^TAbSfTree;
   TAbSfTree =
@@ -147,7 +147,7 @@ type
   PInfoZipUnicodePathRec = ^TInfoZipUnicodePathRec;
   TInfoZipUnicodePathRec = packed record
     Version: Byte;
-    NameCRC32: LongInt;
+    NameCRC32: Integer;
     UnicodeName: array[0..0] of Byte;
   end;
 
@@ -201,13 +201,13 @@ const
 type
   TAbZipDataDescriptor = class( TObject )
   protected {private}
-    FCRC32            : Longint;
+    FCRC32            : Integer;
     FCompressedSize   : Int64;
     FUncompressedSize : Int64;
   public {methods}
     procedure SaveToStream( Stream : TStream );
   public {properties}
-    property CRC32 : Longint
+    property CRC32 : Integer
       read FCRC32 write FCRC32;
     property CompressedSize : Int64
       read FCompressedSize write FCompressedSize;
@@ -220,14 +220,14 @@ type
   {ancestor class for ZipLocalFileHeader and DirectoryFileHeader}
   TAbZipFileHeader = class(TObject)
   protected {private}
-    FValidSignature : Longint;
-    FSignature : Longint;
+    FValidSignature : Integer;
+    FSignature : Integer;
     FVersionNeededToExtract : Word;
     FGeneralPurposeBitFlag : Word;
     FCompressionMethod : Word;
     FLastModFileTime : Word;
     FLastModFileDate : Word;
-    FCRC32 : Longint;
+    FCRC32 : Integer;
     FCompressedSize : LongWord;
     FUncompressedSize : LongWord;
     FFileName : string;
@@ -248,7 +248,7 @@ type
     constructor Create;
     destructor Destroy; override;
   public {properties}
-    property Signature : Longint
+    property Signature : Integer
       read FSignature write FSignature;
     property VersionNeededToExtract : Word
       read FVersionNeededToExtract write FVersionNeededToExtract;
@@ -260,7 +260,7 @@ type
       read FLastModFileTime write FLastModFileTime;
     property LastModFileDate : Word
       read FLastModFileDate write FLastModFileDate;
-    property CRC32 : Longint
+    property CRC32 : Integer
       read FCRC32 write FCRC32;
     property CompressedSize : LongWord
       read FCompressedSize write FCompressedSize;
@@ -399,15 +399,15 @@ type
     procedure UpdateZip64ExtraHeader;
 
   protected {redefined property methods}
-    function  GetCRC32 : Longint; override;
+    function  GetCRC32 : Integer; override;
     function  GetExternalFileAttributes : LongWord; override;
     function  GetIsDirectory: Boolean; override;
     function  GetIsEncrypted : Boolean; override;
     function  GetLastModFileDate : Word; override;
     function  GetLastModFileTime : Word; override;
-    function  GetNativeFileAttributes : LongInt; override;
+    function  GetNativeFileAttributes : Integer; override;
     procedure SetCompressedSize( const Value : Int64 ); override;
-    procedure SetCRC32( const Value : Longint ); override;
+    procedure SetCRC32( const Value : Integer ); override;
     procedure SetExternalFileAttributes( Value : LongWord ); override;
     procedure SetFileName(const Value : string ); override;
     procedure SetLastModFileDate(const Value : Word ); override;
@@ -614,7 +614,7 @@ function VerifyZip(Strm : TStream) : TAbArchiveType;
 { determine if stream appears to be in PkZip format }
 var
   Footer       : TAbZipEndOfCentralDirectoryRecord;
-  Sig          : LongInt;
+  Sig          : Integer;
   TailPosition : int64;
   StartPos     : int64;
 begin
@@ -648,7 +648,7 @@ end;
 function VerifySelfExtracting(Strm : TStream) : TAbArchiveType;
 { determine if stream appears to be an executable with appended PkZip data }
 var
-  FileSignature : Longint;
+  FileSignature : Integer;
   StartPos      : Int64;
   IsWinExe, IsLinuxExe : Boolean;
 begin
@@ -780,11 +780,11 @@ begin
       {search backwards through the buffer looking for the signature}
       TestPos := Buffer + BytesRead - sizeof(TailRec);
       while (TestPos <> Buffer) and
-            (PLongint(TestPos)^ <> Ab_ZipEndCentralDirectorySignature) do
+            (PInteger(TestPos)^ <> Ab_ZipEndCentralDirectorySignature) do
         dec(TestPos);
 
       {if we found the signature...}
-      if (PLongint(TestPos)^ = Ab_ZipEndCentralDirectorySignature) then begin
+      if (PInteger(TestPos)^ = Ab_ZipEndCentralDirectorySignature) then begin
 
         {get the tail record at this position}
         Move(TestPos^, TailRec, sizeof(TailRec));
@@ -828,7 +828,7 @@ procedure MakeSelfExtracting( StubStream, ZipStream,
    This routine updates the RelativeOffset of each item in the archive}
 var
   DirectoryStart : Int64;
-  FileSignature : Longint;
+  FileSignature : Integer;
   StubSize : LongWord;
   TailPosition : Int64;
   ZDFF : TAbZipDirectoryFileFooter;
@@ -1352,7 +1352,7 @@ begin
   Result := FItemInfo.CompressionRatio;
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipItem.GetCRC32 : Longint;
+function TAbZipItem.GetCRC32 : Integer;
 begin
   Result := FItemInfo.CRC32;
 end;
@@ -1418,7 +1418,7 @@ begin
   Result := FItemInfo.LastModFileTime;
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipItem.GetNativeFileAttributes : LongInt;
+function TAbZipItem.GetNativeFileAttributes : Integer;
 begin
 {$IFDEF MSWINDOWS}
   if (HostOS = hosUnix) or (ExternalFileAttributes > $1FFFF) then
@@ -1595,7 +1595,7 @@ begin
   UpdateVersionNeededToExtract;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetCRC32( const Value : Longint );
+procedure TAbZipItem.SetCRC32( const Value : Integer );
 begin
   FItemInfo.CRC32 := Value;
 end;
@@ -1982,7 +1982,7 @@ var
   TailPosition : int64;
   Item : TAbZipItem;
   Progress : Byte;
-  FileSignature : Longint;
+  FileSignature : Integer;
   Zip64Locator : TAbZip64EndOfCentralDirectoryLocator;
 begin
   Abort := False;

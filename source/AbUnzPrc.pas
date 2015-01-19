@@ -47,13 +47,13 @@ type
     {internal variables}
     FOutWriter : TStream;
     FOutStream : TStream;
-    FUnCompressedSize : LongInt;
+    FUnCompressedSize : Integer;
     FCompressionMethod : TAbZipCompressionMethod;
     FDictionarySize : TAbZipDictionarySize;
     FShannonFanoTreeCount : Byte;
 
     FOutBuf : PAbByteArray;          {output buffer}
-    FOutSent : LongInt;              {number of bytes sent to output buffer}
+    FOutSent : Integer;              {number of bytes sent to output buffer}
     FOutPos : Cardinal;              {current position in output buffer}
     FBitSValid : Byte;               {Number of valid bits}
 
@@ -97,7 +97,7 @@ type
 
     procedure Execute;
 
-    property UnCompressedSize : LongInt
+    property UnCompressedSize : Integer
       read FUncompressedSize
       write FUncompressedSize;
     property CompressionMethod : TAbZipCompressionMethod
@@ -286,7 +286,7 @@ begin
   FOutBuf^[FOutPos] := B;
   inc(FOutPos);
   if (FOutPos = AbBufferSize) or
-     (LongInt(FOutPos) + FOutSent = FUncompressedSize) then
+     (Integer(FOutPos) + FOutSent = FUncompressedSize) then
     uzFlushOutBuf;
 end;
 { -------------------------------------------------------------------------- }
@@ -348,9 +348,9 @@ const
   szLitTree = SizeOf(TAbSfTree);
 var
   Length : Integer;
-  DIndex : LongInt;
+  DIndex : Integer;
   Distance : Integer;
-  SPos : LongInt;
+  SPos : Integer;
   MyByte : Byte;
   DictBits : Integer;             {number of bits used in sliding dictionary}
   MinMatchLength : Integer;       {minimum match length}
@@ -397,7 +397,7 @@ var
       TXGP : PAbSfEntry;
       X, Gap : Integer;
       Done : Boolean;
-      LT : LongInt;
+      LT : Integer;
     begin
       Gap := Tree.Entries shr 1;
       repeat
@@ -521,7 +521,7 @@ begin
     uzLoadTree(LengthTree^, 64);
     uzLoadTree(DistanceTree^, 64);
 
-    while (not FInEof) and (FOutSent + LongInt(FOutPos) < FUncompressedSize) do
+    while (not FInEof) and (FOutSent + Integer(FOutPos) < FUncompressedSize) do
       {is data literal?}
       if Boolean(uzReadBits(1)) then begin
         {if MinMatchLength = 3 then we have a Literal tree}
@@ -549,7 +549,7 @@ begin
          (if this position is before the start of the output stream,
          then assume that all the data before the start of the output
          stream is filled with zeros)}
-        DIndex := (FOutSent + LongInt(FOutPos))-(Distance+1);
+        DIndex := (FOutSent + Integer(FOutPos))-(Distance+1);
         while Length > 0 do begin
           if DIndex < 0 then
             uzWriteByte(0)
@@ -581,10 +581,10 @@ const
   DLE = 144;
 var
   C, Last : Byte;
-  OpI : LongInt;
+  OpI : Integer;
   I, J, Sz : Integer;
   D : Word;
-  SPos : LongInt;
+  SPos : Integer;
   MyByte : Byte;
   Factor : Byte;                  {reduction Factor}
   FactorMask : Byte;              {bit mask to use based on Factor}
@@ -623,7 +623,7 @@ begin
         Followers^[I].FSet[J] := uzReadBits(8);
     end;
 
-    while (not FInEof) and ((FOutSent + LongInt(FOutPos)) < FUncompressedSize) do begin
+    while (not FInEof) and ((FOutSent + Integer(FOutPos)) < FUncompressedSize) do begin
       Last := C;
       with Followers^[Last] do
         if Size = 0 then
@@ -679,7 +679,7 @@ begin
              be undefined...  If Factor is not in [1..4], the
              exception gets raised, and we never execute the following
              line}
-            OpI := (FOutSent + LongInt(FOutPos))-(Swap(D)+C+1);
+            OpI := (FOutSent + Integer(FOutPos))-(Swap(D)+C+1);
 
             for I := 0 to Len+2 do begin
               if OpI < 0 then
@@ -767,7 +767,7 @@ begin
           2 : begin
                 {mark all nodes as potentially unused}
                 for I := FirstFree to pred( NextFree ) do
-                  PrefixTable^[I] := PrefixTable^[I] or LongInt($8000);
+                  PrefixTable^[I] := PrefixTable^[I] or Integer($8000);
 
                 {unmark those used by other nodes}
                 for N := FirstFree to NextFree-1 do begin
@@ -954,7 +954,7 @@ var
   LFH         : TAbZipLocalFileHeader;
   Abort       : Boolean;
   Tries       : Integer;
-  CheckValue  : LongInt;
+  CheckValue  : Integer;
   DecryptStream: TAbDfDecryptStream;
 begin
   { validate }

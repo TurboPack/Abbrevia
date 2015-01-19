@@ -40,7 +40,7 @@ uses
   AbDfBase;
 
 function Deflate(aSource : TStream; aDest : TStream;
-                 aHelper : TAbDeflateHelper) : longint;
+                 aHelper : TAbDeflateHelper) : Integer;
 
 implementation
 
@@ -60,7 +60,7 @@ function CalcDynamicBitCount(aUseDeflate64: boolean;
                        const aCLCodeLens  : array of integer;
                              aLitCount    : integer;
                              aDistCount   : integer;
-                             aCodeCount   : integer) : longint;
+                             aCodeCount   : integer) : Integer;
 var
   Symbol     : integer;
   LastSymbol : integer;
@@ -120,7 +120,7 @@ end;
 procedure OutputEndOfBlock(aBitStrm : TAbDfOutBitStream;
                            aLitTree : TAbDfDecodeHuffmanTree);
 var
-  Code : longint;
+  Code : Integer;
 begin
   {note: this routine encodes the end-of-block character (symbol 256)
          and then writes out the code to the bit stream}
@@ -451,7 +451,7 @@ function DeflateStaticDynamic(aStatic : boolean;
                               aUseBest: boolean;
                               aSource : TStream; aDest : TStream;
                               aHelper : TAbDeflateHelper;
-                              aLog    : TAbLogger) : longint;
+                              aLog    : TAbLogger) : Integer;
 var
   i : integer;
   SlideWin     : TAbDfInputWindow;
@@ -678,7 +678,7 @@ end;
 {===Simple storing===================================================}
 function DeflateStored(aSource : TStream; aDest : TStream;
                        aHelper : TAbDeflateHelper;
-                       aLog    : TAbLogger) : longint;
+                       aLog    : TAbLogger) : Integer;
 const
   StoredBlockSize = $FFFF;
 var
@@ -688,8 +688,8 @@ var
   BytesToGo : Int64;
   CurPos    : Int64;
   Size      : Int64;
-  Percent   : longint;
-  CheckSum  : longint;
+  Percent   : Integer;
+  CheckSum  : Integer;
   UseCRC32  : boolean;
   BlockHeader : packed record
     bhInfo    : byte;
@@ -793,12 +793,12 @@ end;
 
 {===Interfaced routine===============================================}
 function Deflate(aSource : TStream; aDest : TStream;
-                 aHelper : TAbDeflateHelper) : longint;
+                 aHelper : TAbDeflateHelper) : Integer;
 var
   Helper   : TAbDeflateHelper;
   Log      : TAbLogger;
-  SourceStartPos : longint;
-  DestStartPos   : longint;
+  SourceStartPos : Integer;
+  DestStartPos   : Integer;
 begin
   {pre-conditions: streams are allocated,
                    options enable some kind of archiving}
@@ -848,11 +848,11 @@ begin
       {patch up the various lengths in the helper if they specify the
        maximum (that is, are equal to -1)}
       if (Helper.AmpleLength = -1) then
-        Helper.AmpleLength := MaxLongInt;
+        Helper.AmpleLength := MaxInt;
       if (Helper.MaxLazyLength = -1) then
-        Helper.MaxLazyLength := MaxLongInt;
+        Helper.MaxLazyLength := MaxInt;
       if (Helper.ChainLength = -1) then
-        Helper.ChainLength := MaxLongInt;
+        Helper.ChainLength := MaxInt;
 
       {create the logger, if requested}
       if (Helper.LogFile <> '') then begin

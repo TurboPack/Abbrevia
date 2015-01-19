@@ -80,7 +80,7 @@ type
     procedure MakeFCheck;
   protected { private }
     FZLHeader : TAbZlHeader;
-    FAdler32  : LongInt;
+    FAdler32  : Integer;
   public
     constructor Create;
 
@@ -93,7 +93,7 @@ type
 
     property CompressionMethod : Byte
       read GetCompressionMethod write SetCompressionMethod;
-    property Adler32 : LongInt
+    property Adler32 : Integer
       read FAdler32 write FAdler32;
 
     property FCheck : Byte
@@ -190,9 +190,9 @@ end;
 procedure TAbZLStreamHelper.ReadTail;
 { assumes already positioned appropriately }
 var
-  Adler: LongInt;
+  Adler: Integer;
 begin
-  FStream.Read(Adler, SizeOf(LongInt));
+  FStream.Read(Adler, SizeOf(Integer));
   FItem.Adler32 := Adler;
 end;
 
@@ -223,10 +223,10 @@ end;
 
 procedure TAbZLStreamHelper.WriteArchiveTail;
 var
-  Ad32 : LongInt;
+  Ad32 : Integer;
 begin
   Ad32 := AbSwapLongEndianness(Item.Adler32);
-  FStream.Write(Ad32, SizeOf(LongInt));
+  FStream.Write(Ad32, SizeOf(Integer));
 end;
 
 { TAbZLItem }

@@ -44,7 +44,7 @@ type
   protected
     FCabComponent : TAbCustomCabBrowser;
     FEmptyItemList: TAbArchiveList;
-    function GetItem(RowNum : Longint) : TAbCabItem;
+    function GetItem(RowNum : Integer) : TAbCabItem;
     procedure SetCabComponent(Value : TAbCustomCabBrowser);
     procedure Notification(AComponent : TComponent; Operation : TOperation);
       override;
@@ -55,7 +55,7 @@ type
       override;
     destructor  Destroy;
       override;
-    property Items[RowNum : Longint] : TAbCabItem
+    property Items[RowNum : Integer] : TAbCabItem
       read GetItem;
   published {properties}
     property Align;
@@ -122,7 +122,7 @@ begin
   inherited;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCabView.GetItem(RowNum : Longint) : TAbCabItem;
+function TAbCabView.GetItem(RowNum : Integer) : TAbCabItem;
 begin
   if Assigned(FItemList) then
     Result := TAbCabItem(FItemList.Items[FRowMap[RowNum]])

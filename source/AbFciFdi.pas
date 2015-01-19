@@ -85,7 +85,7 @@ type
   {FDI cabinet information structure}
   PFDICabInfo = ^FDICabInfo;
   FDICabInfo  = record
-    cbCabinet : Longint;
+    cbCabinet : Integer;
     cFolders  : Word;
     cFiles    : Word;
     setID     : Word;
@@ -98,8 +98,8 @@ type
   {FCI cabinet information structure}
   PFCICabInfo = ^FCICabInfo;
   FCICabInfo  = record
-    cb                    : Longint;
-    cbFolderThresh        : Longint;
+    cb                    : Integer;
+    cbFolderThresh        : Integer;
     cbReserveCFHeader     : Integer;
     cbReserveCFFolder     : Integer;
     cbReserveCFData       : Integer;
@@ -115,7 +115,7 @@ type
   {FDI notification structure}
   PFDINotification = ^FDINotification;
   FDINotification  = record
-    cb       : Longint;
+    cb       : Integer;
     psz1     : PAnsiChar;
     psz2     : PAnsiChar;
     psz3     : PAnsiChar;

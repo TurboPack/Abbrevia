@@ -55,7 +55,7 @@ type
   TAbVirtualMemoryStream = class(TStream)
     protected {private}
       vmsCachePage    : PvmsPage;   {the latest page used}
-      vmsLRU          : Longint;    {'tick' value}
+      vmsLRU          : Integer;    {'tick' value}
       vmsMaxMemToUse  : Longword;   {maximum memory to use for data}
       vmsMaxPages     : Integer;    {maximum data pages}
       vmsPageList     : TList<PvmsPage>; {page array, sorted by offset}
@@ -69,9 +69,9 @@ type
       procedure vmsSetMaxMemToUse(aNewMem : Longword);
 
       function vmsAlterPageList(aNewMem : Longword) : Longword;
-      procedure vmsFindOldestPage(out OldestInx : Longint;
+      procedure vmsFindOldestPage(out OldestInx : Integer;
                                   out OldestPage: PvmsPage);
-      function vmsGetNextLRU : Longint;
+      function vmsGetNextLRU : Integer;
       function vmsGetPageForOffset(aOffset : Int64) : PvmsPage;
 
       procedure vmsSwapFileCreate;
@@ -84,9 +84,9 @@ type
       destructor Destroy; override;
         {-destroy the virtual memory stream}
 
-      function Read(var Buffer; Count : Longint) : Longint; override;
+      function Read(var Buffer; Count : Integer) : Integer; override;
         {-read from the stream into a buffer}
-      function Write(const Buffer; Count : Longint) : Longint; override;
+      function Write(const Buffer; Count : Integer) : Integer; override;
         {-write to the stream from a buffer}
       function Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64; override;
         {-seek to a particular point in the stream}
@@ -153,7 +153,7 @@ begin
   inherited Destroy;
 end;
 {--------}
-function TAbVirtualMemoryStream.Read(var Buffer; Count : Longint) : Longint;
+function TAbVirtualMemoryStream.Read(var Buffer; Count : Integer) : Integer;
 var
   BufPtr      : PByte;
   Page        : PvmsPage;
@@ -256,10 +256,10 @@ end;
 {--------}
 function TAbVirtualMemoryStream.vmsAlterPageList(aNewMem : Longword) : Longword;
 var
-  NumPages : Longint;
+  NumPages : Integer;
   Page     : PvmsPage;
   i        : integer;
-  OldestPageNum : Longint;
+  OldestPageNum : Integer;
 begin
   {calculate the max number of pages required}
   if aNewMem = 0 then
@@ -293,10 +293,10 @@ begin
   Result := NumPages * AB_VMSPageSize;
 end;
 {--------}
-procedure TAbVirtualMemoryStream.vmsFindOldestPage(out OldestInx : Longint;
+procedure TAbVirtualMemoryStream.vmsFindOldestPage(out OldestInx : Integer;
                                                    out OldestPage: PvmsPage);
 var
-  OldestLRU : Longint;
+  OldestLRU : Integer;
   Inx       : integer;
   Page      : PvmsPage;
 begin
@@ -312,7 +312,7 @@ begin
   end;
 end;
 {--------}
-function TAbVirtualMemoryStream.vmsGetNextLRU : Longint;
+function TAbVirtualMemoryStream.vmsGetNextLRU : Integer;
 var
   Inx : integer;
 begin
@@ -449,7 +449,7 @@ end;
 {--------}
 procedure TAbVirtualMemoryStream.vmsSwapFileRead(aPage : PvmsPage);
 var
-  BytesRead : Longint;
+  BytesRead : Integer;
   SeekResult: Int64;
 begin
   if (vmsSwapStream = nil) or (aPage^.vpStmOfs >= vmsSwapFileSize) then begin
@@ -471,7 +471,7 @@ procedure TAbVirtualMemoryStream.vmsSwapFileWrite(aPage : PvmsPage);
 var
   NewPos : Int64;
   SeekResult: Int64;
-  BytesWritten : Longint;
+  BytesWritten : Integer;
 begin
   if (vmsSwapStream = nil) then
     vmsSwapFileCreate;
@@ -486,7 +486,7 @@ begin
     vmsSwapFileSize := NewPos;
 end;
 {--------}
-function TAbVirtualMemoryStream.Write(const Buffer; Count : Longint) : Longint;
+function TAbVirtualMemoryStream.Write(const Buffer; Count : Integer) : Integer;
 var
   BufPtr      : PByte;
   Page        : PvmsPage;

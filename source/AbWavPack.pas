@@ -201,7 +201,7 @@ const
   OPEN_EDIT_TAGS = $40;    // allow editing of tags
 
 type
-  int32_t = LongInt;
+  int32_t = Integer;
   uint32_t = LongWord;
 
   WavpackStreamReader = record
@@ -354,7 +354,7 @@ end;
 // Based on wvunpack.c::unpack_file()
 procedure DecompressWavPack(aSrc, aDes: TStream);
 type
-  PtrInt = {$IF DEFINED(CPUX64)}Int64{$ELSE}LongInt{$IFEND};
+  PtrInt = {$IF DEFINED(CPUX64)}Int64{$ELSE}Integer{$IFEND};
 const
   OutputBufSize = 256 * 1024;
 var

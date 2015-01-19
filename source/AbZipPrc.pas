@@ -128,9 +128,9 @@ end;
 { ========================================================================== }
 procedure DoStore(Archive : TAbZipArchive; Item : TAbZipItem; OutStream, InStream : TStream);
 var
-  CRC32       : LongInt;
-  Percent     : LongInt;
-  LastPercent : LongInt;
+  CRC32       : Integer;
+  Percent     : Integer;
+  LastPercent : Integer;
   InSize      : Int64;
   DataRead    : Int64;
   Total       : Int64;
@@ -187,7 +187,7 @@ procedure DoZipFromStream(Sender : TAbZipArchive; Item : TAbZipItem;
   OutStream, InStream : TStream);
 var
   ZipArchive : TAbZipArchive;
-  InStartPos : LongInt;
+  InStartPos : Integer;
   TempOut : TAbVirtualMemoryStream;
   DestStrm : TStream;
 begin
@@ -199,7 +199,7 @@ begin
 
   if ZipArchive.Password <> '' then  { encrypt the stream }
     DestStrm := TAbDfEncryptStream.Create(OutStream,
-                                          LongInt(Item.LastModFileTime shl $10),
+                                          Integer(Item.LastModFileTime shl $10),
                                           ZipArchive.Password)
   else
     DestStrm := OutStream;
@@ -276,7 +276,7 @@ end;
 procedure AbZipFromStream(Sender : TAbZipArchive; Item : TAbZipItem;
   OutStream, InStream : TStream);
 var
-  FileTimeStamp : LongInt;
+  FileTimeStamp : Integer;
 begin
   // Set item properties for non-file streams
   Item.ExternalFileAttributes := 0;

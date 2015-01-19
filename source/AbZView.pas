@@ -54,14 +54,14 @@ type
     FZipComponent : TAbCustomZipBrowser;
     FOnIncludeItem: TAbIncludeItemEvent;
 
-    function GetItem(RowNum : Longint) : TAbZipItem;
+    function GetItem(RowNum : Integer) : TAbZipItem;
     procedure SetZipComponent(Value : TAbCustomZipBrowser);
     procedure Notification(AComponent : TComponent; Operation : TOperation);
       override;
     procedure DoChange(Sender : TObject);
       override;
   public
-    property Items[RowNum : Longint] : TAbZipItem
+    property Items[RowNum : Integer] : TAbZipItem
       read GetItem;
   published {properties}
     property Align;
@@ -131,7 +131,7 @@ uses
   AbArcTyp;
 
 { ===== TAbZipView ========================================================= }
-function TAbZipView.GetItem(RowNum : Longint) : TAbZipItem;
+function TAbZipView.GetItem(RowNum : Integer) : TAbZipItem;
 begin
   if Assigned(FItemList) then
     Result := TAbZipItem(FItemList.Items[FRowMap[RowNum]])

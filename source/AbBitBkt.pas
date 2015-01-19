@@ -43,17 +43,17 @@ type
   TAbBitBucketStream = class(TStream)
     private
       FBuffer  : PByte;
-      FBufSize : longint;
-      FBufPosn : longint;
+      FBufSize : Integer;
+      FBufPosn : Integer;
       FPosn    : Int64;
       FSize    : Int64;
-      FTail    : longint;
+      FTail    : Integer;
     protected
     public
       constructor Create(aBufSize : cardinal);
       destructor Destroy; override;
-      function Read(var Buffer; Count : Longint) : Longint; override;
-      function Write(const Buffer; Count : Longint) : Longint; override;
+      function Read(var Buffer; Count : Integer) : Integer; override;
+      function Write(const Buffer; Count : Integer) : Integer; override;
       function Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64; override;
 
       procedure ForceSize(aSize : Int64);
@@ -106,10 +106,10 @@ begin
   FSize := aSize;
 end;
 {--------}
-function TAbBitBucketStream.Read(var Buffer; Count : Longint) : Longint;
+function TAbBitBucketStream.Read(var Buffer; Count : Integer) : Integer;
 var
-  Chunk2Size : longint;
-  Chunk1Size : longint;
+  Chunk2Size : Integer;
+  Chunk1Size : Integer;
   OutBuffer  : PByte;
 begin
   OutBuffer := @Buffer;
@@ -153,12 +153,12 @@ begin
   Result := Count;
 end;
 {--------}
-function TAbBitBucketStream.Write(const Buffer; Count : Longint) : Longint;
+function TAbBitBucketStream.Write(const Buffer; Count : Integer) : Integer;
 var
-  Chunk2Size : longint;
-  Chunk1Size : longint;
+  Chunk2Size : Integer;
+  Chunk1Size : Integer;
   InBuffer   : PByte;
-  Overage    : longint;
+  Overage    : Integer;
 begin
   Result := Count;
   InBuffer := @Buffer;
@@ -198,7 +198,7 @@ end;
 function TAbBitBucketStream.Seek(const Offset : Int64; Origin : TSeekOrigin): Int64;
 var
   Posn : Int64;
-  BytesBack : longint;
+  BytesBack : Integer;
 begin
   {calculate the new position}
   case Origin of
@@ -231,7 +231,7 @@ begin
   if (BytesBack <= FTail) then
     FBufPosn := FTail - BytesBack
   else
-    FBufPosn := longint(FTail) + FBufSize - BytesBack;
+    FBufPosn := Integer(FTail) + FBufSize - BytesBack;
   {return the new position}
   Result := Posn;
 end;

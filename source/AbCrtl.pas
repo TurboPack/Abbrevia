@@ -46,8 +46,8 @@ type
   size_t = NativeInt;
 
 const
-  __turboFloat: LongInt = 0;
-  _fltused: LongInt = 0;
+  __turboFloat: Integer = 0;
+  _fltused: Integer = 0;
 
 procedure abs; cdecl;
   external 'msvcrt.dll';

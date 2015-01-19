@@ -46,7 +46,7 @@ uses
 type
   TAbCustomMakeCab = class(TAbCustomCabBrowser)
   protected {private}
-    FFolderThreshold     : Longint;
+    FFolderThreshold     : Integer;
     FCompressionType     : TAbCabCompressionType;
     FStoreOptions           : TAbStoreOptions;
     FOnSave              : TAbArchiveEvent;
@@ -54,7 +54,7 @@ type
  protected {methods}
     procedure DoSave(Sender : TObject); virtual;
     procedure InitArchive; override;
-    procedure SetFolderThreshold(Value : Longint);
+    procedure SetFolderThreshold(Value : Integer);
     procedure SetCompressionType(Value : TAbCabCompressionType);
     procedure SetFileName(const aFileName : string); override;
     procedure SetStoreOptions( Value : TAbStoreOptions );
@@ -63,7 +63,7 @@ type
     property CompressionType : TAbCabCompressionType
       read  FCompressionType
       write SetCompressionType;
-    property FolderThreshold : Longint
+    property FolderThreshold : Integer
       read  FFolderThreshold
       write SetFolderThreshold;
     property StoreOptions : TAbStoreOptions
@@ -203,7 +203,7 @@ begin
   DoChange;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCustomMakeCab.SetFolderThreshold(Value : Longint);
+procedure TAbCustomMakeCab.SetFolderThreshold(Value : Integer);
   {Set folder compression boundary}
 begin
   FFolderThreshold := Value;

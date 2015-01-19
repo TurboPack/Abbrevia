@@ -93,9 +93,9 @@ type
   TAbDfDecodeHuffmanTree = class
     private
       FAlphaSize     : integer;
-      FDecodes       : PAbDfLongintList;
+      FDecodes       : PAbDfIntegerList;
       FDefMaxCodeLen : integer;
-      FEncodes       : PAbDfLongintList;
+      FEncodes       : PAbDfIntegerList;
       {$IFOPT C+}
       FMask          : integer;
       {$ENDIF}
@@ -113,16 +113,16 @@ type
                             aCount       : integer;
                       const aExtraBits   : array of byte;
                             aExtraOffset : integer);
-      function Decode(aLookupBits : integer) : longint;
-      function Encode(aSymbol : integer) : longint;
+      function Decode(aLookupBits : integer) : Integer;
+      function Encode(aSymbol : integer) : Integer;
 
       {$IFDEF UseLogging}
       procedure DebugPrint(aLog : TAbLogger);
       {$ENDIF}
 
       property LookupBitLength : integer read FMaxCodeLen;
-      property Decodes : PAbDfLongintList read FDecodes;
-      property Encodes : PAbDfLongintList read FEncodes;
+      property Decodes : PAbDfIntegerList read FDecodes;
+      property Encodes : PAbDfIntegerList read FEncodes;
   end;
 
 var
@@ -141,7 +141,7 @@ const
 
 {===Debug helper routine=============================================}
 {$IFDEF EnableMegaLog}
-function CodeToStr(aCode : longint; aLen : integer) : string;
+function CodeToStr(aCode : Integer; aLen : integer) : string;
 var
   i : integer;
 begin
@@ -183,7 +183,7 @@ begin
 
   {allocate the encoder array (needs to be initialized to zeros)}
   if (aUsage <> huDecoding) then
-    FEncodes := AllocMem(FAlphaSize * sizeof(longint));
+    FEncodes := AllocMem(FAlphaSize * sizeof(Integer));
 end;
 {--------}
 destructor TAbDfDecodeHuffmanTree.Destroy;
@@ -233,13 +233,13 @@ var
   Symbol      : integer;
   LengthCount : array [0..dfc_MaxCodeLength] of integer;
   NextCode    : array [0..dfc_MaxCodeLength] of integer;
-  Code        : longint;
+  Code        : Integer;
   CodeLen     : integer;
-  CodeData    : longint;
+  CodeData    : Integer;
   DecoderLen  : integer;
   CodeIncr    : integer;
-  Decodes     : PAbDfLongintList;
-  Encodes     : PAbDfLongintList;
+  Decodes     : PAbDfIntegerList;
+  Encodes     : PAbDfIntegerList;
   {$IFDEF CPU386}
   DecodesEnd  : pointer;
   {$ENDIF}
@@ -266,12 +266,12 @@ begin
   {$ENDIF}
   if (FUsage <> huEncoding) then begin
     DecoderLen := PowerOfTwo[FMaxCodeLen];
-    GetMem(FDecodes, DecoderLen * sizeof(longint));
+    GetMem(FDecodes, DecoderLen * sizeof(Integer));
     {$IFDEF CPU386}
-    DecodesEnd := PByte(FDecodes) + (DecoderLen * sizeof(longint));
+    DecodesEnd := PByte(FDecodes) + (DecoderLen * sizeof(Integer));
     {$ENDIF}
     {$IFOPT C+}
-    FillChar(FDecodes^, DecoderLen * sizeof(longint), $FF);
+    FillChar(FDecodes^, DecoderLen * sizeof(Integer), $FF);
     FMask := not (DecoderLen - 1);
     {$ENDIF}
   end;
@@ -367,7 +367,7 @@ begin
       best to replace it.}
       if (FUsage <> huEncoding) then begin
         {$IFDEF CPU386}
-        CodeIncr := PowerOfTwo[CodeLen] * sizeof(longint);
+        CodeIncr := PowerOfTwo[CodeLen] * sizeof(Integer);
         asm
           push edi                { save edi}
           mov eax, Decodes        { get the Decodes array}
@@ -406,7 +406,7 @@ procedure TAbDfDecodeHuffmanTree.DebugPrint(aLog : TAbLogger);
 {$IFDEF EnableMegaLog}
 var
   i : integer;
-  Code : longint;
+  Code : Integer;
 {$ENDIF}
 begin
   {to print the huffman tree, we must have a logger...}
@@ -459,7 +459,7 @@ begin
 end;
 {$ENDIF}
 {--------}
-function TAbDfDecodeHuffmanTree.Decode(aLookupBits : integer) : longint;
+function TAbDfDecodeHuffmanTree.Decode(aLookupBits : integer) : Integer;
 begin
   {protect against dumb programming mistakes (note: FMask only exists
    if assertions are on)}
@@ -472,7 +472,7 @@ begin
   Result := FDecodes^[aLookupBits];
 end;
 {--------}
-function TAbDfDecodeHuffmanTree.Encode(aSymbol : integer) : longint;
+function TAbDfDecodeHuffmanTree.Encode(aSymbol : integer) : Integer;
 begin
   {protect against dumb programming mistakes}
   Assert((0 <= aSymbol) and (aSymbol < FAlphaSize),

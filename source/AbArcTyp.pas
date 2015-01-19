@@ -48,7 +48,7 @@ type
     NextItem          : TAbArchiveItem;
     FAction           : TAbArchiveAction;
     FCompressedSize   : Int64;
-    FCRC32            : Longint;
+    FCRC32            : Integer;
     FDiskFileName     : string;
     FExternalFileAttributes : LongWord;
     FFileName         : string;
@@ -60,7 +60,7 @@ type
 
   protected {property methods}
     function GetCompressedSize : Int64; virtual;
-    function GetCRC32 : Longint; virtual;
+    function GetCRC32 : Integer; virtual;
     function GetDiskPath : string;
     function GetExternalFileAttributes : LongWord; virtual;
     function GetFileName : string; virtual;
@@ -68,11 +68,11 @@ type
     function GetIsEncrypted : Boolean; virtual;
     function GetLastModFileDate : Word; virtual;
     function GetLastModFileTime : Word; virtual;
-    function GetNativeFileAttributes : LongInt; virtual;
+    function GetNativeFileAttributes : Integer; virtual;
     function GetStoredPath : string;
     function GetUncompressedSize : Int64; virtual;
     procedure SetCompressedSize(const Value : Int64); virtual;
-    procedure SetCRC32(const Value : Longint); virtual;
+    procedure SetCRC32(const Value : Integer); virtual;
     procedure SetExternalFileAttributes( Value : LongWord ); virtual;
     procedure SetFileName(const Value : string); virtual;
     procedure SetIsEncrypted(Value : Boolean); virtual;
@@ -97,7 +97,7 @@ type
     property CompressedSize : Int64
       read GetCompressedSize
       write SetCompressedSize;
-    property CRC32 : Longint
+    property CRC32 : Integer
       read GetCRC32
       write SetCRC32;
     property DiskFileName : string
@@ -122,7 +122,7 @@ type
     property LastModFileTime : Word
       read GetLastModFileTime
       write SetLastModFileTime;
-    property NativeFileAttributes : LongInt
+    property NativeFileAttributes : Integer
       read GetNativeFileAttributes;
     property StoredPath : string
       read GetStoredPath;
@@ -162,7 +162,7 @@ type
     FOwnsItems: Boolean;
     HashTable : array[0..1020] of TAbArchiveItem;
   protected {methods}
-    function GenerateHash(const S : string) : LongInt;
+    function GenerateHash(const S : string) : Integer;
     function GetCount : Integer;
     function Get(Index : Integer) : TAbArchiveItem;
     procedure Put(Index : Integer; Item : TAbArchiveItem);
@@ -591,7 +591,7 @@ begin
   Result := FCompressedSize;
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchiveItem.GetCRC32 : LongInt;
+function TAbArchiveItem.GetCRC32 : Integer;
 begin
   Result := FCRC32;
 end;
@@ -631,7 +631,7 @@ begin
   Result := FLastModFileDate;
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchiveItem.GetNativeFileAttributes : LongInt;
+function TAbArchiveItem.GetNativeFileAttributes : Integer;
 begin
   {$IFDEF MSWINDOWS}
   if IsDirectory then
@@ -707,7 +707,7 @@ begin
   FCompressedSize := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchiveItem.SetCRC32(const Value : LongInt);
+procedure TAbArchiveItem.SetCRC32(const Value : Integer);
 begin
   FCRC32 := Value;
 end;
@@ -798,7 +798,7 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbArchiveList.Add(aItem : TAbArchiveItem) : Integer;
 var
-  H : LongInt;
+  H : Integer;
 begin
   if FOwnsItems then begin
     H := GenerateHash(aItem.FileName);
@@ -868,9 +868,9 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 {$IFOPT Q+}{$DEFINE OVERFLOW_CHECKS_ON}{$Q-}{$ENDIF}
-function TAbArchiveList.GenerateHash(const S : string) : LongInt;
+function TAbArchiveList.GenerateHash(const S : string) : Integer;
 var
-  G : LongInt;
+  G : Integer;
   I : Integer;
   U : string;
 begin
@@ -878,7 +878,7 @@ begin
   U := AnsiUpperCase(S);
   for I := 1 to Length(U) do begin
     Result := (Result shl 4) + Ord(U[I]);
-    G := LongInt(Result and $F0000000);
+    G := Integer(Result and $F0000000);
     if (G <> 0) then
       Result := Result xor (G shr 24);
     Result := Result and (not G);
@@ -931,7 +931,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchiveList.Put(Index : Integer; Item : TAbArchiveItem);
 var
-  H : LongInt;
+  H : Integer;
   Look : TAbArchiveItem;
   Last : ^TAbArchiveItem;
   FN : string;
@@ -963,7 +963,7 @@ end;
 procedure TAbArchiveList.UpdateHash(aItem: TAbArchiveItem;
   const aOldFileName: string);
 var
-  H : LongInt;
+  H : Integer;
   Last : ^TAbArchiveItem;
   Look : TAbArchiveItem;
 begin
@@ -1654,7 +1654,7 @@ end;
 function TAbArchive.FreshenRequired(Item : TAbArchiveItem) : Boolean;
 var
   FS : TFileStream;
-  DateTime : LongInt;
+  DateTime : Integer;
   FileTime : Word;
   FileDate : Word;
   Matched : Boolean;

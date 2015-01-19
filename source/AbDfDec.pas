@@ -40,7 +40,7 @@ uses
   AbDfBase;
 
 function Inflate(aSource : TStream; aDest : TStream;
-                 aHelper : TAbDeflateHelper) : longint;
+                 aHelper : TAbDeflateHelper) : Integer;
 
 implementation
 
@@ -62,7 +62,7 @@ var
   i : integer;
   SymbolCount   : integer;
   LookupValue   : integer;
-  EncodedSymbol : longint;
+  EncodedSymbol : Integer;
   Symbol        : integer;
   SymbolCodeLen : integer;
   RepeatCount   : integer;
@@ -220,7 +220,7 @@ procedure DecodeData(aInStrm       : TAbDfInBitStream;
                      aDeflate64    : boolean);
 var
   LookupValue   : integer;
-  EncodedSymbol : longint;
+  EncodedSymbol : Integer;
   Symbol        : integer;
   SymbolCodeLen : integer;
   ExtraBitCount : integer;
@@ -654,7 +654,7 @@ end;
 
 {===Interfaced routine===============================================}
 function Inflate(aSource : TStream; aDest : TStream;
-                 aHelper : TAbDeflateHelper) : longint;
+                 aHelper : TAbDeflateHelper) : Integer;
 var
   Helper       : TAbDeflateHelper;
   InBitStrm    : TAbDfInBitStream;
@@ -665,10 +665,10 @@ var
   IsFinalBlock : boolean;
   BlockType    : integer;
   TestOnly     : boolean;
-  SourceStartPos : longint;
-  DestStartPos   : longint;
+  SourceStartPos : Integer;
+  DestStartPos   : Integer;
   {$IFDEF UseLogging}
-  StartPosn    : longint;
+  StartPosn    : Integer;
   {$ENDIF}
 begin
   {$IFDEF DefeatWarnings}

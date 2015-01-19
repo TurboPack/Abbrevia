@@ -44,7 +44,7 @@ type
   TAbZipDecryptEngine = class
     private
       FReady : boolean;
-      FState : array [0..2] of longint;
+      FState : array [0..2] of Integer;
     protected
       procedure zdeInitState(const aPassphrase : string);
     public
@@ -57,13 +57,13 @@ type
 
       function VerifyHeader(const aHeader     : TAbZipEncryptHeader;
                             const aPassphrase : string;
-                                  aCheckValue : longint) : boolean;
+                                  aCheckValue : Integer) : boolean;
         {-validate an encryption header}
     end;
 
   TAbDfDecryptStream = class(TStream)
     private
-      FCheckValue : longint;
+      FCheckValue : Integer;
       FEngine     : TAbZipDecryptEngine;
       FOwnsStream : Boolean;
       FPassphrase : string;
@@ -72,15 +72,15 @@ type
     protected
     public
       constructor Create(aStream     : TStream;
-                         aCheckValue : longint;
+                         aCheckValue : Integer;
                    const aPassphrase : string);
       destructor Destroy; override;
 
       function IsValid : boolean;
 
-      function Read(var aBuffer; aCount : longint) : longint; override;
-      function Seek(aOffset : longint; aOrigin : word) : longint; override;
-      function Write(const aBuffer; aCount : longint) : longint; override;
+      function Read(var aBuffer; aCount : Integer) : Integer; override;
+      function Seek(aOffset : Integer; aOrigin : word) : Integer; override;
+      function Write(const aBuffer; aCount : Integer) : Integer; override;
 
       property OwnsStream : Boolean
         read FOwnsStream
@@ -90,7 +90,7 @@ type
   TAbZipEncryptEngine = class
     private
       FReady : boolean;
-      FState : array [0..2] of longint;
+      FState : array [0..2] of Integer;
     protected
       procedure zeeInitState(const aPassphrase : string);
     public
@@ -103,7 +103,7 @@ type
 
       procedure CreateHeader(var aHeader     : TAbZipEncryptHeader;
                            const aPassphrase : string;
-                                 aCheckValue : longint);
+                                 aCheckValue : Integer);
         {-generate an encryption header}
     end;
 
@@ -116,13 +116,13 @@ type
     protected
     public
       constructor Create(aStream     : TStream;
-                         aCheckValue : longint;
+                         aCheckValue : Integer;
                    const aPassphrase : string);
       destructor Destroy; override;
 
-      function Read(var aBuffer; aCount : longint) : longint; override;
-      function Seek(aOffset : longint; aOrigin : word) : longint; override;
-      function Write(const aBuffer; aCount : longint) : longint; override;
+      function Read(var aBuffer; aCount : Integer) : Integer; override;
+      function Seek(aOffset : Integer; aOrigin : word) : Integer; override;
+      function Write(const aBuffer; aCount : Integer) : Integer; override;
   end;
 
 implementation
@@ -171,7 +171,7 @@ end;
 {--------}
 function TAbZipDecryptEngine.Decode(aCh : byte) : byte;
 var
-  Temp : longint;
+  Temp : Integer;
 begin
   {check for programming error}
   Assert(FReady,
@@ -191,9 +191,9 @@ end;
 procedure TAbZipDecryptEngine.DecodeBuffer(var aBuffer; aCount : integer);
 var
   i      : integer;
-  Temp   : longint;
+  Temp   : Integer;
   Buffer : PByte;
-  WorkState : array [0..2] of longint;
+  WorkState : array [0..2] of Integer;
 begin
   {check for programming error}
   Assert(FReady,
@@ -233,14 +233,14 @@ end;
 {--------}
 function TAbZipDecryptEngine.VerifyHeader(const aHeader     : TAbZipEncryptHeader;
                                           const aPassphrase : string;
-                                                aCheckValue : longint) : boolean;
+                                                aCheckValue : Integer) : boolean;
 type
   TLongAsBytes = packed record
     L1, L2, L3, L4 : byte
   end;
 var
   i    : integer;
-  Temp : longint;
+  Temp : Integer;
   WorkHeader : TAbZipEncryptHeader;
 begin
   {check for programming errors}
@@ -298,7 +298,7 @@ end;
 
 {====================================================================}
 constructor TAbDfDecryptStream.Create(aStream     : TStream;
-                                      aCheckValue : longint;
+                                      aCheckValue : Integer;
                                 const aPassphrase : string);
 begin
   {create the ancestor}
@@ -342,7 +342,7 @@ begin
     FReady := true;
 end;
 {--------}
-function TAbDfDecryptStream.Read(var aBuffer; aCount : longint) : longint;
+function TAbDfDecryptStream.Read(var aBuffer; aCount : Integer) : Integer;
 begin
   {check for programming error}
   Assert(FReady,
@@ -355,12 +355,12 @@ begin
   FEngine.DecodeBuffer(aBuffer, Result);
 end;
 {--------}
-function TAbDfDecryptStream.Seek(aOffset : longint; aOrigin : word) : longint;
+function TAbDfDecryptStream.Seek(aOffset : Integer; aOrigin : word) : Integer;
 begin
   Result := FStream.Seek(aOffset, aOrigin);
 end;
 {--------}
-function TAbDfDecryptStream.Write(const aBuffer; aCount : longint) : longint;
+function TAbDfDecryptStream.Write(const aBuffer; aCount : Integer) : Integer;
 begin
   {check for programming error}
   Assert(false,
@@ -384,7 +384,7 @@ end;
 procedure TAbZipEncryptEngine.CreateHeader(
                                 var aHeader     : TAbZipEncryptHeader;
                               const aPassphrase : string;
-                                    aCheckValue : longint);
+                                    aCheckValue : Integer);
 type
   TLongAsBytes = packed record
     L1, L2, L3, L4 : byte
@@ -392,7 +392,7 @@ type
 var
   Ch   : byte;
   i    : integer;
-  Temp : longint;
+  Temp : Integer;
   WorkHeader : TAbZipEncryptHeader;
 begin
   {check for programming errors}
@@ -477,7 +477,7 @@ end;
 {--------}
 function TAbZipEncryptEngine.Encode(aCh : byte) : byte;
 var
-  Temp : longint;
+  Temp : Integer;
 begin
   {check for programming error}
   Assert(FReady,
@@ -498,9 +498,9 @@ procedure TAbZipEncryptEngine.EncodeBuffer(var aBuffer; aCount : integer);
 var
   Ch     : byte;
   i      : integer;
-  Temp   : longint;
+  Temp   : Integer;
   Buffer : PByte;
-  WorkState : array [0..2] of longint;
+  WorkState : array [0..2] of Integer;
 begin
   {check for programming error}
   Assert(FReady,
@@ -562,7 +562,7 @@ end;
 
 {===TAbDfEncryptStream===============================================}
 constructor TAbDfEncryptStream.Create(aStream     : TStream;
-                                      aCheckValue : longint;
+                                      aCheckValue : Integer;
                                 const aPassphrase : string);
 var
   Header : TAbZipEncryptHeader;
@@ -594,7 +594,7 @@ begin
   inherited Destroy;
 end;
 {--------}
-function TAbDfEncryptStream.Read(var aBuffer; aCount : longint) : longint;
+function TAbDfEncryptStream.Read(var aBuffer; aCount : Integer) : Integer;
 begin
   {check for programming error}
   Assert(false,
@@ -602,12 +602,12 @@ begin
   Result := 0;
 end;
 {--------}
-function TAbDfEncryptStream.Seek(aOffset : longint; aOrigin : word) : longint;
+function TAbDfEncryptStream.Seek(aOffset : Integer; aOrigin : word) : Integer;
 begin
   Result := FStream.Seek(aOffset, aOrigin);
 end;
 {--------}
-function TAbDfEncryptStream.Write(const aBuffer; aCount : longint) : longint;
+function TAbDfEncryptStream.Write(const aBuffer; aCount : Integer) : Integer;
 begin
   {note: since we cannot alter a const parameter, we should copy the
          data to our own buffer, encrypt it and then write it}

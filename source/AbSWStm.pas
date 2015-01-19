@@ -73,12 +73,12 @@ type
   TabSlidingWindowStream = class(TStream)
     protected {private}
       bsChunks      : array [0..pred(abSWChunkCount)] of PByteArray;
-      bsBufferStart : longint;
+      bsBufferStart : Integer;
       bsLastPos     : integer;
       bsCurChunk    : integer;
       bsPosInChunk  : integer;
-      bsPosInBuffer : longint;
-      bsSize      : Longint;    {count of bytes in stream}
+      bsPosInBuffer : Integer;
+      bsSize      : Integer;    {count of bytes in stream}
       bsDirty     : boolean;    {whether the buffer is dirty or not}
       bsStream    : TStream;    {actual stream containing data}
       {$IFDEF DebugTrace}
@@ -96,11 +96,11 @@ type
                  
       procedure Flush;
         {-ensures that all dirty buffered data is flushed}
-      function Read(var Buffer; Count : Longint) : Longint; override;
+      function Read(var Buffer; Count : Integer) : Integer; override;
         {-read from the stream into a buffer}
-      function Seek(Offset : Longint; Origin : Word) : Longint; override;
+      function Seek(Offset : Integer; Origin : Word) : Integer; override;
         {-seek to a particular point in the stream}
-      function Write(const Buffer; Count : Longint) : Longint; override;
+      function Write(const Buffer; Count : Integer) : Integer; override;
         {-write to the stream from a buffer}
   end;           
                  
@@ -188,12 +188,12 @@ end;
 {--------}       
 procedure TabSlidingWindowStream.bsWriteChunk(aIndex : integer);
 var              
-  SeekResult : longint;
-  BytesWrit  : longint;
-  Offset     : longint;
+  SeekResult : Integer;
+  BytesWrit  : Integer;
+  Offset     : Integer;
   BytesToWrite : integer;
 begin            
-  Offset := bsBufferStart + (longint(aIndex) * ChunkSize);
+  Offset := bsBufferStart + (Integer(aIndex) * ChunkSize);
   if (Offset >= 0) then begin
     SeekResult := bsStream.Seek(Offset, 0);
     if (SeekResult = -1) then
@@ -219,10 +219,10 @@ begin
   end;           
 end;             
 {--------}       
-function TabSlidingWindowStream.Read(var Buffer; Count : Longint) : Longint;
+function TabSlidingWindowStream.Read(var Buffer; Count : Integer) : Integer;
 var              
   BufPtr      : PByte;
-  BytesToGo   : Longint;
+  BytesToGo   : Integer;
   BytesToRead : integer;
 begin
   BufPtr := @Buffer;
@@ -284,14 +284,14 @@ begin
   inc(bsPosInChunk, BytesToRead);
 end;             
 {--------}       
-function TabSlidingWindowStream.Seek(Offset : Longint;
-                                     Origin : Word) : Longint;
+function TabSlidingWindowStream.Seek(Offset : Integer;
+                                     Origin : Word) : Integer;
 {$IFDEF DebugTrace}
 const            
   OriginStr : array [0..2] of string[7] = ('start', 'current', 'end');
 {$ENDIF}         
 var              
-  NewPos       : Longint;
+  NewPos       : Integer;
 begin            
   {$IFDEF DebugTrace}
   System.Writeln(bsF, 'Seek:  ', Offset, ' bytes from ', OriginStr[Origin]);
@@ -316,10 +316,10 @@ begin
   Result := NewPos;
 end;             
 {--------}       
-function TabSlidingWindowStream.Write(const Buffer; Count : Longint) : Longint;
+function TabSlidingWindowStream.Write(const Buffer; Count : Integer) : Integer;
 var              
   BufPtr      : PByte;
-  BytesToGo   : Longint;
+  BytesToGo   : Integer;
   BytesToWrite: integer;
 begin
   BufPtr := @Buffer;
@@ -383,7 +383,7 @@ begin
   end;           
   {remember our new position}
   inc(bsPosInChunk, BytesToWrite);
-  bsPosInBuffer := (longint(ChunkSize) * pred(abSWChunkCount)) + bsPosInChunk;
+  bsPosInBuffer := (Integer(ChunkSize) * pred(abSWChunkCount)) + bsPosInChunk;
   bsLastPos := bsPosInChunk;
   {make sure the stream size is correct}
   inc(bsSize, Result);

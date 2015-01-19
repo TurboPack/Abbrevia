@@ -135,9 +135,9 @@ type
       ADictionarySize: Integer = 65536);
     destructor Destroy; override;
     {Reading is not supported and will raise an exception.}
-    function Read(var ABuffer; ACount: Longint): Longint; override;
+    function Read(var ABuffer; ACount: Integer): Integer; override;
     {Submits data to the compression queue.}
-    function Write(const ABuffer; ACount: Longint): Longint; override;
+    function Write(const ABuffer; ACount: Integer): Integer; override;
     {Will raise an exception if an attempt is made to seek off the current
      position.}
     function Seek(AOffset: Integer; AOrigin: Word): Integer; override;
@@ -478,7 +478,7 @@ begin
   end;
 end;
 
-function TAbLZMACompressionStream.Read(var ABuffer; ACount: Integer): Longint;
+function TAbLZMACompressionStream.Read(var ABuffer; ACount: Integer): Integer;
 begin
   raise Exception.Create('The compression stream does not support reading.');
 end;
@@ -517,7 +517,7 @@ begin
   ReleaseSemaphore(FPendingWorkSemaphore, 1, nil);
 end;
 
-function TAbLZMACompressionStream.Write(const ABuffer; ACount: Integer): Longint;
+function TAbLZMACompressionStream.Write(const ABuffer; ACount: Integer): Integer;
 var
   LPSource: PAnsiChar;
   LPBufData: Pointer;

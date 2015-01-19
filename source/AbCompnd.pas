@@ -194,13 +194,13 @@ type
   protected {private}
     FName           : AnsiString;       {name of file or folder}
     FEntryID        : Integer;          {unique ID for this dir. entry}
-    FParentFolder   : LongInt;          {unique ID of parent folder}
+    FParentFolder   : Integer;          {unique ID of parent folder}
     FEntryType      : TrdEntryType;     {folder or file}
-    FAttributes     : LongInt;          {file system attributes}
-    FStartBlock     : LongInt;          {starting allocation block}
+    FAttributes     : Integer;          {file system attributes}
+    FStartBlock     : Integer;          {starting allocation block}
     FLastModified   : TDateTime;        {last modification date/time}
-    FSize           : LongInt;          {uncompressed file size}
-    FCompressedSize : LongInt;          {compressed file size}
+    FSize           : Integer;          {uncompressed file size}
+    FCompressedSize : Integer;          {compressed file size}
 
     procedure WriteToStream(Strm : TMemoryStream);
     function IsReadOnly : Boolean;
@@ -215,12 +215,12 @@ type
     constructor Create(AsFile : Boolean);
 
     property EntryName : AnsiString read FName write FName;
-    property ParentFolder : LongInt read FParentFolder write FParentFolder;
-    property Attributes : LongInt read FAttributes write FAttributes;
-    property StartBlock : LongInt read FStartBlock write FStartBlock;
+    property ParentFolder : Integer read FParentFolder write FParentFolder;
+    property Attributes : Integer read FAttributes write FAttributes;
+    property StartBlock : Integer read FStartBlock write FStartBlock;
     property LastModified : TDateTime read FLastModified write FLastModified;
-    property Size : LongInt read FSize write FSize;
-    property CompressedSize : LongInt
+    property Size : Integer read FSize write FSize;
+    property CompressedSize : Integer
       read FCompressedSize write FCompressedSize;
     property IsFree : Boolean read GetIsFree;
     property EntryType : TrdEntryType read FEntryType write FEntryType;
@@ -1425,7 +1425,7 @@ var
 begin
   FName := JustFileName(FName);
   if ((FStream.Size + FileData.Size +
-      (4 * FSystemBlock.AllocationSize)) >= MaxLongInt) then
+      (4 * FSystemBlock.AllocationSize)) >= MaxInt) then
     raise ECompoundFileError.Create(AbCmpndExceedsMaxFileSize);
 
   if FSystemBlock.Updating then
@@ -1495,7 +1495,7 @@ function TAbCompoundFile.AddFolder(FName : AnsiString) : Boolean;
 var
   EntryCount : Integer;
 begin
-  if ((FStream.Size + FSystemBlock.AllocationSize) >= MaxLongInt) then
+  if ((FStream.Size + FSystemBlock.AllocationSize) >= MaxInt) then
     raise ECompoundFileError.Create(AbCmpndExceedsMaxFileSize);
 
   EntryCount := FRootDir.Count;
@@ -2049,7 +2049,7 @@ begin
     raise ECompoundFileError.Create(AbCmpndFileNotFound);
 
   if ((FStream.Size + FData.Size +
-      (4 * FSystemBlock.AllocationSize)) >= MaxLongInt) then
+      (4 * FSystemBlock.AllocationSize)) >= MaxInt) then
     raise ECompoundFileError.Create(AbCmpndExceedsMaxFileSize);
 
   if Assigned(FOnBeforeFileModified) then

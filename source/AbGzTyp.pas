@@ -83,7 +83,7 @@ type
                       { starting immediately after Comment.  Documented in}
                       { "algorithm.doc", but unsupported in gzip}
       { Bits 6..7 are undefined and reserved as of this writing (8/25/2009)}
-    ModTime    : LongInt; { File Modification (Creation) time,}
+    ModTime    : Integer; { File Modification (Creation) time,}
                           { UNIX cdate format}
     XtraFlags  : Byte;   { additional flags}
       { XtraFlags = 2  -- Deflate compressor used maximum compression algorithm}
@@ -93,7 +93,7 @@ type
   end;
 
   TAbGzTailRec = packed record
-    CRC32 : LongInt;  { crc for uncompressed data }
+    CRC32 : Integer;  { crc for uncompressed data }
     ISize : LongWord;  { size of uncompressed data }
   end;
 
@@ -193,8 +193,8 @@ type
 
   TAbGzipStreamHelper = class(TAbArchiveStreamHelper)
   private
-    function GetGzCRC: LongInt;
-    function GetFileSize: LongInt;
+    function GetGzCRC: Integer;
+    function GetFileSize: Integer;
   protected {private}
     FItem : TAbGzipItem;
     FTail : TAbGzTailRec;
@@ -214,11 +214,11 @@ type
     procedure ReadHeader; override;
     procedure ReadTail; override;
 
-    property CRC : LongInt
+    property CRC : Integer
       read GetGzCRC;
-    property FileSize : LongInt
+    property FileSize : Integer
       read GetFileSize;
-    property TailCRC : LongInt
+    property TailCRC : Integer
       read FTail.CRC32;
     property TailSize : LongWord
       read FTail.ISize;
@@ -484,7 +484,7 @@ const
   BuffSiz = 1024;
 var
   Buff   : TBytes;
-  Len, DataRead : LongInt;
+  Len, DataRead : Integer;
 begin
 { basically what this is supposed to do is...}
 {
@@ -605,12 +605,12 @@ begin
   FStream.Read(FTail, SizeOf(TAbGzTailRec));
 end;
 
-function TAbGzipStreamHelper.GetGzCRC: LongInt;
+function TAbGzipStreamHelper.GetGzCRC: Integer;
 begin
   Result := FItem.CRC32;
 end;
 
-function TAbGzipStreamHelper.GetFileSize: LongInt;
+function TAbGzipStreamHelper.GetFileSize: Integer;
 begin
   Result := FItem.UncompressedSize;
 end;
@@ -1244,7 +1244,7 @@ end;
 
 procedure TAbGzipArchive.TestItemAt(Index: Integer);
 var
-  SavePos   : LongInt;
+  SavePos   : Integer;
   GZType    : TAbArchiveType;
   BitBucket : TAbBitBucketStream;
   GZHelp    : TAbGzipStreamHelper;

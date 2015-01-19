@@ -40,9 +40,9 @@ uses
   Classes;
 
 type
-  PAbDfLongintList = ^TAbDfLongintList;
-  TAbDfLongintList =
-               array [0..pred(MaxInt div sizeof(longint))] of longint;
+  PAbDfIntegerList = ^TAbDfIntegerList;
+  TAbDfIntegerList =
+               array [0..pred(MaxInt div sizeof(Integer))] of Integer;
 
 const
   dfc_CodeLenCodeLength = 7;
@@ -99,41 +99,41 @@ type
 
   TAbDeflateHelper = class
     private
-      FAmpleLength    : longint;
-      FChainLength    : longint;
+      FAmpleLength    : Integer;
+      FChainLength    : Integer;
       FLogFile        : string;
-      FMaxLazy        : longint;
+      FMaxLazy        : Integer;
       FOnProgressStep : TAbProgressStep;
-      FOptions        : longint;
+      FOptions        : Integer;
       FPartSize       : Int64;
       FSizeCompressed : Int64;
       FSizeNormal     : Int64;
       FStreamSize     : Int64;
-      FWindowSize     : longint;
+      FWindowSize     : Integer;
       FZipOption      : Char;
     protected
-      procedure dhSetAmpleLength(aValue : longint);
-      procedure dhSetChainLength(aValue : longint);
+      procedure dhSetAmpleLength(aValue : Integer);
+      procedure dhSetChainLength(aValue : Integer);
       procedure dhSetLogFile(const aValue : string);
-      procedure dhSetMaxLazy(aValue : longint);
+      procedure dhSetMaxLazy(aValue : Integer);
       procedure dhSetOnProgressStep(aValue : TAbProgressStep);
-      procedure dhSetOptions(aValue : longint);
-      procedure dhSetWindowSize(aValue : longint);
+      procedure dhSetOptions(aValue : Integer);
+      procedure dhSetWindowSize(aValue : Integer);
       procedure dhSetZipOption(aValue : Char);
     public
       constructor Create;
 
       procedure Assign(aHelper : TAbDeflateHelper);
 
-      property AmpleLength : longint
+      property AmpleLength : Integer
                   read FAmpleLength write dhSetAmpleLength;
-      property ChainLength : longint
+      property ChainLength : Integer
                   read FChainLength write dhSetChainLength;
       property LogFile : string
                   read FLogFile write dhSetLogFile;
-      property MaxLazyLength : longint
+      property MaxLazyLength : Integer
                   read FMaxLazy write dhSetMaxLazy;
-      property Options : longint
+      property Options : Integer
                   read FOptions write dhSetOptions;
       property PartialSize : Int64
                   read FPartSize write FPartSize;
@@ -141,7 +141,7 @@ type
                   read FZipOption write dhSetZipOption;
       property StreamSize : Int64
                   read FStreamSize write FStreamSize;
-      property WindowSize : longint
+      property WindowSize : Integer
                   read FWindowSize write dhSetWindowSize;
 
       property CompressedSize : Int64
@@ -168,9 +168,9 @@ type
       constructor Create(const aLogName : string);
       destructor Destroy; override;
 
-      function Read(var Buffer; Count : longint) : longint; override;
+      function Read(var Buffer; Count : Integer) : Integer; override;
       function Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64; override;
-      function Write(const Buffer; Count : longint) : longint; override;
+      function Write(const Buffer; Count : Integer) : Integer; override;
       procedure WriteLine(const S : string);
       procedure WriteStr(const S : string);
 
@@ -221,9 +221,9 @@ type
 procedure AbortProgress;
 
 {---calculation of checksums---}
-procedure AbUpdateAdlerBuffer(var aAdler : longint;
+procedure AbUpdateAdlerBuffer(var aAdler : Integer;
                               var aBuffer; aCount : integer);
-procedure AbUpdateCRCBuffer(var aCRC : longint;
+procedure AbUpdateCRCBuffer(var aCRC : Integer;
                             var aBuffer; aCount : integer);
 
 
@@ -261,7 +261,7 @@ begin
   FZipOption := aHelper.FZipOption;
 end;
 {--------}
-procedure TAbDeflateHelper.dhSetAmpleLength(aValue : longint);
+procedure TAbDeflateHelper.dhSetAmpleLength(aValue : Integer);
 begin
   if (aValue <> AmpleLength) then begin
     if (aValue <> -1) and (aValue < 4) then
@@ -271,7 +271,7 @@ begin
   end;
 end;
 {--------}
-procedure TAbDeflateHelper.dhSetChainLength(aValue : longint);
+procedure TAbDeflateHelper.dhSetChainLength(aValue : Integer);
 begin
   if (aValue <> ChainLength) then begin
     if (aValue <> -1) and (aValue < 4) then
@@ -286,7 +286,7 @@ begin
   FLogFile := aValue;
 end;
 {--------}
-procedure TAbDeflateHelper.dhSetMaxLazy(aValue : longint);
+procedure TAbDeflateHelper.dhSetMaxLazy(aValue : Integer);
 begin
   if (aValue <> MaxLazyLength) then begin
     if (aValue <> -1) and (aValue < 4) then
@@ -301,7 +301,7 @@ begin
   FOnProgressStep := aValue;
 end;
 {--------}
-procedure TAbDeflateHelper.dhSetOptions(aValue : longint);
+procedure TAbDeflateHelper.dhSetOptions(aValue : Integer);
 begin
   if (aValue <> Options) then begin
     FOptions := aValue;
@@ -309,9 +309,9 @@ begin
   end;
 end;
 {--------}
-procedure TAbDeflateHelper.dhSetWindowSize(aValue : longint);
+procedure TAbDeflateHelper.dhSetWindowSize(aValue : Integer);
 var
-  NewValue : longint;
+  NewValue : Integer;
 begin
   if (aValue <> WindowSize) then begin
     {calculate the window size rounded to nearest 1024 bytes}
@@ -456,8 +456,8 @@ end;
 {--------}
 function TAbLogger.logWriteBuffer : boolean;
 var
-  BytesToWrite : longint;
-  BytesWritten : longint;
+  BytesToWrite : Integer;
+  BytesWritten : Integer;
 begin
   BytesToWrite := FCurPos - FBuffer;
   BytesWritten := FStream.Write(FBuffer^, BytesToWrite);
@@ -474,7 +474,7 @@ begin
   end;
 end;
 {--------}
-function TAbLogger.Read(var Buffer; Count : longint) : longint;
+function TAbLogger.Read(var Buffer; Count : Integer) : Integer;
 begin
   Assert(false, 'TAbLogger.Read: loggers are write-only, no reading allowed');
   Result := 0;
@@ -502,11 +502,11 @@ begin
   Result := 0;
 end;
 {--------}
-function TAbLogger.Write(const Buffer; Count : longint) : longint;
+function TAbLogger.Write(const Buffer; Count : Integer) : Integer;
 var
   UserBuf      : PByte;
-  BytesToGo    : longint;
-  BytesToWrite : longint;
+  BytesToGo    : Integer;
+  BytesToWrite : Integer;
 begin
   {reference the user's buffer as a PChar}
   UserBuf := @Buffer;
@@ -591,7 +591,7 @@ end;
 
 
 {===Calculate checksums==============================================}
-procedure AbUpdateAdlerBuffer(var aAdler : longint;
+procedure AbUpdateAdlerBuffer(var aAdler : Integer;
                               var aBuffer; aCount : integer);
 var
   S1 : LongWord;
@@ -646,10 +646,10 @@ begin
   end;
 
   {join the halves to produce the complete Adler checksum}
-  aAdler := longint((S2 shl 16) or S1);
+  aAdler := Integer((S2 shl 16) or S1);
 end;
 {--------}
-procedure AbUpdateCRCBuffer(var aCRC : longint;
+procedure AbUpdateCRCBuffer(var aCRC : Integer;
                             var aBuffer; aCount : integer);
 var
   i      : integer;

@@ -62,12 +62,12 @@ type
       FAdvanceStart : boolean;
       FBuffer       : PByte;
       FBufferEnd    : PByte;
-      FBytesUsed    : longint;
+      FBytesUsed    : Integer;
       FChainLen     : integer;
       FHashChains   : PAbPointerList;
       FHashHeads    : PAbPointerList;
       FHashIndex    : integer;
-      FChecksum     : longint;
+      FChecksum     : Integer;
       FCurrent      : PByte;
       FLookAheadEnd : PByte;
       FMaxMatchLen  : integer;
@@ -75,7 +75,7 @@ type
       FOnProgress   : TAbProgressStep;
       FSlidePoint   : PByte;
       FStart        : PByte;
-      FStartOffset  : longint;
+      FStartOffset  : Integer;
       FStream       : TStream;
       FStreamSize   : Int64;
       FUseCRC32     : boolean;
@@ -83,9 +83,9 @@ type
       FWinMask      : integer;
       FWinSize      : integer;
     protected
-      function iwGetChecksum : longint;
+      function iwGetChecksum : Integer;
       procedure iwReadFromStream;
-      procedure iwSetCapacity(aValue : longint);
+      procedure iwSetCapacity(aValue : Integer);
       procedure iwSlide;
     public
       constructor Create(aStream       : TStream;
@@ -104,12 +104,12 @@ type
                           const aPrevMatch   : TAbDfMatch) : boolean;
       function GetNextChar : Byte;
       function GetNextKeyLength : integer;
-      function Position : longint;
-      procedure ReadBuffer(var aBuffer; aCount  : longint;
+      function Position : Integer;
+      procedure ReadBuffer(var aBuffer; aCount  : Integer;
                                         aOffset : Int64);
 
       property ChainLen : integer read FChainLen write FChainLen;
-      property Checksum : longint read iwGetChecksum;
+      property Checksum : Integer read iwGetChecksum;
       property OnProgress : TAbProgressStep
                   read FOnProgress write FOnProgress;
   end;
@@ -207,8 +207,8 @@ begin
 
   {if there are at least two bytes, prime the hash index}
   if ((FLookAheadEnd - FBuffer) >= 2) then 
-    FHashIndex := ((longint(FBuffer[0]) shl c_HashShift) xor
-                   longint(FBuffer[1])) and
+    FHashIndex := ((Integer(FBuffer[0]) shl c_HashShift) xor
+                   Integer(FBuffer[1])) and
                   c_HashMask;
 end;
 {--------}
@@ -259,9 +259,9 @@ begin
   {update the hash table}
   for i := 0 to pred(aHashCount) do begin
     HashInx :=
-       ((HashInx shl c_HashShift) xor longint(CurPos[2])) and
+       ((HashInx shl c_HashShift) xor Integer(CurPos[2])) and
        c_HashMask;
-    HashChains^[longint(CurPos) and FWinMask] :=
+    HashChains^[Integer(CurPos) and FWinMask] :=
        HashHeads^[HashInx];
     HashHeads^[HashInx] := CurPos;
     inc(CurPos);
@@ -367,11 +367,11 @@ function TAbDfInputWindow.FindLongestMatch(aAmpleLength : integer;
   {$ENDIF}
 {$ENDIF}
 type
-  PLongint = ^longint;
+  PInteger = ^Integer;
   PWord    = ^word;
 var
-  MaxLen     : longint;
-  MaxDist    : longint;
+  MaxLen     : Integer;
+  MaxDist    : Integer;
   MaxMatch   : integer;
   ChainLen   : integer;
   PrevStrPos : PByte;
@@ -381,7 +381,7 @@ var
   MaxWord    : word;
   {$ENDIF}
   {$IFDEF UseGreedyPascal}
-  Len        : longint;
+  Len        : Integer;
   MatchStr   : PByte;
   CurrentCh  : PByte;
   CurCh      : Byte;
@@ -394,7 +394,7 @@ begin
    just gained}
   CurPos := FCurrent;
   FHashIndex :=
-     ((FHashIndex shl c_HashShift) xor longint(CurPos[2])) and
+     ((FHashIndex shl c_HashShift) xor Integer(CurPos[2])) and
      c_HashMask;
 
   {get the head of the hash chain: this is the position in the sliding
@@ -406,7 +406,7 @@ begin
 
   {update the chain itself: set the entry for this position equal to
    the previous string position}
-  FHashChains^[longint(CurPos) and FWinMask] := PrevStrPos;
+  FHashChains^[Integer(CurPos) and FWinMask] := PrevStrPos;
 
   {calculate the maximum match we could do at this position}
   MaxMatch := (FLookAheadEnd - CurPos);
@@ -602,7 +602,7 @@ begin
       Break;
 
     {otherwise move onto the next position}
-    PrevStrPos := FHashChains^[longint(PrevStrPos) and FWinMask];
+    PrevStrPos := FHashChains^[Integer(PrevStrPos) and FWinMask];
   end;
   {$ENDIF}
 
@@ -633,7 +633,7 @@ begin
     Result := 3;
 end;
 {--------}
-function TAbDfInputWindow.iwGetChecksum : longint;
+function TAbDfInputWindow.iwGetChecksum : Integer;
 begin
   {the CRC32 checksum algorithm requires a post-conditioning step
    after being calculated (the result is NOTted), whereas Adler32 does
@@ -646,8 +646,8 @@ end;
 {--------}
 procedure TAbDfInputWindow.iwReadFromStream;
 var
-  BytesRead   : longint;
-  BytesToRead : longint;
+  BytesRead   : Integer;
+  BytesToRead : Integer;
 begin
   {read some more data into the look ahead zone}
   BytesToRead := FBufferEnd - FLookAheadEnd;
@@ -672,7 +672,7 @@ begin
   end;
 end;
 {--------}
-procedure TAbDfInputWindow.iwSetCapacity(aValue : longint);
+procedure TAbDfInputWindow.iwSetCapacity(aValue : Integer);
 var
   ActualSize : integer;
 begin
@@ -701,12 +701,12 @@ end;
 {--------}
 procedure TAbDfInputWindow.iwSlide;
 type
-  PLongint = ^longint;
+  PInteger = ^Integer;
 var
   i : integer;
   ByteCount : integer;
-  Buffer    : longint;
-  ListItem  : PLongint;
+  Buffer    : Integer;
+  ListItem  : PInteger;
 begin
   {move current valid data back to the start of the buffer}
   ByteCount := FLookAheadEnd - FStart;
@@ -719,8 +719,8 @@ begin
   dec(FLookAheadEnd, ByteCount);
 
   {patch up the hash table: the head pointers}
-  Buffer := longint(FBuffer);
-  ListItem := PLongint(@FHashHeads^[0]);
+  Buffer := Integer(FBuffer);
+  ListItem := PInteger(@FHashHeads^[0]);
   for i := 0 to pred(c_HashCount) do begin
     dec(ListItem^, ByteCount);
     if (ListItem^ < Buffer) then
@@ -729,7 +729,7 @@ begin
   end;
 
   {..the chain pointers}
-  ListItem  := PLongint(@FHashChains^[0]);
+  ListItem  := PInteger(@FHashChains^[0]);
   for i := 0 to pred(FWinSize) do begin
     dec(ListItem^, ByteCount);
     if (ListItem^ < Buffer) then
@@ -741,12 +741,12 @@ begin
   iwReadFromStream;
 end;
 {--------}
-function TAbDfInputWindow.Position : longint;
+function TAbDfInputWindow.Position : Integer;
 begin
   Result := (FCurrent - FStart) + FStartOffset;
 end;
 {--------}
-procedure TAbDfInputWindow.ReadBuffer(var aBuffer; aCount  : longint;
+procedure TAbDfInputWindow.ReadBuffer(var aBuffer; aCount  : Integer;
                                                    aOffset : Int64);
 var
   CurPos : Int64;              

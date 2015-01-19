@@ -239,12 +239,12 @@ type
   procedure AbUnfixName( var FName : string );
     {-changes forward slashes to backslashes}
 
-  procedure AbUpdateCRC( var CRC : LongInt; const Buffer; Len : Integer );
+  procedure AbUpdateCRC( var CRC : Integer; const Buffer; Len : Integer );
 
-  function AbUpdateCRC32(CurByte : Byte; CurCrc : LongInt) : LongInt;
+  function AbUpdateCRC32(CurByte : Byte; CurCrc : Integer) : Integer;
     {-Returns an updated crc32}
 
-  function AbCRC32Of(const aValue : TBytes): LongInt;
+  function AbCRC32Of(const aValue : TBytes): Integer;
 
 
   function AbWriteVolumeLabel(const VolName : string;
@@ -270,13 +270,13 @@ type
 
   function AbFileGetAttrEx(const aFileName: string; out aAttr: TAbAttrExRec) : Boolean;
 
-  function AbSwapLongEndianness(Value : LongInt): LongInt;
+  function AbSwapLongEndianness(Value : Integer): Integer;
 
 
 { date and time stuff }
 const
-  Date1900 {: LongInt} = $0001AC05;  {Julian day count for 01/01/1900 -- TDateTime Start Date}
-  Date1970 {: LongInt} = $00020FE4;  {Julian day count for 01/01/1970 -- Unix Start Date}
+  Date1900 {: Integer} = $0001AC05;  {Julian day count for 01/01/1900 -- TDateTime Start Date}
+  Date1970 {: Integer} = $00020FE4;  {Julian day count for 01/01/1970 -- Unix Start Date}
   Unix0Date: TDateTime = 25569;      {Date1970 - Date1900}
 
   SecondsInDay    = 86400;  {Number of seconds in a day}
@@ -287,18 +287,18 @@ const
   MinutesInDay    =  1440;  {Number of minutes in a day}
 
 
-  function AbUnixTimeToLocalDateTime(UnixTime : LongInt) : TDateTime;
-  function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : LongInt;
+  function AbUnixTimeToLocalDateTime(UnixTime : Integer) : TDateTime;
+  function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : Integer;
 
   function AbDosFileDateToDateTime(FileDate, FileTime : Word) : TDateTime;
-  function AbDateTimeToDosFileDate(Value : TDateTime) : LongInt;
+  function AbDateTimeToDosFileDate(Value : TDateTime) : Integer;
 
   function AbGetFileTime(const aFileName: string): TDateTime;
   function AbSetFileTime(const aFileName: string; aValue: TDateTime): Boolean;
 
 { file attributes }
-  function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
-  function AbUnix2DosFileAttributes(Attr: LongInt): LongInt;
+  function AbDOS2UnixFileAttributes(Attr: Integer): Integer;
+  function AbUnix2DosFileAttributes(Attr: Integer): Integer;
 
 { UNIX File Types and Permissions }
 const
@@ -892,7 +892,7 @@ begin
       FName[i] := AbPathDelim;
 end;
 { -------------------------------------------------------------------------- }
-procedure AbUpdateCRC( var CRC : LongInt; const Buffer; Len : Integer );
+procedure AbUpdateCRC( var CRC : Integer; const Buffer; Len : Integer );
 var
   BufPtr : PByte;
   i : Integer;
@@ -909,16 +909,16 @@ begin
   CRC := CRCTemp;
 end;
 { -------------------------------------------------------------------------- }
-function AbUpdateCRC32(CurByte : Byte; CurCrc : LongInt) : LongInt;
+function AbUpdateCRC32(CurByte : Byte; CurCrc : Integer) : Integer;
 { Return the updated 32bit CRC }
 { Normally a good candidate for basm, but Delphi32's code
     generation couldn't be beat on this one!}
 begin
-  Result := DWORD(AbCrc32Table[ Byte(CurCrc xor LongInt( CurByte ) ) ] xor
+  Result := DWORD(AbCrc32Table[ Byte(CurCrc xor Integer( CurByte ) ) ] xor
             ((CurCrc shr 8) and DWORD($00FFFFFF)));
 end;
 { -------------------------------------------------------------------------- }
-function AbCRC32Of(const aValue: TBytes) : LongInt;
+function AbCRC32Of(const aValue: TBytes) : Integer;
 begin
   Result := -1;
   AbUpdateCRC(Result, aValue[0], Length(aValue));
@@ -950,7 +950,7 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 {$IFDEF MSWINDOWS}
-function AbOffsetFromUTC: LongInt;
+function AbOffsetFromUTC: Integer;
 { local timezone's offset from UTC in seconds (UTC = local + bias) }
 var
 	TZI: TTimeZoneInformation;
@@ -969,12 +969,12 @@ Result := Result * SecondsInMinute;
 end;
 {$ENDIF}
 { -------------------------------------------------------------------------- }
-function AbUnixTimeToLocalDateTime(UnixTime : LongInt) : TDateTime;
+function AbUnixTimeToLocalDateTime(UnixTime : Integer) : TDateTime;
 { convert UTC unix date to Delphi TDateTime in local timezone }
 {$IFDEF MSWINDOWS}
 var
   Hrs, Mins, Secs : Word;
-  TodaysSecs : LongInt;
+  TodaysSecs : Integer;
   Time: TDateTime;
 begin
   UnixTime := UnixTime - AbOffsetFromUTC;
@@ -996,7 +996,7 @@ begin
 end;
 
 { -------------------------------------------------------------------------- }
-function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : LongInt;
+function AbLocalDateTimeToUnixTime(DateTime : TDateTime) : Integer;
 { convert local Delphi TDateTime to UTC unix date }
 {$IFDEF MSWINDOWS}
 var
@@ -1023,7 +1023,7 @@ end;
 function AbDosFileDateToDateTime(FileDate, FileTime : Word) : TDateTime;
 {$IFDEF MSWINDOWS}
 var
-  Temp : LongInt;
+  Temp : Integer;
 begin
   LongRec(Temp).Lo := FileTime;
   LongRec(Temp).Hi := FileDate;
@@ -1060,7 +1060,7 @@ begin
 {$ENDIF UNIX}
 end;
 
-function AbDateTimeToDosFileDate(Value : TDateTime) : LongInt;
+function AbDateTimeToDosFileDate(Value : TDateTime) : Integer;
 {$IFDEF MSWINDOWS}
 begin
   Result := DateTimeToFileDate(Value);
@@ -1101,7 +1101,7 @@ begin
 end;
 
 { -------------------------------------------------------------------------- }
-function AbSwapLongEndianness(Value : LongInt): LongInt;
+function AbSwapLongEndianness(Value : Integer): Integer;
 { convert BigEndian <-> LittleEndian 32-bit value }
 type
   TCastArray = array [0..3] of Byte;
@@ -1112,7 +1112,7 @@ begin
     TCastArray(Result)[3-i] := TCastArray(Value)[i];
 end;
 { -------------------------------------------------------------------------- }
-function AbDOS2UnixFileAttributes(Attr: LongInt): LongInt;
+function AbDOS2UnixFileAttributes(Attr: Integer): Integer;
 begin
   {$WARN SYMBOL_PLATFORM OFF}
   Result := { default permissions }
@@ -1131,7 +1131,7 @@ begin
   {$WARN SYMBOL_PLATFORM ON}
 end;
 { -------------------------------------------------------------------------- }
-function AbUnix2DosFileAttributes(Attr: LongInt): LongInt;
+function AbUnix2DosFileAttributes(Attr: Integer): Integer;
 begin
   {$WARN SYMBOL_PLATFORM OFF}
   Result := 0;

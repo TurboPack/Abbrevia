@@ -165,14 +165,14 @@ type
   end;
 
 type
-  ELzmaFinishMode = LongInt;
+  ELzmaFinishMode = Integer;
 
 const
   LZMA_FINISH_ANY = 0; // finish at any point
   LZMA_FINISH_END = 1; // block must be finished at the end
 
 type
-  ELzmaStatus = LongInt;
+  ELzmaStatus = Integer;
 
 const
   LZMA_STATUS_NOT_SPECIFIED = 0;               // use main error code instead
