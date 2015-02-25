@@ -1,4 +1,4 @@
-TurboPower Abbrevia
+TurboPack Abbrevia
 
 
 Table of contents
@@ -21,7 +21,7 @@ provides Delphi wrappers for the LZMA, Bzip2, and WavPack SDKs, and PPMd decompr
 Abbrevia also has several visual controls that simplify displaying and manipulating 
 archives, including treeview and listview components.
 
-This is a source-only release of TurboPower Abbrevia. It includes
+This is a source-only release of TurboPack Abbrevia. It includes
 designtime and runtime packages for Delphi and CBuilder and supports 
 Win32, Win64, OSX, iOS and Android.
 
@@ -30,7 +30,7 @@ Win32, Win64, OSX, iOS and Android.
 2. Package names
 
 
-TurboPower Abbrevia package names have the following form:
+TurboPack Abbrevia package names have the following form:
 
 AbbreviaD.bpl          (Delphi Runtime for all platforms)
 AbbreviaVCLD.bpl       (Delphi Runtime for the VCL)
@@ -46,7 +46,7 @@ AbbreviaVCLCDesign.bpl (C++Builder Designtime VCL)
 3. Installation
 
 
-To install TurboPower Abbrevia into your IDE, take the following
+To install TurboPack Abbrevia into your IDE, take the following
 steps:
 
   1. Unzip the release files into a directory (e.g., d:\abbrevia).
