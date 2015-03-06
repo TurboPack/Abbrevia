@@ -50,7 +50,7 @@ package AbbreviaVCLDDesign;
 {$IMAGEBASE $400000}
 {$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Abbrevia Designtime Delphi package'}
+{$DESCRIPTION 'TurboPack Abbrevia Designtime Delphi package'}
 {$DESIGNONLY}
 {$IMPLICITBUILD OFF}
 

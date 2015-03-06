@@ -50,7 +50,7 @@ package AbbreviaVCLD;
 {$IMAGEBASE $400000}
 {$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Abbrevia Runtime Delphi package VCL'}
+{$DESCRIPTION 'TurboPack Abbrevia Runtime Delphi package VCL'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
 

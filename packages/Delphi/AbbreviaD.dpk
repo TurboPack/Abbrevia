@@ -50,7 +50,7 @@ package AbbreviaD;
 {$IMAGEBASE $400000}
 {$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Abbrevia Runtime Delphi package'}
+{$DESCRIPTION 'TurboPack Abbrevia Runtime Delphi package'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
 
