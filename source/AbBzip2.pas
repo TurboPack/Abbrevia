@@ -123,8 +123,8 @@ type
   public
     constructor Create(BlockSize100k: TBlockSize100k; Dest: TStream);
     destructor Destroy; override;
-    function Read(var Buffer; Count: Integer): Integer; override;
-    function Write(const Buffer; Count: Integer): Integer; override;
+    function Read(var Buffer; Count: Longint): Longint; override;
+    function Write(const Buffer; Count: Longint): Longint; override;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
     property CompressionRate: Single read GetCompressionRate;
     property OnProgress;
@@ -152,8 +152,8 @@ type
   public
     constructor Create(Source: TStream);
     destructor Destroy; override;
-    function Read(var Buffer; Count: Integer): Integer; override;
-    function Write(const Buffer; Count: Integer): Integer; override;
+    function Read(var Buffer; Count: Longint): Longint; override;
+    function Write(const Buffer; Count: Longint): Longint; override;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
     property OnProgress;
   end;
@@ -637,12 +637,12 @@ begin
   inherited Destroy;
 end;
 
-function TBZCompressionStream.Read(var Buffer; Count: Integer): Integer;
+function TBZCompressionStream.Read(var Buffer; Count: Longint): Longint;
 begin
   raise EBZCompressionError.Create('Invalid stream operation');
 end; { TBZCompressionStream }
 
-function TBZCompressionStream.Write(const Buffer; Count: Integer): Integer;
+function TBZCompressionStream.Write(const Buffer; Count: Longint): Longint;
 begin
   FBZRec.next_in := @Buffer;
   FBZRec.avail_in := Count;
@@ -709,7 +709,7 @@ begin
   inherited Destroy;
 end;
 
-function TBZDecompressionStream.Read(var Buffer; Count: Integer): Integer;
+function TBZDecompressionStream.Read(var Buffer; Count: Longint): Longint;
 begin
   FBZRec.next_out := @Buffer;
   FBZRec.avail_out := Count;
@@ -733,7 +733,7 @@ begin
   Result := Count;
 end; { TBZDecompressionStream }
 
-function TBZDecompressionStream.Write(const Buffer; Count: Integer): Integer;
+function TBZDecompressionStream.Write(const Buffer; Count: Longint): Longint;
 begin
   raise EBZDecompressionError.Create('Invalid stream operation');
 end; { TBZDecompressionStream }

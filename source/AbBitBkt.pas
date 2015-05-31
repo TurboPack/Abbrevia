@@ -52,8 +52,8 @@ type
     public
       constructor Create(aBufSize : cardinal);
       destructor Destroy; override;
-      function Read(var Buffer; Count : Integer) : Integer; override;
-      function Write(const Buffer; Count : Integer) : Integer; override;
+      function Read(var Buffer; Count : Longint) : Longint; override;
+      function Write(const Buffer; Count : Longint) : Longint; override;
       function Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64; override;
 
       procedure ForceSize(aSize : Int64);
@@ -106,7 +106,7 @@ begin
   FSize := aSize;
 end;
 {--------}
-function TAbBitBucketStream.Read(var Buffer; Count : Integer) : Integer;
+function TAbBitBucketStream.Read(var Buffer; Count : Longint) : Longint;
 var
   Chunk2Size : Integer;
   Chunk1Size : Integer;
@@ -153,7 +153,7 @@ begin
   Result := Count;
 end;
 {--------}
-function TAbBitBucketStream.Write(const Buffer; Count : Integer) : Integer;
+function TAbBitBucketStream.Write(const Buffer; Count : Longint) : Longint;
 var
   Chunk2Size : Integer;
   Chunk1Size : Integer;

@@ -400,7 +400,7 @@ begin
         GHlp.SeekToItemData;
         Hlpr := TAbDeflateHelper.Create;
         Hlpr.PartialSize := 512;
-        PartialTarData.SetSize(512 * 2);
+        PartialTarData.SetSize(Longint(512 * 2));
         Inflate(Strm, PartialTarData, Hlpr);
 
         {set to beginning of extracted data}

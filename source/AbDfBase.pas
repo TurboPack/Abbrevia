@@ -168,9 +168,9 @@ type
       constructor Create(const aLogName : string);
       destructor Destroy; override;
 
-      function Read(var Buffer; Count : Integer) : Integer; override;
+      function Read(var Buffer; Count : Longint) : Longint; override;
       function Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64; override;
-      function Write(const Buffer; Count : Integer) : Integer; override;
+      function Write(const Buffer; Count : Longint) : Longint; override;
       procedure WriteLine(const S : string);
       procedure WriteStr(const S : string);
 
@@ -474,7 +474,7 @@ begin
   end;
 end;
 {--------}
-function TAbLogger.Read(var Buffer; Count : Integer) : Integer;
+function TAbLogger.Read(var Buffer; Count : Longint) : Longint;
 begin
   Assert(false, 'TAbLogger.Read: loggers are write-only, no reading allowed');
   Result := 0;
@@ -502,7 +502,7 @@ begin
   Result := 0;
 end;
 {--------}
-function TAbLogger.Write(const Buffer; Count : Integer) : Integer;
+function TAbLogger.Write(const Buffer; Count : Longint) : Longint;
 var
   UserBuf      : PByte;
   BytesToGo    : Integer;

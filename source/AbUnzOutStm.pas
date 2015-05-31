@@ -52,8 +52,8 @@ type
   public
     constructor Create(aStream: TStream; aStreamSize: Int64);
 
-    function Read(var Buffer; Count: Integer): Integer; override;
-    function Write(const Buffer; Count: Integer): Integer; override;
+    function Read(var Buffer; Count: Longint): Longint; override;
+    function Write(const Buffer; Count: Longint): Longint; override;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
   end;
 
@@ -73,8 +73,8 @@ type
   public
     constructor Create(aStream : TStream);
 
-    function Read(var Buffer; Count: Integer): Integer; override;
-    function Write(const Buffer; Count: Integer): Integer; override;
+    function Read(var Buffer; Count: Longint): Longint; override;
+    function Write(const Buffer; Count: Longint): Longint; override;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;
 
     property CRC32 : Integer
@@ -108,7 +108,7 @@ begin
   FEndPos := FStartPos + aStreamSize;
 end;
 { -------------------------------------------------------------------------- }
-function TAbUnzipSubsetStream.Read(var Buffer; Count: Integer): Integer;
+function TAbUnzipSubsetStream.Read(var Buffer; Count: Longint): Longint;
 begin
   if Count > FEndPos - FCurPos then
     Count := FEndPos - FCurPos;
@@ -120,7 +120,7 @@ begin
     Result := 0;
 end;
 { -------------------------------------------------------------------------- }
-function TAbUnzipSubsetStream.Write(const Buffer; Count: Integer): Integer;
+function TAbUnzipSubsetStream.Write(const Buffer; Count: Longint): Longint;
 begin
   raise EAbException.Create('TAbUnzipSubsetStream.Write not supported');
 end;
@@ -156,12 +156,12 @@ begin
   FCRC32 := -1;
 end;
 { -------------------------------------------------------------------------- }
-function TAbUnzipOutputStream.Read(var Buffer; Count: Integer): Integer;
+function TAbUnzipOutputStream.Read(var Buffer; Count: Longint): Longint;
 begin
   raise EAbException.Create('TAbUnzipOutputStream.Read not supported');
 end;
 { -------------------------------------------------------------------------- }
-function TAbUnzipOutputStream.Write(const Buffer; Count: Integer): Integer;
+function TAbUnzipOutputStream.Write(const Buffer; Count: Longint): Longint;
 var
   Abort : Boolean;
   NewProgress : Byte;

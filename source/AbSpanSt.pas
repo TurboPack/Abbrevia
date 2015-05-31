@@ -82,9 +82,9 @@ type
       Stream: TStream );
     destructor Destroy;
       override;
-    function Read(var Buffer; Count: Integer): Integer;
+    function Read(var Buffer; Count: Longint): Longint;
       override;
-    function Write(const Buffer; Count: Integer): Integer;
+    function Write(const Buffer; Count: Longint): Longint;
       override;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
       override;
@@ -116,9 +116,9 @@ type
       Threshold: Int64 );
     destructor Destroy;
       override;
-    function Read(var Buffer; Count: Integer): Integer;
+    function Read(var Buffer; Count: Longint): Longint;
       override;
-    function Write(const Buffer; Count: Integer): Integer;
+    function Write(const Buffer; Count: Longint): Longint;
       override;
     function WriteUnspanned(const Buffer; Count: Integer;
       FailOnSpan: Boolean = False): Boolean;
@@ -221,7 +221,7 @@ begin
   FStream := TFileStream.Create(ImageName, fmOpenRead or fmShareDenyWrite);
 end;
 {------------------------------------------------------------------------------}
-function TAbSpanReadStream.Read(var Buffer; Count: Integer): Integer;
+function TAbSpanReadStream.Read(var Buffer; Count: Longint): Longint;
 var
   BytesRead, BytesLeft: Integer;
   PBuf: PByte;
@@ -246,7 +246,7 @@ begin
   end;
 end;
 {------------------------------------------------------------------------------}
-function TAbSpanReadStream.Write(const Buffer; Count: Integer): Integer;
+function TAbSpanReadStream.Write(const Buffer; Count: Longint): Longint;
 begin
   raise EAbException.Create('TAbSpanReadStream.Write unsupported');
 end;
@@ -320,12 +320,12 @@ begin
   FImageSize := 0;
 end;
 {------------------------------------------------------------------------------}
-function TAbSpanWriteStream.Read(var Buffer; Count: Integer): Integer;
+function TAbSpanWriteStream.Read(var Buffer; Count: Longint): Longint;
 begin
   raise EAbException.Create('TAbSpanWriteStream.Read unsupported');
 end;
 {------------------------------------------------------------------------------}
-function TAbSpanWriteStream.Write(const Buffer; Count: Integer): Integer;
+function TAbSpanWriteStream.Write(const Buffer; Count: Longint): Longint;
 var
   BytesWritten, BytesLeft: Integer;
   PBuf: PByte;

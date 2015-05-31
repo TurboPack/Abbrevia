@@ -78,9 +78,9 @@ type
 
       function IsValid : boolean;
 
-      function Read(var aBuffer; aCount : Integer) : Integer; override;
-      function Seek(aOffset : Integer; aOrigin : word) : Integer; override;
-      function Write(const aBuffer; aCount : Integer) : Integer; override;
+      function Read(var aBuffer; aCount : Longint) : Longint; override;
+      function Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64; override;
+      function Write(const aBuffer; aCount : Longint) : Longint; override;
 
       property OwnsStream : Boolean
         read FOwnsStream
@@ -120,9 +120,9 @@ type
                    const aPassphrase : string);
       destructor Destroy; override;
 
-      function Read(var aBuffer; aCount : Integer) : Integer; override;
-      function Seek(aOffset : Integer; aOrigin : word) : Integer; override;
-      function Write(const aBuffer; aCount : Integer) : Integer; override;
+      function Read(var aBuffer; aCount : Longint) : Longint; override;
+      function Seek(aOffset : Longint; aOrigin : word) : Longint; override;
+      function Write(const aBuffer; aCount : Longint) : Longint; override;
   end;
 
 implementation
@@ -342,7 +342,7 @@ begin
     FReady := true;
 end;
 {--------}
-function TAbDfDecryptStream.Read(var aBuffer; aCount : Integer) : Integer;
+function TAbDfDecryptStream.Read(var aBuffer; aCount : Longint) : Longint;
 begin
   {check for programming error}
   Assert(FReady,
@@ -355,12 +355,12 @@ begin
   FEngine.DecodeBuffer(aBuffer, Result);
 end;
 {--------}
-function TAbDfDecryptStream.Seek(aOffset : Integer; aOrigin : word) : Integer;
+function TAbDfDecryptStream.Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64;
 begin
-  Result := FStream.Seek(aOffset, aOrigin);
+  Result := FStream.Seek(Offset, Origin);
 end;
 {--------}
-function TAbDfDecryptStream.Write(const aBuffer; aCount : Integer) : Integer;
+function TAbDfDecryptStream.Write(const aBuffer; aCount : Longint) : Longint;
 begin
   {check for programming error}
   Assert(false,
@@ -594,7 +594,7 @@ begin
   inherited Destroy;
 end;
 {--------}
-function TAbDfEncryptStream.Read(var aBuffer; aCount : Integer) : Integer;
+function TAbDfEncryptStream.Read(var aBuffer; aCount : Longint) : Longint;
 begin
   {check for programming error}
   Assert(false,
@@ -602,12 +602,12 @@ begin
   Result := 0;
 end;
 {--------}
-function TAbDfEncryptStream.Seek(aOffset : Integer; aOrigin : word) : Integer;
+function TAbDfEncryptStream.Seek(aOffset : Longint; aOrigin : word) : Longint;
 begin
   Result := FStream.Seek(aOffset, aOrigin);
 end;
 {--------}
-function TAbDfEncryptStream.Write(const aBuffer; aCount : Integer) : Integer;
+function TAbDfEncryptStream.Write(const aBuffer; aCount : Longint) : Longint;
 begin
   {note: since we cannot alter a const parameter, we should copy the
          data to our own buffer, encrypt it and then write it}

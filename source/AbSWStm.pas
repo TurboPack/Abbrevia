@@ -96,11 +96,11 @@ type
                  
       procedure Flush;
         {-ensures that all dirty buffered data is flushed}
-      function Read(var Buffer; Count : Integer) : Integer; override;
+      function Read(var Buffer; Count : Longint) : Longint; override;
         {-read from the stream into a buffer}
-      function Seek(Offset : Integer; Origin : Word) : Integer; override;
+      function Seek(Offset : Longint; Origin : Word) : Longint; override;
         {-seek to a particular point in the stream}
-      function Write(const Buffer; Count : Integer) : Integer; override;
+      function Write(const Buffer; Count : Longint) : Longint; override;
         {-write to the stream from a buffer}
   end;           
                  
@@ -190,7 +190,7 @@ procedure TabSlidingWindowStream.bsWriteChunk(aIndex : integer);
 var              
   SeekResult : Integer;
   BytesWrit  : Integer;
-  Offset     : Integer;
+  Offset     : Longint;
   BytesToWrite : integer;
 begin            
   Offset := bsBufferStart + (Integer(aIndex) * ChunkSize);
@@ -219,7 +219,7 @@ begin
   end;           
 end;             
 {--------}       
-function TabSlidingWindowStream.Read(var Buffer; Count : Integer) : Integer;
+function TabSlidingWindowStream.Read(var Buffer; Count : Longint) : Longint;
 var              
   BufPtr      : PByte;
   BytesToGo   : Integer;
@@ -284,8 +284,8 @@ begin
   inc(bsPosInChunk, BytesToRead);
 end;             
 {--------}       
-function TabSlidingWindowStream.Seek(Offset : Integer;
-                                     Origin : Word) : Integer;
+function TabSlidingWindowStream.Seek(Offset : Longint;
+                                     Origin : Word) : Longint;
 {$IFDEF DebugTrace}
 const            
   OriginStr : array [0..2] of string[7] = ('start', 'current', 'end');
@@ -316,7 +316,7 @@ begin
   Result := NewPos;
 end;             
 {--------}       
-function TabSlidingWindowStream.Write(const Buffer; Count : Integer) : Integer;
+function TabSlidingWindowStream.Write(const Buffer; Count : Longint) : Longint;
 var              
   BufPtr      : PByte;
   BytesToGo   : Integer;

@@ -84,9 +84,9 @@ type
       destructor Destroy; override;
         {-destroy the virtual memory stream}
 
-      function Read(var Buffer; Count : Integer) : Integer; override;
+      function Read(var Buffer; Count : Longint) : Longint; override;
         {-read from the stream into a buffer}
-      function Write(const Buffer; Count : Integer) : Integer; override;
+      function Write(const Buffer; Count : Longint) : Longint; override;
         {-write to the stream from a buffer}
       function Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64; override;
         {-seek to a particular point in the stream}
@@ -153,7 +153,7 @@ begin
   inherited Destroy;
 end;
 {--------}
-function TAbVirtualMemoryStream.Read(var Buffer; Count : Integer) : Integer;
+function TAbVirtualMemoryStream.Read(var Buffer; Count : Longint) : Longint;
 var
   BufPtr      : PByte;
   Page        : PvmsPage;
@@ -486,7 +486,7 @@ begin
     vmsSwapFileSize := NewPos;
 end;
 {--------}
-function TAbVirtualMemoryStream.Write(const Buffer; Count : Integer) : Integer;
+function TAbVirtualMemoryStream.Write(const Buffer; Count : Longint) : Longint;
 var
   BufPtr      : PByte;
   Page        : PvmsPage;
