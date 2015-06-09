@@ -21,16 +21,17 @@
  *
  * Contributor(s):
  *
+ * Roman Kassebaum
+ *
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbPePass.pas                                *}
+{* ABBREVIA: Vcl.AbPePass.pas                            *}
 {*********************************************************}
 {* ABBREVIA: Password property editor                    *}
-{*   Use AbQPePas.pas for CLX                            *}
 {*********************************************************}
 
-unit AbPePass;
+unit Vcl.AbPePass;
 
 {$I AbDefine.inc}
 
@@ -52,16 +53,14 @@ uses
 type
   TAbPasswordProperty = class( TStringProperty )
   public
-    function GetAttributes: TPropertyAttributes;
-             override;
-    procedure Edit;
-              override;
+    function GetAttributes: TPropertyAttributes; override;
+    procedure Edit; override;
   end;
 
 implementation
 
 uses
-  AbDlgPwd;
+  Vcl.AbDlgPwd;
 
 function TAbPasswordProperty.GetAttributes: TPropertyAttributes;
 begin

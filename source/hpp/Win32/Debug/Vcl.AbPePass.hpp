@@ -2,10 +2,10 @@
 // Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbPeDir.pas' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'Vcl.AbPePass.pas' rev: 29.00 (Windows)
 
-#ifndef AbpedirHPP
-#define AbpedirHPP
+#ifndef Vcl_AbpepassHPP
+#define Vcl_AbpepassHPP
 
 #pragma delphiheader begin
 #pragma option push
@@ -28,13 +28,15 @@
 
 //-- user supplied -----------------------------------------------------------
 
-namespace Abpedir
+namespace Vcl
+{
+namespace Abpepass
 {
 //-- forward type declarations -----------------------------------------------
-class DELPHICLASS TAbDirectoryProperty;
+class DELPHICLASS TAbPasswordProperty;
 //-- type declarations -------------------------------------------------------
 #pragma pack(push,4)
-class PASCALIMPLEMENTATION TAbDirectoryProperty : public Designeditors::TStringProperty
+class PASCALIMPLEMENTATION TAbPasswordProperty : public Designeditors::TStringProperty
 {
 	typedef Designeditors::TStringProperty inherited;
 	
@@ -42,21 +44,25 @@ public:
 	virtual Designintf::TPropertyAttributes __fastcall GetAttributes(void);
 	virtual void __fastcall Edit(void);
 public:
-	/* TPropertyEditor.Create */ inline __fastcall virtual TAbDirectoryProperty(const Designintf::_di_IDesigner ADesigner, int APropCount) : Designeditors::TStringProperty(ADesigner, APropCount) { }
-	/* TPropertyEditor.Destroy */ inline __fastcall virtual ~TAbDirectoryProperty(void) { }
+	/* TPropertyEditor.Create */ inline __fastcall virtual TAbPasswordProperty(const Designintf::_di_IDesigner ADesigner, int APropCount) : Designeditors::TStringProperty(ADesigner, APropCount) { }
+	/* TPropertyEditor.Destroy */ inline __fastcall virtual ~TAbPasswordProperty(void) { }
 	
 };
 
 #pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
-}	/* namespace Abpedir */
-#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABPEDIR)
-using namespace Abpedir;
+}	/* namespace Abpepass */
+}	/* namespace Vcl */
+#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_VCL_ABPEPASS)
+using namespace Vcl::Abpepass;
+#endif
+#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_VCL)
+using namespace Vcl;
 #endif
 #pragma pack(pop)
 #pragma option pop
 
 #pragma delphiheader end.
 //-- end unit ----------------------------------------------------------------
-#endif	// AbpedirHPP
+#endif	// Vcl_AbpepassHPP

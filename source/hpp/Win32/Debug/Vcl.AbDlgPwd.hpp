@@ -2,10 +2,10 @@
 // Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDlgPwd.pas' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'Vcl.AbDlgPwd.pas' rev: 29.00 (Windows)
 
-#ifndef AbdlgpwdHPP
-#define AbdlgpwdHPP
+#ifndef Vcl_AbdlgpwdHPP
+#define Vcl_AbdlgpwdHPP
 
 #pragma delphiheader begin
 #pragma option push
@@ -26,6 +26,8 @@
 
 //-- user supplied -----------------------------------------------------------
 
+namespace Vcl
+{
 namespace Abdlgpwd
 {
 //-- forward type declarations -----------------------------------------------
@@ -59,14 +61,17 @@ public:
 
 
 //-- var, const, procedure ---------------------------------------------------
-extern DELPHI_PACKAGE TPassWordDlg* PassWordDlg;
 }	/* namespace Abdlgpwd */
-#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABDLGPWD)
-using namespace Abdlgpwd;
+}	/* namespace Vcl */
+#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_VCL_ABDLGPWD)
+using namespace Vcl::Abdlgpwd;
+#endif
+#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_VCL)
+using namespace Vcl;
 #endif
 #pragma pack(pop)
 #pragma option pop
 
 #pragma delphiheader end.
 //-- end unit ----------------------------------------------------------------
-#endif	// AbdlgpwdHPP
+#endif	// Vcl_AbdlgpwdHPP

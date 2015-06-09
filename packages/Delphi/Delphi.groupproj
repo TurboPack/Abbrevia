@@ -12,6 +12,9 @@
         <Projects Include="AbbreviaVCLDDesign.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="AbbreviaFMXDDesign.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="..\..\tests\AbbreviaUnitTests.dproj">
             <Dependencies/>
         </Projects>
@@ -50,6 +53,15 @@
     <Target Name="AbbreviaVCLDDesign:Make">
         <MSBuild Projects="AbbreviaVCLDDesign.dproj" Targets="Make"/>
     </Target>
+    <Target Name="AbbreviaFMXDDesign">
+        <MSBuild Projects="AbbreviaFMXDDesign.dproj"/>
+    </Target>
+    <Target Name="AbbreviaFMXDDesign:Clean">
+        <MSBuild Projects="AbbreviaFMXDDesign.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AbbreviaFMXDDesign:Make">
+        <MSBuild Projects="AbbreviaFMXDDesign.dproj" Targets="Make"/>
+    </Target>
     <Target Name="AbbreviaUnitTests">
         <MSBuild Projects="..\..\tests\AbbreviaUnitTests.dproj"/>
     </Target>
@@ -60,13 +72,13 @@
         <MSBuild Projects="..\..\tests\AbbreviaUnitTests.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="AbbreviaD;AbbreviaVCLD;AbbreviaVCLDDesign;AbbreviaUnitTests"/>
+        <CallTarget Targets="AbbreviaD;AbbreviaVCLD;AbbreviaVCLDDesign;AbbreviaFMXDDesign;AbbreviaUnitTests"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="AbbreviaD:Clean;AbbreviaVCLD:Clean;AbbreviaVCLDDesign:Clean;AbbreviaUnitTests:Clean"/>
+        <CallTarget Targets="AbbreviaD:Clean;AbbreviaVCLD:Clean;AbbreviaVCLDDesign:Clean;AbbreviaFMXDDesign:Clean;AbbreviaUnitTests:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="AbbreviaD:Make;AbbreviaVCLD:Make;AbbreviaVCLDDesign:Make;AbbreviaUnitTests:Make"/>
+        <CallTarget Targets="AbbreviaD:Make;AbbreviaVCLD:Make;AbbreviaVCLDDesign:Make;AbbreviaFMXDDesign:Make;AbbreviaUnitTests:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

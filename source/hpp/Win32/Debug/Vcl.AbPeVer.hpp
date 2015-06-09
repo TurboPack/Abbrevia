@@ -2,10 +2,10 @@
 // Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbPeVer.pas' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'Vcl.AbPeVer.pas' rev: 29.00 (Windows)
 
-#ifndef AbpeverHPP
-#define AbpeverHPP
+#ifndef Vcl_AbpeverHPP
+#define Vcl_AbpeverHPP
 
 #pragma delphiheader begin
 #pragma option push
@@ -30,6 +30,8 @@
 
 //-- user supplied -----------------------------------------------------------
 
+namespace Vcl
+{
 namespace Abpever
 {
 //-- forward type declarations -----------------------------------------------
@@ -93,14 +95,17 @@ public:
 #pragma pack(pop)
 
 //-- var, const, procedure ---------------------------------------------------
-extern DELPHI_PACKAGE TAbAboutBox* AbAboutBox;
 }	/* namespace Abpever */
-#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABPEVER)
-using namespace Abpever;
+}	/* namespace Vcl */
+#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_VCL_ABPEVER)
+using namespace Vcl::Abpever;
+#endif
+#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_VCL)
+using namespace Vcl;
 #endif
 #pragma pack(pop)
 #pragma option pop
 
 #pragma delphiheader end.
 //-- end unit ----------------------------------------------------------------
-#endif	// AbpeverHPP
+#endif	// Vcl_AbpeverHPP

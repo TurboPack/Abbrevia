@@ -21,16 +21,17 @@
  *
  * Contributor(s):
  *
+ * Roman Kassebaum
+ *
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbDlgPwd.pas                                *}
+{* ABBREVIA: Vcl.AbDlgPwd.pas                            *}
 {*********************************************************}
 {* ABBREVIA: Dialog - Password                           *}
-{*   Use AbQDgPwd.pas for CLX                            *}
 {*********************************************************}
 
-unit AbDlgPwd;
+unit Vcl.AbDlgPwd;
 
 {$R *.dfm}
 
@@ -39,12 +40,7 @@ unit AbDlgPwd;
 interface
 
 uses
-  SysUtils,
-{$IFDEF MSWINDOWS}
-  Windows,
-{$ENDIF}
-  Graphics, Forms, Controls, StdCtrls,
-  Buttons, ExtCtrls,
+  SysUtils, Windows, Graphics, Forms, Controls, StdCtrls, Buttons, ExtCtrls,
   Classes;
 
 type
@@ -53,25 +49,14 @@ type
     CancelBtn: TButton;
     Bevel1: TBevel;
     Edit1: TEdit;
-{$IFDEF MSWINDOWS}
     Edit2: TEdit;
-{$ENDIF}
     Label1: TLabel;
-{$IFDEF MSWINDOWS}
     Label2: TLabel;
-{$ENDIF}
     procedure Edit1Change(Sender: TObject);
     procedure Edit2Change(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-  private
-    { Private declarations }
-  public
-    { Public declarations }
   end;
-
-var
-  PassWordDlg: TPassWordDlg;
 
 implementation
 
@@ -80,30 +65,18 @@ uses
 
 procedure TPassWordDlg.Edit1Change(Sender: TObject);
 begin
-{$IFDEF MSWINDOWS}
   Edit2.Text := '';
   OKBtn.Enabled := ( CompareStr( Edit1.Text, Edit2.Text ) = 0);
-{$ELSE}
-  OKBtn.Enabled := true;
-{$ENDIF}
 end;
 
 procedure TPassWordDlg.Edit2Change(Sender: TObject);
 begin
-{$IFDEF MSWINDOWS}
   OKBtn.Enabled := ( CompareStr( Edit1.Text, Edit2.Text ) = 0);
-{$ELSE}
-  OKBtn.Enabled := true;
-{$ENDIF}
 end;
 
 procedure TPassWordDlg.FormActivate(Sender: TObject);
 begin
-{$IFDEF MSWINDOWS}
   OKBtn.Enabled := ( CompareStr( Edit1.Text, Edit2.Text ) = 0);
-{$ELSE}
-  OKBtn.Enabled := true;
-{$ENDIF}
 end;
 
 procedure TPassWordDlg.FormCreate(Sender: TObject);
@@ -112,9 +85,7 @@ begin
   OKBtn.Caption := AbOKS;
   CancelBtn.Caption := AbCancelS;
   Label1.Caption := AbPasswordS;
-{$IFDEF MSWINDOWS}
   Label2.Caption := AbVerifyS;
-{$ENDIF}
 end;
 
 end.

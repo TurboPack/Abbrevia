@@ -21,35 +21,25 @@
  *
  * Contributor(s):
  *
+ * Roman Kassebaum
+ *
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbPeVer.pas                                 *}
+{* ABBREVIA: FMX.AbPeVer.pas                             *}
 {*********************************************************}
 {* ABBREVIA: Property Editor - Version                   *}
-{*   Use AbQPeVer.pas for CLX                            *}
 {*********************************************************}
 
-unit AbPeVer;
+unit FMX.AbPeVer;
 
 {$I AbDefine.inc}
 
 interface
 
 uses
-  Windows,
-  ShellAPI,
-  Graphics,
-  Forms,
-  Controls,
-  StdCtrls,
-  Buttons,
-  ExtCtrls,
-  Dialogs,
-  DesignIntf,
-  DesignEditors,
-  SysUtils,
-  Classes;
+  System.SysUtils, System.Types, DesignIntf, DesignEditors, FMX.Forms, FMX.StdCtrls,
+  FMX.Objects, System.Classes, FMX.Types, FMX.Controls, FMX.Controls.Presentation;
 
 type
   TAbAboutBox = class(TForm)
@@ -60,7 +50,7 @@ type
     Panel2: TPanel;
     WebLbl: TLabel;
     NewsLbl: TLabel;
-    Bevel1: TBevel;
+    Bevel1: TPanel;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -72,47 +62,41 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure WebLblClick(Sender: TObject);
-    procedure WebLblMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
     procedure NewsLblClick(Sender: TObject);
-    procedure NewsLblMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure Panel2MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-  private
-    { Private declarations }
-  public
-    { Public declarations }
+    procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
+    procedure NewsLblMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
+    procedure Panel2MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
+    procedure WebLblMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
   end;
 
 
-  TAbVersionProperty = class( TStringProperty )
+  TAbVersionProperty = class(TStringProperty)
   public
-    function GetAttributes: TPropertyAttributes;
-             override;
-    procedure Edit;
-              override;
+    function GetAttributes: TPropertyAttributes; override;
+    procedure Edit; override;
   end;
-
-var
-  AbAboutBox : TAbAboutBox;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 uses
-  AbArcTyp,
-  AbConst,
+  System.UITypes, Winapi.Windows, Winapi.ShellApi, FMX.Dialogs, AbArcTyp, AbConst,
   AbResString;
+
+{ TAbAboutBox }
 
 procedure TAbAboutBox.FormCreate(Sender: TObject);
 begin
   Top := (Screen.Height - Height ) div 3;
   Left := (Screen.Width - Width ) div 2;
-  lblVersion.Caption := Format(AbVersionFormatS, [AbVersionS] );
+  lblVersion.Text := Format(AbVersionFormatS, [AbVersionS] );
+end;
+
+procedure TAbAboutBox.FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
+begin
+  WebLbl.FontColor := TColorRec.Navy;
+  NewsLbl.FontColor := TColorRec.Navy;
 end;
 
 function TAbVersionProperty.GetAttributes: TPropertyAttributes;
@@ -137,43 +121,33 @@ end;
 
 procedure TAbAboutBox.WebLblClick(Sender: TObject);
 begin
-  if ShellExecute(0, 'open', 'http://www.sourceforge.net/projects/tpabbrevia', '', '',
+  if ShellExecute(0, 'open', 'https://github.com/TurboPack/Abbrevia', '', '',
     SW_SHOWNORMAL) <= 32 then
     ShowMessage('Unable to start web browser');
-  WebLbl.Font.Color := clNavy;
-end;
-
-procedure TAbAboutBox.WebLblMouseMove(Sender: TObject; Shift: TShiftState;
-  X, Y: Integer);
-begin
-  WebLbl.Font.Color := clRed;
+  WebLbl.FontColor := TColorRec.Navy;
 end;
 
 procedure TAbAboutBox.NewsLblClick(Sender: TObject);
 begin
-  if ShellExecute(0, 'open', 'http://www.sourceforge.net/forum/forum.php?forum_id=241865', '', '',
+  if ShellExecute(0, 'open', 'https://github.com/TurboPack/Abbrevia', '', '',
     SW_SHOWNORMAL) <= 32 then
     ShowMessage('Unable to start web browser');
-  NewsLbl.Font.Color := clNavy;
+  NewsLbl.FontColor := TColorRec.Navy;
 end;
 
-procedure TAbAboutBox.NewsLblMouseMove(Sender: TObject; Shift: TShiftState;
-  X, Y: Integer);
+procedure TAbAboutBox.NewsLblMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
 begin
-  NewsLbl.Font.Color := clRed;
+  NewsLbl.FontColor := TColorRec.Red;
 end;
 
-procedure TAbAboutBox.Panel2MouseMove(Sender: TObject; Shift: TShiftState;
-  X, Y: Integer);
+procedure TAbAboutBox.Panel2MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
 begin
-  NewsLbl.Font.Color := clNavy;
+  NewsLbl.FontColor := TColorRec.Navy;
 end;
 
-procedure TAbAboutBox.FormMouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
+procedure TAbAboutBox.WebLblMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Single);
 begin
-  WebLbl.Font.Color := clNavy;
-  NewsLbl.Font.Color := clNavy;
+  WebLbl.FontColor := TColorRec.Red;
 end;
 
 end.

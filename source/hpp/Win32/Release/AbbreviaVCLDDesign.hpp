@@ -15,13 +15,13 @@
 #include <System.hpp>	// (rtl)
 #include <SysInit.hpp>
 #include <AbPeCol.hpp>
-#include <AbPeDir.hpp>
-#include <AbPeFn.hpp>
-#include <AbPePass.hpp>
-#include <AbPeVer.hpp>
-#include <AbRegVcl.hpp>
 #include <AbDlgDir.hpp>
-#include <AbDlgPwd.hpp>
+#include <Vcl.AbPeFn.hpp>
+#include <Vcl.AbReg.hpp>
+#include <Vcl.AbPeDir.hpp>
+#include <Vcl.AbPeVer.hpp>
+#include <Vcl.AbDlgPwd.hpp>
+#include <Vcl.AbPePass.hpp>
 #include <Winapi.Windows.hpp>	// (rtl)
 #include <System.Internal.ExcUtils.hpp>	// (rtl)
 #include <System.SysUtils.hpp>	// (rtl)

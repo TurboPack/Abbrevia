@@ -21,16 +21,17 @@
  *
  * Contributor(s):
  *
+ * Roman Kassebaum
+ *
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbPeFn.pas                                  *}
+{* ABBREVIA: Vcl.AbPeFn.pas                              *}
 {*********************************************************}
 {* ABBREVIA: Property Editor - FileName                  *}
-{*   Use AbQPeFn.pas for CLX                             *}
 {*********************************************************}
 
-unit AbPeFn;
+unit Vcl.AbPeFn;
 
 {$I AbDefine.inc}
 

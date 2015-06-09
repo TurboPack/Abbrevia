@@ -35,10 +35,12 @@ TurboPack Abbrevia package names have the following form:
 AbbreviaD.bpl          (Delphi Runtime for all platforms)
 AbbreviaVCLD.bpl       (Delphi Runtime for the VCL)
 AbbreviaVCLDDesign.bpl (Delphi Designtime VCL)
+AbbreviaFMXDDesign.bpl (Delphi Designtime FMX)
 
 AbbreviaC.bpl          (C++Builder Runtime for all platforms)
 AbbreviaVCLC.bpl       (C++Builder Runtime for the VCL)
 AbbreviaVCLCDesign.bpl (C++Builder Designtime VCL)
+AbbreviaFMXCDesign.bpl (C++Builder Designtime FMX)
 
 
 ==============================================

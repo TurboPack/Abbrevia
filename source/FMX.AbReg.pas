@@ -21,15 +21,17 @@
  *
  * Contributor(s):
  *
- * ***** END LICENSE BLOCK ***** *)
+ * Roman Kassebaum
+ *
+ ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbRegVcl.pas                                *}
+{* ABBREVIA: FMX.AbReg.pas                               *}
 {*********************************************************}
-{* ABBREVIA: Registrations (VCL)                         *}
+{* ABBREVIA: Registrations (FMX)                         *}
 {*********************************************************}
 
-unit AbRegVcl;
+unit FMX.AbReg;
 
 {$I AbDefine.inc}
 
@@ -38,10 +40,8 @@ unit AbRegVcl;
 interface
 
 uses
-  Classes,
-  AbCBrows, AbCabExt, AbCabMak, AbCabKit, AbCView,
-  AbCompnd, AbHexVw,  AbZBrows, AbUnzper, AbZipper, AbZipKit, AbZipOut, 
-  AbView, AbComCtrls, AbZView, AbMeter, AbSelfEx, AbZipExt;
+  System.Classes, AbCBrows, AbCabExt, AbCabMak, AbCabKit, AbZBrows, AbUnzper, AbZipper,
+  AbZipKit, AbSelfEx, AbZipExt;
 
 procedure Register;
 
@@ -50,20 +50,33 @@ implementation
 uses
   AbConst,
   AbUtils,
-  AbPeDir,
-  AbPeFn,
-  AbPePass,
-  AbPeVer,
-  AbPeCol,
+  FMX.Types,
+  FMX.Controls,
+  FMX.AbPeDir,
+  FMX.AbPeFn,
+  FMX.AbPeVer,
+  FMX.AbDlgPwd,
+  FMX.AbPePass,
   DesignIntf,
   DesignEditors,
-  Graphics,
   ToolsAPI,
   SysUtils,
   Windows;
 
 procedure Register;
 begin
+  GroupDescendentsWith(TAbZipBrowser, FMX.Controls.TControl);
+  GroupDescendentsWith(TAbUnzipper, FMX.Controls.TControl);
+  GroupDescendentsWith(TAbZipper, FMX.Controls.TControl);
+  GroupDescendentsWith(TAbZipKit, FMX.Controls.TControl);
+  GroupDescendentsWith(TAbCabBrowser, FMX.Controls.TControl);
+  GroupDescendentsWith(TAbCabExtractor, FMX.Controls.TControl);
+  GroupDescendentsWith(TAbMakeCab, FMX.Controls.TControl);
+  GroupDescendentsWith(TAbCabKit, FMX.Controls.TControl);
+  GroupDescendentsWith(TAbMakeSelfExe, FMX.Controls.TControl);
+
+  RegisterFmxClasses([TAbZipBrowser, TAbUnzipper, TAbZipper, TAbZipKit, TAbCabBrowser,
+    TAbCabExtractor, TAbMakeCab, TAbCabKit, TAbMakeSelfExe]);
 
   RegisterPropertyEditor( TypeInfo( string ), TAbZipBrowser, 'FileName',
                           TAbFileNameProperty );
@@ -73,8 +86,6 @@ begin
                           TAbFileNameProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbZipKit, 'FileName',
                           TAbFileNameProperty );
-  RegisterPropertyEditor( TypeInfo( string ), TAbZipOutline, 'FileName',
-                          TAbFileNameProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbZipBrowser, 'LogFile',
                           TAbLogNameProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbZipper, 'LogFile',
@@ -82,8 +93,6 @@ begin
   RegisterPropertyEditor( TypeInfo( string ), TAbUnZipper, 'LogFile',
                           TAbLogNameProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbZipKit, 'LogFile',
-                          TAbLogNameProperty );
-  RegisterPropertyEditor( TypeInfo( string ), TAbZipOutline, 'LogFile',
                           TAbLogNameProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbMakeSelfExe, 'SelfExe',
                           TAbExeNameProperty );
@@ -99,8 +108,6 @@ begin
                           TAbDirectoryProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbZipKit, 'BaseDirectory',
                           TAbDirectoryProperty );
-  RegisterPropertyEditor( TypeInfo( string ), TAbZipOutline, 'BaseDirectory',
-                          TAbDirectoryProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbZipBrowser, 'TempDirectory',
                           TAbDirectoryProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbZipper, 'TempDirectory',
@@ -109,8 +116,6 @@ begin
                           TAbDirectoryProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbZipKit, 'TempDirectory',
                           TAbDirectoryProperty );
-  RegisterPropertyEditor( TypeInfo( string ), TAbZipOutline, 'TempDirectory',
-                          TAbDirectoryProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbZipBrowser, 'Version',
                           TAbVersionProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbZipper, 'Version',
@@ -118,18 +123,6 @@ begin
   RegisterPropertyEditor( TypeInfo( string ), TAbUnZipper, 'Version',
                           TAbVersionProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbZipKit, 'Version',
-                          TAbVersionProperty );
-  RegisterPropertyEditor( TypeInfo( string ), TAbZipOutline, 'Version',
-                          TAbVersionProperty );
-  RegisterPropertyEditor( TypeInfo( string ), TAbListView, 'Version',
-                          TAbVersionProperty );
-  RegisterPropertyEditor( TypeInfo( string ), TAbTreeView, 'Version',
-                          TAbVersionProperty );
-  RegisterPropertyEditor( TypeInfo( string ), TAbZipView, 'Version',
-                          TAbVersionProperty );
-  RegisterPropertyEditor( TypeInfo( string ), TAbMeter, 'Version',
-                          TAbVersionProperty );
-  RegisterPropertyEditor( TypeInfo( string ), TAbProgressBar, 'Version',
                           TAbVersionProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbMakeSelfExe, 'Version',
                           TAbVersionProperty );
@@ -141,10 +134,6 @@ begin
                           TAbPasswordProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbZipKit, 'Password',
                           TAbPasswordProperty );
-  RegisterPropertyEditor( TypeInfo( string ), TAbZipOutline, 'Password',
-                          TAbPasswordProperty );
-  RegisterPropertyEditor( TypeInfo( TAbColHeadings ), TAbZipView, 'Headings',
-                          TAbColHeadingsProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbCabBrowser, 'FileName',
                           TAbCabNameProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbMakeCab, 'FileName',
@@ -185,31 +174,19 @@ begin
                           TAbVersionProperty );
   RegisterPropertyEditor( TypeInfo( string ), TAbCabKit, 'Version',
                           TAbVersionProperty );
-  RegisterPropertyEditor( TypeInfo( string ), TAbCabView, 'Version',
-                          TAbVersionProperty );
-  RegisterPropertyEditor( TypeInfo( TAbColHeadings ), TAbCabView, 'Headings',
-                          TAbColHeadingsProperty );
 
   RegisterComponents( 'Abbrevia',
                       [ TAbZipBrowser,
                         TAbUnzipper,
                         TAbZipper,
                         TAbZipKit,
-                        TAbZipView,
-                        TAbZipOutline,
-                        TAbTreeView,
-                        TAbListView,
                         TAbCabBrowser,
                         TAbCabExtractor,
                         TAbMakeCab,
                         TAbCabKit,
-                        TAbCabView,
-                        TAbProgressBar,
-                        TAbMeter,
                         TAbMakeSelfExe ]);
 end;
 
-{$IF DECLARED(IOTAAboutBoxServices)}
 var
   AboutBoxIndex: Integer = -1;
 
@@ -221,9 +198,9 @@ begin
   AboutBoxIndex := (BorlandIDEServices as IOTAAboutBoxServices).AddPluginInfo(
     'Abbrevia ' + AbVersionS,
     'Abbrevia: Advanced data compression toolkit, v' + AbVersionS + sLineBreak +
-    'http://tpabbrevia.sourceforge.net/' + sLineBreak +
+    'https://github.com/TurboPack/Abbrevia/' + sLineBreak +
     sLineBreak +
-    'Copyright (c) 1997-2011 Abbrevia development team' + sLineBreak +
+    'Copyright (c) 1997-2015 Abbrevia development team' + sLineBreak +
     'Covered under the Mozilla Public License (MPL) v1.1' + sLineBreak +
     'Abbrevia includes source code from bzip2, the LZMA SDK,' + sLineBreak +
     'Dag Ågren''s version of PPMd, and the WavPack SDK.',
@@ -241,6 +218,5 @@ initialization
 
 finalization
   UnRegisterAboutBox;
-{$IFEND}
 
 end.

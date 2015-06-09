@@ -12,6 +12,9 @@
         <Projects Include="AbbreviaVCLCDesign.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="AbbreviaFMXCDesign.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
     <Target Name="AbbreviaVCLCDesign:Make">
         <MSBuild Projects="AbbreviaVCLCDesign.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="AbbreviaFMXCDesign">
+        <MSBuild Projects="AbbreviaFMXCDesign.cbproj"/>
+    </Target>
+    <Target Name="AbbreviaFMXCDesign:Clean">
+        <MSBuild Projects="AbbreviaFMXCDesign.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AbbreviaFMXCDesign:Make">
+        <MSBuild Projects="AbbreviaFMXCDesign.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="AbbreviaCR;AbbreviaVCLC;AbbreviaVCLCDesign"/>
+        <CallTarget Targets="AbbreviaCR;AbbreviaVCLC;AbbreviaVCLCDesign;AbbreviaFMXCDesign"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="AbbreviaCR:Clean;AbbreviaVCLC:Clean;AbbreviaVCLCDesign:Clean"/>
+        <CallTarget Targets="AbbreviaCR:Clean;AbbreviaVCLC:Clean;AbbreviaVCLCDesign:Clean;AbbreviaFMXCDesign:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="AbbreviaCR:Make;AbbreviaVCLC:Make;AbbreviaVCLCDesign:Make"/>
+        <CallTarget Targets="AbbreviaCR:Make;AbbreviaVCLC:Make;AbbreviaVCLCDesign:Make;AbbreviaFMXCDesign:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

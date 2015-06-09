@@ -2,10 +2,10 @@
 // Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbRegVcl.pas' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'Vcl.AbReg.pas' rev: 29.00 (Windows)
 
-#ifndef AbregvclHPP
-#define AbregvclHPP
+#ifndef Vcl_AbregHPP
+#define Vcl_AbregHPP
 
 #pragma delphiheader begin
 #pragma option push
@@ -36,19 +36,25 @@
 
 //-- user supplied -----------------------------------------------------------
 
-namespace Abregvcl
+namespace Vcl
+{
+namespace Abreg
 {
 //-- forward type declarations -----------------------------------------------
 //-- type declarations -------------------------------------------------------
 //-- var, const, procedure ---------------------------------------------------
 extern DELPHI_PACKAGE void __fastcall Register(void);
-}	/* namespace Abregvcl */
-#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABREGVCL)
-using namespace Abregvcl;
+}	/* namespace Abreg */
+}	/* namespace Vcl */
+#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_VCL_ABREG)
+using namespace Vcl::Abreg;
+#endif
+#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_VCL)
+using namespace Vcl;
 #endif
 #pragma pack(pop)
 #pragma option pop
 
 #pragma delphiheader end.
 //-- end unit ----------------------------------------------------------------
-#endif	// AbregvclHPP
+#endif	// Vcl_AbregHPP

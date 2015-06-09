@@ -48,9 +48,9 @@ package AbbreviaVCLDDesign;
 {$WRITEABLECONST ON}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE RELEASE}
+{$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'TurboPack Abbrevia Designtime Delphi package'}
+{$DESCRIPTION 'TurboPack Abbrevia VCL Designtime Delphi package'}
 {$DESIGNONLY}
 {$IMPLICITBUILD OFF}
 
@@ -60,12 +60,12 @@ requires
 
 contains
   AbPeCol in '..\..\source\AbPeCol.pas',
-  AbPeDir in '..\..\source\AbPeDir.pas',
-  AbPeFn in '..\..\source\AbPeFn.pas',
-  AbPePass in '..\..\source\AbPePass.pas',
-  AbPeVer in '..\..\source\AbPeVer.pas',
-  AbRegVcl in '..\..\source\AbRegVcl.pas',
   AbDlgDir in '..\..\source\AbDlgDir.pas' {DirDlg},
-  AbDlgPwd in '..\..\source\AbDlgPwd.pas' {PassWordDlg};
+  Vcl.AbPeFn in '..\..\source\Vcl.AbPeFn.pas',
+  Vcl.AbReg in '..\..\source\Vcl.AbReg.pas',
+  Vcl.AbPeDir in '..\..\source\Vcl.AbPeDir.pas',
+  Vcl.AbPeVer in '..\..\source\Vcl.AbPeVer.pas' {AbAboutBox},
+  Vcl.AbDlgPwd in '..\..\source\Vcl.AbDlgPwd.pas' {PassWordDlg},
+  Vcl.AbPePass in '..\..\source\Vcl.AbPePass.pas';
 
 end.

@@ -2,10 +2,10 @@
 // Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbPeFn.pas' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'Vcl.AbPeFn.pas' rev: 29.00 (Windows)
 
-#ifndef AbpefnHPP
-#define AbpefnHPP
+#ifndef Vcl_AbpefnHPP
+#define Vcl_AbpefnHPP
 
 #pragma delphiheader begin
 #pragma option push
@@ -22,6 +22,8 @@
 
 //-- user supplied -----------------------------------------------------------
 
+namespace Vcl
+{
 namespace Abpefn
 {
 //-- forward type declarations -----------------------------------------------
@@ -96,12 +98,16 @@ public:
 
 //-- var, const, procedure ---------------------------------------------------
 }	/* namespace Abpefn */
-#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABPEFN)
-using namespace Abpefn;
+}	/* namespace Vcl */
+#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_VCL_ABPEFN)
+using namespace Vcl::Abpefn;
+#endif
+#if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_VCL)
+using namespace Vcl;
 #endif
 #pragma pack(pop)
 #pragma option pop
 
 #pragma delphiheader end.
 //-- end unit ----------------------------------------------------------------
-#endif	// AbpefnHPP
+#endif	// Vcl_AbpefnHPP

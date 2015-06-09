@@ -21,16 +21,15 @@
  *
  * Contributor(s):
  *
+ * Roman Kassebaum
+ *
  * ***** END LICENSE BLOCK ***** *)
 
 {*********************************************************}
-{* ABBREVIA: AbPeDir.pas                                 *}
-{*********************************************************}
-{* ABBREVIA: Property Editor - Directory                 *}
-{*   Use AbQPeDir.pas for CLX                            *}
+{* ABBREVIA: FMX.AbPeDir.pas                             *}
 {*********************************************************}
 
-unit AbPeDir;
+unit FMX.AbPeDir;
 
 {$I AbDefine.inc}
 
@@ -38,12 +37,11 @@ interface
 
 uses
   Windows,
-  Graphics,
-  Forms,
-  Controls,
-  StdCtrls,
-  Buttons,
-  ExtCtrls,
+  FMX.Graphics,
+  FMX.Forms,
+  FMX.Controls,
+  FMX.StdCtrls,
+  FMX.ExtCtrls,
   DesignIntf,
   DesignEditors,
   SysUtils,
@@ -52,17 +50,16 @@ uses
 type
   TAbDirectoryProperty = class( TStringProperty )
   public
-    function GetAttributes: TPropertyAttributes;
-             override;
-    procedure Edit;
-              override;
+    function GetAttributes: TPropertyAttributes; override;
+    procedure Edit; override;
   end;
 
 implementation
 
 uses
-  AbDlgDir;
+  FMX.Dialogs.Win;
 
+{ TAbDirectoryProperty }
 
 function TAbDirectoryProperty.GetAttributes: TPropertyAttributes;
 begin
@@ -71,16 +68,20 @@ end;
 
 procedure TAbDirectoryProperty.Edit;
 var
-  D : TAbDirDlg;
+  pDialog: TFileOpenDialog;
 begin
-  D := TAbDirDlg.Create(Application);
+  pDialog := TFileOpenDialog.Create(nil);
   try
-    D.Caption := 'Directory';
-    D.AdditionalText := 'Select Directory';
-    if D.Execute then
-      Value := D.SelectedFolder;
+    pDialog.Title := 'Select Directory';
+    pDialog.Options := [TFileDialogOption.PickFolders, TFileDialogOption.PathMustExist, TFileDialogOption.ForceFileSystem];
+    pDialog.OkButtonLabel := 'Select';
+    pDialog.DefaultFolder := Value;
+    pDialog.FileName := Value;
+    if pDialog.Execute then
+       Value := pDialog.FileName;
   finally
-    D.Free;
+    Free;
   end;
 end;
+
 end.
