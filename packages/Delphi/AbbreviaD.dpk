@@ -51,6 +51,7 @@ package AbbreviaD;
 {$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'TurboPack Abbrevia Runtime Delphi package'}
+{$LIBSUFFIX '220'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
 
