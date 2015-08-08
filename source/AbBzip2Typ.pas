@@ -39,6 +39,8 @@ unit AbBzip2Typ;
 
 interface
 
+{$IFNDEF NoBZip2}
+
 uses
   Classes,
   AbArcTyp, AbTarTyp, AbUtils;
@@ -111,7 +113,11 @@ type
 
 function VerifyBzip2(Strm : TStream) : TAbArchiveType;
 
+{$ENDIF}
+
 implementation
+
+{$IFNDEF NoBZip2}
 
 uses
 {$IFDEF MSWINDOWS}
@@ -426,5 +432,7 @@ procedure TAbBzip2Archive.DoSpanningMediaRequest(Sender: TObject;
 begin
   Abort := False;
 end;
+
+{$ENDIF}
 
 end.

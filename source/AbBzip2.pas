@@ -50,6 +50,8 @@ unit AbBzip2;
 
 interface
 
+{$IFNDEF NoBZip2}
+
 uses
   SysUtils, Classes;
 
@@ -182,7 +184,11 @@ type
   EBZCompressionError = class(EBZip2Error);
   EBZDecompressionError = class(EBZip2Error);
 
+{$ENDIF}
+
 implementation
+
+{$IFNDEF NoBZip2}
 
 // Compile for Win64 using MSVC
 //   <Path To MSVC>\bin\x86_amd64\cl.exe -c -nologo -GS- -Z7 -wd4086 -Gs32768
@@ -773,5 +779,7 @@ begin
     raise EBZDecompressionError.Create('Invalid stream operation');
   Result := conv64.QuadPart;
 end; { TBZDecompressionStream }
+
+{$ENDIF}
 
 end.

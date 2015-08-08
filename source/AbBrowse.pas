@@ -566,9 +566,11 @@ begin
             Result := VerifyCab(FS);
           end;
           {$ENDIF}
+          {$IFNDEF NoBZip2}
           atBzip2, atBzippedTar: begin
             Result := VerifyBzip2(FS);
           end;
+          {$ENDIF}
         end;
       end;
     finally
@@ -587,8 +589,10 @@ begin
     Result := VerifyTar(aStream);
   if Result = atUnknown then
     Result := VerifyGzip(aStream);
+  {$IFNDEF NoBZip2}
   if Result = atUnknown then
     Result := VerifyBzip2(aStream);
+  {$ENDIF}
   {$IFDEF MSWINDOWS}
   if Result = atUnknown then
     Result := VerifyCab(aStream);

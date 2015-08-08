@@ -432,6 +432,7 @@ begin
           inherited InitArchive;
         end;
 
+{$IFNDEF NoBZip2}
         atBzip2 : begin
           FArchive := TAbBzip2Archive.Create(FileName, fmOpenReadWrite or fmShareDenyNone);
           TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
@@ -445,6 +446,7 @@ begin
           TAbBzip2Archive(FArchive).IsBzippedTar := True;
           inherited InitArchive;
         end;
+{$ENDIF}
 
         else
           raise EAbUnhandledType.Create;
@@ -481,6 +483,7 @@ begin
           inherited InitArchive;
         end;
 
+{$IFNDEF NoBZip2}
         atBzip2 : begin
           FArchive := TAbBzip2Archive.Create(FileName, fmCreate or fmShareDenyNone);
           TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
@@ -494,6 +497,7 @@ begin
           TAbBzip2Archive(FArchive).IsBzippedTar := True;
           inherited InitArchive;
         end;
+{$ENDIF}
 
         else
           raise EAbUnhandledType.Create;

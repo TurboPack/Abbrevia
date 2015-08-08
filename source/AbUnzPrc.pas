@@ -918,6 +918,7 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 {$IFDEF UnzipBzip2Support}
+{$IFNDEF NoBZip2}
 procedure DoExtractBzip2(Archive : TAbZipArchive; Item : TAbZipItem; InStream, OutStream : TStream);
 var
   Bzip2Stream: TStream;
@@ -929,6 +930,7 @@ begin
     Bzip2Stream.Free;
   end;
 end;
+{$ENDIF}
 {$ENDIF}
 { -------------------------------------------------------------------------- }
 {$IFDEF UnzipLzmaSupport}
@@ -1043,9 +1045,11 @@ begin
         DoInflate(aZipArchive, aItem, aInStream, OutStream);
       end;
       {$IFDEF UnzipBzip2Support}
+      {$IFNDEF NoBZip2}
       cmBzip2: begin
         DoExtractBzip2(aZipArchive, aItem, aInStream, OutStream);
       end;
+      {$ENDIF}
       {$ENDIF}
       {$IFDEF UnzipLzmaSupport}
       cmLZMA: begin

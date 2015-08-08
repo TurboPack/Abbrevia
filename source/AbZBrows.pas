@@ -156,8 +156,10 @@ begin
   Result := False;
   if FArchive is TAbGzipArchive then
     Result := TAbGzipArchive(FArchive).TarAutoHandle
+{$IFNDEF NoBZip2}
   else if FArchive is TAbBzip2Archive then
     Result := TAbBzip2Archive(FArchive).TarAutoHandle;
+{$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 function TAbCustomZipBrowser.GetZipfileComment : string;
@@ -229,6 +231,7 @@ begin
           inherited InitArchive;
         end;
 
+{$IFNDEF NoBZip2}
         atBzip2 : begin
           FArchive := TAbBzip2Archive.Create(FileName, fmOpenRead or fmShareDenyNone);
           TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
@@ -242,6 +245,7 @@ begin
           TAbBzip2Archive(FArchive).IsBzippedTar := True;
           inherited InitArchive;
         end;
+{$ENDIF}
 
         else
           raise EAbUnhandledType.Create;
@@ -285,11 +289,13 @@ begin
         TAbGzipArchive(FArchive).IsGzippedTar := (ArcType = atGZippedTar);
       end;
 
+{$IFNDEF NoBZip2}
       atBzip2, atBzippedTar : begin
         FArchive := TAbBzip2Archive.CreateFromStream(aValue, '');
         TAbBzip2Archive(FArchive).TarAutoHandle := FTarAutoHandle;
         TAbBzip2Archive(FArchive).IsBzippedTar := (ArcType = atBzippedTar);
       end;
+{$ENDIF}
 
       else
         raise EAbUnhandledType.Create;
@@ -341,6 +347,8 @@ begin
       DoChange;
     end;
   end;
+
+  {$IFNDEF NoBZip2}
   if FArchive is TAbBzip2Archive then begin
     if TAbBzip2Archive(FArchive).TarAutoHandle <> Value then begin
       TAbBzip2Archive(FArchive).TarAutoHandle := Value;
@@ -349,6 +357,7 @@ begin
       DoChange;
     end;
   end;
+  {$ENDIF}
 end;
 
 procedure TAbCustomZipBrowser.SetZipfileComment(const Value : string);
