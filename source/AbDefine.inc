@@ -98,9 +98,8 @@
   {$ENDIF}
 {$IFEND}
 
-{$IFDEF IOS}
-{$DEFINE NoBZip2}
-{$ENDIF}
+{Activate this define if you do not want to work with Bzip2}
+{.$DEFINE NoBZip2}
 
 {====Zip defines=====================================================}
 
