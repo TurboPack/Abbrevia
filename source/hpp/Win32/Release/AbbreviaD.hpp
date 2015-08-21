@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 30.00 (Windows)
 
 #ifndef AbbreviadHPP
 #define AbbreviadHPP
@@ -64,6 +64,7 @@
 #include <AbLZMAStream.hpp>
 #include <AbBytes.hpp>
 #include <Winapi.Windows.hpp>	// (rtl)
+#include <System.Character.hpp>	// (rtl)
 #include <System.Internal.ExcUtils.hpp>	// (rtl)
 #include <System.SysUtils.hpp>	// (rtl)
 #include <System.VarUtils.hpp>	// (rtl)

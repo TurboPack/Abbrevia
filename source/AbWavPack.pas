@@ -52,8 +52,9 @@ implementation
 
 uses
   AbCrtl,
-  Math,
-  SysUtils;
+  System.Math,
+  System.AnsiStrings,
+  System.SysUtils;
 
 // Compile using
 //   bcc32 -DWIN32 -DNO_USE_FSTREAMS -c -w-8004 -w-8012 -w-8017 -w-8057 -w-8065 *.c
@@ -68,9 +69,9 @@ begin
   else Result := x
 end;
 
-function floor(x: Double): Integer; cdecl;
+function floor2(x: Double): Integer; cdecl;
 begin
-  Result := Floor(x);
+  Result := System.Math.Floor(x);
 end;
 
 function labs(n: Integer): Integer; cdecl;
@@ -80,11 +81,14 @@ begin
 end;
 
 function _stricmp(str1, str2: PAnsiChar): Integer; cdecl;
-  external 'msvcrt.dll' name '_stricmp';
+begin
+  Result := System.AnsiStrings.StrIComp(str1, str2);
+end;
 
 function strncmp(str1, str2: PAnsiChar; num: Integer): Integer; cdecl;
-  external 'msvcrt.dll' {$IFDEF BCB}name '_strncmp'{$ENDIF};
-
+begin
+  Result := System.AnsiStrings.StrLComp(str1, str2, num);
+end;
 
 { Forward declarations ===================================================== }
 
@@ -444,3 +448,4 @@ end;
 {$ENDIF}
 
 end.
+

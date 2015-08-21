@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 30.00 (Windows)
 
 #ifndef AbbreviadHPP
 #define AbbreviadHPP
@@ -91,6 +91,7 @@
 #include <System.TimeSpan.hpp>	// (rtl)
 #include <System.DateUtils.hpp>	// (rtl)
 #include <System.IOUtils.hpp>	// (rtl)
+#include <System.Win.Crtl.hpp>	// (rtl)
 #include <System.IniFiles.hpp>	// (rtl)
 #include <System.Win.Registry.hpp>	// (rtl)
 #include <Winapi.Qos.hpp>	// (rtl)

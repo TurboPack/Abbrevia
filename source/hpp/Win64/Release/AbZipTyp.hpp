@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZipTyp.pas' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbZipTyp.pas' rev: 30.00 (Windows)
 
 #ifndef AbziptypHPP
 #define AbziptypHPP
@@ -135,6 +135,8 @@ typedef TAbSfEntry *PAbSfEntry;
 #pragma pack(push,1)
 struct DECLSPEC_DRECORD TAbSfEntry
 {
+	
+public:
 	union
 	{
 		struct 

@@ -39,7 +39,7 @@ interface
 {$IFDEF MSWINDOWS}
 
 uses
-  Windows;
+  Winapi.Windows;
 
 type
   UInt32 = LongWord;
@@ -82,9 +82,7 @@ function realloc(Ptr: Pointer; Size: Integer): Pointer; cdecl;
 procedure ___cpuid(CPUInfo: PInteger; InfoType: Integer); cdecl;
   external 'msvcrt.dll';
 
-{ stdio.h declarations ===================================================== }
-function sprintf(S: PChar; const Format: PChar): Integer;
-  cdecl; varargs; external 'msvcrt.dll' {$IFDEF BCB}name '_sprintf'{$ENDIF};
+function sprintf(S: PChar; const Format: PChar): Integer; cdecl;
 
 { process.h declarations =================================================== }
 function _beginthreadex(security: Pointer; stack_size: Cardinal;
@@ -92,13 +90,19 @@ function _beginthreadex(security: Pointer; stack_size: Cardinal;
   var thrdaddr: Cardinal): THandle; cdecl;
 
 { MSVC/Win64 declarations ================================================== }
+{$IF Defined(BCB) and Defined(WIN64)}
+procedure __C_specific_handler; cdecl;
+{$ELSE}
 procedure __C_specific_handler; cdecl; external 'msvcrt.dll';
-
+{$ENDIF}
 {$ENDIF}
 
 implementation
 
 {$IFDEF MSWINDOWS}
+
+uses
+  System.Win.Crtl;
 
 { ctype.h declarations ===================================================== }
 function isdigit(ch: Integer): Integer; cdecl;
@@ -183,6 +187,19 @@ function _ftol(const AValue: Double): Integer; cdecl;
 begin
   Result := Round(AValue);
 end;
+
+function sprintf(S: PChar; const Format: PChar): Integer;
+begin
+  Result := System.Win.Crtl.sprintf(PAnsiChar(AnsiString(S)), PAnsiChar(AnsiString(Format)));
+end;
+
+{$IF Defined(BCB) and Defined(WIN64)}
+procedure __C_specific_handler;
+begin
+end;
+
+{$ENDIF}
+
 {$ENDIF}
 
 end.

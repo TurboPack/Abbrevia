@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbbreviaVCLDDesign.dpk' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbbreviaVCLDDesign.dpk' rev: 30.00 (Windows)
 
 #ifndef AbbreviavclddesignHPP
 #define AbbreviavclddesignHPP
@@ -23,6 +23,7 @@
 #include <Vcl.AbDlgPwd.hpp>
 #include <Vcl.AbPePass.hpp>
 #include <Winapi.Windows.hpp>	// (rtl)
+#include <System.Character.hpp>	// (rtl)
 #include <System.Internal.ExcUtils.hpp>	// (rtl)
 #include <System.SysUtils.hpp>	// (rtl)
 #include <System.VarUtils.hpp>	// (rtl)
@@ -42,8 +43,9 @@
 #include <System.SyncObjs.hpp>	// (rtl)
 #include <Winapi.UxTheme.hpp>	// (rtl)
 #include <Vcl.ActnList.hpp>	// (vcl)
-#include <Vcl.GraphUtil.hpp>	// (vcl)
 #include <System.Win.ComObj.hpp>	// (rtl)
+#include <Winapi.MsCTF.hpp>	// (rtl)
+#include <Vcl.GraphUtil.hpp>	// (vcl)
 #include <Winapi.ShellAPI.hpp>	// (rtl)
 #include <Vcl.Controls.hpp>	// (vcl)
 #include <Vcl.StdCtrls.hpp>	// (vcl)
