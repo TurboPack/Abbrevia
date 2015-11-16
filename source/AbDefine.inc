@@ -99,7 +99,9 @@
 {$IFEND}
 
 {Activate this define if you do not want to work with Bzip2}
-{.$DEFINE NoBZip2}
+{$IFDEF ANDROID}
+  {$DEFINE NoBZip2}
+{$ENDIF}
 
 {====Zip defines=====================================================}
 
