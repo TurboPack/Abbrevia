@@ -217,7 +217,7 @@ begin
 
   IsANSI := True;
   Result := True;
-  for i := 0 to Length(aValue) do
+  for i := 0 to Length(aValue) - 1 do
     if Ord(aValue[i]) >= $80 then
     begin
       if IsANSI then
