@@ -731,20 +731,22 @@ begin
   FileName := ExtractFileName( FileSpec );
   Path := ExtractFilePath( FileSpec );
   {see how much of the path currently exists}
-  iColon := Pos( ':', Path );
-  if Pos( '\\', Path ) > 0 then begin
+  iColon := Path.IndexOf(':');
+  if Path.IndexOf('\\') > -1 then
+  begin
     {UNC Path  \\computername\sharename\path1..\pathn}
     {everything up to the 4th slash is the drive}
     iStartSlash := 4;
     i := AbFindNthSlash( Path, iStartSlash );
-    Drive := Copy( Path, 1, i );
-    Delete( Path, 1, i + 1 );
+    Drive := Path.Substring(0, i);
+    Path := Path.Remove(0, i + 1);
   end
-  else if iColon > 0 then begin
-    Drive := Copy( Path, 1, iColon );
-    Delete( Path, 1, iColon );
+  else if iColon > -1 then
+  begin
+    Drive := Path.Substring(0, iColon);
+    Path := Path.Remove(0, iColon);
     if Path.Chars[0] = AbPathDelim then
-      Path.Remove(0, 1);
+      Path := Path.Remove(0, 1);
   end;
 end;
 { -------------------------------------------------------------------------- }
