@@ -721,6 +721,8 @@ procedure AbParseFileName( FileSpec : string;
                            out Drive : string;
                            out Path : string;
                            out FileName : string );
+const
+  BasicDriveChars = 2;   
 var
   i : Integer;
   iColon : Integer;
@@ -743,8 +745,8 @@ begin
   end
   else if iColon > -1 then
   begin
-    Drive := Path.Substring(0, iColon);
-    Path := Path.Remove(0, iColon);
+    Drive := Path.Substring(0, BasicDriveChars);   
+    Path := Path.Remove(0, BasicDriveChars);      
     if Path.Chars[0] = AbPathDelim then
       Path := Path.Remove(0, 1);
   end;
