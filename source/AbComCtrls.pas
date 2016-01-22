@@ -969,7 +969,7 @@ var
   ParentDir: string;
   sfi: SHFILEINFO;
 begin
-  ListItem := nil; // Suppress compiler warning
+//  ListItem := nil; // Suppress compiler warning
   if (Items.Count = 0) and (FArchive = nil) then
     Exit;
   Items.BeginUpdate;
