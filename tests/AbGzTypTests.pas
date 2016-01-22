@@ -101,8 +101,8 @@ function TAbGzipExtraFieldTests.StrToTAbGzExtraFieldSubID(const S: string): TAbG
 var
   iCount: Integer;
 begin
-  for iCount := 0 to SizeOf(Result) do
-    Result[iCount] := Ord(S[iCount + 1]);
+  for iCount := Low(Result) to High(Result) do
+    Result[iCount] := Ord(S.Chars[iCount]);
 end;
 
 { -------------------------------------------------------------------------- }
