@@ -62,7 +62,7 @@ type
       FAdvanceStart : boolean;
       FBuffer       : PByte;
       FBufferEnd    : PByte;
-      FBytesUsed    : Integer;
+      FBytesUsed    : Int64;
       FChainLen     : integer;
       FHashChains   : PAbPointerList;
       FHashHeads    : PAbPointerList;
@@ -75,7 +75,7 @@ type
       FOnProgress   : TAbProgressStep;
       FSlidePoint   : PByte;
       FStart        : PByte;
-      FStartOffset  : Integer;
+      FStartOffset  : Int64;
       FStream       : TStream;
       FStreamSize   : Int64;
       FUseCRC32     : boolean;
@@ -104,7 +104,7 @@ type
                           const aPrevMatch   : TAbDfMatch) : boolean;
       function GetNextChar : Byte;
       function GetNextKeyLength : integer;
-      function Position : Integer;
+      function Position : int64;
       procedure ReadBuffer(var aBuffer; aCount  : Integer;
                                         aOffset : Int64);
 
@@ -741,7 +741,7 @@ begin
   iwReadFromStream;
 end;
 {--------}
-function TAbDfInputWindow.Position : Integer;
+function TAbDfInputWindow.Position : Int64;
 begin
   Result := (FCurrent - FStart) + FStartOffset;
 end;

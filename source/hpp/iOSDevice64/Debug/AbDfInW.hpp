@@ -46,7 +46,7 @@ private:
 	bool FAdvanceStart;
 	System::Byte *FBuffer;
 	System::Byte *FBufferEnd;
-	int FBytesUsed;
+	__int64 FBytesUsed;
 	int FChainLen;
 	TAbPointerList *FHashChains;
 	TAbPointerList *FHashHeads;
@@ -59,7 +59,7 @@ private:
 	Abdfbase::TAbProgressStep FOnProgress;
 	System::Byte *FSlidePoint;
 	System::Byte *FStart;
-	int FStartOffset;
+	__int64 FStartOffset;
 	System::Classes::TStream* FStream;
 	__int64 FStreamSize;
 	bool FUseCRC32;
@@ -81,7 +81,7 @@ public:
 	bool __fastcall FindLongestMatch(int aAmpleLength, TAbDfMatch &aMatch, const TAbDfMatch &aPrevMatch);
 	System::Byte __fastcall GetNextChar(void);
 	int __fastcall GetNextKeyLength(void);
-	int __fastcall Position(void);
+	__int64 __fastcall Position(void);
 	void __fastcall ReadBuffer(void *aBuffer, int aCount, __int64 aOffset);
 	__property int ChainLen = {read=FChainLen, write=FChainLen, nodefault};
 	__property int Checksum = {read=iwGetChecksum, nodefault};
