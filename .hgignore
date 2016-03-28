@@ -6,6 +6,7 @@ syntax: glob
 *.tvsconfig
 *.dcu
 *.o
+*.d
 __history
 *.obj
 *.pch

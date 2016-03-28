@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZipOut.pas' rev: 30.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbZipOut.pas' rev: 31.00 (Windows)
 
 #ifndef AbzipoutHPP
 #define AbzipoutHPP
@@ -120,7 +120,7 @@ class PASCALIMPLEMENTATION TAbCustomZipOutline : public Vcl::Controls::TWinContr
 	typedef Vcl::Controls::TWinControl inherited;
 	
 public:
-	Abziptyp::TAbZipItem* operator[](int Index) { return Items[Index]; }
+	Abziptyp::TAbZipItem* operator[](int Index) { return this->Items[Index]; }
 	
 protected:
 	Abziptyp::TAbZipArchive* FArchive;

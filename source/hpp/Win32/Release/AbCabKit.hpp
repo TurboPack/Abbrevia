@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbCabKit.pas' rev: 30.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbCabKit.pas' rev: 31.00 (Windows)
 
 #ifndef AbcabkitHPP
 #define AbcabkitHPP
@@ -19,8 +19,8 @@
 #include <AbCabMak.hpp>
 #include <AbCBrows.hpp>
 #include <AbBrowse.hpp>
-#include <AbCabTyp.hpp>
 #include <AbBase.hpp>
+#include <AbCabTyp.hpp>
 
 //-- user supplied -----------------------------------------------------------
 

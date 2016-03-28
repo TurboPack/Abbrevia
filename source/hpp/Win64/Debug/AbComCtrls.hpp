@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbComCtrls.pas' rev: 30.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbComCtrls.pas' rev: 31.00 (Windows)
 
 #ifndef AbcomctrlsHPP
 #define AbcomctrlsHPP
@@ -66,7 +66,7 @@ class PASCALIMPLEMENTATION TAbListItems : public Vcl::Comctrls::TListItems
 	typedef Vcl::Comctrls::TListItems inherited;
 	
 public:
-	TAbListItem* operator[](int Index) { return Item[Index]; }
+	TAbListItem* operator[](int Index) { return this->Item[Index]; }
 	
 protected:
 	HIDESBASE TAbListItem* __fastcall GetItem(int aIndex);

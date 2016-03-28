@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZBrows.pas' rev: 30.00 (iOSSIM)
+// (DO NOT EDIT: machine generated header) 'AbZBrows.pas' rev: 31.00 (iOSSIM)
 
 #ifndef AbzbrowsHPP
 #define AbzbrowsHPP
@@ -34,7 +34,7 @@ class PASCALIMPLEMENTATION TAbCustomZipBrowser : public Abbrowse::TAbBaseBrowser
 	typedef Abbrowse::TAbBaseBrowser inherited;
 	
 public:
-	Abziptyp::TAbZipItem* operator[](int Index) { return Items[Index]; }
+	Abziptyp::TAbZipItem* operator[](int Index) { return this->Items[Index]; }
 	
 private:
 	bool __fastcall GetTarAutoHandle(void);

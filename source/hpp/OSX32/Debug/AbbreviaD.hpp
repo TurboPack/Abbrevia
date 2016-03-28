@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 30.00 (MacOS)
+// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 31.00 (MacOS)
 
 #ifndef AbbreviadHPP
 #define AbbreviadHPP
@@ -77,6 +77,7 @@
 #include <Posix.Fcntl.hpp>	// (rtl)
 #include <Posix.Time.hpp>	// (rtl)
 #include <Posix.SysTime.hpp>	// (rtl)
+#include <Posix.Locale.hpp>	// (rtl)
 #include <System.Internal.Unwinder.hpp>	// (rtl)
 #include <Macapi.Mach.hpp>	// (rtl)
 #include <Macapi.CoreFoundation.hpp>	// (rtl)
@@ -84,7 +85,6 @@
 #include <Posix.Iconv.hpp>	// (rtl)
 #include <Posix.Dirent.hpp>	// (rtl)
 #include <Posix.Fnmatch.hpp>	// (rtl)
-#include <Posix.Locale.hpp>	// (rtl)
 #include <Posix.Langinfo.hpp>	// (rtl)
 #include <Posix.Sched.hpp>	// (rtl)
 #include <Posix.Pthread.hpp>	// (rtl)
@@ -94,6 +94,7 @@
 #include <Posix.Utime.hpp>	// (rtl)
 #include <Posix.Wordexp.hpp>	// (rtl)
 #include <Posix.Pwd.hpp>	// (rtl)
+#include <Posix.Semaphore.hpp>	// (rtl)
 #include <Posix.SysUio.hpp>	// (rtl)
 #include <Posix.SysSocket.hpp>	// (rtl)
 #include <Posix.ArpaInet.hpp>	// (rtl)
@@ -107,16 +108,14 @@
 #include <System.SysUtils.hpp>	// (rtl)
 #include <System.VarUtils.hpp>	// (rtl)
 #include <System.Variants.hpp>	// (rtl)
-#include <System.StrUtils.hpp>	// (rtl)
-#include <System.AnsiStrings.hpp>	// (rtl)
-#include <System.Hash.hpp>	// (rtl)
-#include <System.Math.hpp>	// (rtl)
-#include <System.Generics.Defaults.hpp>	// (rtl)
 #include <System.Generics.Collections.hpp>	// (rtl)
 #include <Posix.SysMman.hpp>	// (rtl)
 #include <System.Internal.Unwind.hpp>	// (rtl)
+#include <System.Hash.hpp>	// (rtl)
 #include <System.Rtti.hpp>	// (rtl)
 #include <System.TypInfo.hpp>	// (rtl)
+#include <System.Math.hpp>	// (rtl)
+#include <System.Generics.Defaults.hpp>	// (rtl)
 #include <Posix.StrOpts.hpp>	// (rtl)
 #include <Posix.SysSelect.hpp>	// (rtl)
 #include <Macapi.ObjCRuntime.hpp>	// (rtl)
@@ -126,6 +125,7 @@
 #include <Macapi.CocoaTypes.hpp>	// (rtl)
 #include <System.Mac.CFUtils.hpp>	// (rtl)
 #include <System.DateUtils.hpp>	// (rtl)
+#include <System.StrUtils.hpp>	// (rtl)
 #include <System.Masks.hpp>	// (rtl)
 #include <Macapi.OCMarshal.hpp>	// (rtl)
 #include <Macapi.Consts.hpp>	// (rtl)

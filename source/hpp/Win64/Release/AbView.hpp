@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbView.pas' rev: 30.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbView.pas' rev: 31.00 (Windows)
 
 #ifndef AbviewHPP
 #define AbviewHPP
@@ -117,7 +117,7 @@ class PASCALIMPLEMENTATION TAbRowMap : public System::TObject
 	typedef System::TObject inherited;
 	
 public:
-	int operator[](int RowNum) { return Rows[RowNum]; }
+	int operator[](int RowNum) { return this->Rows[RowNum]; }
 	
 protected:
 	System::Classes::TList* FRows;
@@ -147,6 +147,9 @@ class PASCALIMPLEMENTATION TAbColHeadings : public System::Classes::TStringList
 public:
 	/* TStringList.Create */ inline __fastcall TAbColHeadings(void)/* overload */ : System::Classes::TStringList() { }
 	/* TStringList.Create */ inline __fastcall TAbColHeadings(bool OwnsObjects)/* overload */ : System::Classes::TStringList(OwnsObjects) { }
+	/* TStringList.Create */ inline __fastcall TAbColHeadings(System::WideChar QuoteChar, System::WideChar Delimiter)/* overload */ : System::Classes::TStringList(QuoteChar, Delimiter) { }
+	/* TStringList.Create */ inline __fastcall TAbColHeadings(System::WideChar QuoteChar, System::WideChar Delimiter, System::Classes::TStringsOptions Options)/* overload */ : System::Classes::TStringList(QuoteChar, Delimiter, Options) { }
+	/* TStringList.Create */ inline __fastcall TAbColHeadings(System::Types::TDuplicates Duplicates, bool Sorted, bool CaseSensitive)/* overload */ : System::Classes::TStringList(Duplicates, Sorted, CaseSensitive) { }
 	/* TStringList.Destroy */ inline __fastcall virtual ~TAbColHeadings(void) { }
 	
 };

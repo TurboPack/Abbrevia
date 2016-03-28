@@ -3,7 +3,7 @@
         <ProjectGuid>{5EA05F0A-D8CB-49A3-A744-B3A7EE0BAA5F}</ProjectGuid>
         <MainSource>AbbreviaUnitTests.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Console</AppType>
         <FrameworkType>VCL</FrameworkType>
