@@ -176,9 +176,6 @@ type
 
   function AbCreateTempFile(const Dir : string) : string;
 
-  function AbGetTempDirectory : string;
-    {-Return the system temp directory}
-
   function AbGetTempFile(const Dir : string; CreateIt : Boolean) : string;
 
   function AbDrive(const ArchiveName : string) : Char;
@@ -426,17 +423,6 @@ begin
   Result := AbGetTempFile(Dir, True);
 end;
 { -------------------------------------------------------------------------- }
-function AbGetTempDirectory : string;
-begin
-{$IFDEF MSWiNDOWS}
-  SetLength(Result, MAX_PATH);
-  SetLength(Result, GetTempPath(Length(Result),  PChar(Result)));
-{$ENDIF}
-{$IFDEF POSIX}
-  Result := '/tmp/';
-{$ENDIF}
-end;
-{ -------------------------------------------------------------------------- }
 function AbGetTempFile(const Dir : string; CreateIt : Boolean) : string;
 var
   TempPath : string;
@@ -452,13 +438,13 @@ begin
   if TDirectory.Exists(Dir) then
     TempPath := Dir
   else
-    TempPath := AbGetTempDirectory;
+    TempPath := TPath.GetTempPath;
 {$IFDEF MSWINDOWS}
   GetTempFileName(PChar(TempPath), 'VMS', Word(not CreateIt), FileNameZ);
   Result := string(FileNameZ);
 {$ENDIF}
 {$IFDEF POSIX}
-  FileName := TempPath + 'VMSXXXXXX';
+  FileName := TPath.Combine(TPath.GetTempPath, 'VMSXXXXXX');
   mktemp(M.AsAnsi(FileName).ToPointer);
   Result := FileName;
   if CreateIt then begin
