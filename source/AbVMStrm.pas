@@ -144,10 +144,11 @@ begin
   {destroy the swap file}
   vmsSwapFileDestroy;
   {throw away all pages in the list}
-  if (vmsPageList <> nil) then begin
+  if (vmsPageList <> nil) then
+  begin
     for Inx := 0 to pred(vmsPageList.Count) do
-      Dispose(vmsPageList[Inx]);
-    vmsPageList.Destroy;
+      FreeMem(PvmsPage(vmsPageList[Inx]));
+    vmsPageList.Free;
   end;
   {let our ancestor clean up}
   inherited Destroy;
