@@ -35,6 +35,7 @@ extern DELPHI_PACKAGE void __cdecl _llushr(void);
 extern "C" int __cdecl memcmp(void * s1, void * s2, unsigned numBytes);
 extern "C" System::WideChar * __cdecl wcscpy(System::WideChar * strDestination, System::WideChar * strSource);
 extern DELPHI_PACKAGE void __cdecl ___cpuid(System::PInteger CPUInfo, int InfoType);
+extern DELPHI_PACKAGE void __cdecl __C_specific_handler(void);
 extern DELPHI_PACKAGE int __cdecl isdigit(int ch);
 extern DELPHI_PACKAGE void * __cdecl memcpy(void * Dest, void * Src, NativeInt Count);
 extern DELPHI_PACKAGE void * __cdecl memmove(void * Dest, void * Src, NativeInt Count);
@@ -48,7 +49,6 @@ extern DELPHI_PACKAGE void * __cdecl realloc(void * Ptr, int Size);
 extern DELPHI_PACKAGE NativeUInt __cdecl _beginthreadex(void * security, unsigned stack_size, void * start_address, void * arglist, unsigned initflag, unsigned &thrdaddr);
 extern DELPHI_PACKAGE int __cdecl _ftol(const double AValue);
 extern DELPHI_PACKAGE int __cdecl sprintf(System::WideChar * S, const System::WideChar * Format);
-extern DELPHI_PACKAGE void __cdecl __C_specific_handler(void);
 }	/* namespace Abcrtl */
 #if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_ABCRTL)
 using namespace Abcrtl;

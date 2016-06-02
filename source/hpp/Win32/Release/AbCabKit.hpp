@@ -19,8 +19,8 @@
 #include <AbCabMak.hpp>
 #include <AbCBrows.hpp>
 #include <AbBrowse.hpp>
-#include <AbBase.hpp>
 #include <AbCabTyp.hpp>
+#include <AbBase.hpp>
 
 //-- user supplied -----------------------------------------------------------
 

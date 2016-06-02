@@ -20,8 +20,8 @@
 #include <AbCBrows.hpp>
 #include <AbCabTyp.hpp>
 #include <AbArcTyp.hpp>
-#include <Vcl.Controls.hpp>
 #include <Vcl.Grids.hpp>
+#include <Vcl.Controls.hpp>
 #include <Vcl.Forms.hpp>
 #include <System.UITypes.hpp>
 #include <Vcl.Graphics.hpp>
