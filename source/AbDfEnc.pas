@@ -683,7 +683,7 @@ const
   StoredBlockSize = $FFFF;
 var
   Buffer    : PByte;
-  BytesRead : LongWord;
+  BytesRead : UInt32;
   ByteCount : Int64;
   BytesToGo : Int64;
   CurPos    : Int64;

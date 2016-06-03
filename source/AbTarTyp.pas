@@ -242,7 +242,7 @@ type
     { Note: that the actual The name needs to be coherient with the name Inherited
             from parent type TAbArchiveItem }
     Name       : string;   { Path & File name. }
-    Mode       : LongWord; { File Permissions }
+    Mode       : UInt32; { File Permissions }
     uid        : Integer;  { User ID }
     gid        : Integer;  { Group ID }
     Size       : Int64;    { Tared File size }
@@ -311,7 +311,7 @@ type
 
     { Overrides for Inherited Properties from type TAbArchiveItem }
     function GetCompressedSize : Int64; override;
-    function GetExternalFileAttributes : LongWord; override;
+    function GetExternalFileAttributes : UInt32; override;
     function GetFileName : string; override;
     function GetIsDirectory: Boolean; override;
     function GetIsEncrypted : Boolean; override;
@@ -322,7 +322,7 @@ type
     function GetUncompressedSize : Int64; override;
 
     procedure SetCompressedSize(const Value : Int64); override;       { Extended Headers }
-    procedure SetExternalFileAttributes( Value : LongWord ); override;
+    procedure SetExternalFileAttributes( Value : UInt32 ); override;
     procedure SetFileName(const Value : string); override;            { Extended Headers }
     procedure SetIsEncrypted(Value : Boolean); override;
     procedure SetLastModFileDate(const Value : Word); override;       { Extended Headers }
@@ -338,7 +338,7 @@ type
   public
   { property Name : STRING; Path & File name. Inherited from parent type TAbArchiveItem }
   {   read GetFileName write SetFileName;  overridden above}
-    property Mode : LongWord   { File Permissions }
+    property Mode : UInt32   { File Permissions }
       read GetExternalFileAttributes write SetExternalFileAttributes;
     property UserID : Integer { User ID }
       read GetUserID write SetUserID;
@@ -633,7 +633,7 @@ begin
   Result := FTarItem.DevMinor;
 end;
 
-function TAbTarItem.GetExternalFileAttributes: LongWord;
+function TAbTarItem.GetExternalFileAttributes: UInt32;
 begin
   Result := FTarItem.Mode;
 end;
@@ -1158,7 +1158,7 @@ begin
   FTarItem.Dirty := True;
 end;
 
-procedure TAbTarItem.SetExternalFileAttributes(Value: LongWord);
+procedure TAbTarItem.SetExternalFileAttributes(Value: UInt32);
 var
   S : string;
   I: Integer;

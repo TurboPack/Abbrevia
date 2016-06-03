@@ -69,7 +69,7 @@ const
   Ab_Zip64SubfieldID                        : Word    = $0001;
   Ab_InfoZipUnicodePathSubfieldID           : Word    = $7075;
   Ab_XceedUnicodePathSubfieldID             : Word    = $554E;
-  Ab_XceedUnicodePathSignature              : LongWord= $5843554E;
+  Ab_XceedUnicodePathSignature              : UInt32= $5843554E;
 
 type
   PAbByteArray4K = ^TAbByteArray4K;
@@ -94,8 +94,8 @@ type
     RecordSize              : Int64;
     VersionMadeBy           : Word;
     VersionNeededToExtract  : Word;
-    DiskNumber              : LongWord;
-    StartDiskNumber         : LongWord;
+    DiskNumber              : UInt32;
+    StartDiskNumber         : UInt32;
     EntriesOnDisk           : Int64;
     TotalEntries            : Int64;
     DirectorySize           : Int64;
@@ -115,8 +115,8 @@ type
     StartDiskNumber         : Word;
     EntriesOnDisk           : Word;
     TotalEntries            : Word;
-    DirectorySize           : LongWord;
-    DirectoryOffset         : LongWord;
+    DirectorySize           : UInt32;
+    DirectoryOffset         : UInt32;
     CommentLength           : Word;
   end;
 
@@ -153,7 +153,7 @@ type
 
   PXceedUnicodePathRec = ^TXceedUnicodePathRec;
   TXceedUnicodePathRec = packed record
-    Signature: LongWord;
+    Signature: UInt32;
     Length: Integer;
     UnicodeName: array[0..0] of WideChar;
   end;
@@ -228,8 +228,8 @@ type
     FLastModFileTime : Word;
     FLastModFileDate : Word;
     FCRC32 : Integer;
-    FCompressedSize : LongWord;
-    FUncompressedSize : LongWord;
+    FCompressedSize : UInt32;
+    FUncompressedSize : UInt32;
     FFileName : string;
     FExtraField : TAbExtraField;
   protected {methods}
@@ -262,9 +262,9 @@ type
       read FLastModFileDate write FLastModFileDate;
     property CRC32 : Integer
       read FCRC32 write FCRC32;
-    property CompressedSize : LongWord
+    property CompressedSize : UInt32
       read FCompressedSize write FCompressedSize;
-    property UncompressedSize : LongWord
+    property UncompressedSize : UInt32
       read FUncompressedSize write FUncompressedSize;
     property FileName : string read FFileName write FFileName;
     property ExtraField : TAbExtraField
@@ -304,8 +304,8 @@ type
     FVersionMadeBy          : Word;
     FDiskNumberStart        : Word;
     FInternalFileAttributes : Word;
-    FExternalFileAttributes : LongWord;
-    FRelativeOffset         : LongWord;
+    FExternalFileAttributes : UInt32;
+    FRelativeOffset         : UInt32;
     FFileComment            : string;
   public {methods}
     constructor Create;
@@ -319,9 +319,9 @@ type
       read FDiskNumberStart write FDiskNumberStart;
     property InternalFileAttributes : Word
       read FInternalFileAttributes write FInternalFileAttributes;
-    property ExternalFileAttributes : LongWord
+    property ExternalFileAttributes : UInt32
       read FExternalFileAttributes write FExternalFileAttributes;
-    property RelativeOffset : LongWord
+    property RelativeOffset : UInt32
       read FRelativeOffset write FRelativeOffset;
     property FileComment : string
       read FFileComment write FFileComment;
@@ -330,8 +330,8 @@ type
 { TAbZipDirectoryFileFooter interface ====================================== }
   TAbZipDirectoryFileFooter = class( TObject )
   protected {private}
-    FDiskNumber             : LongWord;
-    FStartDiskNumber        : LongWord;
+    FDiskNumber             : UInt32;
+    FStartDiskNumber        : UInt32;
     FEntriesOnDisk          : Int64;
     FTotalEntries           : Int64;
     FDirectorySize          : Int64;
@@ -343,7 +343,7 @@ type
     procedure LoadZip64FromStream( Stream : TStream );
     procedure SaveToStream( Stream : TStream; aZip64TailOffset : Int64 = -1 );
   public {properties}
-    property DiskNumber : LongWord
+    property DiskNumber : UInt32
       read FDiskNumber write FDiskNumber;
     property EntriesOnDisk : Int64
       read FEntriesOnDisk write FEntriesOnDisk;
@@ -353,7 +353,7 @@ type
       read FDirectorySize write FDirectorySize;
     property DirectoryOffset : Int64
       read FDirectoryOffset write FDirectoryOffset;
-    property StartDiskNumber : LongWord
+    property StartDiskNumber : UInt32
       read FStartDiskNumber write FStartDiskNumber;
     property ZipfileComment : string
       read FZipfileComment write FZipfileComment;
@@ -365,7 +365,7 @@ type
   TAbZipItem = class( TAbArchiveItem )
   protected {private}
     FItemInfo : TAbZipDirectoryFileHeader;
-    FDiskNumberStart : LongWord;
+    FDiskNumberStart : UInt32;
     FLFHExtraField : TAbExtraField;
     FRelativeOffset : Int64;
 
@@ -387,7 +387,7 @@ type
     procedure SaveDDToStream( Stream : TStream );
     procedure SaveLFHToStream( Stream : TStream );
     procedure SetCompressionMethod( Value : TAbZipCompressionMethod );
-    procedure SetDiskNumberStart( Value : LongWord );
+    procedure SetDiskNumberStart( Value : UInt32 );
     procedure SetFileComment(const Value : string);
     procedure SetGeneralPurposeBitFlag( Value : Word );
     procedure SetHostOS( Value : TAbZipHostOS );
@@ -400,7 +400,7 @@ type
 
   protected {redefined property methods}
     function  GetCRC32 : Integer; override;
-    function  GetExternalFileAttributes : LongWord; override;
+    function  GetExternalFileAttributes : UInt32; override;
     function  GetIsDirectory: Boolean; override;
     function  GetIsEncrypted : Boolean; override;
     function  GetLastModFileDate : Word; override;
@@ -408,7 +408,7 @@ type
     function  GetNativeFileAttributes : Integer; override;
     procedure SetCompressedSize( const Value : Int64 ); override;
     procedure SetCRC32( const Value : Integer ); override;
-    procedure SetExternalFileAttributes( Value : LongWord ); override;
+    procedure SetExternalFileAttributes( Value : UInt32 ); override;
     procedure SetFileName(const Value : string ); override;
     procedure SetLastModFileDate(const Value : Word ); override;
     procedure SetLastModFileTime(const Value : Word ); override;
@@ -429,7 +429,7 @@ type
       read GetDeflationOption;
     property DictionarySize : TAbZipDictionarySize
       read GetDictionarySize;
-    property DiskNumberStart : LongWord
+    property DiskNumberStart : UInt32
       read FDiskNumberStart
       write SetDiskNumberStart;
     property ExtraField : TAbExtraField
@@ -471,7 +471,7 @@ type
     FIsExecutable           : Boolean;
     FPassword               : string;
     FPasswordRetries        : Byte;
-    FStubSize               : LongWord;
+    FStubSize               : UInt32;
 
     FExtractHelper          : TAbArchiveItemExtractEvent;
     FExtractToStreamHelper  : TAbArchiveItemExtractToStreamEvent;
@@ -558,7 +558,7 @@ type
       read FPasswordRetries
       write FPasswordRetries
       default AbDefPasswordRetries;
-    property StubSize : LongWord
+    property StubSize : UInt32
       read FStubSize;
     property ZipfileComment : string
       read GetZipfileComment
@@ -829,7 +829,7 @@ procedure MakeSelfExtracting( StubStream, ZipStream,
 var
   DirectoryStart : Int64;
   FileSignature : Integer;
-  StubSize : LongWord;
+  StubSize : UInt32;
   TailPosition : Int64;
   ZDFF : TAbZipDirectoryFileFooter;
   ZipItem : TAbZipItem;
@@ -907,8 +907,8 @@ begin
     Stream.Write( FUncompressedSize, sizeof( FUncompressedSize ) );
   end
   else begin
-    Stream.Write( FCompressedSize, sizeof( LongWord ) );
-    Stream.Write( FUncompressedSize, sizeof( LongWord ) );
+    Stream.Write( FCompressedSize, sizeof( UInt32 ) );
+    Stream.Write( FUncompressedSize, sizeof( UInt32 ) );
   end;
 end;
 { -------------------------------------------------------------------------- }
@@ -1377,7 +1377,7 @@ begin
   Result := TAbZipHostOS(Hi(VersionMadeBy));
 end;
 { -------------------------------------------------------------------------- }
-function TAbZipItem.GetExternalFileAttributes : LongWord;
+function TAbZipItem.GetExternalFileAttributes : UInt32;
 begin
   Result := FItemInfo.ExternalFileAttributes;
 end;
@@ -1511,7 +1511,7 @@ begin
       if FItemInfo.RelativeOffset = $FFFFFFFF then
         FieldStream.ReadBuffer(FRelativeOffset, SizeOf(Int64));
       if FItemInfo.DiskNumberStart = $FFFF then
-        FieldStream.ReadBuffer(FDiskNumberStart, SizeOf(LongWord));
+        FieldStream.ReadBuffer(FDiskNumberStart, SizeOf(UInt32));
     finally
       FieldStream.Free;
     end;
@@ -1600,14 +1600,14 @@ begin
   FItemInfo.CRC32 := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetDiskNumberStart( Value : LongWord );
+procedure TAbZipItem.SetDiskNumberStart( Value : UInt32 );
 begin
   FDiskNumberStart := Value;
   FItemInfo.DiskNumberStart := Min(Value, $FFFF);
   UpdateZip64ExtraHeader;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipItem.SetExternalFileAttributes( Value : LongWord );
+procedure TAbZipItem.SetExternalFileAttributes( Value : UInt32 );
 begin
   FItemInfo.ExternalFileAttributes := Value;
 end;
@@ -1762,7 +1762,7 @@ begin
     if RelativeOffset >= $FFFFFFFF then
       FieldStream.WriteBuffer(FRelativeOffset, SizeOf(Int64));
     if DiskNumberStart >= $FFFF then
-      FieldStream.WriteBuffer(FDiskNumberStart, SizeOf(LongWord));
+      FieldStream.WriteBuffer(FDiskNumberStart, SizeOf(UInt32));
     Changed := (FieldStream.Size > 0) <> ExtraField.Has(Ab_Zip64SubfieldID);
     if FieldStream.Size > 0 then
       ExtraField.Put(Ab_Zip64SubfieldID, FieldStream.Memory^, FieldStream.Size)
@@ -2065,7 +2065,7 @@ begin
   end;
 
   { build Items list from central directory records }
-  FStubSize := High(LongWord);
+  FStubSize := High(UInt32);
   while Count < FInfo.TotalEntries do begin
     { create new Item }
     Item := TAbZipItem.Create;
@@ -2106,7 +2106,7 @@ var
   Abort              : Boolean;
   MemStream          : TMemoryStream;
   HasDataDescriptor  : Boolean;
-  i                  : LongWord;
+  i                  : UInt32;
   LFH                : TAbZipLocalFileHeader;
   NewStream          : TStream;
   WorkingStream      : TAbVirtualMemoryStream;

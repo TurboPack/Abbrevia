@@ -57,7 +57,7 @@ struct DECLSPEC_DRECORD TAbGzTailRec
 {
 public:
 	int CRC32;
-	unsigned long ISize;
+	unsigned ISize;
 };
 #pragma pack(pop)
 
@@ -106,12 +106,12 @@ protected:
 	void __fastcall SetFileComment(const System::UnicodeString Value);
 	void __fastcall SetFileSystem(const TAbGzFileSystem Value);
 	void __fastcall SetIsText(const bool Value);
-	virtual unsigned long __fastcall GetExternalFileAttributes(void);
+	virtual unsigned __fastcall GetExternalFileAttributes(void);
 	virtual bool __fastcall GetIsEncrypted(void);
 	virtual System::Word __fastcall GetLastModFileDate(void);
 	virtual System::Word __fastcall GetLastModFileTime(void);
 	virtual System::TDateTime __fastcall GetLastModTimeAsDateTime(void);
-	virtual void __fastcall SetExternalFileAttributes(unsigned long Value);
+	virtual void __fastcall SetExternalFileAttributes(unsigned Value);
 	virtual void __fastcall SetFileName(const System::UnicodeString Value);
 	virtual void __fastcall SetIsEncrypted(bool Value);
 	virtual void __fastcall SetLastModFileDate(const System::Word Value);
@@ -167,7 +167,7 @@ public:
 	__property int CRC = {read=GetGzCRC, nodefault};
 	__property int FileSize = {read=GetFileSize, nodefault};
 	__property int TailCRC = {read=FTail.CRC32, nodefault};
-	__property unsigned long TailSize = {read=FTail.ISize};
+	__property unsigned TailSize = {read=FTail.ISize, nodefault};
 };
 
 

@@ -22,8 +22,6 @@ namespace Abcrtl
 {
 //-- forward type declarations -----------------------------------------------
 //-- type declarations -------------------------------------------------------
-typedef unsigned UInt32;
-
 typedef NativeInt size_t;
 
 //-- var, const, procedure ---------------------------------------------------

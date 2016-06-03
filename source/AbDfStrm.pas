@@ -137,7 +137,7 @@ type
       FLog         : TAbLogger;
       FSlideWin    : TAbDfInputWindow;
       FStartOfs    : Int64;
-      FStoredSize  : LongWord;
+      FStoredSize  : UInt32;
       FStream      : PByte;
       FStrmEnd     : PByte;
       {$IFDEF UseLogging}
@@ -145,7 +145,7 @@ type
       {$ENDIF}
       FUseDeflate64: boolean;
     protected
-      function lzsGetApproxSize : LongWord;
+      function lzsGetApproxSize : UInt32;
       function lzsGetStaticSize : integer;
       function lzsGetStoredSize : integer;
       function lzsIsFull : boolean;
@@ -1173,7 +1173,7 @@ begin
 {  Clear;}
 end;
 {--------}
-function TAbDfLZStream.lzsGetApproxSize : LongWord;
+function TAbDfLZStream.lzsGetApproxSize : UInt32;
 var
   i : integer;
 begin

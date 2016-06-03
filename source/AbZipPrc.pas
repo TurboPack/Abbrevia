@@ -311,7 +311,7 @@ begin
   end; {SaveDir}
   try {UncompressedStream}
     {$IFDEF POSIX}
-    Item.ExternalFileAttributes := LongWord(AttrEx.Mode) shl 16 + LongWord(AttrEx.Attr);
+    Item.ExternalFileAttributes := UInt32(AttrEx.Mode) shl 16 + UInt32(AttrEx.Attr);
     {$ELSE}
     Item.ExternalFileAttributes := AttrEx.Attr;
     {$ENDIF}

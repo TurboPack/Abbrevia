@@ -56,6 +56,9 @@ uses
   System.AnsiStrings,
   System.SysUtils;
 
+type
+  PUInt32 = ^UInt32;
+
 // Compile using
 //   bcc32 -DWIN32 -DNO_USE_FSTREAMS -c -w-8004 -w-8012 -w-8017 -w-8057 -w-8065 *.c
 //
@@ -206,7 +209,7 @@ const
 
 type
   int32_t = Integer;
-  uint32_t = LongWord;
+  uint32_t = UInt32;
 
   WavpackStreamReader = record
     read_bytes: function(id, data: Pointer; bcount: int32_t): int32_t; cdecl;
@@ -323,12 +326,12 @@ end;
 // Conversions simplified since we only support little-endian processors
 function FormatSamples(bps: Integer; dst, src: PByte; samcnt: uint32_t): PByte;
 var
-  sample: LongWord;
+  sample: UInt32;
 begin
   while samcnt > 0 do begin
     Dec(samcnt);
     // Get next sample
-    sample := PLongWord(src)^;
+    sample := PUInt32(src)^;
     // Convert and write to output
     case bps of
       1: begin
@@ -343,10 +346,10 @@ begin
         PByteArray(dst)[2] := sample shr 16;
       end;
       4: begin
-        PLongWord(dst)^ := sample;
+        PUInt32(dst)^ := sample;
       end;
     end;
-    Inc(src, SizeOf(LongWord));
+    Inc(src, SizeOf(UInt32));
     Inc(dst, bps);
   end;
   Result := dst;

@@ -42,7 +42,6 @@ uses
   Winapi.Windows;
 
 type
-  UInt32 = LongWord;
   size_t = NativeInt;
 
 const
@@ -68,7 +67,7 @@ function strlen(P: PAnsiChar): Integer; cdecl;
 function strcpy(Des, Src: PAnsiChar): PAnsiChar; cdecl;
 function strncpy(Des, Src: PAnsiChar; MaxLen: Integer): PAnsiChar; cdecl;
 
-function memcmp(s1,s2: Pointer; numBytes: LongWord): integer; cdecl;
+function memcmp(s1,s2: Pointer; numBytes: UInt32): integer; cdecl;
   external 'msvcrt.dll';
 function wcscpy(strDestination, strSource: PWideChar): PWideChar; cdecl;
   external 'msvcrt.dll';

@@ -181,7 +181,7 @@ struct DECLSPEC_DRECORD TAbTarItemRec
 {
 public:
 	System::UnicodeString Name;
-	unsigned long Mode;
+	unsigned Mode;
 	int uid;
 	int gid;
 	__int64 Size;
@@ -247,7 +247,7 @@ protected:
 	void __fastcall SetModTime(const __int64 Value);
 	void __fastcall SetMagic(const System::UnicodeString Value);
 	virtual __int64 __fastcall GetCompressedSize(void);
-	virtual unsigned long __fastcall GetExternalFileAttributes(void);
+	virtual unsigned __fastcall GetExternalFileAttributes(void);
 	virtual System::UnicodeString __fastcall GetFileName(void);
 	virtual bool __fastcall GetIsDirectory(void);
 	virtual bool __fastcall GetIsEncrypted(void);
@@ -257,7 +257,7 @@ protected:
 	virtual int __fastcall GetNativeFileAttributes(void);
 	virtual __int64 __fastcall GetUncompressedSize(void);
 	virtual void __fastcall SetCompressedSize(const __int64 Value);
-	virtual void __fastcall SetExternalFileAttributes(unsigned long Value);
+	virtual void __fastcall SetExternalFileAttributes(unsigned Value);
 	virtual void __fastcall SetFileName(const System::UnicodeString Value);
 	virtual void __fastcall SetIsEncrypted(bool Value);
 	virtual void __fastcall SetLastModFileDate(const System::Word Value);
@@ -269,7 +269,7 @@ protected:
 	__property System::UnicodeString Magic = {read=GetMagic, write=SetMagic};
 	
 public:
-	__property unsigned long Mode = {read=GetExternalFileAttributes, write=SetExternalFileAttributes};
+	__property unsigned Mode = {read=GetExternalFileAttributes, write=SetExternalFileAttributes, nodefault};
 	__property int UserID = {read=GetUserID, write=SetUserID, nodefault};
 	__property int GroupID = {read=GetGroupID, write=SetGroupID, nodefault};
 	__property __int64 ModTime = {read=GetModTime, write=SetModTime};

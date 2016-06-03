@@ -100,7 +100,7 @@ type
     FCabSize           : Integer;
     FCompressionType   : TAbCabCompressionType;
     FFileCount         : Word;
-    FFolderThreshold   : LongWord;
+    FFolderThreshold   : UInt32;
     FFolderCount       : Word;
     FHasPrev           : Boolean;
     FHasNext           : Boolean;
@@ -126,7 +126,7 @@ type
     procedure PutItem( Index : Integer; Value : TAbCabItem );
     procedure SaveArchive;
       override;
-    procedure SetFolderThreshold(Value : LongWord);
+    procedure SetFolderThreshold(Value : UInt32);
     procedure SetSetID(Value : Word);
     procedure SetSpanningThreshold(Value : Int64);
       override;
@@ -153,7 +153,7 @@ type
     property CompressionType : TAbCabCompressionType
       read  FCompressionType
       write FCompressionType;
-    property FolderThreshold : LongWord
+    property FolderThreshold : UInt32
       read  FFolderThreshold
       write SetFolderThreshold;
     property FolderCount : Word
@@ -786,7 +786,7 @@ begin
   { No-op;  file is flushed in destructor }
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCabArchive.SetFolderThreshold(Value : LongWord);
+procedure TAbCabArchive.SetFolderThreshold(Value : UInt32);
   {set maximum compression boundary}
 begin
   if (Value > 0) then

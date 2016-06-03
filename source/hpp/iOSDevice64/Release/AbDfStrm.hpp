@@ -121,13 +121,13 @@ private:
 	Abdfbase::TAbLogger* FLog;
 	Abdfinw::TAbDfInputWindow* FSlideWin;
 	__int64 FStartOfs;
-	unsigned long FStoredSize;
+	unsigned FStoredSize;
 	System::Byte *FStream;
 	System::Byte *FStrmEnd;
 	bool FUseDeflate64;
 	
 protected:
-	unsigned long __fastcall lzsGetApproxSize(void);
+	unsigned __fastcall lzsGetApproxSize(void);
 	int __fastcall lzsGetStaticSize(void);
 	int __fastcall lzsGetStoredSize(void);
 	bool __fastcall lzsIsFull(void);

@@ -230,8 +230,8 @@ type
   TLargeInteger = record
     case Integer of
     0: (
-      LowPart: LongWord;
-      HighPart: LongWord);
+      LowPart: UInt32;
+      HighPart: UInt32);
     1: (
       QuadPart: Int64);
   end;

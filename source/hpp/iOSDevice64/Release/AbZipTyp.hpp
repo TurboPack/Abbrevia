@@ -78,8 +78,8 @@ public:
 	__int64 RecordSize;
 	System::Word VersionMadeBy;
 	System::Word VersionNeededToExtract;
-	unsigned long DiskNumber;
-	unsigned long StartDiskNumber;
+	unsigned DiskNumber;
+	unsigned StartDiskNumber;
 	__int64 EntriesOnDisk;
 	__int64 TotalEntries;
 	__int64 DirectorySize;
@@ -109,8 +109,8 @@ public:
 	System::Word StartDiskNumber;
 	System::Word EntriesOnDisk;
 	System::Word TotalEntries;
-	unsigned long DirectorySize;
-	unsigned long DirectoryOffset;
+	unsigned DirectorySize;
+	unsigned DirectoryOffset;
 	System::Word CommentLength;
 };
 #pragma pack(pop)
@@ -187,7 +187,7 @@ typedef TXceedUnicodePathRec *PXceedUnicodePathRec;
 struct DECLSPEC_DRECORD TXceedUnicodePathRec
 {
 public:
-	unsigned long Signature;
+	unsigned Signature;
 	int Length;
 	System::StaticArray<System::WideChar, 1> UnicodeName;
 };
@@ -252,8 +252,8 @@ protected:
 	System::Word FLastModFileTime;
 	System::Word FLastModFileDate;
 	int FCRC32;
-	unsigned long FCompressedSize;
-	unsigned long FUncompressedSize;
+	unsigned FCompressedSize;
+	unsigned FUncompressedSize;
 	System::UnicodeString FFileName;
 	Abarctyp::TAbExtraField* FExtraField;
 	TAbZipCompressionMethod __fastcall GetCompressionMethod(void);
@@ -278,8 +278,8 @@ public:
 	__property System::Word LastModFileTime = {read=FLastModFileTime, write=FLastModFileTime, nodefault};
 	__property System::Word LastModFileDate = {read=FLastModFileDate, write=FLastModFileDate, nodefault};
 	__property int CRC32 = {read=FCRC32, write=FCRC32, nodefault};
-	__property unsigned long CompressedSize = {read=FCompressedSize, write=FCompressedSize};
-	__property unsigned long UncompressedSize = {read=FUncompressedSize, write=FUncompressedSize};
+	__property unsigned CompressedSize = {read=FCompressedSize, write=FCompressedSize, nodefault};
+	__property unsigned UncompressedSize = {read=FUncompressedSize, write=FUncompressedSize, nodefault};
 	__property System::UnicodeString FileName = {read=FFileName, write=FFileName};
 	__property Abarctyp::TAbExtraField* ExtraField = {read=FExtraField};
 	__property double CompressionRatio = {read=GetCompressionRatio};
@@ -314,8 +314,8 @@ protected:
 	System::Word FVersionMadeBy;
 	System::Word FDiskNumberStart;
 	System::Word FInternalFileAttributes;
-	unsigned long FExternalFileAttributes;
-	unsigned long FRelativeOffset;
+	unsigned FExternalFileAttributes;
+	unsigned FRelativeOffset;
 	System::UnicodeString FFileComment;
 	
 public:
@@ -326,8 +326,8 @@ public:
 	__property System::Word VersionMadeBy = {read=FVersionMadeBy, write=FVersionMadeBy, nodefault};
 	__property System::Word DiskNumberStart = {read=FDiskNumberStart, write=FDiskNumberStart, nodefault};
 	__property System::Word InternalFileAttributes = {read=FInternalFileAttributes, write=FInternalFileAttributes, nodefault};
-	__property unsigned long ExternalFileAttributes = {read=FExternalFileAttributes, write=FExternalFileAttributes};
-	__property unsigned long RelativeOffset = {read=FRelativeOffset, write=FRelativeOffset};
+	__property unsigned ExternalFileAttributes = {read=FExternalFileAttributes, write=FExternalFileAttributes, nodefault};
+	__property unsigned RelativeOffset = {read=FRelativeOffset, write=FRelativeOffset, nodefault};
 	__property System::UnicodeString FileComment = {read=FFileComment, write=FFileComment};
 };
 
@@ -337,8 +337,8 @@ class PASCALIMPLEMENTATION TAbZipDirectoryFileFooter : public System::TObject
 	typedef System::TObject inherited;
 	
 protected:
-	unsigned long FDiskNumber;
-	unsigned long FStartDiskNumber;
+	unsigned FDiskNumber;
+	unsigned FStartDiskNumber;
 	__int64 FEntriesOnDisk;
 	__int64 FTotalEntries;
 	__int64 FDirectorySize;
@@ -350,12 +350,12 @@ public:
 	void __fastcall LoadFromStream(System::Classes::TStream* Stream);
 	void __fastcall LoadZip64FromStream(System::Classes::TStream* Stream);
 	void __fastcall SaveToStream(System::Classes::TStream* Stream, __int64 aZip64TailOffset = (__int64)(-1LL));
-	__property unsigned long DiskNumber = {read=FDiskNumber, write=FDiskNumber};
+	__property unsigned DiskNumber = {read=FDiskNumber, write=FDiskNumber, nodefault};
 	__property __int64 EntriesOnDisk = {read=FEntriesOnDisk, write=FEntriesOnDisk};
 	__property __int64 TotalEntries = {read=FTotalEntries, write=FTotalEntries};
 	__property __int64 DirectorySize = {read=FDirectorySize, write=FDirectorySize};
 	__property __int64 DirectoryOffset = {read=FDirectoryOffset, write=FDirectoryOffset};
-	__property unsigned long StartDiskNumber = {read=FStartDiskNumber, write=FStartDiskNumber};
+	__property unsigned StartDiskNumber = {read=FStartDiskNumber, write=FStartDiskNumber, nodefault};
 	__property System::UnicodeString ZipfileComment = {read=FZipfileComment, write=FZipfileComment};
 	__property bool IsZip64 = {read=GetIsZip64, nodefault};
 public:
@@ -371,7 +371,7 @@ class PASCALIMPLEMENTATION TAbZipItem : public Abarctyp::TAbArchiveItem
 	
 protected:
 	TAbZipDirectoryFileHeader* FItemInfo;
-	unsigned long FDiskNumberStart;
+	unsigned FDiskNumberStart;
 	Abarctyp::TAbExtraField* FLFHExtraField;
 	__int64 FRelativeOffset;
 	TAbZipCompressionMethod __fastcall GetCompressionMethod(void);
@@ -391,7 +391,7 @@ protected:
 	void __fastcall SaveDDToStream(System::Classes::TStream* Stream);
 	void __fastcall SaveLFHToStream(System::Classes::TStream* Stream);
 	void __fastcall SetCompressionMethod(TAbZipCompressionMethod Value);
-	void __fastcall SetDiskNumberStart(unsigned long Value);
+	void __fastcall SetDiskNumberStart(unsigned Value);
 	void __fastcall SetFileComment(const System::UnicodeString Value);
 	void __fastcall SetGeneralPurposeBitFlag(System::Word Value);
 	void __fastcall SetHostOS(TAbZipHostOS Value);
@@ -402,7 +402,7 @@ protected:
 	void __fastcall UpdateVersionNeededToExtract(void);
 	void __fastcall UpdateZip64ExtraHeader(void);
 	virtual int __fastcall GetCRC32(void);
-	virtual unsigned long __fastcall GetExternalFileAttributes(void);
+	virtual unsigned __fastcall GetExternalFileAttributes(void);
 	virtual bool __fastcall GetIsDirectory(void);
 	virtual bool __fastcall GetIsEncrypted(void);
 	virtual System::Word __fastcall GetLastModFileDate(void);
@@ -410,7 +410,7 @@ protected:
 	virtual int __fastcall GetNativeFileAttributes(void);
 	virtual void __fastcall SetCompressedSize(const __int64 Value);
 	virtual void __fastcall SetCRC32(const int Value);
-	virtual void __fastcall SetExternalFileAttributes(unsigned long Value);
+	virtual void __fastcall SetExternalFileAttributes(unsigned Value);
 	virtual void __fastcall SetFileName(const System::UnicodeString Value);
 	virtual void __fastcall SetLastModFileDate(const System::Word Value);
 	virtual void __fastcall SetLastModFileTime(const System::Word Value);
@@ -424,7 +424,7 @@ public:
 	__property double CompressionRatio = {read=GetCompressionRatio};
 	__property TAbZipDeflationOption DeflationOption = {read=GetDeflationOption, nodefault};
 	__property TAbZipDictionarySize DictionarySize = {read=GetDictionarySize, nodefault};
-	__property unsigned long DiskNumberStart = {read=FDiskNumberStart, write=SetDiskNumberStart};
+	__property unsigned DiskNumberStart = {read=FDiskNumberStart, write=SetDiskNumberStart, nodefault};
 	__property Abarctyp::TAbExtraField* ExtraField = {read=GetExtraField};
 	__property System::UnicodeString FileComment = {read=GetFileComment, write=SetFileComment};
 	__property TAbZipHostOS HostOS = {read=GetHostOS, write=SetHostOS, nodefault};
@@ -453,7 +453,7 @@ protected:
 	bool FIsExecutable;
 	System::UnicodeString FPassword;
 	System::Byte FPasswordRetries;
-	unsigned long FStubSize;
+	unsigned FStubSize;
 	Abarctyp::TAbArchiveItemExtractEvent FExtractHelper;
 	Abarctyp::TAbArchiveItemExtractToStreamEvent FExtractToStreamHelper;
 	Abarctyp::TAbArchiveItemTestEvent FTestHelper;
@@ -499,7 +499,7 @@ public:
 	__property Abarctyp::TAbArchiveItemInsertFromStreamEvent InsertFromStreamHelper = {read=FInsertFromStreamHelper, write=FInsertFromStreamHelper};
 	__property System::UnicodeString Password = {read=FPassword, write=FPassword};
 	__property System::Byte PasswordRetries = {read=FPasswordRetries, write=FPasswordRetries, default=3};
-	__property unsigned long StubSize = {read=FStubSize};
+	__property unsigned StubSize = {read=FStubSize, nodefault};
 	__property System::UnicodeString ZipfileComment = {read=GetZipfileComment, write=SetZipfileComment};
 	__property TAbZipItem* Items[int Index] = {read=GetItem, write=PutItem/*, default*/};
 	__property TAbNeedPasswordEvent OnNeedPassword = {read=FOnNeedPassword, write=FOnNeedPassword};
@@ -538,7 +538,7 @@ static constexpr System::Word AbLanguageEncodingFlag = System::Word(0x800);
 extern DELPHI_PACKAGE System::Word Ab_Zip64SubfieldID;
 extern DELPHI_PACKAGE System::Word Ab_InfoZipUnicodePathSubfieldID;
 extern DELPHI_PACKAGE System::Word Ab_XceedUnicodePathSubfieldID;
-extern DELPHI_PACKAGE unsigned long Ab_XceedUnicodePathSignature;
+extern DELPHI_PACKAGE unsigned Ab_XceedUnicodePathSignature;
 static const TAbZipSupportedMethod AbDefCompressionMethodToUse = (TAbZipSupportedMethod)(2);
 static const TAbZipDeflationOption AbDefDeflationOption = (TAbZipDeflationOption)(1);
 extern DELPHI_PACKAGE Abutils::TAbArchiveType __fastcall VerifyZip(System::Classes::TStream* Strm);

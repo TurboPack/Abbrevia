@@ -66,9 +66,9 @@ type
 { TAbSpanReadStream interface ============================================== }
   TAbSpanReadStream = class(TAbSpanBaseStream)
   protected {private}
-    FCurrentImage: LongWord;
+    FCurrentImage: UInt32;
     FIsSplit: Boolean;
-    FLastImage: LongWord;
+    FLastImage: UInt32;
     FStream: TStream;
 
     FOnRequestNthDisk : TAbRequestNthDiskEvent;
@@ -78,7 +78,7 @@ type
     procedure SetOnRequestImage(Value: TAbRequestImageEvent);
 
   public {methods}
-    constructor Create( const ArchiveName: string; CurrentImage: LongWord;
+    constructor Create( const ArchiveName: string; CurrentImage: UInt32;
       Stream: TStream );
     destructor Destroy;
       override;
@@ -88,7 +88,7 @@ type
       override;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
       override;
-    procedure SeekImage( Image: LongWord; const Offset: Int64);
+    procedure SeekImage( Image: UInt32; const Offset: Int64);
 
   public {events}
     property OnRequestImage
@@ -101,7 +101,7 @@ type
 { TAbSpanWriteStream interface ============================================= }
   TAbSpanWriteStream = class(TAbSpanBaseStream)
   protected {private}
-    FCurrentImage: LongWord;
+    FCurrentImage: UInt32;
     FImageSize: Int64;
     FStream: TStream;
     FThreshold: Int64;
@@ -127,7 +127,7 @@ type
     function ReleaseStream: TStream;
 
   public {properties}
-    property CurrentImage : LongWord
+    property CurrentImage : UInt32
       read FCurrentImage;
 
   public {events}
@@ -177,7 +177,7 @@ end;
 {============================================================================}
 { TAbSpanReadStream implementation ========================================= }
 constructor TAbSpanReadStream.Create( const ArchiveName: string;
-  CurrentImage: LongWord; Stream: TStream );
+  CurrentImage: UInt32; Stream: TStream );
 begin
   inherited Create(ArchiveName);
   FCurrentImage := CurrentImage;
@@ -261,7 +261,7 @@ begin
     raise EAbException.Create('TAbSpanReadStream.Seek unsupported');
 end;
 {------------------------------------------------------------------------------}
-procedure TAbSpanReadStream.SeekImage( Image: LongWord; const Offset: Int64);
+procedure TAbSpanReadStream.SeekImage( Image: UInt32; const Offset: Int64);
 begin
   if FStream = nil then
     Exit;

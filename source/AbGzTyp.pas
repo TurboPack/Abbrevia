@@ -94,7 +94,7 @@ type
 
   TAbGzTailRec = packed record
     CRC32 : Integer;  { crc for uncompressed data }
-    ISize : LongWord;  { size of uncompressed data }
+    ISize : UInt32;  { size of uncompressed data }
   end;
 
   TAbGzExtraFieldSubID = array[0..1] of Byte;
@@ -136,13 +136,13 @@ type
     procedure SetFileSystem(const Value: TAbGzFileSystem);
     procedure SetIsText(const Value: Boolean);
 
-    function GetExternalFileAttributes : LongWord; override;
+    function GetExternalFileAttributes : UInt32; override;
     function GetIsEncrypted : Boolean; override;
     function GetLastModFileDate : Word; override;
     function GetLastModFileTime : Word; override;
     function GetLastModTimeAsDateTime: TDateTime; override;
 
-    procedure SetExternalFileAttributes( Value : LongWord ); override;
+    procedure SetExternalFileAttributes( Value : UInt32 ); override;
     procedure SetFileName(const Value : string); override;
     procedure SetIsEncrypted(Value : Boolean); override;
     procedure SetLastModFileDate(const Value : Word); override;
@@ -220,7 +220,7 @@ type
       read GetFileSize;
     property TailCRC : Integer
       read FTail.CRC32;
-    property TailSize : LongWord
+    property TailSize : UInt32
       read FTail.ISize;
   end;
 
@@ -647,7 +647,7 @@ begin
   inherited;
 end;
 
-function TAbGzipItem.GetExternalFileAttributes: LongWord;
+function TAbGzipItem.GetExternalFileAttributes: UInt32;
 begin
   { GZip has no provision for storing attributes }
   Result := 0;
@@ -793,7 +793,7 @@ begin
   end;
 end;
 
-procedure TAbGzipItem.SetExternalFileAttributes(Value: LongWord);
+procedure TAbGzipItem.SetExternalFileAttributes(Value: UInt32);
 begin
   { do nothing }
 end;

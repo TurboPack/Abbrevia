@@ -50,7 +50,7 @@ type
     FCompressedSize   : Int64;
     FCRC32            : Integer;
     FDiskFileName     : string;
-    FExternalFileAttributes : LongWord;
+    FExternalFileAttributes : UInt32;
     FFileName         : string;
     FIsEncrypted      : Boolean;
     FLastModFileTime  : Word;
@@ -62,7 +62,7 @@ type
     function GetCompressedSize : Int64; virtual;
     function GetCRC32 : Integer; virtual;
     function GetDiskPath : string;
-    function GetExternalFileAttributes : LongWord; virtual;
+    function GetExternalFileAttributes : UInt32; virtual;
     function GetFileName : string; virtual;
     function GetIsDirectory: Boolean; virtual;
     function GetIsEncrypted : Boolean; virtual;
@@ -73,7 +73,7 @@ type
     function GetUncompressedSize : Int64; virtual;
     procedure SetCompressedSize(const Value : Int64); virtual;
     procedure SetCRC32(const Value : Integer); virtual;
-    procedure SetExternalFileAttributes( Value : LongWord ); virtual;
+    procedure SetExternalFileAttributes( Value : UInt32 ); virtual;
     procedure SetFileName(const Value : string); virtual;
     procedure SetIsEncrypted(Value : Boolean); virtual;
     procedure SetLastModFileDate(const Value : Word); virtual;
@@ -105,7 +105,7 @@ type
       write FDiskFileName;
     property DiskPath : string
       read GetDiskPath;
-    property ExternalFileAttributes : LongWord
+    property ExternalFileAttributes : UInt32
       read GetExternalFileAttributes
       write SetExternalFileAttributes;
     property FileName : string
@@ -601,7 +601,7 @@ begin
   Result := ExtractFilePath(DiskFileName);
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchiveItem.GetExternalFileAttributes : LongWord;
+function TAbArchiveItem.GetExternalFileAttributes : UInt32;
 begin
   Result := FExternalFileAttributes;
 end;
@@ -712,7 +712,7 @@ begin
   FCRC32 := Value;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchiveItem.SetExternalFileAttributes( Value : LongWord );
+procedure TAbArchiveItem.SetExternalFileAttributes( Value : UInt32 );
 begin
   FExternalFileAttributes := Value;
 end;

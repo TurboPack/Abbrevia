@@ -49,7 +49,7 @@ class PASCALIMPLEMENTATION TAbVirtualMemoryStream : public System::Classes::TStr
 protected:
 	TvmsPage *vmsCachePage;
 	int vmsLRU;
-	unsigned long vmsMaxMemToUse;
+	unsigned vmsMaxMemToUse;
 	int vmsMaxPages;
 	System::Generics::Collections::TList__1<PvmsPage> * vmsPageList;
 	__int64 vmsPosition;
@@ -58,8 +58,8 @@ protected:
 	System::UnicodeString vmsSwapFileName;
 	__int64 vmsSwapFileSize;
 	System::Classes::TFileStream* vmsSwapStream;
-	void __fastcall vmsSetMaxMemToUse(unsigned long aNewMem);
-	unsigned long __fastcall vmsAlterPageList(unsigned long aNewMem);
+	void __fastcall vmsSetMaxMemToUse(unsigned aNewMem);
+	unsigned __fastcall vmsAlterPageList(unsigned aNewMem);
 	void __fastcall vmsFindOldestPage(/* out */ int &OldestInx, /* out */ PvmsPage &OldestPage);
 	int __fastcall vmsGetNextLRU(void);
 	PvmsPage __fastcall vmsGetPageForOffset(__int64 aOffset);
@@ -75,7 +75,7 @@ public:
 	virtual long __fastcall Write(const void *Buffer, long Count)/* overload */;
 	virtual __int64 __fastcall Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin)/* overload */;
 	virtual void __fastcall SetSize(const __int64 NewSize)/* overload */;
-	__property unsigned long MaxMemToUse = {read=vmsMaxMemToUse, write=vmsSetMaxMemToUse};
+	__property unsigned MaxMemToUse = {read=vmsMaxMemToUse, write=vmsSetMaxMemToUse, nodefault};
 	__property System::UnicodeString SwapFileDirectory = {read=vmsSwapFileDir, write=vmsSwapFileDir};
 	/* Hoisted overloads: */
 	

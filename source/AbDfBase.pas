@@ -594,8 +594,8 @@ end;
 procedure AbUpdateAdlerBuffer(var aAdler : Integer;
                               var aBuffer; aCount : integer);
 var
-  S1 : LongWord;
-  S2 : LongWord;
+  S1 : UInt32;
+  S2 : UInt32;
   i  : integer;
   Buffer     : PByte;
   BytesToUse : integer;
@@ -604,7 +604,7 @@ begin
          which is why we go to such lengths to chop up the user buffer
          into usable chunks of 4KB.
 
-         However, for Delphi 3 there is no proper 32-bit longword.
+         However, for Delphi 3 there is no proper 32-bit UInt32.
          Although the additions pose no problems in this situation,
          the mod operations below (especially for S2) will be signed
          integer divisions, producing an (invalid) signed result. In
@@ -612,8 +612,8 @@ begin
          any signed problems.}
 
   {split the current Adler checksum into its halves}
-  S1 := LongWord(aAdler) and $FFFF;
-  S2 := LongWord(aAdler) shr 16;
+  S1 := UInt32(aAdler) and $FFFF;
+  S2 := UInt32(aAdler) shr 16;
 
   {reference the user buffer as a PChar: it makes it easier}
   Buffer := @aBuffer;
@@ -653,7 +653,7 @@ procedure AbUpdateCRCBuffer(var aCRC : Integer;
                             var aBuffer; aCount : integer);
 var
   i      : integer;
-  CRC    : LongWord;
+  CRC    : UInt32;
   Buffer : PByte;
 begin
 {$R-}{$Q-}

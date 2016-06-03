@@ -44,7 +44,7 @@ protected:
 	__int64 FCompressedSize;
 	int FCRC32;
 	System::UnicodeString FDiskFileName;
-	unsigned long FExternalFileAttributes;
+	unsigned FExternalFileAttributes;
 	System::UnicodeString FFileName;
 	bool FIsEncrypted;
 	System::Word FLastModFileTime;
@@ -54,7 +54,7 @@ protected:
 	virtual __int64 __fastcall GetCompressedSize(void);
 	virtual int __fastcall GetCRC32(void);
 	System::UnicodeString __fastcall GetDiskPath(void);
-	virtual unsigned long __fastcall GetExternalFileAttributes(void);
+	virtual unsigned __fastcall GetExternalFileAttributes(void);
 	virtual System::UnicodeString __fastcall GetFileName(void);
 	virtual bool __fastcall GetIsDirectory(void);
 	virtual bool __fastcall GetIsEncrypted(void);
@@ -65,7 +65,7 @@ protected:
 	virtual __int64 __fastcall GetUncompressedSize(void);
 	virtual void __fastcall SetCompressedSize(const __int64 Value);
 	virtual void __fastcall SetCRC32(const int Value);
-	virtual void __fastcall SetExternalFileAttributes(unsigned long Value);
+	virtual void __fastcall SetExternalFileAttributes(unsigned Value);
 	virtual void __fastcall SetFileName(const System::UnicodeString Value);
 	virtual void __fastcall SetIsEncrypted(bool Value);
 	virtual void __fastcall SetLastModFileDate(const System::Word Value);
@@ -85,7 +85,7 @@ public:
 	__property int CRC32 = {read=GetCRC32, write=SetCRC32, nodefault};
 	__property System::UnicodeString DiskFileName = {read=FDiskFileName, write=FDiskFileName};
 	__property System::UnicodeString DiskPath = {read=GetDiskPath};
-	__property unsigned long ExternalFileAttributes = {read=GetExternalFileAttributes, write=SetExternalFileAttributes};
+	__property unsigned ExternalFileAttributes = {read=GetExternalFileAttributes, write=SetExternalFileAttributes, nodefault};
 	__property System::UnicodeString FileName = {read=GetFileName, write=SetFileName};
 	__property bool IsDirectory = {read=GetIsDirectory, nodefault};
 	__property bool IsEncrypted = {read=GetIsEncrypted, write=SetIsEncrypted, nodefault};

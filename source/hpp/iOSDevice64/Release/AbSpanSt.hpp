@@ -49,21 +49,21 @@ class PASCALIMPLEMENTATION TAbSpanReadStream : public TAbSpanBaseStream
 	typedef TAbSpanBaseStream inherited;
 	
 protected:
-	unsigned long FCurrentImage;
+	unsigned FCurrentImage;
 	bool FIsSplit;
-	unsigned long FLastImage;
+	unsigned FLastImage;
 	System::Classes::TStream* FStream;
 	Abarctyp::TAbRequestNthDiskEvent FOnRequestNthDisk;
 	void __fastcall GotoImage(int ImageNumber);
 	void __fastcall SetOnRequestImage(Abarctyp::TAbRequestImageEvent Value);
 	
 public:
-	__fastcall TAbSpanReadStream(const System::UnicodeString ArchiveName, unsigned long CurrentImage, System::Classes::TStream* Stream);
+	__fastcall TAbSpanReadStream(const System::UnicodeString ArchiveName, unsigned CurrentImage, System::Classes::TStream* Stream);
 	__fastcall virtual ~TAbSpanReadStream(void);
 	virtual long __fastcall Read(void *Buffer, long Count)/* overload */;
 	virtual long __fastcall Write(const void *Buffer, long Count)/* overload */;
 	virtual __int64 __fastcall Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin)/* overload */;
-	void __fastcall SeekImage(unsigned long Image, const __int64 Offset);
+	void __fastcall SeekImage(unsigned Image, const __int64 Offset);
 	__property OnRequestImage = {write=SetOnRequestImage};
 	__property Abarctyp::TAbRequestNthDiskEvent OnRequestNthDisk = {read=FOnRequestNthDisk, write=FOnRequestNthDisk};
 	/* Hoisted overloads: */
@@ -84,7 +84,7 @@ class PASCALIMPLEMENTATION TAbSpanWriteStream : public TAbSpanBaseStream
 	typedef TAbSpanBaseStream inherited;
 	
 protected:
-	unsigned long FCurrentImage;
+	unsigned FCurrentImage;
 	__int64 FImageSize;
 	System::Classes::TStream* FStream;
 	__int64 FThreshold;
@@ -99,7 +99,7 @@ public:
 	bool __fastcall WriteUnspanned(const void *Buffer, int Count, bool FailOnSpan = false);
 	virtual __int64 __fastcall Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin)/* overload */;
 	System::Classes::TStream* __fastcall ReleaseStream(void);
-	__property unsigned long CurrentImage = {read=FCurrentImage};
+	__property unsigned CurrentImage = {read=FCurrentImage, nodefault};
 	__property Abarctyp::TAbRequestDiskEvent OnRequestBlankDisk = {read=FOnRequestBlankDisk, write=FOnRequestBlankDisk};
 	/* Hoisted overloads: */
 	
