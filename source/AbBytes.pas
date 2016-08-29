@@ -32,6 +32,9 @@ class function TAbBytes.AsString(ASource: Pointer; ALen: Integer): string;
 var
   pBytes: TBytes;
 begin
+  if ALen = 0 then
+    Exit('');
+
   SetLength(pBytes, ALen);
   Move(ASource^, pBytes[0], ALen);
   Result := TEncoding.ANSI.GetString(pBytes);
@@ -76,7 +79,8 @@ begin
   iLen := Length(pBytes);
   if iLen > AMaxLen then
     iLen := AMaxLen;
-  Move(pBytes[0], ADest^, iLen);
+  if iLen > 0 then
+    Move(pBytes[0], ADest^, iLen);
   ADest[iLen] := 0;
 end;
 
