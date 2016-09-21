@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfHufD.pas' rev: 31.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbDfHufD.pas' rev: 29.00 (Windows)
 
 #ifndef AbdfhufdHPP
 #define AbdfhufdHPP
@@ -41,7 +41,7 @@ private:
 public:
 	__fastcall TAbDfDecodeHuffmanTree(int aAlphabetSize, int aDefMaxCodeLen, TAbDfHuffmanUsage aUsage);
 	__fastcall virtual ~TAbDfDecodeHuffmanTree(void);
-	void __fastcall Build(const int *aCodeLengths, const int aCodeLengths_High, int aStartInx, int aCount, const System::Byte *aExtraBits, const int aExtraBits_High, int aExtraOffset);
+	void __fastcall Build(int const *aCodeLengths, const int aCodeLengths_High, int aStartInx, int aCount, System::Byte const *aExtraBits, const int aExtraBits_High, int aExtraOffset);
 	int __fastcall Decode(int aLookupBits);
 	int __fastcall Encode(int aSymbol);
 	__property int LookupBitLength = {read=FMaxCodeLen, nodefault};

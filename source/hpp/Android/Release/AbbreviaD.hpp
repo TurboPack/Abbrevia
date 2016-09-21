@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 31.00 (Android)
+// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 29.00 (Android)
 
 #ifndef AbbreviadHPP
 #define AbbreviadHPP

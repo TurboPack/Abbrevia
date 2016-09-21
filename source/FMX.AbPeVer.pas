@@ -81,7 +81,7 @@ implementation
 {$R *.fmx}
 
 uses
-  System.UITypes, Winapi.Windows, Winapi.ShellApi, FMX.DialogService.Sync, AbArcTyp, AbConst,
+  System.UITypes, Winapi.Windows, Winapi.ShellApi, FMX.Dialogs, AbArcTyp, AbConst,
   AbResString;
 
 { TAbAboutBox }
@@ -123,7 +123,7 @@ procedure TAbAboutBox.WebLblClick(Sender: TObject);
 begin
   if ShellExecute(0, 'open', 'https://github.com/TurboPack/Abbrevia', '', '',
     SW_SHOWNORMAL) <= 32 then
-    TDialogServiceSync.ShowMessage('Unable to start web browser');
+    ShowMessage('Unable to start web browser');
   WebLbl.FontColor := TColorRec.Navy;
 end;
 
@@ -131,7 +131,7 @@ procedure TAbAboutBox.NewsLblClick(Sender: TObject);
 begin
   if ShellExecute(0, 'open', 'https://github.com/TurboPack/Abbrevia', '', '',
     SW_SHOWNORMAL) <= 32 then
-    TDialogServiceSync.ShowMessage('Unable to start web browser');
+    ShowMessage('Unable to start web browser');
   NewsLbl.FontColor := TColorRec.Navy;
 end;
 

@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbbreviaVCLD.dpk' rev: 31.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbbreviaVCLD.dpk' rev: 29.00 (Windows)
 
 #ifndef AbbreviavcldHPP
 #define AbbreviavcldHPP
@@ -38,17 +38,18 @@
 #include <System.VarUtils.hpp>	// (rtl)
 #include <System.Variants.hpp>	// (rtl)
 #include <Winapi.ActiveX.hpp>	// (rtl)
-#include <System.Generics.Collections.hpp>	// (rtl)
+#include <System.StrUtils.hpp>	// (rtl)
+#include <System.AnsiStrings.hpp>	// (rtl)
 #include <System.Hash.hpp>	// (rtl)
-#include <System.Rtti.hpp>	// (rtl)
-#include <System.TypInfo.hpp>	// (rtl)
 #include <System.Math.hpp>	// (rtl)
 #include <System.Generics.Defaults.hpp>	// (rtl)
+#include <System.Generics.Collections.hpp>	// (rtl)
+#include <System.Rtti.hpp>	// (rtl)
+#include <System.TypInfo.hpp>	// (rtl)
 #include <System.Classes.hpp>	// (rtl)
 #include <Winapi.MultiMon.hpp>	// (rtl)
 #include <Winapi.Wincodec.hpp>	// (rtl)
 #include <System.Masks.hpp>	// (rtl)
-#include <System.StrUtils.hpp>	// (rtl)
 #include <System.TimeSpan.hpp>	// (rtl)
 #include <System.DateUtils.hpp>	// (rtl)
 #include <System.IOUtils.hpp>	// (rtl)
@@ -99,18 +100,15 @@
 #include <Vcl.Dialogs.hpp>	// (vcl)
 #include <Vcl.ExtCtrls.hpp>	// (vcl)
 #include <Vcl.Themes.hpp>	// (vcl)
-#include <System.AnsiStrings.hpp>	// (rtl)
 #include <System.Win.ComConst.hpp>	// (rtl)
 #include <System.Win.ComObj.hpp>	// (rtl)
 #include <System.Win.Taskbar.hpp>	// (rtl)
 #include <System.Win.TaskbarCore.hpp>	// (rtl)
-#include <Winapi.ShellScaling.hpp>	// (rtl)
 #include <Winapi.FlatSB.hpp>	// (rtl)
 #include <Vcl.Forms.hpp>	// (vcl)
 #include <Vcl.ImgList.hpp>	// (vcl)
 #include <Vcl.Menus.hpp>	// (vcl)
 #include <Winapi.TpcShrd.hpp>	// (rtl)
-#include <Winapi.MsCTF.hpp>	// (rtl)
 #include <Winapi.MsInkAut.hpp>	// (rtl)
 #include <Winapi.PenInputPanel.hpp>	// (rtl)
 #include <Vcl.Controls.hpp>	// (vcl)

@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbArcTyp.pas' rev: 31.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbArcTyp.pas' rev: 29.00 (iOS)
 
 #ifndef AbarctypHPP
 #define AbarctypHPP
@@ -133,7 +133,7 @@ private:
 	
 	
 public:
-	TAbArchiveItem* operator[](int Index) { return this->Items[Index]; }
+	TAbArchiveItem* operator[](int Index) { return Items[Index]; }
 	
 protected:
 	System::Generics::Collections::TList__1<TAbArchiveItem*> * FList;

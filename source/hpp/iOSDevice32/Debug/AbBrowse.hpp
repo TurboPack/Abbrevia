@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbBrowse.pas' rev: 31.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbBrowse.pas' rev: 29.00 (iOS)
 
 #ifndef AbbrowseHPP
 #define AbbrowseHPP
@@ -40,7 +40,7 @@ class PASCALIMPLEMENTATION TAbBaseBrowser : public Abbase::TAbBaseComponent
 	typedef Abbase::TAbBaseComponent inherited;
 	
 public:
-	Abarctyp::TAbArchiveItem* operator[](int Index) { return this->Items[Index]; }
+	Abarctyp::TAbArchiveItem* operator[](int Index) { return Items[Index]; }
 	
 public:
 	Abarctyp::TAbArchive* FArchive;
