@@ -51,7 +51,7 @@ package AbbreviaVCLDDesign;
 {$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'TurboPack Abbrevia VCL Designtime Delphi package'}
-{$LIBSUFFIX '220'}
+{$LIBSUFFIX '240'}
 {$DESIGNONLY}
 {$IMPLICITBUILD OFF}
 

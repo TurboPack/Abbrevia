@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbTarTyp.pas' rev: 29.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbTarTyp.pas' rev: 31.00 (iOS)
 
 #ifndef AbtartypHPP
 #define AbtartypHPP
@@ -57,6 +57,8 @@ enum DECLSPEC_DENUM TAbTarMagicType : unsigned char { GNU_OLD, NORMAL };
 #pragma pack(push,1)
 struct DECLSPEC_DRECORD TAbTarMagicRec
 {
+	
+public:
 	union
 	{
 		struct 
@@ -141,6 +143,8 @@ public:
 	System::StaticArray<System::Byte, 32> GrpName;
 	Arr8 DevMajor;
 	Arr8 DevMinor;
+	
+public:
 	union
 	{
 		struct 
@@ -329,7 +333,7 @@ class PASCALIMPLEMENTATION TAbTarArchive : public Abarctyp::TAbArchive
 	typedef Abarctyp::TAbArchive inherited;
 	
 public:
-	TAbTarItem* operator[](int Index) { return Items[Index]; }
+	TAbTarItem* operator[](int Index) { return this->Items[Index]; }
 	
 private:
 	bool FArchReadOnly;

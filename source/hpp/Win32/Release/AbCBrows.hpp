@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbCBrows.pas' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbCBrows.pas' rev: 31.00 (Windows)
 
 #ifndef AbcbrowsHPP
 #define AbcbrowsHPP
@@ -33,7 +33,7 @@ class PASCALIMPLEMENTATION TAbCustomCabBrowser : public Abbrowse::TAbBaseBrowser
 	typedef Abbrowse::TAbBaseBrowser inherited;
 	
 public:
-	Abcabtyp::TAbCabItem* operator[](int Index) { return Items[Index]; }
+	Abcabtyp::TAbCabItem* operator[](int Index) { return this->Items[Index]; }
 	
 protected:
 	System::Word FSetID;

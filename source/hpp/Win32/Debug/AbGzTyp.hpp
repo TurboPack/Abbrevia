@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbGzTyp.pas' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbGzTyp.pas' rev: 31.00 (Windows)
 
 #ifndef AbgztypHPP
 #define AbgztypHPP
@@ -182,7 +182,7 @@ class PASCALIMPLEMENTATION TAbGzipArchive : public Abtartyp::TAbTarArchive
 	typedef Abtartyp::TAbTarArchive inherited;
 	
 public:
-	TAbGzipItem* operator[](int Index) { return Items[Index]; }
+	TAbGzipItem* operator[](int Index) { return this->Items[Index]; }
 	
 private:
 	System::Classes::TStream* FGZStream;

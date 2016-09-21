@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZipTyp.pas' rev: 29.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbZipTyp.pas' rev: 31.00 (iOS)
 
 #ifndef AbziptypHPP
 #define AbziptypHPP
@@ -135,6 +135,8 @@ typedef TAbSfEntry *PAbSfEntry;
 #pragma pack(push,1)
 struct DECLSPEC_DRECORD TAbSfEntry
 {
+	
+public:
 	union
 	{
 		struct 
@@ -442,7 +444,7 @@ class PASCALIMPLEMENTATION TAbZipArchive : public Abarctyp::TAbArchive
 	typedef Abarctyp::TAbArchive inherited;
 	
 public:
-	TAbZipItem* operator[](int Index) { return Items[Index]; }
+	TAbZipItem* operator[](int Index) { return this->Items[Index]; }
 	
 protected:
 	TAbZipSupportedMethod FCompressionMethodToUse;

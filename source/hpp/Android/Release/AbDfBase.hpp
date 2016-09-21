@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfBase.pas' rev: 29.00 (Android)
+// (DO NOT EDIT: machine generated header) 'AbDfBase.pas' rev: 31.00 (Android)
 
 #ifndef AbdfbaseHPP
 #define AbdfbaseHPP
@@ -159,13 +159,13 @@ class PASCALIMPLEMENTATION EAbAbortProgress : public System::Sysutils::Exception
 	
 public:
 	/* Exception.Create */ inline __fastcall EAbAbortProgress(const System::UnicodeString Msg) : System::Sysutils::Exception(Msg) { }
-	/* Exception.CreateFmt */ inline __fastcall EAbAbortProgress(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
+	/* Exception.CreateFmt */ inline __fastcall EAbAbortProgress(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbAbortProgress(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
-	/* Exception.CreateFmtHelp */ inline __fastcall EAbAbortProgress(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateFmtHelp */ inline __fastcall EAbAbortProgress(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbAbortProgress(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbAbortProgress(void) { }
 	
 };
@@ -179,13 +179,13 @@ class PASCALIMPLEMENTATION EAbPartSizedInflate : public System::Sysutils::Except
 	
 public:
 	/* Exception.Create */ inline __fastcall EAbPartSizedInflate(const System::UnicodeString Msg) : System::Sysutils::Exception(Msg) { }
-	/* Exception.CreateFmt */ inline __fastcall EAbPartSizedInflate(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
+	/* Exception.CreateFmt */ inline __fastcall EAbPartSizedInflate(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbPartSizedInflate(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
-	/* Exception.CreateFmtHelp */ inline __fastcall EAbPartSizedInflate(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateFmtHelp */ inline __fastcall EAbPartSizedInflate(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbPartSizedInflate(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbPartSizedInflate(void) { }
 	
 };
@@ -199,13 +199,13 @@ class PASCALIMPLEMENTATION EAbInflatePasswordError : public System::Sysutils::Ex
 	
 public:
 	/* Exception.Create */ inline __fastcall EAbInflatePasswordError(const System::UnicodeString Msg) : System::Sysutils::Exception(Msg) { }
-	/* Exception.CreateFmt */ inline __fastcall EAbInflatePasswordError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
+	/* Exception.CreateFmt */ inline __fastcall EAbInflatePasswordError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbInflatePasswordError(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
-	/* Exception.CreateFmtHelp */ inline __fastcall EAbInflatePasswordError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateFmtHelp */ inline __fastcall EAbInflatePasswordError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInflatePasswordError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbInflatePasswordError(void) { }
 	
 };
@@ -219,13 +219,13 @@ class PASCALIMPLEMENTATION EAbInternalInflateError : public System::Sysutils::Ex
 	
 public:
 	/* Exception.Create */ inline __fastcall EAbInternalInflateError(const System::UnicodeString Msg) : System::Sysutils::Exception(Msg) { }
-	/* Exception.CreateFmt */ inline __fastcall EAbInternalInflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
+	/* Exception.CreateFmt */ inline __fastcall EAbInternalInflateError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbInternalInflateError(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
-	/* Exception.CreateFmtHelp */ inline __fastcall EAbInternalInflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateFmtHelp */ inline __fastcall EAbInternalInflateError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInternalInflateError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbInternalInflateError(void) { }
 	
 };
@@ -241,13 +241,13 @@ public:
 	__fastcall EAbInflateError(const System::UnicodeString aMsg);
 	__fastcall EAbInflateError(const System::UnicodeString aMsg, const System::UnicodeString aErrorMsg);
 public:
-	/* Exception.CreateFmt */ inline __fastcall EAbInflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
+	/* Exception.CreateFmt */ inline __fastcall EAbInflateError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbInflateError(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
-	/* Exception.CreateFmtHelp */ inline __fastcall EAbInflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateFmtHelp */ inline __fastcall EAbInflateError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInflateError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbInflateError(void) { }
 	
 };
@@ -261,13 +261,13 @@ class PASCALIMPLEMENTATION EAbInternalDeflateError : public System::Sysutils::Ex
 	
 public:
 	/* Exception.Create */ inline __fastcall EAbInternalDeflateError(const System::UnicodeString Msg) : System::Sysutils::Exception(Msg) { }
-	/* Exception.CreateFmt */ inline __fastcall EAbInternalDeflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
+	/* Exception.CreateFmt */ inline __fastcall EAbInternalDeflateError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbInternalDeflateError(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
-	/* Exception.CreateFmtHelp */ inline __fastcall EAbInternalDeflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateFmtHelp */ inline __fastcall EAbInternalDeflateError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInternalDeflateError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbInternalDeflateError(void) { }
 	
 };
@@ -283,13 +283,13 @@ public:
 	__fastcall EAbDeflateError(const System::UnicodeString aMsg);
 	__fastcall EAbDeflateError(const System::UnicodeString aMsg, const System::UnicodeString aErrorMsg);
 public:
-	/* Exception.CreateFmt */ inline __fastcall EAbDeflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
+	/* Exception.CreateFmt */ inline __fastcall EAbDeflateError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec) : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EAbDeflateError(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
-	/* Exception.CreateFmtHelp */ inline __fastcall EAbDeflateError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateFmtHelp */ inline __fastcall EAbDeflateError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec, int AHelpContext) : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EAbDeflateError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EAbDeflateError(void) { }
 	
 };

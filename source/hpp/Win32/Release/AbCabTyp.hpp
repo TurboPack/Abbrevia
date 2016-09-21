@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbCabTyp.pas' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbCabTyp.pas' rev: 31.00 (Windows)
 
 #ifndef AbcabtypHPP
 #define AbcabtypHPP
@@ -57,7 +57,7 @@ class PASCALIMPLEMENTATION TAbCabArchive : public Abarctyp::TAbArchive
 	typedef Abarctyp::TAbArchive inherited;
 	
 public:
-	TAbCabItem* operator[](int Index) { return Items[Index]; }
+	TAbCabItem* operator[](int Index) { return this->Items[Index]; }
 	
 protected:
 	System::AnsiString FCabName;

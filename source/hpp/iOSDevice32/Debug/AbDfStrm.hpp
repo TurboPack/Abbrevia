@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfStrm.pas' rev: 29.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbDfStrm.pas' rev: 31.00 (iOS)
 
 #ifndef AbdfstrmHPP
 #define AbdfstrmHPP
@@ -170,7 +170,7 @@ private:
 public:
 	__fastcall TAbDfCodeLenStream(Abdfbase::TAbLogger* aLog);
 	__fastcall virtual ~TAbDfCodeLenStream(void);
-	void __fastcall Build(int const *aCodeLens, const int aCodeLens_High, int aCount);
+	void __fastcall Build(const int *aCodeLens, const int aCodeLens_High, int aCount);
 	void __fastcall Encode(TAbDfOutBitStream* aBitStrm, Abdfhufd::TAbDfDecodeHuffmanTree* aTree);
 	__property PAbDfCodeLenBuckets Buckets = {read=FBuckets};
 };

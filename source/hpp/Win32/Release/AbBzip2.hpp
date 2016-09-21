@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbBzip2.pas' rev: 29.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbBzip2.pas' rev: 31.00 (Windows)
 
 #ifndef Abbzip2HPP
 #define Abbzip2HPP
@@ -134,17 +134,17 @@ class PASCALIMPLEMENTATION EBZip2Error : public System::Sysutils::Exception
 	
 public:
 	/* Exception.Create */ inline __fastcall EBZip2Error(const System::UnicodeString Msg) : System::Sysutils::Exception(Msg) { }
-	/* Exception.CreateFmt */ inline __fastcall EBZip2Error(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
+	/* Exception.CreateFmt */ inline __fastcall EBZip2Error(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : System::Sysutils::Exception(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EBZip2Error(NativeUInt Ident)/* overload */ : System::Sysutils::Exception(Ident) { }
 	/* Exception.CreateRes */ inline __fastcall EBZip2Error(System::PResStringRec ResStringRec)/* overload */ : System::Sysutils::Exception(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EBZip2Error(NativeUInt Ident, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High) { }
-	/* Exception.CreateResFmt */ inline __fastcall EBZip2Error(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EBZip2Error(NativeUInt Ident, const System::TVarRec *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EBZip2Error(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EBZip2Error(const System::UnicodeString Msg, int AHelpContext) : System::Sysutils::Exception(Msg, AHelpContext) { }
-	/* Exception.CreateFmtHelp */ inline __fastcall EBZip2Error(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateFmtHelp */ inline __fastcall EBZip2Error(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High, int AHelpContext) : System::Sysutils::Exception(Msg, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EBZip2Error(NativeUInt Ident, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EBZip2Error(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EBZip2Error(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EBZip2Error(NativeUInt Ident, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EBZip2Error(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EBZip2Error(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EBZip2Error(void) { }
 	
 };
@@ -158,17 +158,17 @@ class PASCALIMPLEMENTATION EBZCompressionError : public EBZip2Error
 	
 public:
 	/* Exception.Create */ inline __fastcall EBZCompressionError(const System::UnicodeString Msg) : EBZip2Error(Msg) { }
-	/* Exception.CreateFmt */ inline __fastcall EBZCompressionError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : EBZip2Error(Msg, Args, Args_High) { }
+	/* Exception.CreateFmt */ inline __fastcall EBZCompressionError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EBZip2Error(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EBZCompressionError(NativeUInt Ident)/* overload */ : EBZip2Error(Ident) { }
 	/* Exception.CreateRes */ inline __fastcall EBZCompressionError(System::PResStringRec ResStringRec)/* overload */ : EBZip2Error(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EBZCompressionError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High)/* overload */ : EBZip2Error(Ident, Args, Args_High) { }
-	/* Exception.CreateResFmt */ inline __fastcall EBZCompressionError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High)/* overload */ : EBZip2Error(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EBZCompressionError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High)/* overload */ : EBZip2Error(Ident, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EBZCompressionError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High)/* overload */ : EBZip2Error(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EBZCompressionError(const System::UnicodeString Msg, int AHelpContext) : EBZip2Error(Msg, AHelpContext) { }
-	/* Exception.CreateFmtHelp */ inline __fastcall EBZCompressionError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : EBZip2Error(Msg, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateFmtHelp */ inline __fastcall EBZCompressionError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High, int AHelpContext) : EBZip2Error(Msg, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EBZCompressionError(NativeUInt Ident, int AHelpContext)/* overload */ : EBZip2Error(Ident, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EBZCompressionError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EBZip2Error(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EBZCompressionError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : EBZip2Error(ResStringRec, Args, Args_High, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EBZCompressionError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : EBZip2Error(Ident, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EBZCompressionError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EBZip2Error(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EBZCompressionError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EBZip2Error(Ident, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EBZCompressionError(void) { }
 	
 };
@@ -182,17 +182,17 @@ class PASCALIMPLEMENTATION EBZDecompressionError : public EBZip2Error
 	
 public:
 	/* Exception.Create */ inline __fastcall EBZDecompressionError(const System::UnicodeString Msg) : EBZip2Error(Msg) { }
-	/* Exception.CreateFmt */ inline __fastcall EBZDecompressionError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High) : EBZip2Error(Msg, Args, Args_High) { }
+	/* Exception.CreateFmt */ inline __fastcall EBZDecompressionError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EBZip2Error(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EBZDecompressionError(NativeUInt Ident)/* overload */ : EBZip2Error(Ident) { }
 	/* Exception.CreateRes */ inline __fastcall EBZDecompressionError(System::PResStringRec ResStringRec)/* overload */ : EBZip2Error(ResStringRec) { }
-	/* Exception.CreateResFmt */ inline __fastcall EBZDecompressionError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High)/* overload */ : EBZip2Error(Ident, Args, Args_High) { }
-	/* Exception.CreateResFmt */ inline __fastcall EBZDecompressionError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High)/* overload */ : EBZip2Error(ResStringRec, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EBZDecompressionError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High)/* overload */ : EBZip2Error(Ident, Args, Args_High) { }
+	/* Exception.CreateResFmt */ inline __fastcall EBZDecompressionError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High)/* overload */ : EBZip2Error(ResStringRec, Args, Args_High) { }
 	/* Exception.CreateHelp */ inline __fastcall EBZDecompressionError(const System::UnicodeString Msg, int AHelpContext) : EBZip2Error(Msg, AHelpContext) { }
-	/* Exception.CreateFmtHelp */ inline __fastcall EBZDecompressionError(const System::UnicodeString Msg, System::TVarRec const *Args, const int Args_High, int AHelpContext) : EBZip2Error(Msg, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateFmtHelp */ inline __fastcall EBZDecompressionError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High, int AHelpContext) : EBZip2Error(Msg, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EBZDecompressionError(NativeUInt Ident, int AHelpContext)/* overload */ : EBZip2Error(Ident, AHelpContext) { }
 	/* Exception.CreateResHelp */ inline __fastcall EBZDecompressionError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EBZip2Error(ResStringRec, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EBZDecompressionError(System::PResStringRec ResStringRec, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : EBZip2Error(ResStringRec, Args, Args_High, AHelpContext) { }
-	/* Exception.CreateResFmtHelp */ inline __fastcall EBZDecompressionError(NativeUInt Ident, System::TVarRec const *Args, const int Args_High, int AHelpContext)/* overload */ : EBZip2Error(Ident, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EBZDecompressionError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EBZip2Error(ResStringRec, Args, Args_High, AHelpContext) { }
+	/* Exception.CreateResFmtHelp */ inline __fastcall EBZDecompressionError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EBZip2Error(Ident, Args, Args_High, AHelpContext) { }
 	/* Exception.Destroy */ inline __fastcall virtual ~EBZDecompressionError(void) { }
 	
 };

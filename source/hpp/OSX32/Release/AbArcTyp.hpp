@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2015 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbArcTyp.pas' rev: 29.00 (MacOS)
+// (DO NOT EDIT: machine generated header) 'AbArcTyp.pas' rev: 31.00 (MacOS)
 
 #ifndef AbarctypHPP
 #define AbarctypHPP
@@ -128,7 +128,7 @@ class PASCALIMPLEMENTATION TAbArchiveList : public System::TObject
 	typedef System::TObject inherited;
 	
 public:
-	TAbArchiveItem* operator[](int Index) { return Items[Index]; }
+	TAbArchiveItem* operator[](int Index) { return this->Items[Index]; }
 	
 protected:
 	System::Generics::Collections::TList__1<TAbArchiveItem*>* FList;
