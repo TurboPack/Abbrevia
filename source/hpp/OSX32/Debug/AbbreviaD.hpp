@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 31.00 (MacOS)
+// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 32.00 (MacOS)
 
 #ifndef AbbreviadHPP
 #define AbbreviadHPP
@@ -134,6 +134,12 @@
 #include <Macapi.Foundation.hpp>	// (rtl)
 #include <Macapi.Helpers.hpp>	// (rtl)
 #include <System.IOUtils.hpp>	// (rtl)
+// SO_PFX: bpl
+// SO_SFX: 250
+// PRG_EXT: .dylib
+// BPI_DIR: C:\Users\Public\Documents\Embarcadero\Studio\19.0\Dcp\OSX32
+// OBJ_DIR: C:\Users\Public\Documents\Embarcadero\Studio\19.0\Dcp\OSX32
+// OBJ_EXT: .o
 
 //-- user supplied -----------------------------------------------------------
 

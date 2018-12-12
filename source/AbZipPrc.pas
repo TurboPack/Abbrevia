@@ -294,7 +294,6 @@ var
   SaveDir : string;
   AttrEx : TAbAttrExRec;
 begin
-  UncompressedStream := nil;
   GetDir(0, SaveDir);
   try {SaveDir}
     if (Sender.BaseDirectory <> '') then

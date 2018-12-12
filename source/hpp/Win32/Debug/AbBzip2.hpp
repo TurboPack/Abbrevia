@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbBzip2.pas' rev: 31.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbBzip2.pas' rev: 32.00 (Windows)
 
 #ifndef Abbzip2HPP
 #define Abbzip2HPP

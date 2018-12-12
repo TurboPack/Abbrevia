@@ -808,7 +808,6 @@ begin
          'Deflate: aHelper.Options must enable some kind of archiving');
 
   {$IFDEF DefeatWarnings}
-  Result := 0;
   {$ENDIF}
 
   {prepare for the try..finally}

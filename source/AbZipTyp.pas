@@ -1491,7 +1491,7 @@ begin
     SetLength(FFileName, Length(FItemInfo.FileName));
     pBuffer := TEncoding.ANSI.GetBytes(FItemInfo.FileName);
     if pBuffer <> nil then
-      OemToCharBuff(@(pBuffer[0]), PChar(FFileName), Length(FFileName));
+      OemToCharBuff(PAnsiChar(@(pBuffer[0])), PChar(FFileName), Length(FFileName));
   end
   {$ENDIF}
   else

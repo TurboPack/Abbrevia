@@ -247,6 +247,9 @@ begin
   {$IFDEF ANDROID}
   Result := True;
   {$ENDIF}
+  {$IFDEF LINUX}
+  Result := True;
+  {$ENDIF}
 end;
 { -------------------------------------------------------------------------- }
 function AbRawBytesToString(const aValue: TBytes): string;
@@ -260,7 +263,7 @@ begin
       {$IFDEF MSWINDOWS}
       if AbIsOEM(aValue) then begin
         SetLength(Result, Length(aValue));
-        OemToCharBuff(@aValue[0], PChar(Result), Length(Result));
+        OemToCharBuff(PAnsiChar(@aValue[0]), PChar(Result), Length(Result));
       end
       else
       {$ENDIF}

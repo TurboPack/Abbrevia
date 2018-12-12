@@ -242,8 +242,8 @@ var
   Encodes     : PAbDfIntegerList;
   {$IFDEF CPU386}
   DecodesEnd  : pointer;
-  {$ENDIF}
   TablePtr    : pointer;
+  {$ENDIF}
 begin
   {count the number of instances of each code length and calculate the
    maximum code length at the same time}
@@ -287,7 +287,9 @@ begin
   {for speed and convenience}
   Decodes := FDecodes;
   Encodes := FEncodes;
+{$IFDEF CPU386}
   TablePtr := @ByteRevTable;
+{$ENDIF}
 
   {for each symbol...}
   for Symbol := 0 to pred(aCount) do begin
