@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbBrowse.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbBrowse.pas' rev: 33.00 (Windows)
 
 #ifndef AbbrowseHPP
 #define AbbrowseHPP
@@ -24,14 +24,14 @@
 namespace Abbrowse
 {
 //-- forward type declarations -----------------------------------------------
-__interface IAbProgressMeter;
+__interface DELPHIINTERFACE IAbProgressMeter;
 typedef System::DelphiInterface<IAbProgressMeter> _di_IAbProgressMeter;
 class DELPHICLASS TAbBaseBrowser;
 //-- type declarations -------------------------------------------------------
 __interface  INTERFACE_UUID("{4B766704-FD20-40BF-BA40-2EC2DD77B178}") IAbProgressMeter  : public System::IInterface 
 {
 	virtual void __fastcall DoProgress(System::Byte Progress) = 0 ;
-	virtual void __fastcall Reset(void) = 0 ;
+	virtual void __fastcall Reset() = 0 ;
 };
 
 class PASCALIMPLEMENTATION TAbBaseBrowser : public Abbase::TAbBaseComponent
@@ -62,11 +62,11 @@ protected:
 	System::UnicodeString FTempDirectory;
 	Abutils::TAbArchiveType FArchiveType;
 	bool FForceType;
-	int __fastcall GetCount(void);
+	int __fastcall GetCount();
 	Abarctyp::TAbArchiveItem* __fastcall GetItem(int Value);
-	bool __fastcall GetSpanned(void);
-	Abarctyp::TAbArchiveStatus __fastcall GetStatus(void);
-	virtual void __fastcall ResetMeters(void);
+	bool __fastcall GetSpanned();
+	Abarctyp::TAbArchiveStatus __fastcall GetStatus();
+	virtual void __fastcall ResetMeters();
 	void __fastcall SetArchiveProgressMeter(const _di_IAbProgressMeter Value);
 	void __fastcall SetCompressionType(const Abutils::TAbArchiveType Value);
 	void __fastcall SetBaseDirectory(const System::UnicodeString Value);
@@ -75,16 +75,16 @@ protected:
 	void __fastcall SetLogFile(const System::UnicodeString Value);
 	void __fastcall SetLogging(bool Value);
 	void __fastcall SetTempDirectory(const System::UnicodeString Value);
-	virtual void __fastcall Loaded(void);
+	virtual void __fastcall Loaded();
 	virtual void __fastcall Notification(System::Classes::TComponent* Component, System::Classes::TOperation Operation);
 	virtual void __fastcall DoArchiveItemProgress(System::TObject* Sender, Abarctyp::TAbArchiveItem* Item, System::Byte Progress, bool &Abort);
 	virtual void __fastcall DoArchiveProgress(System::TObject* Sender, System::Byte Progress, bool &Abort);
-	virtual void __fastcall DoChange(void);
+	virtual void __fastcall DoChange();
 	virtual void __fastcall DoConfirmProcessItem(System::TObject* Sender, Abarctyp::TAbArchiveItem* Item, Abutils::TAbProcessType ProcessType, bool &Confirm);
 	virtual void __fastcall DoLoad(System::TObject* Sender);
 	virtual void __fastcall DoProcessItemFailure(System::TObject* Sender, Abarctyp::TAbArchiveItem* Item, Abutils::TAbProcessType ProcessType, Abutils::TAbErrorClass ErrorClass, int ErrorCode);
 	virtual void __fastcall SetOnRequestImage(Abarctyp::TAbRequestImageEvent Value);
-	virtual void __fastcall InitArchive(void);
+	virtual void __fastcall InitArchive();
 	virtual void __fastcall SetFileName(const System::UnicodeString aFileName) = 0 ;
 	__property Abarctyp::TAbArchive* Archive = {read=FArchive};
 	__property _di_IAbProgressMeter ArchiveProgressMeter = {read=FArchiveProgressMeter, write=SetArchiveProgressMeter};
@@ -104,13 +104,13 @@ protected:
 	
 public:
 	__fastcall virtual TAbBaseBrowser(System::Classes::TComponent* AOwner);
-	__fastcall virtual ~TAbBaseBrowser(void);
-	void __fastcall ClearTags(void);
+	__fastcall virtual ~TAbBaseBrowser();
+	void __fastcall ClearTags();
 	int __fastcall FindItem(Abarctyp::TAbArchiveItem* aItem);
 	int __fastcall FindFile(const System::UnicodeString aFileName);
 	void __fastcall TagItems(const System::UnicodeString FileMask);
 	void __fastcall UnTagItems(const System::UnicodeString FileMask);
-	void __fastcall CloseArchive(void);
+	void __fastcall CloseArchive();
 	void __fastcall OpenArchive(const System::UnicodeString aFileName);
 	__property int Count = {read=GetCount, nodefault};
 	__property Abarctyp::TAbArchiveItem* Items[int Index] = {read=GetItem/*, default*/};

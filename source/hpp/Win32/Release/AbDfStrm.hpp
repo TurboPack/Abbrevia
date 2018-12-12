@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfStrm.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbDfStrm.pas' rev: 33.00 (Windows)
 
 #ifndef AbdfstrmHPP
 #define AbdfstrmHPP
@@ -61,17 +61,17 @@ private:
 	int FStreamSize;
 	
 protected:
-	bool __fastcall ibsFillBuffer(void);
+	bool __fastcall ibsFillBuffer();
 	
 public:
 	__fastcall TAbDfInBitStream(System::Classes::TStream* aStream, Abdfbase::TAbProgressStep aOnProgress, int aStreamSize);
-	__fastcall virtual ~TAbDfInBitStream(void);
-	void __fastcall AlignToByte(void);
+	__fastcall virtual ~TAbDfInBitStream();
+	void __fastcall AlignToByte();
 	void __fastcall DiscardBits(int aCount);
 	void __fastcall DiscardMoreBits(int aCount);
 	int __fastcall PeekBits(int aCount);
 	int __fastcall PeekMoreBits(int aCount);
-	bool __fastcall ReadBit(void);
+	bool __fastcall ReadBit();
 	int __fastcall ReadBits(int aCount);
 	void __fastcall ReadBuffer(void *aBuffer, int aCount);
 	__property int BitBuffer = {read=FBitBuffer, write=FBitBuffer, nodefault};
@@ -93,13 +93,13 @@ private:
 	System::Classes::TStream* FStream;
 	
 protected:
-	void __fastcall obsEmptyBuffer(void);
+	void __fastcall obsEmptyBuffer();
 	
 public:
 	__fastcall TAbDfOutBitStream(System::Classes::TStream* aStream);
-	__fastcall virtual ~TAbDfOutBitStream(void);
-	void __fastcall AlignToByte(void);
-	int __fastcall Position(void);
+	__fastcall virtual ~TAbDfOutBitStream();
+	void __fastcall AlignToByte();
+	int __fastcall Position();
 	void __fastcall WriteBit(bool aBit);
 	void __fastcall WriteBits(int aBits, int aCount);
 	void __fastcall WriteBuffer(void *aBuffer, int aCount);
@@ -129,19 +129,19 @@ private:
 	bool FUseDeflate64;
 	
 protected:
-	unsigned __fastcall lzsGetApproxSize(void);
-	int __fastcall lzsGetStaticSize(void);
-	int __fastcall lzsGetStoredSize(void);
-	bool __fastcall lzsIsFull(void);
+	unsigned __fastcall lzsGetApproxSize();
+	int __fastcall lzsGetStaticSize();
+	int __fastcall lzsGetStoredSize();
+	bool __fastcall lzsIsFull();
 	
 public:
 	__fastcall TAbDfLZStream(Abdfinw::TAbDfInputWindow* aSlideWin, bool aUseDeflate64, Abdfbase::TAbLogger* aLog);
-	__fastcall virtual ~TAbDfLZStream(void);
+	__fastcall virtual ~TAbDfLZStream();
 	bool __fastcall AddLenDist(int aLen, int aDist);
 	bool __fastcall AddLiteral(System::Byte aCh);
-	void __fastcall Clear(void);
+	void __fastcall Clear();
 	void __fastcall Encode(TAbDfOutBitStream* aBitStrm, Abdfhufd::TAbDfDecodeHuffmanTree* aLitTree, Abdfhufd::TAbDfDecodeHuffmanTree* aDistTree, bool aUseDeflate64);
-	void __fastcall Rewind(void);
+	void __fastcall Rewind();
 	void __fastcall ReadStoredBuffer(void *aBuffer, int aCount);
 	__property int LenDistCount = {read=FDistCount, nodefault};
 	__property int LiteralCount = {read=FLitCount, nodefault};
@@ -165,7 +165,7 @@ private:
 	
 public:
 	__fastcall TAbDfCodeLenStream(Abdfbase::TAbLogger* aLog);
-	__fastcall virtual ~TAbDfCodeLenStream(void);
+	__fastcall virtual ~TAbDfCodeLenStream();
 	void __fastcall Build(const int *aCodeLens, const int aCodeLens_High, int aCount);
 	void __fastcall Encode(TAbDfOutBitStream* aBitStrm, Abdfhufd::TAbDfDecodeHuffmanTree* aTree);
 	__property PAbDfCodeLenBuckets Buckets = {read=FBuckets};

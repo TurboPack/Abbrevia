@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbExcept.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbExcept.pas' rev: 33.00 (Windows)
 
 #ifndef AbexceptHPP
 #define AbexceptHPP
@@ -114,7 +114,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbException(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbException(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbException(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbException(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbException() { }
 	
 };
 
@@ -126,7 +126,7 @@ class PASCALIMPLEMENTATION EAbArchiveBusy : public EAbException
 	typedef EAbException inherited;
 	
 public:
-	__fastcall EAbArchiveBusy(void);
+	__fastcall EAbArchiveBusy();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbArchiveBusy(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbArchiveBusy(NativeUInt Ident)/* overload */ : EAbException(Ident) { }
@@ -139,7 +139,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbArchiveBusy(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbArchiveBusy(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbArchiveBusy(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbArchiveBusy(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbArchiveBusy() { }
 	
 };
 
@@ -154,7 +154,7 @@ protected:
 	System::Sysutils::Exception* FInnerException;
 	
 public:
-	__fastcall EAbBadStream(void);
+	__fastcall EAbBadStream();
 	__fastcall EAbBadStream(System::Sysutils::Exception* aInnerException);
 	__property System::Sysutils::Exception* InnerException = {read=FInnerException};
 public:
@@ -169,7 +169,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbBadStream(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbBadStream(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbBadStream(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbBadStream(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbBadStream() { }
 	
 };
 
@@ -181,7 +181,7 @@ class PASCALIMPLEMENTATION EAbDuplicateName : public EAbException
 	typedef EAbException inherited;
 	
 public:
-	__fastcall EAbDuplicateName(void);
+	__fastcall EAbDuplicateName();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbDuplicateName(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbDuplicateName(NativeUInt Ident)/* overload */ : EAbException(Ident) { }
@@ -194,7 +194,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbDuplicateName(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbDuplicateName(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbDuplicateName(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbDuplicateName(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbDuplicateName() { }
 	
 };
 
@@ -206,7 +206,7 @@ class PASCALIMPLEMENTATION EAbFileNotFound : public EAbException
 	typedef EAbException inherited;
 	
 public:
-	__fastcall EAbFileNotFound(void);
+	__fastcall EAbFileNotFound();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFileNotFound(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFileNotFound(NativeUInt Ident)/* overload */ : EAbException(Ident) { }
@@ -219,7 +219,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFileNotFound(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFileNotFound(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFileNotFound(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFileNotFound(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFileNotFound() { }
 	
 };
 
@@ -231,7 +231,7 @@ class PASCALIMPLEMENTATION EAbNoArchive : public EAbException
 	typedef EAbException inherited;
 	
 public:
-	__fastcall EAbNoArchive(void);
+	__fastcall EAbNoArchive();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbNoArchive(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbNoArchive(NativeUInt Ident)/* overload */ : EAbException(Ident) { }
@@ -244,7 +244,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbNoArchive(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbNoArchive(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbNoArchive(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbNoArchive(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbNoArchive() { }
 	
 };
 
@@ -256,7 +256,7 @@ class PASCALIMPLEMENTATION EAbUserAbort : public EAbException
 	typedef EAbException inherited;
 	
 public:
-	__fastcall EAbUserAbort(void);
+	__fastcall EAbUserAbort();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbUserAbort(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbUserAbort(NativeUInt Ident)/* overload */ : EAbException(Ident) { }
@@ -269,7 +269,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbUserAbort(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbUserAbort(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbUserAbort(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbUserAbort(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbUserAbort() { }
 	
 };
 
@@ -281,7 +281,7 @@ class PASCALIMPLEMENTATION EAbNoSuchDirectory : public EAbException
 	typedef EAbException inherited;
 	
 public:
-	__fastcall EAbNoSuchDirectory(void);
+	__fastcall EAbNoSuchDirectory();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbNoSuchDirectory(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbNoSuchDirectory(NativeUInt Ident)/* overload */ : EAbException(Ident) { }
@@ -294,7 +294,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbNoSuchDirectory(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbNoSuchDirectory(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbNoSuchDirectory(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbNoSuchDirectory(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbNoSuchDirectory() { }
 	
 };
 
@@ -306,7 +306,7 @@ class PASCALIMPLEMENTATION EAbUnhandledType : public EAbException
 	typedef EAbException inherited;
 	
 public:
-	__fastcall EAbUnhandledType(void);
+	__fastcall EAbUnhandledType();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbUnhandledType(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbUnhandledType(NativeUInt Ident)/* overload */ : EAbException(Ident) { }
@@ -319,7 +319,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbUnhandledType(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbUnhandledType(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbUnhandledType(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbUnhandledType(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbUnhandledType() { }
 	
 };
 
@@ -331,7 +331,7 @@ class PASCALIMPLEMENTATION EAbSpanningNotSupported : public EAbException
 	typedef EAbException inherited;
 	
 public:
-	__fastcall EAbSpanningNotSupported(void);
+	__fastcall EAbSpanningNotSupported();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbSpanningNotSupported(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbSpanningNotSupported(NativeUInt Ident)/* overload */ : EAbException(Ident) { }
@@ -344,7 +344,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbSpanningNotSupported(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbSpanningNotSupported(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbSpanningNotSupported(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbSpanningNotSupported(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbSpanningNotSupported() { }
 	
 };
 
@@ -356,7 +356,7 @@ class PASCALIMPLEMENTATION EAbInvalidSpanningThreshold : public EAbException
 	typedef EAbException inherited;
 	
 public:
-	__fastcall EAbInvalidSpanningThreshold(void);
+	__fastcall EAbInvalidSpanningThreshold();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbInvalidSpanningThreshold(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbInvalidSpanningThreshold(NativeUInt Ident)/* overload */ : EAbException(Ident) { }
@@ -369,7 +369,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbInvalidSpanningThreshold(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInvalidSpanningThreshold(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInvalidSpanningThreshold(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbInvalidSpanningThreshold(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbInvalidSpanningThreshold() { }
 	
 };
 
@@ -393,7 +393,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipException(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipException(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipException(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipException(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipException() { }
 	
 };
 
@@ -417,7 +417,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbCabException(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbCabException(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbCabException(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbCabException(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbCabException() { }
 	
 };
 
@@ -441,7 +441,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbTarException(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbTarException(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbTarException(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbTarException(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbTarException() { }
 	
 };
 
@@ -465,7 +465,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbGzipException(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbGzipException(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbGzipException(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbGzipException(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbGzipException() { }
 	
 };
 
@@ -477,7 +477,7 @@ class PASCALIMPLEMENTATION EAbZipBadSpanStream : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipBadSpanStream(void);
+	__fastcall EAbZipBadSpanStream();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipBadSpanStream(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipBadSpanStream(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -490,7 +490,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipBadSpanStream(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipBadSpanStream(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipBadSpanStream(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipBadSpanStream(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipBadSpanStream() { }
 	
 };
 
@@ -502,7 +502,7 @@ class PASCALIMPLEMENTATION EAbZipBadCRC : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipBadCRC(void);
+	__fastcall EAbZipBadCRC();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipBadCRC(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipBadCRC(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -515,7 +515,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipBadCRC(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipBadCRC(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipBadCRC(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipBadCRC(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipBadCRC() { }
 	
 };
 
@@ -527,7 +527,7 @@ class PASCALIMPLEMENTATION EAbZipInflateBlock : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipInflateBlock(void);
+	__fastcall EAbZipInflateBlock();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipInflateBlock(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipInflateBlock(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -540,7 +540,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipInflateBlock(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInflateBlock(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInflateBlock(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInflateBlock(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInflateBlock() { }
 	
 };
 
@@ -552,7 +552,7 @@ class PASCALIMPLEMENTATION EAbZipInvalid : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipInvalid(void);
+	__fastcall EAbZipInvalid();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipInvalid(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipInvalid(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -565,7 +565,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipInvalid(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInvalid(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInvalid(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInvalid(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInvalid() { }
 	
 };
 
@@ -577,7 +577,7 @@ class PASCALIMPLEMENTATION EAbInvalidIndex : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbInvalidIndex(void);
+	__fastcall EAbInvalidIndex();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbInvalidIndex(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbInvalidIndex(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -590,7 +590,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbInvalidIndex(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInvalidIndex(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInvalidIndex(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbInvalidIndex(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbInvalidIndex() { }
 	
 };
 
@@ -602,7 +602,7 @@ class PASCALIMPLEMENTATION EAbZipInvalidFactor : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipInvalidFactor(void);
+	__fastcall EAbZipInvalidFactor();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipInvalidFactor(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipInvalidFactor(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -615,7 +615,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipInvalidFactor(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInvalidFactor(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInvalidFactor(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInvalidFactor(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInvalidFactor() { }
 	
 };
 
@@ -627,7 +627,7 @@ class PASCALIMPLEMENTATION EAbZipInvalidLFH : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipInvalidLFH(void);
+	__fastcall EAbZipInvalidLFH();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipInvalidLFH(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipInvalidLFH(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -640,7 +640,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipInvalidLFH(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInvalidLFH(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInvalidLFH(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInvalidLFH(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInvalidLFH() { }
 	
 };
 
@@ -652,7 +652,7 @@ class PASCALIMPLEMENTATION EAbZipInvalidMethod : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipInvalidMethod(void);
+	__fastcall EAbZipInvalidMethod();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipInvalidMethod(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipInvalidMethod(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -665,7 +665,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipInvalidMethod(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInvalidMethod(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInvalidMethod(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInvalidMethod(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInvalidMethod() { }
 	
 };
 
@@ -677,7 +677,7 @@ class PASCALIMPLEMENTATION EAbZipInvalidPassword : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipInvalidPassword(void);
+	__fastcall EAbZipInvalidPassword();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipInvalidPassword(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipInvalidPassword(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -690,7 +690,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipInvalidPassword(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInvalidPassword(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInvalidPassword(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInvalidPassword(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInvalidPassword() { }
 	
 };
 
@@ -702,7 +702,7 @@ class PASCALIMPLEMENTATION EAbZipInvalidStub : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipInvalidStub(void);
+	__fastcall EAbZipInvalidStub();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipInvalidStub(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipInvalidStub(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -715,7 +715,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipInvalidStub(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInvalidStub(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipInvalidStub(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInvalidStub(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipInvalidStub() { }
 	
 };
 
@@ -727,7 +727,7 @@ class PASCALIMPLEMENTATION EAbZipNoExtraction : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipNoExtraction(void);
+	__fastcall EAbZipNoExtraction();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipNoExtraction(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipNoExtraction(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -740,7 +740,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipNoExtraction(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipNoExtraction(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipNoExtraction(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipNoExtraction(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipNoExtraction() { }
 	
 };
 
@@ -752,7 +752,7 @@ class PASCALIMPLEMENTATION EAbZipNoInsertion : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipNoInsertion(void);
+	__fastcall EAbZipNoInsertion();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipNoInsertion(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipNoInsertion(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -765,7 +765,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipNoInsertion(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipNoInsertion(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipNoInsertion(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipNoInsertion(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipNoInsertion() { }
 	
 };
 
@@ -777,7 +777,7 @@ class PASCALIMPLEMENTATION EAbZipSpanOverwrite : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipSpanOverwrite(void);
+	__fastcall EAbZipSpanOverwrite();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipSpanOverwrite(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipSpanOverwrite(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -790,7 +790,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipSpanOverwrite(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipSpanOverwrite(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipSpanOverwrite(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipSpanOverwrite(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipSpanOverwrite() { }
 	
 };
 
@@ -802,7 +802,7 @@ class PASCALIMPLEMENTATION EAbZipStreamFull : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipStreamFull(void);
+	__fastcall EAbZipStreamFull();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipStreamFull(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipStreamFull(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -815,7 +815,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipStreamFull(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipStreamFull(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipStreamFull(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipStreamFull(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipStreamFull() { }
 	
 };
 
@@ -827,7 +827,7 @@ class PASCALIMPLEMENTATION EAbZipTruncate : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipTruncate(void);
+	__fastcall EAbZipTruncate();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipTruncate(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipTruncate(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -840,7 +840,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipTruncate(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipTruncate(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipTruncate(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipTruncate(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipTruncate() { }
 	
 };
 
@@ -852,7 +852,7 @@ class PASCALIMPLEMENTATION EAbZipUnsupported : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipUnsupported(void);
+	__fastcall EAbZipUnsupported();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipUnsupported(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipUnsupported(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -865,7 +865,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipUnsupported(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipUnsupported(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipUnsupported(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipUnsupported(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipUnsupported() { }
 	
 };
 
@@ -877,7 +877,7 @@ class PASCALIMPLEMENTATION EAbZipVersion : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbZipVersion(void);
+	__fastcall EAbZipVersion();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbZipVersion(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbZipVersion(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -890,7 +890,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbZipVersion(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipVersion(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbZipVersion(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipVersion(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbZipVersion() { }
 	
 };
 
@@ -902,7 +902,7 @@ class PASCALIMPLEMENTATION EAbReadError : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbReadError(void);
+	__fastcall EAbReadError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbReadError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbReadError(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -915,7 +915,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbReadError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbReadError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbReadError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbReadError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbReadError() { }
 	
 };
 
@@ -927,7 +927,7 @@ class PASCALIMPLEMENTATION EAbGzipBadCRC : public EAbGzipException
 	typedef EAbGzipException inherited;
 	
 public:
-	__fastcall EAbGzipBadCRC(void);
+	__fastcall EAbGzipBadCRC();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbGzipBadCRC(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbGzipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbGzipBadCRC(NativeUInt Ident)/* overload */ : EAbGzipException(Ident) { }
@@ -940,7 +940,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbGzipBadCRC(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbGzipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbGzipBadCRC(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbGzipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbGzipBadCRC(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbGzipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbGzipBadCRC(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbGzipBadCRC() { }
 	
 };
 
@@ -952,7 +952,7 @@ class PASCALIMPLEMENTATION EAbGzipBadFileSize : public EAbGzipException
 	typedef EAbGzipException inherited;
 	
 public:
-	__fastcall EAbGzipBadFileSize(void);
+	__fastcall EAbGzipBadFileSize();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbGzipBadFileSize(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbGzipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbGzipBadFileSize(NativeUInt Ident)/* overload */ : EAbGzipException(Ident) { }
@@ -965,7 +965,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbGzipBadFileSize(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbGzipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbGzipBadFileSize(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbGzipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbGzipBadFileSize(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbGzipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbGzipBadFileSize(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbGzipBadFileSize() { }
 	
 };
 
@@ -977,7 +977,7 @@ class PASCALIMPLEMENTATION EAbGzipInvalid : public EAbGzipException
 	typedef EAbGzipException inherited;
 	
 public:
-	__fastcall EAbGzipInvalid(void);
+	__fastcall EAbGzipInvalid();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbGzipInvalid(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbGzipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbGzipInvalid(NativeUInt Ident)/* overload */ : EAbGzipException(Ident) { }
@@ -990,7 +990,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbGzipInvalid(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbGzipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbGzipInvalid(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbGzipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbGzipInvalid(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbGzipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbGzipInvalid(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbGzipInvalid() { }
 	
 };
 
@@ -1002,7 +1002,7 @@ class PASCALIMPLEMENTATION EAbTarInvalid : public EAbTarException
 	typedef EAbTarException inherited;
 	
 public:
-	__fastcall EAbTarInvalid(void);
+	__fastcall EAbTarInvalid();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbTarInvalid(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbTarException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbTarInvalid(NativeUInt Ident)/* overload */ : EAbTarException(Ident) { }
@@ -1015,7 +1015,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbTarInvalid(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbTarException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbTarInvalid(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbTarException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbTarInvalid(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbTarException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbTarInvalid(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbTarInvalid() { }
 	
 };
 
@@ -1027,7 +1027,7 @@ class PASCALIMPLEMENTATION EAbTarBadFileName : public EAbTarException
 	typedef EAbTarException inherited;
 	
 public:
-	__fastcall EAbTarBadFileName(void);
+	__fastcall EAbTarBadFileName();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbTarBadFileName(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbTarException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbTarBadFileName(NativeUInt Ident)/* overload */ : EAbTarException(Ident) { }
@@ -1040,7 +1040,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbTarBadFileName(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbTarException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbTarBadFileName(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbTarException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbTarBadFileName(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbTarException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbTarBadFileName(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbTarBadFileName() { }
 	
 };
 
@@ -1052,7 +1052,7 @@ class PASCALIMPLEMENTATION EAbTarBadLinkName : public EAbTarException
 	typedef EAbTarException inherited;
 	
 public:
-	__fastcall EAbTarBadLinkName(void);
+	__fastcall EAbTarBadLinkName();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbTarBadLinkName(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbTarException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbTarBadLinkName(NativeUInt Ident)/* overload */ : EAbTarException(Ident) { }
@@ -1065,7 +1065,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbTarBadLinkName(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbTarException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbTarBadLinkName(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbTarException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbTarBadLinkName(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbTarException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbTarBadLinkName(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbTarBadLinkName() { }
 	
 };
 
@@ -1077,7 +1077,7 @@ class PASCALIMPLEMENTATION EAbTarBadOp : public EAbTarException
 	typedef EAbTarException inherited;
 	
 public:
-	__fastcall EAbTarBadOp(void);
+	__fastcall EAbTarBadOp();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbTarBadOp(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbTarException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbTarBadOp(NativeUInt Ident)/* overload */ : EAbTarException(Ident) { }
@@ -1090,7 +1090,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbTarBadOp(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbTarException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbTarBadOp(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbTarException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbTarBadOp(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbTarException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbTarBadOp(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbTarBadOp() { }
 	
 };
 
@@ -1115,7 +1115,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbVMSInvalidOrigin(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbVMSInvalidOrigin(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbVMSInvalidOrigin(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbVMSInvalidOrigin(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbVMSInvalidOrigin() { }
 	
 };
 
@@ -1140,7 +1140,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbVMSErrorOpenSwap(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbVMSErrorOpenSwap(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbVMSErrorOpenSwap(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbVMSErrorOpenSwap(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbVMSErrorOpenSwap() { }
 	
 };
 
@@ -1165,7 +1165,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbVMSSeekFail(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbVMSSeekFail(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbVMSSeekFail(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbVMSSeekFail(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbVMSSeekFail() { }
 	
 };
 
@@ -1190,7 +1190,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbVMSReadFail(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbVMSReadFail(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbVMSReadFail(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbVMSReadFail(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbVMSReadFail() { }
 	
 };
 
@@ -1215,7 +1215,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbVMSWriteFail(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbVMSWriteFail(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbVMSWriteFail(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbVMSWriteFail(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbVMSWriteFail() { }
 	
 };
 
@@ -1240,7 +1240,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbVMSWriteTooManyBytes(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbVMSWriteTooManyBytes(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbVMSWriteTooManyBytes(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbVMSWriteTooManyBytes(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbVMSWriteTooManyBytes() { }
 	
 };
 
@@ -1265,7 +1265,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbBBSReadTooManyBytes(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbBBSReadTooManyBytes(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbBBSReadTooManyBytes(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbBBSReadTooManyBytes(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbBBSReadTooManyBytes() { }
 	
 };
 
@@ -1277,7 +1277,7 @@ class PASCALIMPLEMENTATION EAbBBSSeekOutsideBuffer : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbBBSSeekOutsideBuffer(void);
+	__fastcall EAbBBSSeekOutsideBuffer();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbBBSSeekOutsideBuffer(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbBBSSeekOutsideBuffer(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -1290,7 +1290,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbBBSSeekOutsideBuffer(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbBBSSeekOutsideBuffer(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbBBSSeekOutsideBuffer(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbBBSSeekOutsideBuffer(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbBBSSeekOutsideBuffer() { }
 	
 };
 
@@ -1302,7 +1302,7 @@ class PASCALIMPLEMENTATION EAbBBSInvalidOrigin : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbBBSInvalidOrigin(void);
+	__fastcall EAbBBSInvalidOrigin();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbBBSInvalidOrigin(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbBBSInvalidOrigin(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -1315,7 +1315,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbBBSInvalidOrigin(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbBBSInvalidOrigin(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbBBSInvalidOrigin(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbBBSInvalidOrigin(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbBBSInvalidOrigin() { }
 	
 };
 
@@ -1340,7 +1340,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbBBSWriteTooManyBytes(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbBBSWriteTooManyBytes(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbBBSWriteTooManyBytes(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbBBSWriteTooManyBytes(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbBBSWriteTooManyBytes() { }
 	
 };
 
@@ -1352,7 +1352,7 @@ class PASCALIMPLEMENTATION EAbSWSNotEndofStream : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbSWSNotEndofStream(void);
+	__fastcall EAbSWSNotEndofStream();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbSWSNotEndofStream(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbSWSNotEndofStream(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -1365,7 +1365,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbSWSNotEndofStream(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbSWSNotEndofStream(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbSWSNotEndofStream(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbSWSNotEndofStream(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbSWSNotEndofStream() { }
 	
 };
 
@@ -1377,7 +1377,7 @@ class PASCALIMPLEMENTATION EAbSWSSeekFailed : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbSWSSeekFailed(void);
+	__fastcall EAbSWSSeekFailed();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbSWSSeekFailed(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbSWSSeekFailed(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -1390,7 +1390,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbSWSSeekFailed(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbSWSSeekFailed(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbSWSSeekFailed(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbSWSSeekFailed(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbSWSSeekFailed() { }
 	
 };
 
@@ -1402,7 +1402,7 @@ class PASCALIMPLEMENTATION EAbSWSWriteFailed : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbSWSWriteFailed(void);
+	__fastcall EAbSWSWriteFailed();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbSWSWriteFailed(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbSWSWriteFailed(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -1415,7 +1415,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbSWSWriteFailed(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbSWSWriteFailed(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbSWSWriteFailed(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbSWSWriteFailed(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbSWSWriteFailed() { }
 	
 };
 
@@ -1427,7 +1427,7 @@ class PASCALIMPLEMENTATION EAbSWSInvalidOrigin : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbSWSInvalidOrigin(void);
+	__fastcall EAbSWSInvalidOrigin();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbSWSInvalidOrigin(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbSWSInvalidOrigin(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -1440,7 +1440,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbSWSInvalidOrigin(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbSWSInvalidOrigin(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbSWSInvalidOrigin(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbSWSInvalidOrigin(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbSWSInvalidOrigin() { }
 	
 };
 
@@ -1452,7 +1452,7 @@ class PASCALIMPLEMENTATION EAbSWSInvalidNewOrigin : public EAbZipException
 	typedef EAbZipException inherited;
 	
 public:
-	__fastcall EAbSWSInvalidNewOrigin(void);
+	__fastcall EAbSWSInvalidNewOrigin();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbSWSInvalidNewOrigin(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbZipException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbSWSInvalidNewOrigin(NativeUInt Ident)/* overload */ : EAbZipException(Ident) { }
@@ -1465,7 +1465,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbSWSInvalidNewOrigin(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbSWSInvalidNewOrigin(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbSWSInvalidNewOrigin(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbZipException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbSWSInvalidNewOrigin(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbSWSInvalidNewOrigin() { }
 	
 };
 
@@ -1477,7 +1477,7 @@ class PASCALIMPLEMENTATION EAbNoCabinetDll : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbNoCabinetDll(void);
+	__fastcall EAbNoCabinetDll();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbNoCabinetDll(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbNoCabinetDll(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1490,7 +1490,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbNoCabinetDll(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbNoCabinetDll(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbNoCabinetDll(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbNoCabinetDll(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbNoCabinetDll() { }
 	
 };
 
@@ -1502,7 +1502,7 @@ class PASCALIMPLEMENTATION EAbFCIFileOpenError : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbFCIFileOpenError(void);
+	__fastcall EAbFCIFileOpenError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFCIFileOpenError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFCIFileOpenError(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1515,7 +1515,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFCIFileOpenError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFileOpenError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFileOpenError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFileOpenError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFileOpenError() { }
 	
 };
 
@@ -1527,7 +1527,7 @@ class PASCALIMPLEMENTATION EAbFCIFileReadError : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbFCIFileReadError(void);
+	__fastcall EAbFCIFileReadError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFCIFileReadError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFCIFileReadError(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1540,7 +1540,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFCIFileReadError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFileReadError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFileReadError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFileReadError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFileReadError() { }
 	
 };
 
@@ -1552,7 +1552,7 @@ class PASCALIMPLEMENTATION EAbFCIFileWriteError : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbFCIFileWriteError(void);
+	__fastcall EAbFCIFileWriteError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFCIFileWriteError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFCIFileWriteError(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1565,7 +1565,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFCIFileWriteError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFileWriteError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFileWriteError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFileWriteError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFileWriteError() { }
 	
 };
 
@@ -1577,7 +1577,7 @@ class PASCALIMPLEMENTATION EAbFCIFileCloseError : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbFCIFileCloseError(void);
+	__fastcall EAbFCIFileCloseError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFCIFileCloseError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFCIFileCloseError(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1590,7 +1590,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFCIFileCloseError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFileCloseError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFileCloseError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFileCloseError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFileCloseError() { }
 	
 };
 
@@ -1602,7 +1602,7 @@ class PASCALIMPLEMENTATION EAbFCIFileSeekError : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbFCIFileSeekError(void);
+	__fastcall EAbFCIFileSeekError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFCIFileSeekError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFCIFileSeekError(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1615,7 +1615,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFCIFileSeekError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFileSeekError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFileSeekError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFileSeekError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFileSeekError() { }
 	
 };
 
@@ -1627,7 +1627,7 @@ class PASCALIMPLEMENTATION EAbFCIFileDeleteError : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbFCIFileDeleteError(void);
+	__fastcall EAbFCIFileDeleteError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFCIFileDeleteError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFCIFileDeleteError(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1640,7 +1640,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFCIFileDeleteError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFileDeleteError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFileDeleteError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFileDeleteError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFileDeleteError() { }
 	
 };
 
@@ -1652,7 +1652,7 @@ class PASCALIMPLEMENTATION EAbFCIAddFileError : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbFCIAddFileError(void);
+	__fastcall EAbFCIAddFileError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFCIAddFileError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFCIAddFileError(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1665,7 +1665,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFCIAddFileError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIAddFileError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIAddFileError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIAddFileError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIAddFileError() { }
 	
 };
 
@@ -1677,7 +1677,7 @@ class PASCALIMPLEMENTATION EAbFCICreateError : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbFCICreateError(void);
+	__fastcall EAbFCICreateError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFCICreateError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFCICreateError(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1690,7 +1690,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFCICreateError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCICreateError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCICreateError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCICreateError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCICreateError() { }
 	
 };
 
@@ -1702,7 +1702,7 @@ class PASCALIMPLEMENTATION EAbFCIFlushCabinetError : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbFCIFlushCabinetError(void);
+	__fastcall EAbFCIFlushCabinetError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFCIFlushCabinetError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFCIFlushCabinetError(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1715,7 +1715,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFCIFlushCabinetError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFlushCabinetError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFlushCabinetError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFlushCabinetError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFlushCabinetError() { }
 	
 };
 
@@ -1727,7 +1727,7 @@ class PASCALIMPLEMENTATION EAbFCIFlushFolderError : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbFCIFlushFolderError(void);
+	__fastcall EAbFCIFlushFolderError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFCIFlushFolderError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFCIFlushFolderError(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1740,7 +1740,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFCIFlushFolderError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFlushFolderError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFCIFlushFolderError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFlushFolderError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFCIFlushFolderError() { }
 	
 };
 
@@ -1752,7 +1752,7 @@ class PASCALIMPLEMENTATION EAbFDICopyError : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbFDICopyError(void);
+	__fastcall EAbFDICopyError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFDICopyError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFDICopyError(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1765,7 +1765,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFDICopyError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFDICopyError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFDICopyError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFDICopyError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFDICopyError() { }
 	
 };
 
@@ -1777,7 +1777,7 @@ class PASCALIMPLEMENTATION EAbFDICreateError : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbFDICreateError(void);
+	__fastcall EAbFDICreateError();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFDICreateError(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFDICreateError(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1790,7 +1790,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFDICreateError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFDICreateError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFDICreateError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFDICreateError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFDICreateError() { }
 	
 };
 
@@ -1802,7 +1802,7 @@ class PASCALIMPLEMENTATION EAbInvalidCabTemplate : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbInvalidCabTemplate(void);
+	__fastcall EAbInvalidCabTemplate();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbInvalidCabTemplate(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbInvalidCabTemplate(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1815,7 +1815,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbInvalidCabTemplate(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInvalidCabTemplate(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInvalidCabTemplate(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbInvalidCabTemplate(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbInvalidCabTemplate() { }
 	
 };
 
@@ -1827,7 +1827,7 @@ class PASCALIMPLEMENTATION EAbInvalidCabFile : public EAbCabException
 	typedef EAbCabException inherited;
 	
 public:
-	__fastcall EAbInvalidCabFile(void);
+	__fastcall EAbInvalidCabFile();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbInvalidCabFile(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbCabException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbInvalidCabFile(NativeUInt Ident)/* overload */ : EAbCabException(Ident) { }
@@ -1840,7 +1840,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbInvalidCabFile(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInvalidCabFile(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbInvalidCabFile(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbCabException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbInvalidCabFile(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbInvalidCabFile() { }
 	
 };
 
@@ -1852,7 +1852,7 @@ class PASCALIMPLEMENTATION EAbFileTooLarge : public EAbException
 	typedef EAbException inherited;
 	
 public:
-	__fastcall EAbFileTooLarge(void);
+	__fastcall EAbFileTooLarge();
 public:
 	/* Exception.CreateFmt */ inline __fastcall EAbFileTooLarge(const System::UnicodeString Msg, const System::TVarRec *Args, const int Args_High) : EAbException(Msg, Args, Args_High) { }
 	/* Exception.CreateRes */ inline __fastcall EAbFileTooLarge(NativeUInt Ident)/* overload */ : EAbException(Ident) { }
@@ -1865,7 +1865,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbFileTooLarge(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EAbException(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFileTooLarge(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbFileTooLarge(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EAbException(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbFileTooLarge(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbFileTooLarge() { }
 	
 };
 

@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbCabExt.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbCabExt.pas' rev: 33.00 (Windows)
 
 #ifndef AbcabextHPP
 #define AbcabextHPP
@@ -36,18 +36,18 @@ protected:
 	Abarctyp::TAbExtractOptions FExtractOptions;
 	Abarctyp::TAbConfirmOverwriteEvent FOnConfirmOverwrite;
 	void __fastcall DoConfirmOverwrite(System::UnicodeString &Name, bool &Confirm);
-	virtual void __fastcall InitArchive(void);
+	virtual void __fastcall InitArchive();
 	void __fastcall SetExtractOptions(Abarctyp::TAbExtractOptions Value);
 	__property Abarctyp::TAbExtractOptions ExtractOptions = {read=FExtractOptions, write=SetExtractOptions, default=1};
 	__property Abarctyp::TAbConfirmOverwriteEvent OnConfirmOverwrite = {read=FOnConfirmOverwrite, write=FOnConfirmOverwrite};
 	
 public:
 	__fastcall virtual TAbCustomCabExtractor(System::Classes::TComponent* AOwner);
-	__fastcall virtual ~TAbCustomCabExtractor(void);
+	__fastcall virtual ~TAbCustomCabExtractor();
 	void __fastcall ExtractAt(int Index, const System::UnicodeString NewName);
 	void __fastcall ExtractFiles(const System::UnicodeString FileMask);
 	void __fastcall ExtractFilesEx(const System::UnicodeString FileMask, const System::UnicodeString ExclusionMask);
-	void __fastcall ExtractTaggedItems(void);
+	void __fastcall ExtractTaggedItems();
 };
 
 
@@ -79,7 +79,7 @@ __published:
 	__property FileName = {default=0};
 public:
 	/* TAbCustomCabExtractor.Create */ inline __fastcall virtual TAbCabExtractor(System::Classes::TComponent* AOwner) : TAbCustomCabExtractor(AOwner) { }
-	/* TAbCustomCabExtractor.Destroy */ inline __fastcall virtual ~TAbCabExtractor(void) { }
+	/* TAbCustomCabExtractor.Destroy */ inline __fastcall virtual ~TAbCabExtractor() { }
 	
 };
 

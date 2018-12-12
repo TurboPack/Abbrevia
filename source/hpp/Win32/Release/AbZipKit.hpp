@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZipKit.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbZipKit.pas' rev: 33.00 (Windows)
 
 #ifndef AbzipkitHPP
 #define AbzipkitHPP
@@ -41,7 +41,7 @@ protected:
 	System::Byte FPasswordRetries;
 	virtual void __fastcall DoConfirmOverwrite(System::UnicodeString &Name, bool &Confirm);
 	virtual void __fastcall DoNeedPassword(System::TObject* Sender, System::UnicodeString &NewPassword);
-	virtual void __fastcall InitArchive(void);
+	virtual void __fastcall InitArchive();
 	void __fastcall SetExtractOptions(Abarctyp::TAbExtractOptions Value);
 	void __fastcall SetPasswordRetries(System::Byte Value);
 	void __fastcall UnzipProc(System::TObject* Sender, Abarctyp::TAbArchiveItem* Item, const System::UnicodeString NewName);
@@ -54,13 +54,13 @@ protected:
 	
 public:
 	__fastcall virtual TAbCustomZipKit(System::Classes::TComponent* AOwner);
-	__fastcall virtual ~TAbCustomZipKit(void);
+	__fastcall virtual ~TAbCustomZipKit();
 	void __fastcall ExtractAt(int Index, const System::UnicodeString NewName);
 	void __fastcall ExtractFiles(const System::UnicodeString FileMask);
 	void __fastcall ExtractFilesEx(const System::UnicodeString FileMask, const System::UnicodeString ExclusionMask);
-	void __fastcall ExtractTaggedItems(void);
+	void __fastcall ExtractTaggedItems();
 	void __fastcall ExtractToStream(const System::UnicodeString aFileName, System::Classes::TStream* ToStream);
-	void __fastcall TestTaggedItems(void);
+	void __fastcall TestTaggedItems();
 	__property Spanned;
 };
 
@@ -105,7 +105,7 @@ __published:
 	__property FileName = {default=0};
 public:
 	/* TAbCustomZipKit.Create */ inline __fastcall virtual TAbZipKit(System::Classes::TComponent* AOwner) : TAbCustomZipKit(AOwner) { }
-	/* TAbCustomZipKit.Destroy */ inline __fastcall virtual ~TAbZipKit(void) { }
+	/* TAbCustomZipKit.Destroy */ inline __fastcall virtual ~TAbZipKit() { }
 	
 };
 

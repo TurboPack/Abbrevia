@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZBrows.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbZBrows.pas' rev: 33.00 (Windows)
 
 #ifndef AbzbrowsHPP
 #define AbzbrowsHPP
@@ -37,7 +37,7 @@ public:
 	Abziptyp::TAbZipItem* operator[](int Index) { return this->Items[Index]; }
 	
 private:
-	bool __fastcall GetTarAutoHandle(void);
+	bool __fastcall GetTarAutoHandle();
 	void __fastcall SetTarAutoHandle(const bool Value);
 	
 protected:
@@ -47,9 +47,9 @@ protected:
 	Abarctyp::TAbRequestDiskEvent FOnRequestBlankDisk;
 	bool FTarAutoHandle;
 	HIDESBASE virtual Abziptyp::TAbZipItem* __fastcall GetItem(int Index);
-	System::Classes::TStream* __fastcall GetStream(void);
-	System::UnicodeString __fastcall GetZipfileComment(void);
-	virtual void __fastcall InitArchive(void);
+	System::Classes::TStream* __fastcall GetStream();
+	System::UnicodeString __fastcall GetZipfileComment();
+	virtual void __fastcall InitArchive();
 	virtual void __fastcall SetFileName(const System::UnicodeString aFileName);
 	void __fastcall SetStream(System::Classes::TStream* aValue);
 	void __fastcall SetOnRequestLastDisk(Abarctyp::TAbRequestDiskEvent Value);
@@ -64,7 +64,7 @@ protected:
 	
 public:
 	__fastcall virtual TAbCustomZipBrowser(System::Classes::TComponent* AOwner);
-	__fastcall virtual ~TAbCustomZipBrowser(void);
+	__fastcall virtual ~TAbCustomZipBrowser();
 	__property Abziptyp::TAbZipItem* Items[int Index] = {read=GetItem/*, default*/};
 	__property System::Classes::TStream* Stream = {read=GetStream, write=SetStream};
 	__property Abarctyp::TAbArchive* ZipArchive = {read=FArchive};
@@ -96,7 +96,7 @@ __published:
 	__property FileName = {default=0};
 public:
 	/* TAbCustomZipBrowser.Create */ inline __fastcall virtual TAbZipBrowser(System::Classes::TComponent* AOwner) : TAbCustomZipBrowser(AOwner) { }
-	/* TAbCustomZipBrowser.Destroy */ inline __fastcall virtual ~TAbZipBrowser(void) { }
+	/* TAbCustomZipBrowser.Destroy */ inline __fastcall virtual ~TAbZipBrowser() { }
 	
 };
 

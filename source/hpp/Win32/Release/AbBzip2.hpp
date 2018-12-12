@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbBzip2.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbBzip2.pas' rev: 33.00 (Windows)
 
 #ifndef Abbzip2HPP
 #define Abbzip2HPP
@@ -68,7 +68,7 @@ protected:
 	__property System::Classes::TNotifyEvent OnProgress = {read=FOnProgress, write=FOnProgress};
 	__fastcall TCustomBZip2Stream(System::Classes::TStream* Strm);
 public:
-	/* TObject.Destroy */ inline __fastcall virtual ~TCustomBZip2Stream(void) { }
+	/* TObject.Destroy */ inline __fastcall virtual ~TCustomBZip2Stream() { }
 	
 };
 
@@ -80,11 +80,11 @@ class PASCALIMPLEMENTATION TBZCompressionStream : public TCustomBZip2Stream
 	typedef TCustomBZip2Stream inherited;
 	
 private:
-	float __fastcall GetCompressionRate(void);
+	float __fastcall GetCompressionRate();
 	
 public:
 	__fastcall TBZCompressionStream(TBlockSize100k BlockSize100k, System::Classes::TStream* Dest);
-	__fastcall virtual ~TBZCompressionStream(void);
+	__fastcall virtual ~TBZCompressionStream();
 	virtual int __fastcall Read(void *Buffer, int Count)/* overload */;
 	virtual int __fastcall Write(const void *Buffer, int Count)/* overload */;
 	virtual __int64 __fastcall Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin)/* overload */;
@@ -109,7 +109,7 @@ class PASCALIMPLEMENTATION TBZDecompressionStream : public TCustomBZip2Stream
 	
 public:
 	__fastcall TBZDecompressionStream(System::Classes::TStream* Source);
-	__fastcall virtual ~TBZDecompressionStream(void);
+	__fastcall virtual ~TBZDecompressionStream();
 	virtual int __fastcall Read(void *Buffer, int Count)/* overload */;
 	virtual int __fastcall Write(const void *Buffer, int Count)/* overload */;
 	virtual __int64 __fastcall Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin)/* overload */;
@@ -145,7 +145,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EBZip2Error(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EBZip2Error(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EBZip2Error(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EBZip2Error(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EBZip2Error() { }
 	
 };
 
@@ -169,7 +169,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EBZCompressionError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EBZip2Error(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EBZCompressionError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EBZip2Error(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EBZCompressionError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EBZip2Error(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EBZCompressionError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EBZCompressionError() { }
 	
 };
 
@@ -193,7 +193,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EBZDecompressionError(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : EBZip2Error(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EBZDecompressionError(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EBZip2Error(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EBZDecompressionError(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : EBZip2Error(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EBZDecompressionError(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EBZDecompressionError() { }
 	
 };
 

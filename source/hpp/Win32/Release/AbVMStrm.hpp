@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbVMStrm.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbVMStrm.pas' rev: 33.00 (Windows)
 
 #ifndef AbvmstrmHPP
 #define AbvmstrmHPP
@@ -61,16 +61,16 @@ protected:
 	void __fastcall vmsSetMaxMemToUse(unsigned aNewMem);
 	unsigned __fastcall vmsAlterPageList(unsigned aNewMem);
 	void __fastcall vmsFindOldestPage(/* out */ int &OldestInx, /* out */ PvmsPage &OldestPage);
-	int __fastcall vmsGetNextLRU(void);
+	int __fastcall vmsGetNextLRU();
 	PvmsPage __fastcall vmsGetPageForOffset(__int64 aOffset);
-	void __fastcall vmsSwapFileCreate(void);
-	void __fastcall vmsSwapFileDestroy(void);
+	void __fastcall vmsSwapFileCreate();
+	void __fastcall vmsSwapFileDestroy();
 	void __fastcall vmsSwapFileRead(PvmsPage aPage);
 	void __fastcall vmsSwapFileWrite(PvmsPage aPage);
 	
 public:
-	__fastcall TAbVirtualMemoryStream(void);
-	__fastcall virtual ~TAbVirtualMemoryStream(void);
+	__fastcall TAbVirtualMemoryStream();
+	__fastcall virtual ~TAbVirtualMemoryStream();
 	virtual int __fastcall Read(void *Buffer, int Count)/* overload */;
 	virtual int __fastcall Write(const void *Buffer, int Count)/* overload */;
 	virtual __int64 __fastcall Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin)/* overload */;

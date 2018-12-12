@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbSelfEx.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbSelfEx.pas' rev: 33.00 (Windows)
 
 #ifndef AbselfexHPP
 #define AbselfexHPP
@@ -43,7 +43,7 @@ protected:
 	void __fastcall DoGetZipFile(bool &Abort);
 	
 public:
-	bool __fastcall Execute(void);
+	bool __fastcall Execute();
 	
 __published:
 	__property System::UnicodeString SelfExe = {read=FSelfExe, write=FSelfExe};
@@ -54,7 +54,7 @@ __published:
 	__property Version = {default=0};
 public:
 	/* TComponent.Create */ inline __fastcall virtual TAbMakeSelfExe(System::Classes::TComponent* AOwner) : Abbase::TAbBaseComponent(AOwner) { }
-	/* TComponent.Destroy */ inline __fastcall virtual ~TAbMakeSelfExe(void) { }
+	/* TComponent.Destroy */ inline __fastcall virtual ~TAbMakeSelfExe() { }
 	
 };
 

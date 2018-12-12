@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZipper.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbZipper.pas' rev: 33.00 (Windows)
 
 #ifndef AbzipperHPP
 #define AbzipperHPP
@@ -46,7 +46,7 @@ protected:
 	virtual void __fastcall DoConfirmSave(System::TObject* Sender, bool &Confirm);
 	virtual void __fastcall DoSave(System::TObject* Sender);
 	void __fastcall DoArchiveSaveProgress(System::TObject* Sender, System::Byte Progress, bool &Abort);
-	virtual void __fastcall InitArchive(void);
+	virtual void __fastcall InitArchive();
 	void __fastcall SetAutoSave(bool Value);
 	void __fastcall SetCompressionMethodToUse(Abziptyp::TAbZipSupportedMethod Value);
 	void __fastcall SetDeflationOption(Abziptyp::TAbZipDeflationOption Value);
@@ -58,7 +58,7 @@ protected:
 	void __fastcall ZipProc(System::TObject* Sender, Abarctyp::TAbArchiveItem* Item, System::Classes::TStream* OutStream);
 	void __fastcall ZipFromStreamProc(System::TObject* Sender, Abarctyp::TAbArchiveItem* Item, System::Classes::TStream* OutStream, System::Classes::TStream* InStream);
 	virtual void __fastcall Notification(System::Classes::TComponent* Component, System::Classes::TOperation Operation);
-	virtual void __fastcall ResetMeters(void);
+	virtual void __fastcall ResetMeters();
 	__property bool AutoSave = {read=FAutoSave, write=SetAutoSave, nodefault};
 	__property Abziptyp::TAbZipSupportedMethod CompressionMethodToUse = {read=FCompressionMethodToUse, write=SetCompressionMethodToUse, default=2};
 	__property Abziptyp::TAbZipDeflationOption DeflationOption = {read=FDeflationOption, write=SetDeflationOption, default=1};
@@ -71,19 +71,19 @@ protected:
 	
 public:
 	__fastcall virtual TAbCustomZipper(System::Classes::TComponent* AOwner);
-	__fastcall virtual ~TAbCustomZipper(void);
+	__fastcall virtual ~TAbCustomZipper();
 	void __fastcall AddFiles(const System::UnicodeString FileMask, int SearchAttr);
 	void __fastcall AddFilesEx(const System::UnicodeString FileMask, const System::UnicodeString ExclusionMask, int SearchAttr);
 	void __fastcall AddFromStream(const System::UnicodeString NewName, System::Classes::TStream* FromStream);
 	void __fastcall DeleteAt(int Index);
 	void __fastcall DeleteFiles(const System::UnicodeString FileMask);
 	void __fastcall DeleteFilesEx(const System::UnicodeString FileMask, const System::UnicodeString ExclusionMask);
-	void __fastcall DeleteTaggedItems(void);
+	void __fastcall DeleteTaggedItems();
 	void __fastcall FreshenFiles(const System::UnicodeString FileMask);
 	void __fastcall FreshenFilesEx(const System::UnicodeString FileMask, const System::UnicodeString ExclusionMask);
-	void __fastcall FreshenTaggedItems(void);
+	void __fastcall FreshenTaggedItems();
 	void __fastcall Move(Abarctyp::TAbArchiveItem* aItem, const System::UnicodeString NewStoredPath);
-	void __fastcall Save(void);
+	void __fastcall Save();
 	void __fastcall Replace(Abarctyp::TAbArchiveItem* aItem);
 };
 
@@ -124,7 +124,7 @@ __published:
 	__property FileName = {default=0};
 public:
 	/* TAbCustomZipper.Create */ inline __fastcall virtual TAbZipper(System::Classes::TComponent* AOwner) : TAbCustomZipper(AOwner) { }
-	/* TAbCustomZipper.Destroy */ inline __fastcall virtual ~TAbZipper(void) { }
+	/* TAbCustomZipper.Destroy */ inline __fastcall virtual ~TAbZipper() { }
 	
 };
 

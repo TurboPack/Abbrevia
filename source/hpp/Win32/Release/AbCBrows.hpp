@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbCBrows.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbCBrows.pas' rev: 33.00 (Windows)
 
 #ifndef AbcbrowsHPP
 #define AbcbrowsHPP
@@ -37,15 +37,15 @@ public:
 	
 protected:
 	System::Word FSetID;
-	Abcabtyp::TAbCabArchive* __fastcall GetCabArchive(void);
-	int __fastcall GetCabSize(void);
-	System::Word __fastcall GetCurrentCab(void);
-	System::Word __fastcall GetFolderCount(void);
+	Abcabtyp::TAbCabArchive* __fastcall GetCabArchive();
+	int __fastcall GetCabSize();
+	System::Word __fastcall GetCurrentCab();
+	System::Word __fastcall GetFolderCount();
 	HIDESBASE virtual Abcabtyp::TAbCabItem* __fastcall GetItem(int Index);
-	bool __fastcall GetHasNext(void);
-	bool __fastcall GetHasPrev(void);
-	System::Word __fastcall GetSetID(void);
-	virtual void __fastcall InitArchive(void);
+	bool __fastcall GetHasNext();
+	bool __fastcall GetHasPrev();
+	System::Word __fastcall GetSetID();
+	virtual void __fastcall InitArchive();
 	virtual void __fastcall SetFileName(const System::UnicodeString aFileName);
 	void __fastcall SetSetID(System::Word Value);
 	__property int CabSize = {read=GetCabSize, nodefault};
@@ -57,7 +57,7 @@ protected:
 	
 public:
 	__fastcall virtual TAbCustomCabBrowser(System::Classes::TComponent* AOwner);
-	__fastcall virtual ~TAbCustomCabBrowser(void);
+	__fastcall virtual ~TAbCustomCabBrowser();
 	__property Abcabtyp::TAbCabArchive* CabArchive = {read=GetCabArchive};
 	__property Abcabtyp::TAbCabItem* Items[int Index] = {read=GetItem/*, default*/};
 };
@@ -88,7 +88,7 @@ __published:
 	__property FileName = {default=0};
 public:
 	/* TAbCustomCabBrowser.Create */ inline __fastcall virtual TAbCabBrowser(System::Classes::TComponent* AOwner) : TAbCustomCabBrowser(AOwner) { }
-	/* TAbCustomCabBrowser.Destroy */ inline __fastcall virtual ~TAbCabBrowser(void) { }
+	/* TAbCustomCabBrowser.Destroy */ inline __fastcall virtual ~TAbCabBrowser() { }
 	
 };
 

@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfCryS.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbDfCryS.pas' rev: 33.00 (Windows)
 
 #ifndef AbdfcrysHPP
 #define AbdfcrysHPP
@@ -41,12 +41,12 @@ protected:
 	void __fastcall zdeInitState(const System::UnicodeString aPassphrase);
 	
 public:
-	__fastcall TAbZipDecryptEngine(void);
+	__fastcall TAbZipDecryptEngine();
 	System::Byte __fastcall Decode(System::Byte aCh);
 	void __fastcall DecodeBuffer(void *aBuffer, int aCount);
 	bool __fastcall VerifyHeader(const TAbZipEncryptHeader &aHeader, const System::UnicodeString aPassphrase, int aCheckValue);
 public:
-	/* TObject.Destroy */ inline __fastcall virtual ~TAbZipDecryptEngine(void) { }
+	/* TObject.Destroy */ inline __fastcall virtual ~TAbZipDecryptEngine() { }
 	
 };
 
@@ -67,8 +67,8 @@ private:
 	
 public:
 	__fastcall TAbDfDecryptStream(System::Classes::TStream* aStream, int aCheckValue, const System::UnicodeString aPassphrase);
-	__fastcall virtual ~TAbDfDecryptStream(void);
-	bool __fastcall IsValid(void);
+	__fastcall virtual ~TAbDfDecryptStream();
+	bool __fastcall IsValid();
 	virtual int __fastcall Read(void *aBuffer, int aCount)/* overload */;
 	virtual __int64 __fastcall Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin)/* overload */;
 	virtual int __fastcall Write(const void *aBuffer, int aCount)/* overload */;
@@ -100,12 +100,12 @@ protected:
 	void __fastcall zeeInitState(const System::UnicodeString aPassphrase);
 	
 public:
-	__fastcall TAbZipEncryptEngine(void);
+	__fastcall TAbZipEncryptEngine();
 	System::Byte __fastcall Encode(System::Byte aCh);
 	void __fastcall EncodeBuffer(void *aBuffer, int aCount);
 	void __fastcall CreateHeader(TAbZipEncryptHeader &aHeader, const System::UnicodeString aPassphrase, int aCheckValue);
 public:
-	/* TObject.Destroy */ inline __fastcall virtual ~TAbZipEncryptEngine(void) { }
+	/* TObject.Destroy */ inline __fastcall virtual ~TAbZipEncryptEngine() { }
 	
 };
 
@@ -124,7 +124,7 @@ private:
 	
 public:
 	__fastcall TAbDfEncryptStream(System::Classes::TStream* aStream, int aCheckValue, const System::UnicodeString aPassphrase);
-	__fastcall virtual ~TAbDfEncryptStream(void);
+	__fastcall virtual ~TAbDfEncryptStream();
 	virtual int __fastcall Read(void *aBuffer, int aCount)/* overload */;
 	virtual int __fastcall Seek(int aOffset, System::Word aOrigin)/* overload */;
 	virtual int __fastcall Write(const void *aBuffer, int aCount)/* overload */;

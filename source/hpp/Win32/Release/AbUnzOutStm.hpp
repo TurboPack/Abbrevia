@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbUnzOutStm.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbUnzOutStm.pas' rev: 33.00 (Windows)
 
 #ifndef AbunzoutstmHPP
 #define AbunzoutstmHPP
@@ -42,7 +42,7 @@ public:
 	virtual int __fastcall Write(const void *Buffer, int Count)/* overload */;
 	virtual __int64 __fastcall Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin)/* overload */;
 public:
-	/* TObject.Destroy */ inline __fastcall virtual ~TAbUnzipSubsetStream(void) { }
+	/* TObject.Destroy */ inline __fastcall virtual ~TAbUnzipSubsetStream() { }
 	
 	/* Hoisted overloads: */
 	
@@ -68,7 +68,7 @@ private:
 	System::Classes::TStream* FStream;
 	__int64 FUncompressedSize;
 	Abarctyp::TAbProgressEvent FOnProgress;
-	int __fastcall GetCRC32(void);
+	int __fastcall GetCRC32();
 	
 public:
 	__fastcall TAbUnzipOutputStream(System::Classes::TStream* aStream);
@@ -80,7 +80,7 @@ public:
 	__property __int64 UncompressedSize = {read=FUncompressedSize, write=FUncompressedSize};
 	__property Abarctyp::TAbProgressEvent OnProgress = {read=FOnProgress, write=FOnProgress};
 public:
-	/* TObject.Destroy */ inline __fastcall virtual ~TAbUnzipOutputStream(void) { }
+	/* TObject.Destroy */ inline __fastcall virtual ~TAbUnzipOutputStream() { }
 	
 	/* Hoisted overloads: */
 	

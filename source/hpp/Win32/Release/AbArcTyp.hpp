@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbArcTyp.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbArcTyp.pas' rev: 33.00 (Windows)
 
 #ifndef AbarctypHPP
 #define AbarctypHPP
@@ -51,18 +51,18 @@ protected:
 	System::Word FLastModFileDate;
 	bool FTagged;
 	__int64 FUncompressedSize;
-	virtual __int64 __fastcall GetCompressedSize(void);
-	virtual int __fastcall GetCRC32(void);
-	System::UnicodeString __fastcall GetDiskPath(void);
-	virtual unsigned __fastcall GetExternalFileAttributes(void);
-	virtual System::UnicodeString __fastcall GetFileName(void);
-	virtual bool __fastcall GetIsDirectory(void);
-	virtual bool __fastcall GetIsEncrypted(void);
-	virtual System::Word __fastcall GetLastModFileDate(void);
-	virtual System::Word __fastcall GetLastModFileTime(void);
-	virtual int __fastcall GetNativeFileAttributes(void);
-	System::UnicodeString __fastcall GetStoredPath(void);
-	virtual __int64 __fastcall GetUncompressedSize(void);
+	virtual __int64 __fastcall GetCompressedSize();
+	virtual int __fastcall GetCRC32();
+	System::UnicodeString __fastcall GetDiskPath();
+	virtual unsigned __fastcall GetExternalFileAttributes();
+	virtual System::UnicodeString __fastcall GetFileName();
+	virtual bool __fastcall GetIsDirectory();
+	virtual bool __fastcall GetIsEncrypted();
+	virtual System::Word __fastcall GetLastModFileDate();
+	virtual System::Word __fastcall GetLastModFileTime();
+	virtual int __fastcall GetNativeFileAttributes();
+	System::UnicodeString __fastcall GetStoredPath();
+	virtual __int64 __fastcall GetUncompressedSize();
 	virtual void __fastcall SetCompressedSize(const __int64 Value);
 	virtual void __fastcall SetCRC32(const int Value);
 	virtual void __fastcall SetExternalFileAttributes(unsigned Value);
@@ -71,12 +71,12 @@ protected:
 	virtual void __fastcall SetLastModFileDate(const System::Word Value);
 	virtual void __fastcall SetLastModFileTime(const System::Word Value);
 	virtual void __fastcall SetUncompressedSize(const __int64 Value);
-	virtual System::TDateTime __fastcall GetLastModTimeAsDateTime(void);
+	virtual System::TDateTime __fastcall GetLastModTimeAsDateTime();
 	virtual void __fastcall SetLastModTimeAsDateTime(const System::TDateTime Value);
 	
 public:
-	__fastcall TAbArchiveItem(void);
-	__fastcall virtual ~TAbArchiveItem(void);
+	__fastcall TAbArchiveItem();
+	__fastcall virtual ~TAbArchiveItem();
 	bool __fastcall MatchesDiskName(const System::UnicodeString FileMask);
 	bool __fastcall MatchesStoredName(const System::UnicodeString FileMask);
 	bool __fastcall MatchesStoredNameEx(const System::UnicodeString FileMask);
@@ -110,11 +110,11 @@ private:
 	
 public:
 	__fastcall TAbArchiveListEnumerator(TAbArchiveList* aList);
-	TAbArchiveItem* __fastcall GetCurrent(void);
-	bool __fastcall MoveNext(void);
+	TAbArchiveItem* __fastcall GetCurrent();
+	bool __fastcall MoveNext();
 	__property TAbArchiveItem* Current = {read=GetCurrent};
 public:
-	/* TObject.Destroy */ inline __fastcall virtual ~TAbArchiveListEnumerator(void) { }
+	/* TObject.Destroy */ inline __fastcall virtual ~TAbArchiveListEnumerator() { }
 	
 };
 
@@ -133,19 +133,19 @@ protected:
 	bool FOwnsItems;
 	System::StaticArray<TAbArchiveItem*, 1021> HashTable;
 	int __fastcall GenerateHash(const System::UnicodeString S);
-	int __fastcall GetCount(void);
+	int __fastcall GetCount();
 	TAbArchiveItem* __fastcall Get(int Index);
 	void __fastcall Put(int Index, TAbArchiveItem* Item);
 	void __fastcall UpdateHash(TAbArchiveItem* aItem, const System::UnicodeString aOldFileName);
 	
 public:
 	__fastcall TAbArchiveList(bool AOwnsItems);
-	__fastcall virtual ~TAbArchiveList(void);
+	__fastcall virtual ~TAbArchiveList();
 	int __fastcall Add(TAbArchiveItem* aItem);
-	void __fastcall Clear(void);
+	void __fastcall Clear();
 	void __fastcall Delete(int Index);
 	int __fastcall Find(const System::UnicodeString FN);
-	TAbArchiveListEnumerator* __fastcall GetEnumerator(void);
+	TAbArchiveListEnumerator* __fastcall GetEnumerator();
 	bool __fastcall IsActiveDupe(const System::UnicodeString FN);
 	__property int Count = {read=GetCount, nodefault};
 	__property TAbArchiveItem* Items[int Index] = {read=Get, write=Put/*, default*/};
@@ -208,17 +208,17 @@ protected:
 public:
 	__fastcall TAbArchiveStreamHelper(System::Classes::TStream* AStream);
 	virtual void __fastcall ExtractItemData(System::Classes::TStream* AStream) = 0 ;
-	virtual bool __fastcall FindFirstItem(void) = 0 ;
-	virtual bool __fastcall FindNextItem(void) = 0 ;
-	virtual void __fastcall ReadHeader(void) = 0 ;
-	virtual void __fastcall ReadTail(void) = 0 ;
+	virtual bool __fastcall FindFirstItem() = 0 ;
+	virtual bool __fastcall FindNextItem() = 0 ;
+	virtual void __fastcall ReadHeader() = 0 ;
+	virtual void __fastcall ReadTail() = 0 ;
 	virtual bool __fastcall SeekItem(int Index) = 0 ;
-	virtual void __fastcall WriteArchiveHeader(void) = 0 ;
+	virtual void __fastcall WriteArchiveHeader() = 0 ;
 	virtual void __fastcall WriteArchiveItem(System::Classes::TStream* AStream) = 0 ;
-	virtual void __fastcall WriteArchiveTail(void) = 0 ;
-	virtual int __fastcall GetItemCount(void) = 0 ;
+	virtual void __fastcall WriteArchiveTail() = 0 ;
+	virtual int __fastcall GetItemCount() = 0 ;
 public:
-	/* TObject.Destroy */ inline __fastcall virtual ~TAbArchiveStreamHelper(void) { }
+	/* TObject.Destroy */ inline __fastcall virtual ~TAbArchiveStreamHelper() { }
 	
 };
 
@@ -263,13 +263,13 @@ protected:
 	TAbProgressEvent FOnProgress;
 	TAbRequestImageEvent FOnRequestImage;
 	TAbArchiveEvent FOnSave;
-	__fastcall TAbArchive(void);
-	void __fastcall CheckValid(void);
+	__fastcall TAbArchive();
+	void __fastcall CheckValid();
 	bool __fastcall ConfirmPath(TAbArchiveItem* Item, const System::UnicodeString NewName, /* out */ System::UnicodeString &UseName);
 	void __fastcall FreshenAt(int Index);
 	bool __fastcall FreshenRequired(TAbArchiveItem* Item);
 	void __fastcall GetFreshenTarget(TAbArchiveItem* Item);
-	int __fastcall GetItemCount(void);
+	int __fastcall GetItemCount();
 	void __fastcall MakeLogEntry(const System::UnicodeString FN, Abutils::TAbLogType LT);
 	void __fastcall ReplaceAt(int Index);
 	void __fastcall SaveIfNeeded(TAbArchiveItem* aItem);
@@ -279,8 +279,8 @@ protected:
 	virtual TAbArchiveItem* __fastcall CreateItem(const System::UnicodeString FileSpec) = 0 ;
 	virtual void __fastcall ExtractItemAt(int Index, const System::UnicodeString UseName) = 0 ;
 	virtual void __fastcall ExtractItemToStreamAt(int Index, System::Classes::TStream* aStream) = 0 ;
-	virtual void __fastcall LoadArchive(void) = 0 ;
-	virtual void __fastcall SaveArchive(void) = 0 ;
+	virtual void __fastcall LoadArchive() = 0 ;
+	virtual void __fastcall SaveArchive() = 0 ;
 	virtual void __fastcall TestItemAt(int Index) = 0 ;
 	virtual void __fastcall DoProcessItemFailure(TAbArchiveItem* Item, Abutils::TAbProcessType ProcessType, Abutils::TAbErrorClass ErrorClass, int ErrorCode);
 	virtual void __fastcall DoArchiveSaveProgress(System::Byte Progress, bool &Abort);
@@ -289,47 +289,47 @@ protected:
 	virtual void __fastcall DoConfirmOverwrite(System::UnicodeString &FileName, bool &Confirm);
 	virtual void __fastcall DoConfirmProcessItem(TAbArchiveItem* Item, const Abutils::TAbProcessType ProcessType, bool &Confirm);
 	virtual void __fastcall DoConfirmSave(bool &Confirm);
-	virtual void __fastcall DoLoad(void);
+	virtual void __fastcall DoLoad();
 	virtual void __fastcall DoProgress(System::Byte Progress, bool &Abort);
-	virtual void __fastcall DoSave(void);
+	virtual void __fastcall DoSave();
 	virtual System::UnicodeString __fastcall FixName(const System::UnicodeString Value);
-	virtual __int64 __fastcall GetSpanningThreshold(void);
-	virtual bool __fastcall GetSupportsEmptyFolders(void);
+	virtual __int64 __fastcall GetSpanningThreshold();
+	virtual bool __fastcall GetSupportsEmptyFolders();
 	virtual void __fastcall SetSpanningThreshold(__int64 Value);
 	__property System::Classes::TStream* InStream = {read=FInStream};
 	
 public:
 	__fastcall virtual TAbArchive(const System::UnicodeString FileName, System::Word Mode);
 	__fastcall virtual TAbArchive(System::Classes::TStream* aStream, const System::UnicodeString aArchiveName);
-	__fastcall virtual ~TAbArchive(void);
+	__fastcall virtual ~TAbArchive();
 	virtual void __fastcall Add(TAbArchiveItem* aItem);
 	void __fastcall AddFiles(const System::UnicodeString FileMask, int SearchAttr);
 	void __fastcall AddFilesEx(const System::UnicodeString FileMask, const System::UnicodeString ExclusionMask, int SearchAttr);
 	void __fastcall AddFromStream(const System::UnicodeString NewName, System::Classes::TStream* aStream);
-	void __fastcall ClearTags(void);
+	void __fastcall ClearTags();
 	void __fastcall Delete(TAbArchiveItem* aItem);
 	void __fastcall DeleteAt(int Index);
 	void __fastcall DeleteFiles(const System::UnicodeString FileMask);
 	void __fastcall DeleteFilesEx(const System::UnicodeString FileMask, const System::UnicodeString ExclusionMask);
-	void __fastcall DeleteTaggedItems(void);
+	void __fastcall DeleteTaggedItems();
 	void __fastcall Extract(TAbArchiveItem* aItem, const System::UnicodeString NewName);
 	void __fastcall ExtractAt(int Index, const System::UnicodeString NewName);
 	void __fastcall ExtractFiles(const System::UnicodeString FileMask);
 	void __fastcall ExtractFilesEx(const System::UnicodeString FileMask, const System::UnicodeString ExclusionMask);
-	void __fastcall ExtractTaggedItems(void);
+	void __fastcall ExtractTaggedItems();
 	void __fastcall ExtractToStream(const System::UnicodeString aFileName, System::Classes::TStream* aStream);
 	int __fastcall FindFile(const System::UnicodeString aFileName);
 	int __fastcall FindItem(TAbArchiveItem* aItem);
 	void __fastcall Freshen(TAbArchiveItem* aItem);
 	void __fastcall FreshenFiles(const System::UnicodeString FileMask);
 	void __fastcall FreshenFilesEx(const System::UnicodeString FileMask, const System::UnicodeString ExclusionMask);
-	void __fastcall FreshenTaggedItems(void);
-	virtual void __fastcall Load(void);
+	void __fastcall FreshenTaggedItems();
+	virtual void __fastcall Load();
 	virtual void __fastcall Move(TAbArchiveItem* aItem, const System::UnicodeString NewStoredPath);
 	void __fastcall Replace(TAbArchiveItem* aItem);
-	virtual void __fastcall Save(void);
+	virtual void __fastcall Save();
 	void __fastcall TagItems(const System::UnicodeString FileMask);
-	void __fastcall TestTaggedItems(void);
+	void __fastcall TestTaggedItems();
 	void __fastcall UnTagItems(const System::UnicodeString FileMask);
 	virtual void __fastcall DoDeflateProgress(int aPercentDone);
 	virtual void __fastcall DoInflateProgress(int aPercentDone);
@@ -392,20 +392,20 @@ class PASCALIMPLEMENTATION TAbExtraField : public System::TObject
 	typedef System::TObject inherited;
 	
 private:
-	System::TByteDynArray FBuffer;
+	System::DynamicArray<System::Byte> FBuffer;
 	void __fastcall DeleteField(PAbExtraSubField aSubField);
 	bool __fastcall FindField(System::Word aID, /* out */ PAbExtraSubField &aSubField);
 	bool __fastcall FindNext(PAbExtraSubField &aCurField);
-	int __fastcall GetCount(void);
+	int __fastcall GetCount();
 	System::Word __fastcall GetID(int aIndex);
-	void __fastcall SetBuffer(const System::TByteDynArray aValue);
+	void __fastcall SetBuffer(const System::DynamicArray<System::Byte> aValue);
 	
 protected:
-	virtual void __fastcall Changed(void);
+	virtual void __fastcall Changed();
 	
 public:
 	void __fastcall Assign(TAbExtraField* aSource);
-	void __fastcall Clear(void);
+	void __fastcall Clear();
 	void __fastcall CloneFrom(TAbExtraField* aSource, System::Word aID);
 	void __fastcall Delete(System::Word aID);
 	bool __fastcall Get(System::Word aID, /* out */ void * &aData, /* out */ System::Word &aDataSize);
@@ -414,11 +414,11 @@ public:
 	void __fastcall LoadFromStream(System::Classes::TStream* aStream, System::Word aSize);
 	void __fastcall Put(System::Word aID, const void *aData, System::Word aDataSize);
 	__property int Count = {read=GetCount, nodefault};
-	__property System::TByteDynArray Buffer = {read=FBuffer, write=SetBuffer};
+	__property System::DynamicArray<System::Byte> Buffer = {read=FBuffer, write=SetBuffer};
 	__property System::Word IDs[int aIndex] = {read=GetID};
 public:
-	/* TObject.Create */ inline __fastcall TAbExtraField(void) : System::TObject() { }
-	/* TObject.Destroy */ inline __fastcall virtual ~TAbExtraField(void) { }
+	/* TObject.Create */ inline __fastcall TAbExtraField() : System::TObject() { }
+	/* TObject.Destroy */ inline __fastcall virtual ~TAbExtraField() { }
 	
 };
 

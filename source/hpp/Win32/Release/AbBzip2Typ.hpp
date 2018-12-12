@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbBzip2Typ.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbBzip2Typ.pas' rev: 33.00 (Windows)
 
 #ifndef Abbzip2typHPP
 #define Abbzip2typHPP
@@ -46,8 +46,8 @@ class PASCALIMPLEMENTATION TAbBzip2Item : public Abarctyp::TAbArchiveItem
 	typedef Abarctyp::TAbArchiveItem inherited;
 	
 public:
-	/* TAbArchiveItem.Create */ inline __fastcall TAbBzip2Item(void) : Abarctyp::TAbArchiveItem() { }
-	/* TAbArchiveItem.Destroy */ inline __fastcall virtual ~TAbBzip2Item(void) { }
+	/* TAbArchiveItem.Create */ inline __fastcall TAbBzip2Item() : Abarctyp::TAbArchiveItem() { }
+	/* TAbArchiveItem.Destroy */ inline __fastcall virtual ~TAbBzip2Item() { }
 	
 };
 
@@ -68,26 +68,26 @@ private:
 	bool FIsBzippedTar;
 	void __fastcall DecompressToStream(System::Classes::TStream* aStream);
 	void __fastcall SetTarAutoHandle(const bool Value);
-	void __fastcall SwapToBzip2(void);
-	void __fastcall SwapToTar(void);
+	void __fastcall SwapToBzip2();
+	void __fastcall SwapToTar();
 	
 protected:
 	virtual Abarctyp::TAbArchiveItem* __fastcall CreateItem(const System::UnicodeString FileSpec);
 	virtual void __fastcall ExtractItemAt(int Index, const System::UnicodeString NewName);
 	virtual void __fastcall ExtractItemToStreamAt(int Index, System::Classes::TStream* aStream);
-	virtual void __fastcall LoadArchive(void);
-	virtual void __fastcall SaveArchive(void);
+	virtual void __fastcall LoadArchive();
+	virtual void __fastcall SaveArchive();
 	virtual void __fastcall TestItemAt(int Index);
-	virtual bool __fastcall GetSupportsEmptyFolders(void);
+	virtual bool __fastcall GetSupportsEmptyFolders();
 	
 public:
 	__fastcall virtual TAbBzip2Archive(System::Classes::TStream* aStream, const System::UnicodeString aArchiveName);
-	__fastcall virtual ~TAbBzip2Archive(void);
+	__fastcall virtual ~TAbBzip2Archive();
 	virtual void __fastcall DoSpanningMediaRequest(System::TObject* Sender, int ImageNumber, System::UnicodeString &ImageName, bool &Abort);
 	__property bool TarAutoHandle = {read=FTarAutoHandle, write=SetTarAutoHandle, nodefault};
 	__property bool IsBzippedTar = {read=FIsBzippedTar, write=FIsBzippedTar, nodefault};
 protected:
-	/* TAbArchive.CreateInit */ inline __fastcall TAbBzip2Archive(void) : Abtartyp::TAbTarArchive() { }
+	/* TAbArchive.CreateInit */ inline __fastcall TAbBzip2Archive() : Abtartyp::TAbTarArchive() { }
 	
 public:
 	/* TAbArchive.Create */ inline __fastcall virtual TAbBzip2Archive(const System::UnicodeString FileName, System::Word Mode) : Abtartyp::TAbTarArchive(FileName, Mode) { }

@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbCabMak.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbCabMak.pas' rev: 33.00 (Windows)
 
 #ifndef AbcabmakHPP
 #define AbcabmakHPP
@@ -39,7 +39,7 @@ protected:
 	Abarctyp::TAbStoreOptions FStoreOptions;
 	Abarctyp::TAbArchiveEvent FOnSave;
 	virtual void __fastcall DoSave(System::TObject* Sender);
-	virtual void __fastcall InitArchive(void);
+	virtual void __fastcall InitArchive();
 	void __fastcall SetFolderThreshold(int Value);
 	HIDESBASE void __fastcall SetCompressionType(Abcabtyp::TAbCabCompressionType Value);
 	virtual void __fastcall SetFileName(const System::UnicodeString aFileName);
@@ -53,10 +53,10 @@ public:
 	__fastcall virtual TAbCustomMakeCab(System::Classes::TComponent* AOwner);
 	void __fastcall AddFiles(const System::UnicodeString FileMask, int SearchAttr);
 	void __fastcall AddFilesEx(const System::UnicodeString FileMask, const System::UnicodeString ExclusionMask, int SearchAttr);
-	void __fastcall StartNewFolder(void);
-	void __fastcall StartNewCabinet(void);
+	void __fastcall StartNewFolder();
+	void __fastcall StartNewCabinet();
 public:
-	/* TAbCustomCabBrowser.Destroy */ inline __fastcall virtual ~TAbCustomMakeCab(void) { }
+	/* TAbCustomCabBrowser.Destroy */ inline __fastcall virtual ~TAbCustomMakeCab() { }
 	
 };
 
@@ -90,7 +90,7 @@ public:
 	/* TAbCustomMakeCab.Create */ inline __fastcall virtual TAbMakeCab(System::Classes::TComponent* AOwner) : TAbCustomMakeCab(AOwner) { }
 	
 public:
-	/* TAbCustomCabBrowser.Destroy */ inline __fastcall virtual ~TAbMakeCab(void) { }
+	/* TAbCustomCabBrowser.Destroy */ inline __fastcall virtual ~TAbMakeCab() { }
 	
 };
 

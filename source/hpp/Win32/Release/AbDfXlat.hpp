@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfXlat.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbDfXlat.pas' rev: 33.00 (Windows)
 
 #ifndef AbdfxlatHPP
 #define AbdfxlatHPP
@@ -36,11 +36,11 @@ private:
 	System::Sysutils::TByteArray *FShortDistSymbols;
 	
 protected:
-	void __fastcall trBuild(void);
+	void __fastcall trBuild();
 	
 public:
-	__fastcall TAbDfTranslator(void);
-	__fastcall virtual ~TAbDfTranslator(void);
+	__fastcall TAbDfTranslator();
+	__fastcall virtual ~TAbDfTranslator();
 	int __fastcall TranslateLength(int aLen);
 	int __fastcall TranslateDistance(int aDist);
 	__property System::Sysutils::PByteArray LenSymbols = {read=FLenSymbols};

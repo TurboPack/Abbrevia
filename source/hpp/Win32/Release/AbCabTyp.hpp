@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbCabTyp.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbCabTyp.pas' rev: 33.00 (Windows)
 
 #ifndef AbcabtypHPP
 #define AbcabtypHPP
@@ -40,8 +40,8 @@ public:
 	__property bool PartialFile = {read=FPartialFile, write=FPartialFile, nodefault};
 	__property System::AnsiString RawFileName = {read=FRawFileName, write=FRawFileName};
 public:
-	/* TAbArchiveItem.Create */ inline __fastcall TAbCabItem(void) : Abarctyp::TAbArchiveItem() { }
-	/* TAbArchiveItem.Destroy */ inline __fastcall virtual ~TAbCabItem(void) { }
+	/* TAbArchiveItem.Create */ inline __fastcall TAbCabItem() : Abarctyp::TAbArchiveItem() { }
+	/* TAbArchiveItem.Destroy */ inline __fastcall virtual ~TAbCabItem() { }
 	
 };
 
@@ -83,18 +83,18 @@ protected:
 	bool FHasPrev;
 	bool FHasNext;
 	System::Word FSetID;
-	void __fastcall CloseCabFile(void);
-	void __fastcall CreateCabFile(void);
+	void __fastcall CloseCabFile();
+	void __fastcall CreateCabFile();
 	virtual Abarctyp::TAbArchiveItem* __fastcall CreateItem(const System::UnicodeString FileSpec);
 	void __fastcall DoCabItemProgress(unsigned BytesCompressed, bool &Abort);
 	void __fastcall DoGetNextCabinet(int CabIndex, System::UnicodeString &CabName, bool &Abort);
 	virtual void __fastcall ExtractItemAt(int Index, const System::UnicodeString NewName);
 	virtual void __fastcall ExtractItemToStreamAt(int Index, System::Classes::TStream* OutStream);
 	TAbCabItem* __fastcall GetItem(int ItemIndex);
-	virtual void __fastcall LoadArchive(void);
-	void __fastcall OpenCabFile(void);
+	virtual void __fastcall LoadArchive();
+	void __fastcall OpenCabFile();
 	void __fastcall PutItem(int Index, TAbCabItem* Value);
-	virtual void __fastcall SaveArchive(void);
+	virtual void __fastcall SaveArchive();
 	void __fastcall SetFolderThreshold(unsigned Value);
 	void __fastcall SetSetID(System::Word Value);
 	virtual void __fastcall SetSpanningThreshold(__int64 Value);
@@ -103,10 +103,10 @@ protected:
 public:
 	__fastcall virtual TAbCabArchive(const System::UnicodeString FileName, System::Word Mode);
 	__fastcall virtual TAbCabArchive(System::Classes::TStream* aStream, const System::UnicodeString aArchiveName);
-	__fastcall virtual ~TAbCabArchive(void);
+	__fastcall virtual ~TAbCabArchive();
 	virtual void __fastcall Add(Abarctyp::TAbArchiveItem* aItem);
-	void __fastcall NewCabinet(void);
-	void __fastcall NewFolder(void);
+	void __fastcall NewCabinet();
+	void __fastcall NewFolder();
 	__property System::Word CurrentCab = {read=FCurrentCab, nodefault};
 	__property int CabSize = {read=FCabSize, nodefault};
 	__property TAbCabCompressionType CompressionType = {read=FCompressionType, write=FCompressionType, nodefault};
@@ -118,7 +118,7 @@ public:
 	__property unsigned ItemProgress = {read=FItemProgress, write=FItemProgress, nodefault};
 	__property System::Word SetID = {read=FSetID, write=SetSetID, nodefault};
 protected:
-	/* TAbArchive.CreateInit */ inline __fastcall TAbCabArchive(void) : Abarctyp::TAbArchive() { }
+	/* TAbArchive.CreateInit */ inline __fastcall TAbCabArchive() : Abarctyp::TAbArchive() { }
 	
 };
 

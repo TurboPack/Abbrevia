@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZLTyp.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbZLTyp.pas' rev: 33.00 (Windows)
 
 #ifndef AbzltypHPP
 #define AbzltypHPP
@@ -47,22 +47,22 @@ class PASCALIMPLEMENTATION TAbZLItem : public Abarctyp::TAbArchiveItem
 	typedef Abarctyp::TAbArchiveItem inherited;
 	
 private:
-	System::Byte __fastcall GetCompressionInfo(void);
-	System::Byte __fastcall GetCompressionLevel(void);
-	bool __fastcall GetIsPresetDictionaryPresent(void);
+	System::Byte __fastcall GetCompressionInfo();
+	System::Byte __fastcall GetCompressionLevel();
+	bool __fastcall GetIsPresetDictionaryPresent();
 	void __fastcall SetCompressionInfo(System::Byte Value);
 	void __fastcall SetCompressionLevel(System::Byte Value);
-	System::Byte __fastcall GetCompressionMethod(void);
+	System::Byte __fastcall GetCompressionMethod();
 	void __fastcall SetCompressionMethod(System::Byte Value);
-	System::Byte __fastcall GetFCheck(void);
-	void __fastcall MakeFCheck(void);
+	System::Byte __fastcall GetFCheck();
+	void __fastcall MakeFCheck();
 	
 protected:
 	TAbZLHeader FZLHeader;
 	int FAdler32;
 	
 public:
-	__fastcall TAbZLItem(void);
+	__fastcall TAbZLItem();
 	__property bool IsPresetDictionaryPresent = {read=GetIsPresetDictionaryPresent, nodefault};
 	__property System::Byte CompressionLevel = {read=GetCompressionLevel, write=SetCompressionLevel, nodefault};
 	__property System::Byte CompressionInfo = {read=GetCompressionInfo, write=SetCompressionInfo, nodefault};
@@ -72,7 +72,7 @@ public:
 	void __fastcall SaveZLHeaderToStream(System::Classes::TStream* AStream);
 	void __fastcall ReadZLHeaderFromStream(System::Classes::TStream* AStream);
 public:
-	/* TAbArchiveItem.Destroy */ inline __fastcall virtual ~TAbZLItem(void) { }
+	/* TAbArchiveItem.Destroy */ inline __fastcall virtual ~TAbZLItem() { }
 	
 };
 
@@ -87,18 +87,18 @@ protected:
 	
 public:
 	__fastcall TAbZLStreamHelper(System::Classes::TStream* AStream);
-	__fastcall virtual ~TAbZLStreamHelper(void);
+	__fastcall virtual ~TAbZLStreamHelper();
 	__property TAbZLItem* Item = {read=FItem};
 	virtual void __fastcall ExtractItemData(System::Classes::TStream* AStream);
-	virtual bool __fastcall FindFirstItem(void);
-	virtual bool __fastcall FindNextItem(void);
-	virtual void __fastcall ReadHeader(void);
-	virtual void __fastcall ReadTail(void);
+	virtual bool __fastcall FindFirstItem();
+	virtual bool __fastcall FindNextItem();
+	virtual void __fastcall ReadHeader();
+	virtual void __fastcall ReadTail();
 	virtual bool __fastcall SeekItem(int Index);
-	virtual void __fastcall WriteArchiveHeader(void);
+	virtual void __fastcall WriteArchiveHeader();
 	virtual void __fastcall WriteArchiveItem(System::Classes::TStream* AStream);
-	virtual void __fastcall WriteArchiveTail(void);
-	virtual int __fastcall GetItemCount(void);
+	virtual void __fastcall WriteArchiveTail();
+	virtual int __fastcall GetItemCount();
 };
 
 #pragma pack(pop)

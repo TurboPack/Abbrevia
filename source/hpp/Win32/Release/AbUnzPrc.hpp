@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbUnzPrc.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbUnzPrc.pas' rev: 33.00 (Windows)
 
 #ifndef AbunzprcHPP
 #define AbunzprcHPP
@@ -48,18 +48,18 @@ protected:
 	System::Byte FCurByte;
 	System::Byte FBitsLeft;
 	System::Classes::TStream* FZStream;
-	void __fastcall uzFlushOutBuf(void);
+	void __fastcall uzFlushOutBuf();
 	int __fastcall uzReadBits(System::Byte Bits);
-	void __fastcall uzReadNextPrim(void);
-	void __fastcall uzUnImplode(void);
-	void __fastcall uzUnReduce(void);
-	void __fastcall uzUnShrink(void);
+	void __fastcall uzReadNextPrim();
+	void __fastcall uzUnImplode();
+	void __fastcall uzUnReduce();
+	void __fastcall uzUnShrink();
 	void __fastcall uzWriteByte(System::Byte B);
 	
 public:
 	__fastcall TAbUnzipHelper(System::Classes::TStream* InputStream, System::Classes::TStream* OutputStream);
-	__fastcall virtual ~TAbUnzipHelper(void);
-	void __fastcall Execute(void);
+	__fastcall virtual ~TAbUnzipHelper();
+	void __fastcall Execute();
 	__property int UnCompressedSize = {read=FUnCompressedSize, write=FUnCompressedSize, nodefault};
 	__property Abziptyp::TAbZipCompressionMethod CompressionMethod = {read=FCompressionMethod, write=FCompressionMethod, nodefault};
 	__property Abziptyp::TAbZipDictionarySize DictionarySize = {read=FDictionarySize, write=FDictionarySize, nodefault};

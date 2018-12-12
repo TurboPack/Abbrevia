@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfOutW.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbDfOutW.pas' rev: 33.00 (Windows)
 
 #ifndef AbdfoutwHPP
 #define AbdfoutwHPP
@@ -43,16 +43,16 @@ private:
 	System::Byte *FWritePoint;
 	
 protected:
-	int __fastcall swGetChecksum(void);
+	int __fastcall swGetChecksum();
 	void __fastcall swWriteToStream(bool aFlush);
 	
 public:
 	__fastcall TAbDfOutputWindow(System::Classes::TStream* aStream, bool aUseDeflate64, bool aUseCRC32, int aPartSize, bool aTestOnly, Abdfbase::TAbLogger* aLog);
-	__fastcall virtual ~TAbDfOutputWindow(void);
+	__fastcall virtual ~TAbDfOutputWindow();
 	void __fastcall AddBuffer(void *aBuffer, int aCount);
 	void __fastcall AddLiteral(System::Byte aCh);
 	void __fastcall AddLenDist(int aLen, int aDist);
-	int __fastcall Position(void);
+	int __fastcall Position();
 	__property int Checksum = {read=swGetChecksum, nodefault};
 	__property Abdfbase::TAbLogger* Log = {read=FLog};
 };

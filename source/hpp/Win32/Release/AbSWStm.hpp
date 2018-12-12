@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbSWStm.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbSWStm.pas' rev: 33.00 (Windows)
 
 #ifndef AbswstmHPP
 #define AbswstmHPP
@@ -40,12 +40,12 @@ protected:
 	bool bsDirty;
 	System::Classes::TStream* bsStream;
 	void __fastcall bsWriteChunk(int aIndex);
-	void __fastcall bsSlide(void);
+	void __fastcall bsSlide();
 	
 public:
 	__fastcall TabSlidingWindowStream(System::Classes::TStream* aStream);
-	__fastcall virtual ~TabSlidingWindowStream(void);
-	void __fastcall Flush(void);
+	__fastcall virtual ~TabSlidingWindowStream();
+	void __fastcall Flush();
 	virtual int __fastcall Read(void *Buffer, int Count)/* overload */;
 	virtual int __fastcall Seek(int Offset, System::Word Origin)/* overload */;
 	virtual int __fastcall Write(const void *Buffer, int Count)/* overload */;

@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbGzTyp.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbGzTyp.pas' rev: 33.00 (Windows)
 
 #ifndef AbgztypHPP
 #define AbgztypHPP
@@ -74,7 +74,7 @@ private:
 	HIDESBASE TAbGzExtraFieldSubID __fastcall GetID(int aIndex);
 	
 protected:
-	virtual void __fastcall Changed(void);
+	virtual void __fastcall Changed();
 	
 public:
 	__fastcall TAbGzipExtraField(PAbGzHeader aGZHeader);
@@ -83,7 +83,7 @@ public:
 	HIDESBASE void __fastcall Put(TAbGzExtraFieldSubID aID, const void *aData, System::Word aDataSize);
 	__property TAbGzExtraFieldSubID IDs[int aIndex] = {read=GetID};
 public:
-	/* TObject.Destroy */ inline __fastcall virtual ~TAbGzipExtraField(void) { }
+	/* TObject.Destroy */ inline __fastcall virtual ~TAbGzipExtraField() { }
 	
 };
 
@@ -100,19 +100,19 @@ protected:
 	TAbGzHeader FGZHeader;
 	TAbGzipExtraField* FExtraField;
 	System::UnicodeString FFileComment;
-	TAbGzFileSystem __fastcall GetFileSystem(void);
-	bool __fastcall GetHasExtraField(void);
-	bool __fastcall GetHasFileComment(void);
-	bool __fastcall GetHasFileName(void);
-	bool __fastcall GetIsText(void);
+	TAbGzFileSystem __fastcall GetFileSystem();
+	bool __fastcall GetHasExtraField();
+	bool __fastcall GetHasFileComment();
+	bool __fastcall GetHasFileName();
+	bool __fastcall GetIsText();
 	void __fastcall SetFileComment(const System::UnicodeString Value);
 	void __fastcall SetFileSystem(const TAbGzFileSystem Value);
 	void __fastcall SetIsText(const bool Value);
-	virtual unsigned __fastcall GetExternalFileAttributes(void);
-	virtual bool __fastcall GetIsEncrypted(void);
-	virtual System::Word __fastcall GetLastModFileDate(void);
-	virtual System::Word __fastcall GetLastModFileTime(void);
-	virtual System::TDateTime __fastcall GetLastModTimeAsDateTime(void);
+	virtual unsigned __fastcall GetExternalFileAttributes();
+	virtual bool __fastcall GetIsEncrypted();
+	virtual System::Word __fastcall GetLastModFileDate();
+	virtual System::Word __fastcall GetLastModFileTime();
+	virtual System::TDateTime __fastcall GetLastModTimeAsDateTime();
 	virtual void __fastcall SetExternalFileAttributes(unsigned Value);
 	virtual void __fastcall SetFileName(const System::UnicodeString Value);
 	virtual void __fastcall SetIsEncrypted(bool Value);
@@ -135,8 +135,8 @@ public:
 	__property bool HasFileComment = {read=GetHasFileComment, nodefault};
 	__property bool IsText = {read=GetIsText, write=SetIsText, nodefault};
 	__property TAbGzHeader GZHeader = {read=FGZHeader};
-	__fastcall TAbGzipItem(void);
-	__fastcall virtual ~TAbGzipItem(void);
+	__fastcall TAbGzipItem();
+	__fastcall virtual ~TAbGzipItem();
 };
 
 
@@ -146,8 +146,8 @@ class PASCALIMPLEMENTATION TAbGzipStreamHelper : public Abarctyp::TAbArchiveStre
 	typedef Abarctyp::TAbArchiveStreamHelper inherited;
 	
 private:
-	int __fastcall GetGzCRC(void);
-	int __fastcall GetFileSize(void);
+	int __fastcall GetGzCRC();
+	int __fastcall GetFileSize();
 	
 protected:
 	TAbGzipItem* FItem;
@@ -155,18 +155,18 @@ protected:
 	
 public:
 	__fastcall TAbGzipStreamHelper(System::Classes::TStream* AStream);
-	__fastcall virtual ~TAbGzipStreamHelper(void);
+	__fastcall virtual ~TAbGzipStreamHelper();
 	virtual void __fastcall ExtractItemData(System::Classes::TStream* AStream);
-	virtual bool __fastcall FindFirstItem(void);
-	virtual bool __fastcall FindNextItem(void);
+	virtual bool __fastcall FindFirstItem();
+	virtual bool __fastcall FindNextItem();
 	virtual bool __fastcall SeekItem(int Index);
-	void __fastcall SeekToItemData(void);
-	virtual void __fastcall WriteArchiveHeader(void);
+	void __fastcall SeekToItemData();
+	virtual void __fastcall WriteArchiveHeader();
 	virtual void __fastcall WriteArchiveItem(System::Classes::TStream* AStream);
-	virtual void __fastcall WriteArchiveTail(void);
-	virtual int __fastcall GetItemCount(void);
-	virtual void __fastcall ReadHeader(void);
-	virtual void __fastcall ReadTail(void);
+	virtual void __fastcall WriteArchiveTail();
+	virtual int __fastcall GetItemCount();
+	virtual void __fastcall ReadHeader();
+	virtual void __fastcall ReadTail();
 	__property int CRC = {read=GetGzCRC, nodefault};
 	__property int FileSize = {read=GetFileSize, nodefault};
 	__property int TailCRC = {read=FTail.CRC32, nodefault};
@@ -193,31 +193,31 @@ private:
 	TAbGzipArchiveState FState;
 	bool FIsGzippedTar;
 	void __fastcall SetTarAutoHandle(const bool Value);
-	bool __fastcall GetIsGzippedTar(void);
-	void __fastcall SwapToGzip(void);
-	void __fastcall SwapToTar(void);
+	bool __fastcall GetIsGzippedTar();
+	void __fastcall SwapToGzip();
+	void __fastcall SwapToTar();
 	
 protected:
 	virtual Abarctyp::TAbArchiveItem* __fastcall CreateItem(const System::UnicodeString FileSpec);
 	virtual void __fastcall ExtractItemAt(int Index, const System::UnicodeString UseName);
 	virtual void __fastcall ExtractItemToStreamAt(int Index, System::Classes::TStream* aStream);
-	virtual void __fastcall LoadArchive(void);
-	virtual void __fastcall SaveArchive(void);
+	virtual void __fastcall LoadArchive();
+	virtual void __fastcall SaveArchive();
 	virtual void __fastcall TestItemAt(int Index);
 	virtual System::UnicodeString __fastcall FixName(const System::UnicodeString Value);
-	virtual bool __fastcall GetSupportsEmptyFolders(void);
+	virtual bool __fastcall GetSupportsEmptyFolders();
 	HIDESBASE TAbGzipItem* __fastcall GetItem(int Index);
 	HIDESBASE void __fastcall PutItem(int Index, TAbGzipItem* const Value);
 	
 public:
 	__fastcall virtual TAbGzipArchive(System::Classes::TStream* aStream, const System::UnicodeString aArchiveName);
-	__fastcall virtual ~TAbGzipArchive(void);
+	__fastcall virtual ~TAbGzipArchive();
 	virtual void __fastcall DoSpanningMediaRequest(System::TObject* Sender, int ImageNumber, System::UnicodeString &ImageName, bool &Abort);
 	__property bool TarAutoHandle = {read=FTarAutoHandle, write=SetTarAutoHandle, nodefault};
 	__property bool IsGzippedTar = {read=GetIsGzippedTar, write=FIsGzippedTar, nodefault};
 	__property TAbGzipItem* Items[int Index] = {read=GetItem, write=PutItem/*, default*/};
 protected:
-	/* TAbArchive.CreateInit */ inline __fastcall TAbGzipArchive(void) : Abtartyp::TAbTarArchive() { }
+	/* TAbArchive.CreateInit */ inline __fastcall TAbGzipArchive() : Abtartyp::TAbTarArchive() { }
 	
 public:
 	/* TAbArchive.Create */ inline __fastcall virtual TAbGzipArchive(const System::UnicodeString FileName, System::Word Mode) : Abtartyp::TAbTarArchive(FileName, Mode) { }

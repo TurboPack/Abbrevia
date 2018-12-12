@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbDfInW.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbDfInW.pas' rev: 33.00 (Windows)
 
 #ifndef AbdfinwHPP
 #define AbdfinwHPP
@@ -68,20 +68,20 @@ private:
 	int FWinSize;
 	
 protected:
-	int __fastcall iwGetChecksum(void);
-	void __fastcall iwReadFromStream(void);
+	int __fastcall iwGetChecksum();
+	void __fastcall iwReadFromStream();
 	void __fastcall iwSetCapacity(int aValue);
-	void __fastcall iwSlide(void);
+	void __fastcall iwSlide();
 	
 public:
 	__fastcall TAbDfInputWindow(System::Classes::TStream* aStream, __int64 aStreamSize, int aWinSize, int aChainLength, bool aUseDeflate64, bool aUseCRC32);
-	__fastcall virtual ~TAbDfInputWindow(void);
+	__fastcall virtual ~TAbDfInputWindow();
 	void __fastcall Advance(int aCount, int aHashCount);
-	void __fastcall AdvanceByOne(void);
+	void __fastcall AdvanceByOne();
 	bool __fastcall FindLongestMatch(int aAmpleLength, TAbDfMatch &aMatch, const TAbDfMatch &aPrevMatch);
-	System::Byte __fastcall GetNextChar(void);
-	int __fastcall GetNextKeyLength(void);
-	__int64 __fastcall Position(void);
+	System::Byte __fastcall GetNextChar();
+	int __fastcall GetNextKeyLength();
+	__int64 __fastcall Position();
 	void __fastcall ReadBuffer(void *aBuffer, int aCount, __int64 aOffset);
 	__property int ChainLen = {read=FChainLen, write=FChainLen, nodefault};
 	__property int Checksum = {read=iwGetChecksum, nodefault};

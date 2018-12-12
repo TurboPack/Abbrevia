@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbTarTyp.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbTarTyp.pas' rev: 33.00 (Windows)
 
 #ifndef AbtartypHPP
 #define AbtartypHPP
@@ -213,11 +213,11 @@ class PASCALIMPLEMENTATION TAbTarItem : public Abarctyp::TAbArchiveItem
 	typedef Abarctyp::TAbArchiveItem inherited;
 	
 private:
-	void __fastcall ParseTarHeaders(void);
-	void __fastcall DetectHeaderFormat(void);
-	void __fastcall GetFileNameFromHeaders(void);
-	void __fastcall GetLinkNameFromHeaders(void);
-	bool __fastcall TestCheckSum(void);
+	void __fastcall ParseTarHeaders();
+	void __fastcall DetectHeaderFormat();
+	void __fastcall GetFileNameFromHeaders();
+	void __fastcall GetLinkNameFromHeaders();
+	bool __fastcall TestCheckSum();
 	void __fastcall DoGNUExistingLongNameLink(System::WideChar LinkFlag, int I, const System::UnicodeString Value);
 	void __fastcall DoGNUNewLongNameLink(System::WideChar LinkFlag, int I, const System::UnicodeString Value);
 	
@@ -226,16 +226,16 @@ protected:
 	System::Generics::Collections::TList__1<PAbTarHeaderRec>* FTarHeaderList;
 	System::Generics::Collections::TList__1<TAbTarHeaderType>* FTarHeaderTypeList;
 	TAbTarItemRec FTarItem;
-	int __fastcall GetDevMajor(void);
-	int __fastcall GetDevMinor(void);
-	int __fastcall GetGroupID(void);
-	System::UnicodeString __fastcall GetGroupName(void);
-	System::UnicodeString __fastcall GetLinkName(void);
-	int __fastcall GetUserID(void);
-	System::UnicodeString __fastcall GetUserName(void);
-	__int64 __fastcall GetModTime(void);
-	int __fastcall GetNumHeaders(void);
-	System::UnicodeString __fastcall GetMagic(void);
+	int __fastcall GetDevMajor();
+	int __fastcall GetDevMinor();
+	int __fastcall GetGroupID();
+	System::UnicodeString __fastcall GetGroupName();
+	System::UnicodeString __fastcall GetLinkName();
+	int __fastcall GetUserID();
+	System::UnicodeString __fastcall GetUserName();
+	__int64 __fastcall GetModTime();
+	int __fastcall GetNumHeaders();
+	System::UnicodeString __fastcall GetMagic();
 	void __fastcall SetDevMajor(const int Value);
 	void __fastcall SetDevMinor(const int Value);
 	void __fastcall SetGroupID(const int Value);
@@ -246,16 +246,16 @@ protected:
 	void __fastcall SetUserName(const System::UnicodeString Value);
 	void __fastcall SetModTime(const __int64 Value);
 	void __fastcall SetMagic(const System::UnicodeString Value);
-	virtual __int64 __fastcall GetCompressedSize(void);
-	virtual unsigned __fastcall GetExternalFileAttributes(void);
-	virtual System::UnicodeString __fastcall GetFileName(void);
-	virtual bool __fastcall GetIsDirectory(void);
-	virtual bool __fastcall GetIsEncrypted(void);
-	virtual System::Word __fastcall GetLastModFileDate(void);
-	virtual System::Word __fastcall GetLastModFileTime(void);
-	virtual System::TDateTime __fastcall GetLastModTimeAsDateTime(void);
-	virtual int __fastcall GetNativeFileAttributes(void);
-	virtual __int64 __fastcall GetUncompressedSize(void);
+	virtual __int64 __fastcall GetCompressedSize();
+	virtual unsigned __fastcall GetExternalFileAttributes();
+	virtual System::UnicodeString __fastcall GetFileName();
+	virtual bool __fastcall GetIsDirectory();
+	virtual bool __fastcall GetIsEncrypted();
+	virtual System::Word __fastcall GetLastModFileDate();
+	virtual System::Word __fastcall GetLastModFileTime();
+	virtual System::TDateTime __fastcall GetLastModTimeAsDateTime();
+	virtual int __fastcall GetNativeFileAttributes();
+	virtual __int64 __fastcall GetUncompressedSize();
 	virtual void __fastcall SetCompressedSize(const __int64 Value);
 	virtual void __fastcall SetExternalFileAttributes(unsigned Value);
 	virtual void __fastcall SetFileName(const System::UnicodeString Value);
@@ -287,8 +287,8 @@ public:
 	__property int FileHeaderCount = {read=FTarItem.FileHeaderCount, nodefault};
 	__property int HeaderCount = {read=GetNumHeaders, nodefault};
 	__property __int64 StreamPosition = {read=FTarItem.StreamPosition, write=FTarItem.StreamPosition};
-	__fastcall TAbTarItem(void);
-	__fastcall virtual ~TAbTarItem(void);
+	__fastcall TAbTarItem();
+	__fastcall virtual ~TAbTarItem();
 };
 
 
@@ -297,7 +297,7 @@ class PASCALIMPLEMENTATION TAbTarStreamHelper : public Abarctyp::TAbArchiveStrea
 	typedef Abarctyp::TAbArchiveStreamHelper inherited;
 	
 private:
-	bool __fastcall FindItem(void);
+	bool __fastcall FindItem();
 	
 protected:
 	TAbTarHeaderRec FTarHeader;
@@ -305,18 +305,18 @@ protected:
 	int FCurrItemPreHdrs;
 	
 public:
-	__fastcall virtual ~TAbTarStreamHelper(void);
+	__fastcall virtual ~TAbTarStreamHelper();
 	virtual void __fastcall ExtractItemData(System::Classes::TStream* AStream);
-	virtual bool __fastcall FindFirstItem(void);
-	virtual bool __fastcall FindNextItem(void);
-	virtual void __fastcall ReadHeader(void);
-	virtual void __fastcall ReadTail(void);
+	virtual bool __fastcall FindFirstItem();
+	virtual bool __fastcall FindNextItem();
+	virtual void __fastcall ReadHeader();
+	virtual void __fastcall ReadTail();
 	virtual bool __fastcall SeekItem(int Index);
-	virtual void __fastcall WriteArchiveHeader(void);
+	virtual void __fastcall WriteArchiveHeader();
 	virtual void __fastcall WriteArchiveItem(System::Classes::TStream* AStream);
 	void __fastcall WriteArchiveItemSize(System::Classes::TStream* AStream, __int64 Size);
-	virtual void __fastcall WriteArchiveTail(void);
-	virtual int __fastcall GetItemCount(void);
+	virtual void __fastcall WriteArchiveTail();
+	virtual int __fastcall GetItemCount();
 public:
 	/* TAbArchiveStreamHelper.Create */ inline __fastcall TAbTarStreamHelper(System::Classes::TStream* AStream) : Abarctyp::TAbArchiveStreamHelper(AStream) { }
 	
@@ -338,11 +338,11 @@ protected:
 	virtual Abarctyp::TAbArchiveItem* __fastcall CreateItem(const System::UnicodeString FileSpec);
 	virtual void __fastcall ExtractItemAt(int Index, const System::UnicodeString UseName);
 	virtual void __fastcall ExtractItemToStreamAt(int Index, System::Classes::TStream* aStream);
-	virtual void __fastcall LoadArchive(void);
-	virtual void __fastcall SaveArchive(void);
+	virtual void __fastcall LoadArchive();
+	virtual void __fastcall SaveArchive();
 	virtual void __fastcall TestItemAt(int Index);
 	virtual System::UnicodeString __fastcall FixName(const System::UnicodeString Value);
-	virtual bool __fastcall GetSupportsEmptyFolders(void);
+	virtual bool __fastcall GetSupportsEmptyFolders();
 	TAbTarItem* __fastcall GetItem(int Index);
 	void __fastcall PutItem(int Index, TAbTarItem* const Value);
 	
@@ -351,11 +351,11 @@ public:
 	__property bool UnsupportedTypesDetected = {read=FArchReadOnly, nodefault};
 	__property TAbTarItem* Items[int Index] = {read=GetItem, write=PutItem/*, default*/};
 protected:
-	/* TAbArchive.CreateInit */ inline __fastcall TAbTarArchive(void) : Abarctyp::TAbArchive() { }
+	/* TAbArchive.CreateInit */ inline __fastcall TAbTarArchive() : Abarctyp::TAbArchive() { }
 	
 public:
 	/* TAbArchive.Create */ inline __fastcall virtual TAbTarArchive(const System::UnicodeString FileName, System::Word Mode) : Abarctyp::TAbArchive(FileName, Mode) { }
-	/* TAbArchive.Destroy */ inline __fastcall virtual ~TAbTarArchive(void) { }
+	/* TAbArchive.Destroy */ inline __fastcall virtual ~TAbTarArchive() { }
 	
 };
 

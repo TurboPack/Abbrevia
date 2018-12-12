@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZipTyp.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbZipTyp.pas' rev: 33.00 (Windows)
 
 #ifndef AbziptypHPP
 #define AbziptypHPP
@@ -233,8 +233,8 @@ public:
 	__property __int64 CompressedSize = {read=FCompressedSize, write=FCompressedSize};
 	__property __int64 UncompressedSize = {read=FUncompressedSize, write=FUncompressedSize};
 public:
-	/* TObject.Create */ inline __fastcall TAbZipDataDescriptor(void) : System::TObject() { }
-	/* TObject.Destroy */ inline __fastcall virtual ~TAbZipDataDescriptor(void) { }
+	/* TObject.Create */ inline __fastcall TAbZipDataDescriptor() : System::TObject() { }
+	/* TObject.Destroy */ inline __fastcall virtual ~TAbZipDataDescriptor() { }
 	
 };
 
@@ -257,21 +257,21 @@ protected:
 	unsigned FUncompressedSize;
 	System::UnicodeString FFileName;
 	Abarctyp::TAbExtraField* FExtraField;
-	TAbZipCompressionMethod __fastcall GetCompressionMethod(void);
-	double __fastcall GetCompressionRatio(void);
-	bool __fastcall GetDataDescriptor(void);
-	TAbZipDeflationOption __fastcall GetDeflationOption(void);
-	TAbZipDictionarySize __fastcall GetDictionarySize(void);
-	bool __fastcall GetEncrypted(void);
-	bool __fastcall GetIsUTF8(void);
-	System::Byte __fastcall GetShannonFanoTreeCount(void);
-	bool __fastcall GetValid(void);
+	TAbZipCompressionMethod __fastcall GetCompressionMethod();
+	double __fastcall GetCompressionRatio();
+	bool __fastcall GetDataDescriptor();
+	TAbZipDeflationOption __fastcall GetDeflationOption();
+	TAbZipDictionarySize __fastcall GetDictionarySize();
+	bool __fastcall GetEncrypted();
+	bool __fastcall GetIsUTF8();
+	System::Byte __fastcall GetShannonFanoTreeCount();
+	bool __fastcall GetValid();
 	void __fastcall SetCompressionMethod(TAbZipCompressionMethod Value);
 	void __fastcall SetIsUTF8(bool Value);
 	
 public:
-	__fastcall TAbZipFileHeader(void);
-	__fastcall virtual ~TAbZipFileHeader(void);
+	__fastcall TAbZipFileHeader();
+	__fastcall virtual ~TAbZipFileHeader();
 	__property int Signature = {read=FSignature, write=FSignature, nodefault};
 	__property System::Word VersionNeededToExtract = {read=FVersionNeededToExtract, write=FVersionNeededToExtract, nodefault};
 	__property System::Word GeneralPurposeBitFlag = {read=FGeneralPurposeBitFlag, write=FGeneralPurposeBitFlag, nodefault};
@@ -301,8 +301,8 @@ class PASCALIMPLEMENTATION TAbZipLocalFileHeader : public TAbZipFileHeader
 	typedef TAbZipFileHeader inherited;
 	
 public:
-	__fastcall TAbZipLocalFileHeader(void);
-	__fastcall virtual ~TAbZipLocalFileHeader(void);
+	__fastcall TAbZipLocalFileHeader();
+	__fastcall virtual ~TAbZipLocalFileHeader();
 	void __fastcall LoadFromStream(System::Classes::TStream* Stream);
 	void __fastcall SaveToStream(System::Classes::TStream* Stream);
 };
@@ -324,8 +324,8 @@ protected:
 	System::UnicodeString FFileComment;
 	
 public:
-	__fastcall TAbZipDirectoryFileHeader(void);
-	__fastcall virtual ~TAbZipDirectoryFileHeader(void);
+	__fastcall TAbZipDirectoryFileHeader();
+	__fastcall virtual ~TAbZipDirectoryFileHeader();
 	void __fastcall LoadFromStream(System::Classes::TStream* Stream);
 	void __fastcall SaveToStream(System::Classes::TStream* Stream);
 	__property System::Word VersionMadeBy = {read=FVersionMadeBy, write=FVersionMadeBy, nodefault};
@@ -350,7 +350,7 @@ protected:
 	__int64 FDirectorySize;
 	__int64 FDirectoryOffset;
 	System::UnicodeString FZipfileComment;
-	bool __fastcall GetIsZip64(void);
+	bool __fastcall GetIsZip64();
 	
 public:
 	void __fastcall LoadFromStream(System::Classes::TStream* Stream);
@@ -365,8 +365,8 @@ public:
 	__property System::UnicodeString ZipfileComment = {read=FZipfileComment, write=FZipfileComment};
 	__property bool IsZip64 = {read=GetIsZip64, nodefault};
 public:
-	/* TObject.Create */ inline __fastcall TAbZipDirectoryFileFooter(void) : System::TObject() { }
-	/* TObject.Destroy */ inline __fastcall virtual ~TAbZipDirectoryFileFooter(void) { }
+	/* TObject.Create */ inline __fastcall TAbZipDirectoryFileFooter() : System::TObject() { }
+	/* TObject.Destroy */ inline __fastcall virtual ~TAbZipDirectoryFileFooter() { }
 	
 };
 
@@ -380,19 +380,19 @@ protected:
 	unsigned FDiskNumberStart;
 	Abarctyp::TAbExtraField* FLFHExtraField;
 	__int64 FRelativeOffset;
-	TAbZipCompressionMethod __fastcall GetCompressionMethod(void);
-	double __fastcall GetCompressionRatio(void);
-	TAbZipDeflationOption __fastcall GetDeflationOption(void);
-	TAbZipDictionarySize __fastcall GetDictionarySize(void);
-	Abarctyp::TAbExtraField* __fastcall GetExtraField(void);
-	System::UnicodeString __fastcall GetFileComment(void);
-	System::Word __fastcall GetGeneralPurposeBitFlag(void);
-	TAbZipHostOS __fastcall GetHostOS(void);
-	System::Word __fastcall GetInternalFileAttributes(void);
-	System::UnicodeString __fastcall GetRawFileName(void);
-	System::Byte __fastcall GetShannonFanoTreeCount(void);
-	System::Word __fastcall GetVersionMadeBy(void);
-	System::Word __fastcall GetVersionNeededToExtract(void);
+	TAbZipCompressionMethod __fastcall GetCompressionMethod();
+	double __fastcall GetCompressionRatio();
+	TAbZipDeflationOption __fastcall GetDeflationOption();
+	TAbZipDictionarySize __fastcall GetDictionarySize();
+	Abarctyp::TAbExtraField* __fastcall GetExtraField();
+	System::UnicodeString __fastcall GetFileComment();
+	System::Word __fastcall GetGeneralPurposeBitFlag();
+	TAbZipHostOS __fastcall GetHostOS();
+	System::Word __fastcall GetInternalFileAttributes();
+	System::UnicodeString __fastcall GetRawFileName();
+	System::Byte __fastcall GetShannonFanoTreeCount();
+	System::Word __fastcall GetVersionMadeBy();
+	System::Word __fastcall GetVersionNeededToExtract();
 	void __fastcall SaveCDHToStream(System::Classes::TStream* Stream);
 	void __fastcall SaveDDToStream(System::Classes::TStream* Stream);
 	void __fastcall SaveLFHToStream(System::Classes::TStream* Stream);
@@ -405,15 +405,15 @@ protected:
 	void __fastcall SetRelativeOffset(__int64 Value);
 	void __fastcall SetVersionMadeBy(System::Word Value);
 	void __fastcall SetVersionNeededToExtract(System::Word Value);
-	void __fastcall UpdateVersionNeededToExtract(void);
-	void __fastcall UpdateZip64ExtraHeader(void);
-	virtual int __fastcall GetCRC32(void);
-	virtual unsigned __fastcall GetExternalFileAttributes(void);
-	virtual bool __fastcall GetIsDirectory(void);
-	virtual bool __fastcall GetIsEncrypted(void);
-	virtual System::Word __fastcall GetLastModFileDate(void);
-	virtual System::Word __fastcall GetLastModFileTime(void);
-	virtual int __fastcall GetNativeFileAttributes(void);
+	void __fastcall UpdateVersionNeededToExtract();
+	void __fastcall UpdateZip64ExtraHeader();
+	virtual int __fastcall GetCRC32();
+	virtual unsigned __fastcall GetExternalFileAttributes();
+	virtual bool __fastcall GetIsDirectory();
+	virtual bool __fastcall GetIsEncrypted();
+	virtual System::Word __fastcall GetLastModFileDate();
+	virtual System::Word __fastcall GetLastModFileTime();
+	virtual int __fastcall GetNativeFileAttributes();
 	virtual void __fastcall SetCompressedSize(const __int64 Value);
 	virtual void __fastcall SetCRC32(const int Value);
 	virtual void __fastcall SetExternalFileAttributes(unsigned Value);
@@ -423,8 +423,8 @@ protected:
 	virtual void __fastcall SetUncompressedSize(const __int64 Value);
 	
 public:
-	__fastcall TAbZipItem(void);
-	__fastcall virtual ~TAbZipItem(void);
+	__fastcall TAbZipItem();
+	__fastcall virtual ~TAbZipItem();
 	void __fastcall LoadFromStream(System::Classes::TStream* Stream);
 	__property TAbZipCompressionMethod CompressionMethod = {read=GetCompressionMethod, write=SetCompressionMethod, nodefault};
 	__property double CompressionRatio = {read=GetCompressionRatio};
@@ -475,7 +475,7 @@ protected:
 	void __fastcall DoInsertHelper(int Index, System::Classes::TStream* OutStream);
 	void __fastcall DoInsertFromStreamHelper(int Index, System::Classes::TStream* OutStream);
 	TAbZipItem* __fastcall GetItem(int Index);
-	System::UnicodeString __fastcall GetZipfileComment(void);
+	System::UnicodeString __fastcall GetZipfileComment();
 	void __fastcall PutItem(int Index, TAbZipItem* Value);
 	void __fastcall DoRequestDisk(const System::UnicodeString AMessage, bool &Abort);
 	virtual void __fastcall DoRequestLastDisk(bool &Abort);
@@ -485,16 +485,16 @@ protected:
 	virtual void __fastcall ExtractItemToStreamAt(int Index, System::Classes::TStream* aStream);
 	virtual void __fastcall TestItemAt(int Index);
 	virtual System::UnicodeString __fastcall FixName(const System::UnicodeString Value);
-	virtual bool __fastcall GetSupportsEmptyFolders(void);
-	virtual void __fastcall LoadArchive(void);
-	virtual void __fastcall SaveArchive(void);
+	virtual bool __fastcall GetSupportsEmptyFolders();
+	virtual void __fastcall LoadArchive();
+	virtual void __fastcall SaveArchive();
 	void __fastcall SetZipfileComment(const System::UnicodeString Value);
 	__property bool IsExecutable = {read=FIsExecutable, write=FIsExecutable, nodefault};
 	
 public:
 	void __fastcall DoRequestImage(System::TObject* Sender, int ImageNumber, System::UnicodeString &ImageName, bool &Abort);
 	__fastcall virtual TAbZipArchive(System::Classes::TStream* aStream, const System::UnicodeString ArchiveName);
-	__fastcall virtual ~TAbZipArchive(void);
+	__fastcall virtual ~TAbZipArchive();
 	virtual Abarctyp::TAbArchiveItem* __fastcall CreateItem(const System::UnicodeString FileName);
 	__property TAbZipSupportedMethod CompressionMethodToUse = {read=FCompressionMethodToUse, write=FCompressionMethodToUse, nodefault};
 	__property TAbZipDeflationOption DeflationOption = {read=FDeflationOption, write=FDeflationOption, nodefault};
@@ -513,7 +513,7 @@ public:
 	__property Abarctyp::TAbRequestNthDiskEvent OnRequestNthDisk = {read=FOnRequestNthDisk, write=FOnRequestNthDisk};
 	__property Abarctyp::TAbRequestDiskEvent OnRequestBlankDisk = {read=FOnRequestBlankDisk, write=FOnRequestBlankDisk};
 protected:
-	/* TAbArchive.CreateInit */ inline __fastcall TAbZipArchive(void) : Abarctyp::TAbArchive() { }
+	/* TAbArchive.CreateInit */ inline __fastcall TAbZipArchive() : Abarctyp::TAbArchive() { }
 	
 public:
 	/* TAbArchive.Create */ inline __fastcall virtual TAbZipArchive(const System::UnicodeString FileName, System::Word Mode) : Abarctyp::TAbArchive(FileName, Mode) { }

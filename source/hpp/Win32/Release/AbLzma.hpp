@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbLZMA.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbLZMA.pas' rev: 33.00 (Windows)
 
 #ifndef AblzmaHPP
 #define AblzmaHPP
@@ -180,7 +180,7 @@ public:
 	/* Exception.CreateResHelp */ inline __fastcall EAbLZMAException(System::PResStringRec ResStringRec, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbLZMAException(System::PResStringRec ResStringRec, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(ResStringRec, Args, Args_High, AHelpContext) { }
 	/* Exception.CreateResFmtHelp */ inline __fastcall EAbLZMAException(NativeUInt Ident, const System::TVarRec *Args, const int Args_High, int AHelpContext)/* overload */ : System::Sysutils::Exception(Ident, Args, Args_High, AHelpContext) { }
-	/* Exception.Destroy */ inline __fastcall virtual ~EAbLZMAException(void) { }
+	/* Exception.Destroy */ inline __fastcall virtual ~EAbLZMAException() { }
 	
 };
 

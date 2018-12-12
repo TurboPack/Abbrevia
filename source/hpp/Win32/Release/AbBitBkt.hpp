@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbBitBkt.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbBitBkt.pas' rev: 33.00 (Windows)
 
 #ifndef AbbitbktHPP
 #define AbbitbktHPP
@@ -38,7 +38,7 @@ private:
 	
 public:
 	__fastcall TAbBitBucketStream(unsigned aBufSize);
-	__fastcall virtual ~TAbBitBucketStream(void);
+	__fastcall virtual ~TAbBitBucketStream();
 	virtual int __fastcall Read(void *Buffer, int Count)/* overload */;
 	virtual int __fastcall Write(const void *Buffer, int Count)/* overload */;
 	virtual __int64 __fastcall Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin)/* overload */;

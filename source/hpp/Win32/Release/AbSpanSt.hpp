@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbSpanSt.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbSpanSt.pas' rev: 33.00 (Windows)
 
 #ifndef AbspanstHPP
 #define AbspanstHPP
@@ -39,7 +39,7 @@ public:
 	__fastcall TAbSpanBaseStream(const System::UnicodeString ArchiveName);
 	__property Abarctyp::TAbRequestImageEvent OnRequestImage = {read=FOnRequestImage, write=FOnRequestImage};
 public:
-	/* TObject.Destroy */ inline __fastcall virtual ~TAbSpanBaseStream(void) { }
+	/* TObject.Destroy */ inline __fastcall virtual ~TAbSpanBaseStream() { }
 	
 };
 
@@ -59,7 +59,7 @@ protected:
 	
 public:
 	__fastcall TAbSpanReadStream(const System::UnicodeString ArchiveName, unsigned CurrentImage, System::Classes::TStream* Stream);
-	__fastcall virtual ~TAbSpanReadStream(void);
+	__fastcall virtual ~TAbSpanReadStream();
 	virtual int __fastcall Read(void *Buffer, int Count)/* overload */;
 	virtual int __fastcall Write(const void *Buffer, int Count)/* overload */;
 	virtual __int64 __fastcall Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin)/* overload */;
@@ -89,16 +89,16 @@ protected:
 	System::Classes::TStream* FStream;
 	__int64 FThreshold;
 	Abarctyp::TAbRequestDiskEvent FOnRequestBlankDisk;
-	void __fastcall NewImage(void);
+	void __fastcall NewImage();
 	
 public:
 	__fastcall TAbSpanWriteStream(const System::UnicodeString ArchiveName, System::Classes::TStream* Stream, __int64 Threshold);
-	__fastcall virtual ~TAbSpanWriteStream(void);
+	__fastcall virtual ~TAbSpanWriteStream();
 	virtual int __fastcall Read(void *Buffer, int Count)/* overload */;
 	virtual int __fastcall Write(const void *Buffer, int Count)/* overload */;
 	bool __fastcall WriteUnspanned(const void *Buffer, int Count, bool FailOnSpan = false);
 	virtual __int64 __fastcall Seek(const __int64 Offset, System::Classes::TSeekOrigin Origin)/* overload */;
-	System::Classes::TStream* __fastcall ReleaseStream(void);
+	System::Classes::TStream* __fastcall ReleaseStream();
 	__property unsigned CurrentImage = {read=FCurrentImage, nodefault};
 	__property Abarctyp::TAbRequestDiskEvent OnRequestBlankDisk = {read=FOnRequestBlankDisk, write=FOnRequestBlankDisk};
 	/* Hoisted overloads: */

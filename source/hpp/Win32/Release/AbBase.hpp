@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbBase.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbBase.pas' rev: 33.00 (Windows)
 
 #ifndef AbbaseHPP
 #define AbbaseHPP
@@ -28,12 +28,12 @@ class PASCALIMPLEMENTATION TAbBaseComponent : public System::Classes::TComponent
 	typedef System::Classes::TComponent inherited;
 	
 protected:
-	System::UnicodeString __fastcall GetVersion(void);
+	System::UnicodeString __fastcall GetVersion();
 	void __fastcall SetVersion(const System::UnicodeString Value);
 	__property System::UnicodeString Version = {read=GetVersion, write=SetVersion, stored=false};
 public:
 	/* TComponent.Create */ inline __fastcall virtual TAbBaseComponent(System::Classes::TComponent* AOwner) : System::Classes::TComponent(AOwner) { }
-	/* TComponent.Destroy */ inline __fastcall virtual ~TAbBaseComponent(void) { }
+	/* TComponent.Destroy */ inline __fastcall virtual ~TAbBaseComponent() { }
 	
 };
 

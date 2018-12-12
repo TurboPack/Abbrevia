@@ -1,8 +1,8 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2017 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbLZMAStream.pas' rev: 32.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbLZMAStream.pas' rev: 33.00 (Windows)
 
 #ifndef AblzmastreamHPP
 #define AblzmastreamHPP
@@ -38,11 +38,12 @@ protected:
 	TAbLZMACompressionStream* FCompressionStream;
 	
 public:
-	virtual void __fastcall Execute(void);
+	virtual void __fastcall Execute();
 public:
-	/* TThread.Create */ inline __fastcall TAbLZMACompressionThread(void)/* overload */ : System::Classes::TThread() { }
+	/* TThread.Create */ inline __fastcall TAbLZMACompressionThread()/* overload */ : System::Classes::TThread() { }
 	/* TThread.Create */ inline __fastcall TAbLZMACompressionThread(bool CreateSuspended)/* overload */ : System::Classes::TThread(CreateSuspended) { }
-	/* TThread.Destroy */ inline __fastcall virtual ~TAbLZMACompressionThread(void) { }
+	/* TThread.Create */ inline __fastcall TAbLZMACompressionThread(bool CreateSuspended, NativeUInt ReservedStackSize)/* overload */ : System::Classes::TThread(CreateSuspended, ReservedStackSize) { }
+	/* TThread.Destroy */ inline __fastcall virtual ~TAbLZMACompressionThread() { }
 	
 };
 
@@ -57,7 +58,7 @@ public:
 	TAbQueuedBuffer *NextBuffer;
 	int DataSize;
 	void __fastcall QueueBuffer(TAbLZMACompressionStream* ACompressionStream);
-	void __fastcall UnQueueBuffer(void);
+	void __fastcall UnQueueBuffer();
 	void * __fastcall GetDataPointer(int AOffset);
 };
 #pragma pack(pop)
@@ -80,18 +81,18 @@ protected:
 	int FCurrentBufferBytesSubmitted;
 	__int64 FOutputStreamHeaderSizeFieldPosition;
 	__int64 FTotalBytesWritten;
-	void __fastcall WakeCompressionThread(void);
+	void __fastcall WakeCompressionThread();
 	
 public:
 	__fastcall TAbLZMACompressionStream(System::Classes::TStream* AOutputStream, int ACompressionLevel, int ADictionarySize);
-	__fastcall virtual ~TAbLZMACompressionStream(void);
+	__fastcall virtual ~TAbLZMACompressionStream();
 	virtual int __fastcall Read(void *ABuffer, int ACount)/* overload */;
 	virtual int __fastcall Write(const void *ABuffer, int ACount)/* overload */;
 	virtual int __fastcall Seek(int AOffset, System::Word AOrigin)/* overload */;
 	virtual __int64 __fastcall Seek(const __int64 AOffset, System::Classes::TSeekOrigin AOrigin)/* overload */;
-	void __fastcall NoMoreDataToCompress(void);
-	int __fastcall WaitForCompressionToFinish(void);
-	bool __fastcall IsBusy(void);
+	void __fastcall NoMoreDataToCompress();
+	int __fastcall WaitForCompressionToFinish();
+	bool __fastcall IsBusy();
 	__property int ErrorCode = {read=FCompressionErrorCode, nodefault};
 	/* Hoisted overloads: */
 	
@@ -121,12 +122,12 @@ protected:
 	__int64 FBytesDecompressed;
 	Ablzma::CLzmaDec FLzmaState;
 	int __fastcall InternalDecompressToBuffer(void * APBuffer, int ABufferSize);
-	__int64 __fastcall GetBytesRead(void);
-	virtual __int64 __fastcall GetSize(void);
+	__int64 __fastcall GetBytesRead();
+	virtual __int64 __fastcall GetSize();
 	
 public:
 	__fastcall TAbLZMADecompressionStream(System::Classes::TStream* ASourceStream);
-	__fastcall virtual ~TAbLZMADecompressionStream(void);
+	__fastcall virtual ~TAbLZMADecompressionStream();
 	virtual int __fastcall Read(void *ABuffer, int ACount)/* overload */;
 	virtual int __fastcall Write(const void *ABuffer, int ACount)/* overload */;
 	virtual int __fastcall Seek(int AOffset, System::Word AOrigin)/* overload */;
