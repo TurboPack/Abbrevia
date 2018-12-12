@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 31.00 (Windows)
+// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 32.00 (Windows)
 
 #ifndef AbbreviadHPP
 #define AbbreviadHPP
@@ -81,6 +81,11 @@
 #include <System.AnsiStrings.hpp>	// (rtl)
 #include <System.Win.Registry.hpp>	// (rtl)
 #include <Winapi.ShellAPI.hpp>	// (rtl)
+// SO_SFX: 250
+// PRG_EXT: .bpl
+// BPI_DIR: C:\Users\Public\Documents\Embarcadero\Studio\19.0\Dcp
+// OBJ_DIR: C:\Users\Public\Documents\Embarcadero\Studio\19.0\Dcp
+// OBJ_EXT: .obj
 
 //-- user supplied -----------------------------------------------------------
 

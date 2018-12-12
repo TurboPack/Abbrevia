@@ -612,7 +612,6 @@ begin
     C := 0;
     V := 0;
     Len := 0;
-    D := 0;
 
     {load follower sets}
     for I := 255 downto 0 do begin

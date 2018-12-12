@@ -497,7 +497,6 @@ var
   BinStream: TMemoryStream;
   ErrStream  : TFileStream; 
 begin
-  result := nil;
   StrStream := TStringStream.Create(aCompStr);
   try
     BinStream := TMemoryStream.Create;
@@ -604,7 +603,7 @@ begin
         DynArrayToVariant(Result, Pointer(GetOrdProp(Instance, PropInfo)), PropInfo^.PropType);
       {$IF DECLARED(tkUString)}
       tkUString:
-        Result := GetUnicodeStrProp(Instance, PropInfo);
+        Result := GetStrProp(Instance, PropInfo);
       {$IFEND}
       // Unsupported FPC property types
       // tkUnknown,tkArray,tkRecord,tkInterface,tkObject,tkQWord,tkInterfaceRaw

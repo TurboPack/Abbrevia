@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbZipKit.pas' rev: 31.00 (MacOS)
+// (DO NOT EDIT: machine generated header) 'AbZipKit.pas' rev: 32.00 (MacOS)
 
 #ifndef AbzipkitHPP
 #define AbzipkitHPP

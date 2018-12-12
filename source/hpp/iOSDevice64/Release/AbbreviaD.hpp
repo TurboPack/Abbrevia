@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 31.00 (iOS)
+// (DO NOT EDIT: machine generated header) 'AbbreviaD.dpk' rev: 32.00 (iOS)
 
 #ifndef AbbreviadHPP
 #define AbbreviadHPP
@@ -63,6 +63,11 @@
 #include <AbZLTyp.hpp>
 #include <AbLZMAStream.hpp>
 #include <AbBytes.hpp>
+// SO_PFX: bpl
+// SO_SFX: 250
+// PRG_EXT: .a
+// OBJ_DIR: C:\Users\Public\Documents\Embarcadero\Studio\19.0\Dcp\iOSDevice64
+// OBJ_EXT: .o
 
 //-- user supplied -----------------------------------------------------------
 

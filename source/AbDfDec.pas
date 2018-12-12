@@ -672,7 +672,6 @@ var
   {$ENDIF}
 begin
   {$IFDEF DefeatWarnings}
-  Result := 0;
   SourceStartPos := 0;
   DestStartPos := 0;
   TestOnly := False;

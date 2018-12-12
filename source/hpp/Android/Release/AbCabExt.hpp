@@ -2,7 +2,7 @@
 // Copyright (c) 1995, 2016 by Embarcadero Technologies, Inc.
 // All rights reserved
 
-// (DO NOT EDIT: machine generated header) 'AbCabExt.pas' rev: 31.00 (Android)
+// (DO NOT EDIT: machine generated header) 'AbCabExt.pas' rev: 32.00 (Android)
 
 #ifndef AbcabextHPP
 #define AbcabextHPP
