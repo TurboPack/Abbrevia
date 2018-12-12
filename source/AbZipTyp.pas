@@ -895,7 +895,7 @@ begin
   finally
     ZDFF.Free;
   end;
-end;         
+end;
 {============================================================================}
 { TAbZipDataDescriptor implementation ====================================== }
 procedure TAbZipDataDescriptor.SaveToStream( Stream : TStream );
@@ -1077,6 +1077,10 @@ var
   ExtraFieldLength, FileNameLength: Word;
   pBytes: TBytes;
 begin
+  if IsUTF8 then
+    pBytes := TEncoding.UTF8.GetBytes(FFileName)
+  else
+    pBytes := TEncoding.ANSI.GetBytes(FFileName);
   {write the valid signature from the constant}
   Stream.Write( FValidSignature, sizeof( FValidSignature ) );
   Stream.Write( FVersionNeededToExtract, sizeof( FVersionNeededToExtract ) );
@@ -1087,16 +1091,12 @@ begin
   Stream.Write( FCRC32, sizeof( FCRC32 ) );
   Stream.Write( FCompressedSize, sizeof( FCompressedSize ) );
   Stream.Write( FUncompressedSize, sizeof( FUncompressedSize ) );
-  FileNameLength := Word( Length( FFileName ) );
+  FileNameLength := Word( Length( pBytes ) );
   Stream.Write( FileNameLength, sizeof( FileNameLength ) );
   ExtraFieldLength := Length(FExtraField.Buffer);
   Stream.Write( ExtraFieldLength, sizeof( ExtraFieldLength ) );
   if FileNameLength > 0 then
   begin
-    if IsUTF8 then
-      pBytes := TEncoding.UTF8.GetBytes(FFileName)
-    else
-      pBytes := TEncoding.ANSI.GetBytes(FFileName);
     Stream.Write(pBytes, Length(pBytes));
   end;
   if ExtraFieldLength > 0 then
@@ -1176,6 +1176,10 @@ var
   ExtraFieldLength, FileCommentLength, FileNameLength : Word;
   pBytes: TBytes;
 begin
+  if IsUTF8 then
+    pBytes := TEncoding.UTF8.GetBytes(FFileName)
+  else
+    pBytes := TEncoding.ANSI.GetBytes(FFileName);
   {write the valid signature from the constant}
   Stream.Write( FValidSignature, sizeof( FValidSignature ) );
   Stream.Write( FVersionMadeBy, sizeof( FVersionMadeBy ) );
@@ -1187,7 +1191,7 @@ begin
   Stream.Write( FCRC32, sizeof( FCRC32 ) );
   Stream.Write( FCompressedSize, sizeof( FCompressedSize ) );
   Stream.Write( FUncompressedSize, sizeof( FUncompressedSize ) );
-  FileNameLength := Word( Length( FFileName ) );
+  FileNameLength := Word( Length( pBytes ) );
   Stream.Write( FileNameLength, sizeof( FileNameLength ) );
   ExtraFieldLength := Length(FExtraField.Buffer);
   Stream.Write( ExtraFieldLength, sizeof( ExtraFieldLength ) );
@@ -1199,10 +1203,6 @@ begin
   Stream.Write( FRelativeOffset, sizeof( FRelativeOffset ) );
   if FileNameLength > 0 then
   begin
-    if IsUTF8 then
-      pBytes := TEncoding.UTF8.GetBytes(FFileName)
-    else
-      pBytes := TEncoding.ANSI.GetBytes(FFileName);
     Stream.Write(pBytes, Length(pBytes));
   end;
   if ExtraFieldLength > 0 then
@@ -2364,7 +2364,3 @@ begin
 end;
 
 end.
-
-
-
-
