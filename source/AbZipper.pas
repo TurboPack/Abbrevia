@@ -459,7 +459,7 @@ begin
         ArcType := AbDetermineArcType(FileName, atUnknown);
 
       case ArcType of
-        atZip : begin                                                    
+        atZip, atSpannedZip, atSelfExtZip : begin                                                    
           FArchive := TAbZipArchive.Create(FileName, fmCreate);
           InitArchive;
         end;
