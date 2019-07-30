@@ -4,3 +4,12 @@ __history
 *.local
 *.identcache
 *.dcu
+*.hpp
+*.o
+*.a
+*.dsk
+*.~dsk
+*.tvsconfig
+*.bpi
+*.xml
+*.exe
