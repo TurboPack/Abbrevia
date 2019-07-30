@@ -115,6 +115,10 @@
   {$DEFINE NoBZip2}
 {$ENDIF}
 
+{$IFDEF MACOS64}
+  {$DEFINE NoBZip2}
+{$ENDIF}
+
 {====Zip defines=====================================================}
 
 {Activate the following define when you don't want Visual parts of
