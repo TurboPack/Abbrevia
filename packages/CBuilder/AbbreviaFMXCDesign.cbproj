@@ -71,7 +71,7 @@
         <Multithreaded>true</Multithreaded>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <ProjectType>CppPackage</ProjectType>
-        <ILINK_LibraryPath>..\..\source\;C:\Projects\EMBT\Abbrevia\packages\CBuilder\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <DCC_HppOutput>..\..\source\hpp\$(Platform)\$(Config)</DCC_HppOutput>
         <DesignOnlyPackage>true</DesignOnlyPackage>
         <DCC_OutputNeverBuildDcps>true</DCC_OutputNeverBuildDcps>
@@ -80,7 +80,7 @@
         <ILINK_Description>TurboPack Abbrevia FMX Designtime CBuilder package</ILINK_Description>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <SanitizedProjectName>AbbreviaFMXCDesign</SanitizedProjectName>
-        <IncludePath>..\..\source\;C:\Projects\EMBT\Abbrevia\packages\CBuilder\;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\source\;$(IncludePath)</IncludePath>
         <DCC_UnitSearchPath>..\..\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_AdditionalSwitches>-LUDesignIDE</DCC_AdditionalSwitches>
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
