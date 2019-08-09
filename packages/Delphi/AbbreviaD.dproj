@@ -15,8 +15,8 @@
         <Base_OSX32>true</Base_OSX32>
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
-        <VerInfo_Keys>CFBundleName=$(MSBuildProjectName);CFBundleDisplayName=$(MSBuildProjectName);CFBundleIdentifier=$(MSBuildProjectName);CFBundleVersion=1.0.0;CFBundlePackageType=APPL;CFBundleSignature=????;CFBundleAllowMixedLocalizations=YES;CFBundleExecutable=$(MSBuildProjectName);NSHighResolutionCapable=true;LSApplicationCategoryType=public.app-category.utilities;NSContactsUsageDescription=The reason for accessing the contacts;CFBundleShortVersionString=1.0.0;NSLocationUsageDescription=The reason for accessing the location information of the user</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>false</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CFBundleName=$(MSBuildProjectName);CFBundleDisplayName=$(MSBuildProjectName);CFBundleIdentifier=$(MSBuildProjectName);CFBundleVersion=1.0.0;CFBundlePackageType=APPL;CFBundleSignature=????;CFBundleAllowMixedLocalizations=YES;CFBundleExecutable=$(MSBuildProjectName);NSHighResolutionCapable=true;LSApplicationCategoryType=public.app-category.utilities;NSContactsUsageDescription=The reason for accessing the contacts;CFBundleShortVersionString=1.0.0;NSLocationUsageDescription=The reason for accessing the location information of the user</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -111,7 +111,7 @@
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_UnitSearchPath>.\$(Platform)\$(Config);$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_WriteableConstants>true</DCC_WriteableConstants>
-        <DllSuffix>250</DllSuffix>
+        <DllSuffix>260</DllSuffix>
         <GenDll>true</GenDll>
         <GenPackage>true</GenPackage>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>

@@ -48,7 +48,7 @@
         <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
         <DCC_HppOutput>..\..\source\hpp\$(Platform)\$(Config)</DCC_HppOutput>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <DllSuffix>250</DllSuffix>
+        <DllSuffix>260</DllSuffix>
         <GenDll>true</GenDll>
         <GenPackage>true</GenPackage>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>

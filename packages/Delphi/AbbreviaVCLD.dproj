@@ -68,7 +68,7 @@
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_UnitSearchPath>.\$(Platform)\$(Config);$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_WriteableConstants>true</DCC_WriteableConstants>
-        <DllSuffix>250</DllSuffix>
+        <DllSuffix>260</DllSuffix>
         <GenDll>true</GenDll>
         <GenPackage>true</GenPackage>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
