@@ -140,8 +140,7 @@ type
       override;
     destructor Destroy;
       override;
-    procedure Add(aItem : TAbArchiveItem);
-      override;
+    procedure Add(AItem: TAbArchiveItem); override;
     procedure NewCabinet;
     procedure NewFolder;
 
@@ -551,42 +550,45 @@ begin
   inherited Destroy;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCabArchive.Add(aItem : TAbArchiveItem);
+procedure TAbCabArchive.Add(AItem: TAbArchiveItem);
   {add a file to the cabinet}
 var
-  Confirm, ItemAdded : Boolean;
-  Item : TAbCabItem;
+  lConfirm: Boolean;
+  lItemAdded: Boolean;
+  lItem: TAbCabItem;
 begin
-  ItemAdded := False;
+  lItemAdded := False;
   try
     CheckValid;
-    if (FMode <> fmOpenWrite) then begin
-      DoProcessItemFailure(aItem, ptAdd, ecCabError, 0);
+    if FMode <> fmOpenWrite then
+    begin
+      DoProcessItemFailure(AItem, ptAdd, ecCabError, 0);
       Exit;
     end;
-    if FItemList.IsActiveDupe(aItem.FileName) then begin
-      DoProcessItemFailure(aItem, ptAdd, ecAbbrevia, AbDuplicateName);
+    if FItemList.IsActiveDupe(AItem.FileName) then
+    begin
+      DoProcessItemFailure(AItem, ptAdd, ecAbbrevia, AbDuplicateName);
       Exit;
     end;
-    DoConfirmProcessItem(aItem, ptAdd, Confirm);
-    if not Confirm then
+    DoConfirmProcessItem(AItem, ptAdd, lConfirm);
+    if not lConfirm then
       Exit;
-    Item := TAbCabItem(aItem);
-    FItemInProgress := Item;
-    Item.Action := aaAdd;
+    lItem := TAbCabItem(AItem);
+    FItemInProgress := lItem;
+    lItem.Action := aaAdd;
 
-    Item.RawFileName := UTF8Encode(Item.FileName);
-    if not FCIAddFile(FFCIContext, Pointer(Item.DiskFileName),
-       PAnsiChar(Item.RawFileName), False, @FCI_GetNextCab, @FCI_Status,
+    lItem.RawFileName := UTF8Encode(lItem.FileName);
+    if not FCIAddFile(FFCIContext, Pointer(lItem.DiskFileName),
+       PAnsiChar(lItem.RawFileName), False, @FCI_GetNextCab, @FCI_Status,
        @FCI_GetOpenInfo, CompressionTypeMap[FCompressionType]) then
       raise EAbFCIAddFileError.Create;
-    FItemList.Add(Item);
-    ItemAdded := True;
+    FItemList.Add(lItem);
+    lItemAdded := True;
 
     FIsDirty := True;
   finally
-    if not ItemAdded then
-      aItem.Free;
+    if not lItemAdded then
+      AItem.Free;
   end;
 end;
 { -------------------------------------------------------------------------- }
