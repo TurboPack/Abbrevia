@@ -94,7 +94,6 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <DllSuffix>260</DllSuffix>
         <DesignOnlyPackage>true</DesignOnlyPackage>
-        <DCC_HppOutput>..\..\source\hpp\$(Platform)\$(Config)</DCC_HppOutput>
         <DCC_UnitSearchPath>..\..\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
         <DCC_OutputNeverBuildDcps>true</DCC_OutputNeverBuildDcps>

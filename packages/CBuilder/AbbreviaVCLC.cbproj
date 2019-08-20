@@ -93,7 +93,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <DllSuffix>260</DllSuffix>
-        <DCC_HppOutput>..\..\source\hpp\$(Platform)\$(Config)</DCC_HppOutput>
         <DCC_UnitSearchPath>$(BDS)\lib;.\$(Platform)\$(Config);..\..\source\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
         <SanitizedProjectName>AbbreviaVCLC</SanitizedProjectName>
