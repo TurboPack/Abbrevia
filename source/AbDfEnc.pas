@@ -800,6 +800,10 @@ var
   SourceStartPos : Integer;
   DestStartPos   : Integer;
 begin
+{$IF COMPILERVERSION < 32}
+  Result := 0;
+{$ENDIF}
+
   {pre-conditions: streams are allocated,
                    options enable some kind of archiving}
   Assert(aSource <> nil, 'Deflate: aSource stream cannot be nil');

@@ -497,6 +497,10 @@ var
   BinStream: TMemoryStream;
   ErrStream  : TFileStream; 
 begin
+{$IF COMPILERVERSION < 32}
+  Result := nil;
+{$ENDIF}
+
   StrStream := TStringStream.Create(aCompStr);
   try
     BinStream := TMemoryStream.Create;

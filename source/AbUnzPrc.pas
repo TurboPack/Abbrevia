@@ -604,6 +604,10 @@ var
   end;
 
 begin
+{$IF COMPILERVERSION < 32}
+  D := 0;
+{$ENDIF}
+
   GetMem(Followers, SizeOf(TAbFollowerSets));
   try
     Factor := Ord( FCompressionMethod ) - 1;

@@ -294,6 +294,10 @@ var
   SaveDir : string;
   AttrEx : TAbAttrExRec;
 begin
+{$IF COMPILERVERSION < 32}
+  UncompressedStream := nil;
+{$ENDIF}
+
   GetDir(0, SaveDir);
   try {SaveDir}
     if (Sender.BaseDirectory <> '') then

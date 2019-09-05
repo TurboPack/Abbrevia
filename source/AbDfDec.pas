@@ -677,6 +677,10 @@ begin
   TestOnly := False;
   {$ENDIF}
 
+{$IF COMPILERVERSION < 32}
+  Result := 0;
+{$ENDIF}
+
   {$IFDEF UseLogging}
   StartPosn := 0;
   {$ENDIF}
