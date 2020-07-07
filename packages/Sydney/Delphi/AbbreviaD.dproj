@@ -86,13 +86,17 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <SanitizedProjectName>AbbreviaD</SanitizedProjectName>
+        <DCC_BpiOutput>..\cpp\$(Platform)\$(Config)</DCC_BpiOutput>
+        <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
         <DCC_DebugInformation>0</DCC_DebugInformation>
         <DCC_DependencyCheckOutputName>Abbrevia.bpl</DCC_DependencyCheckOutputName>
         <DCC_Description>TurboPack Abbrevia Runtime Delphi package</DCC_Description>
+        <DCC_HppOutput>..\cpp\$(Platform)\$(Config)</DCC_HppOutput>
         <DCC_ImageBase>00400000</DCC_ImageBase>
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;System.Win;Winapi;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_ObjOutput>..\cpp\$(Platform)\$(Config)</DCC_ObjOutput>
         <DCC_OutputNeverBuildDcps>true</DCC_OutputNeverBuildDcps>
         <DCC_Platform>x86</DCC_Platform>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
