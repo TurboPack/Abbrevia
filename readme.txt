@@ -22,8 +22,8 @@ Abbrevia also has several visual controls that simplify displaying and manipulat
 archives, including treeview and listview components.
 
 This is a source-only release of TurboPack Abbrevia. It includes
-designtime and runtime packages for Delphi and CBuilder and supports 
-Win32, Win64, OSX, iOS and Android.
+designtime and runtime packages for Delphi and C++Builder and supports 
+Win32, Win64, OSX, iOS, Linux, and Android.
 
 ==============================================
 
