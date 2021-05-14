@@ -1036,7 +1036,12 @@ var
 begin
   LongRec(Temp).Lo := FileTime;
   LongRec(Temp).Hi := FileDate;
-  Result := FileDateToDateTime(Temp);
+  try
+    Result := FileDateToDateTime(Temp);
+  except
+    on E: EConvertError do
+      Result := 0;
+  end;
 {$ENDIF MSWINDOWS}
 {$IFDEF POSIX}
 var
@@ -1063,9 +1068,11 @@ begin
   S  := FileTime and 31 shl 1;
   if S > 59 then S := 59;
 
-  Result :=
-    EncodeDate(Yr, Mo, Dy) +
-    EncodeTime(Hr, Mn, S, 0);
+  try
+    Result := EncodeDate(Yr, Mo, Dy) + EncodeTime(Hr, Mn, S, 0);
+  except
+    on E: EConvertError do
+      Result := 0;
 {$ENDIF UNIX}
 end;
 
