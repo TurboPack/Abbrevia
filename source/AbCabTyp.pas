@@ -559,6 +559,8 @@ var
 begin
   lItemAdded := False;
   try
+    if FFCIContext = nil then
+      CreateCabFile;
     CheckValid;
     if FMode <> fmOpenWrite then
     begin
