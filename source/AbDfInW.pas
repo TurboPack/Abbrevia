@@ -701,12 +701,12 @@ end;
 {--------}
 procedure TAbDfInputWindow.iwSlide;
 type
-  PInteger = ^Integer;
+  PNativeInt = ^NativeInt;
 var
   i : integer;
   ByteCount : integer;
-  Buffer    : Integer;
-  ListItem  : PInteger;
+  Buffer    : NativeInt;
+  ListItem  : PNativeInt;
 begin
   {move current valid data back to the start of the buffer}
   ByteCount := FLookAheadEnd - FStart;
@@ -719,8 +719,8 @@ begin
   dec(FLookAheadEnd, ByteCount);
 
   {patch up the hash table: the head pointers}
-  Buffer := Integer(FBuffer);
-  ListItem := PInteger(@FHashHeads^[0]);
+  Buffer := NativeInt(FBuffer);
+  ListItem := PNativeInt(@FHashHeads^[0]);
   for i := 0 to pred(c_HashCount) do begin
     dec(ListItem^, ByteCount);
     if (ListItem^ < Buffer) then
@@ -729,7 +729,7 @@ begin
   end;
 
   {..the chain pointers}
-  ListItem  := PInteger(@FHashChains^[0]);
+  ListItem  := PNativeInt(@FHashChains^[0]);
   for i := 0 to pred(FWinSize) do begin
     dec(ListItem^, ByteCount);
     if (ListItem^ < Buffer) then
