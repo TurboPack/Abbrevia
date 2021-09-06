@@ -88,8 +88,13 @@ uses
 
 procedure TAbAboutBox.FormCreate(Sender: TObject);
 begin
-  Top := (Screen.Height - Height ) div 3;
-  Left := (Screen.Width - Width ) div 2;
+{$IF COMPILERVERSION > 34}
+  Top := Trunc(Screen.Height - Height) div 3;
+  Left := Trunc(Screen.Width - Width) div 2;
+{$ELSE}
+  Top := (Screen.Height - Height) div 3;
+  Left := (Screen.Width - Width) div 2;
+{$IFEND}
   lblVersion.Text := Format(AbVersionFormatS, [AbVersionS] );
 end;
 
