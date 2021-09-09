@@ -80,7 +80,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <DllSuffix>270</DllSuffix>
+        <DllSuffix>280</DllSuffix>
         <DCC_UnitSearchPath>$(BDS)\lib;..\..\..\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
         <SanitizedProjectName>AbbreviaVCLC</SanitizedProjectName>
