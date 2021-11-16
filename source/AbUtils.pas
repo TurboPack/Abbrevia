@@ -1073,7 +1073,8 @@ begin
   except
     on E: EConvertError do
       Result := 0;
-{$ENDIF UNIX}
+  end;
+{$ENDIF POSIX}
 end;
 
 function AbDateTimeToDosFileDate(Value : TDateTime) : Integer;
@@ -1093,7 +1094,7 @@ begin
 
   LongRec(Result).Lo := (S shr 1) or (Mn shl 5) or (Hr shl 11);
   LongRec(Result).Hi := Dy or (Mo shl 5) or (Word(Yr - 1980) shl 9);
-{$ENDIF UNIX}
+{$ENDIF POSIX}
 end;
 
 { -------------------------------------------------------------------------- }
