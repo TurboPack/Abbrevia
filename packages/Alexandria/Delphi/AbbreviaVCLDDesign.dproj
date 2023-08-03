@@ -60,7 +60,7 @@
         <DCC_UnitSearchPath>.\$(Platform)\$(Config);$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_WriteableConstants>true</DCC_WriteableConstants>
         <DesignOnlyPackage>true</DesignOnlyPackage>
-        <DllSuffix>280</DllSuffix>
+        <DllSuffix>$(Auto)</DllSuffix>
         <GenDll>true</GenDll>
         <GenPackage>true</GenPackage>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
