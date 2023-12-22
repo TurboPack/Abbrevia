@@ -82,7 +82,7 @@ uses
 procedure TAbUnZipperTests.CheckBadPWOverwrite;
 // [ 698162 ] Failed unzipping of password protected files clobbers original
 var
-  Fs : TFileStream;
+  Fs : TBufferedFileStream;
   TestFile : String;
   Buffer, Buffer1 : array[0..20] of Char;
 begin
@@ -90,7 +90,7 @@ begin
   // Create Dummy file to test with.
   FillChar(Buffer, SizeOf(Buffer),#0);
   Buffer := 'THIS IS A TEST';
-  Fs := TFileStream.Create(TestFile, fmCreate);
+  Fs := TBufferedFileStream.Create(TestFile, fmCreate);
   try
     Fs.Write(Buffer, SizeOf(Buffer)); // Write something to file
   finally
@@ -110,7 +110,7 @@ begin
   CheckFileExists(TestFile);
 
   // Test to make sure file matches dummy original
-  Fs := TFileStream.Create(TestFile,fmOpenRead);
+  Fs := TBufferedFileStream.Create(TestFile,fmOpenRead);
   try
     FS.Read(Buffer1,SizeOf(Buffer1));
     CompareMem(@Buffer[0],@Buffer[1],SizeOf(Buffer));
@@ -234,12 +234,12 @@ end;
 
 procedure TAbUnZipperTests.TestIncompleteZipFile;
 var
-  FS : TFileStream;
+  FS : TBufferedFileStream;
 begin
   // Create a file that only contains the initial signature and not the 
   // central directory tail structure, which should not be recognized.
   ExpectedException := EAbUnhandledType;
-  FS := TFileStream.Create(TestTempDir + 'dummy.zip', fmCreate);
+  FS := TBufferedFileStream.Create(TestTempDir + 'dummy.zip', fmCreate);
   try
     FS.Write(Ab_ZipLocalFileHeaderSignature, SizeOf(Ab_ZipLocalFileHeaderSignature));
   finally
@@ -395,14 +395,14 @@ end;
 
 procedure TAbUnZipperTests.TestZeroByteZipFile;
 var
-  FS : TFileStream;
+  FS : TBufferedFileStream;
 begin
   ExpectedException := EAbBadStream;
   // Delete File if it exists
   if FileExists(TestTempDir + 'zerobyte.zip') then
     DeleteFile(TestTempDir + 'zerobyte.zip');
   // Create Zero Byte File
-  FS := TFileStream.Create(TestTempDir + 'zerobyte.zip',fmCreate);
+  FS := TBufferedFileStream.Create(TestTempDir + 'zerobyte.zip',fmCreate);
   FS.Free;
   // Try to set the filename to the open byte file.
   Component.FileName := TestTempDir + 'zerobyte.zip';
@@ -421,9 +421,9 @@ end;
 procedure TAbUnZipperTests.TestFindCentralDirTail;
 { Test finding the central directory tail when it spans a search block }
 var
-  FS: TFileStream;
+  FS: TBufferedFileStream;
 begin
-  FS := TFileStream.Create(TestFileDir + 'FindCDTailBug.zip', fmOpenRead);
+  FS := TBufferedFileStream.Create(TestFileDir + 'FindCDTailBug.zip', fmOpenRead);
   try
     Check(VerifyZip(FS) = atZip);
   finally

@@ -111,14 +111,14 @@ end;
 
 procedure TAbDetermineArcTypeTest.TestDetermineArcType;
 var
-  Stream: TFileStream;
+  Stream: TBufferedFileStream;
   TmpFile: string;
 begin
   CheckEquals(FExpectedType, AbDetermineArcType(FFilename, FExpectedType),
     'Checking filename with asserted type');
   CheckEquals(FExpectedType, AbDetermineArcType(FFilename, atUnknown),
     'Checking filename without asserted type');
-  Stream := TFileStream.Create(FFilename, fmOpenRead);
+  Stream := TBufferedFileStream.Create(FFilename, fmOpenRead);
   try
     CheckEquals(FExpectedType, AbDetermineArcType(Stream), 'Checking stream');
   finally

@@ -2009,7 +2009,7 @@ begin
         FStatus := asInvalid; //TODO: Status updates are extremely inconsistent
         raise EAbUserAbort.Create;
       end;
-      FStream := TFileStream.Create( ArchiveName, Mode );
+      FStream := TBufferedFileStream.Create( ArchiveName, Mode );
       TailPosition := FindCentralDirectoryTail( FStream );
     end;
   end;
@@ -2328,7 +2328,7 @@ begin
         if FOwnsStream then begin
           {need new stream to write}
           FreeAndNil(FStream);
-          FStream := TFileStream.Create(FArchiveName,
+          FStream := TBufferedFileStream.Create(FArchiveName,
             fmOpenReadWrite or fmShareDenyWrite);
         end;
         FStream.Size := 0;

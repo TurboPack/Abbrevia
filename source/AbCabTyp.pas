@@ -363,7 +363,7 @@ function FDI_FileOpen(lpPathName: PAnsiChar; Flag, Mode: Integer) : PtrInt;
   {open a file}
 begin
   try
-    Result := PtrInt(TFileStream.Create(string(lpPathName), fmOpenRead or fmShareDenyWrite));
+    Result := PtrInt(TBufferedFileStream.Create(string(lpPathName), fmOpenRead or fmShareDenyWrite));
   except on EFOpenError do
     Result := -1;
   end;
@@ -457,7 +457,7 @@ begin
       begin
         if (AnsiString(pfdin^.psz1) = Archive.FItemInProgress.RawFileName) then
           if Archive.FIIPName <> '' then
-            Result := Integer(TFileStream.Create(Archive.FIIPName, fmCreate))
+            Result := Integer(TBufferedFileStream.Create(Archive.FIIPName, fmCreate))
           else
             Result := Integer(Archive.FItemStream)
         else
@@ -473,9 +473,9 @@ begin
     FDINT_Close_File_Info :
       begin
         if Archive.FIIPName <> '' then begin
-          FileSetDate(TFileStream(pfdin^.hf).Handle,
+          FileSetDate(TBufferedFileStream(pfdin^.hf).Handle,
             Integer(pfdin^.date) shl 16 + pfdin^.time);
-          TFileStream(pfdin^.hf).Free;
+          TBufferedFileStream(pfdin^.hf).Free;
           FileSetAttr(Archive.FIIPName, pfdin^.attribs);
         end;
         Result := 1;
@@ -487,9 +487,9 @@ end;
 { == TAbCabArchive ========================================================= }
 function VerifyCab(const Fn : string) : TAbArchiveType;
 var
-  Stream : TFileStream;
+  Stream : TBufferedFileStream;
 begin
-  Stream := TFileStream.Create(FN, fmOpenRead or fmShareDenyNone);
+  Stream := TBufferedFileStream.Create(FN, fmOpenRead or fmShareDenyNone);
   try
     Result := VerifyCab(Stream);
   finally
@@ -749,10 +749,10 @@ procedure TAbCabArchive.OpenCabFile;
   {Open an existing cabinet}
 var
   Abort : Boolean;
-  Stream : TFileStream;
+  Stream : TBufferedFileStream;
 begin
     {verify that the archive can be opened and is a cabinet}
-  Stream := TFileStream.Create(FArchiveName, fmOpenRead or fmShareDenyNone);
+  Stream := TBufferedFileStream.Create(FArchiveName, fmOpenRead or fmShareDenyNone);
   try
     if not FDIIsCabinet(FFDIContext, PtrInt(Stream), @FFDICabInfo) then begin
       CloseCabFile;

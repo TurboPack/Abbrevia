@@ -1935,7 +1935,7 @@ end;
 
 procedure TAbTarArchive.ExtractItemAt(Index: Integer; const UseName: string);
 var
-  OutStream : TFileStream;
+  OutStream : TBufferedFileStream;
   CurItem : TAbTarItem;
 begin
   { Check the index is not out of range. }
@@ -1955,7 +1955,7 @@ begin
   if CurItem.IsDirectory then
     AbCreateDirectory(UseName)
   else begin
-    OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyNone);
+    OutStream := TBufferedFileStream.Create(UseName, fmCreate or fmShareDenyNone);
     try
       try {OutStream}
         ExtractItemToStreamAt(Index, OutStream);
@@ -2204,7 +2204,7 @@ begin
                 CurItem.SaveTarHeaderToStream(NewStream);
               end
               else begin
-                TempStream := TFileStream.Create(CurItem.DiskFileName,
+                TempStream := TBufferedFileStream.Create(CurItem.DiskFileName,
                   fmOpenRead or fmShareDenyWrite );
                 try { TempStream }
                   CurItem.UncompressedSize := TempStream.Size;
@@ -2242,7 +2242,7 @@ begin
     else begin
       { write to a new stream }
       FreeAndNil(FStream);
-      FStream := TFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
+      FStream := TBufferedFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
       FStream.CopyFrom(NewStream, NewStream.Size);
     end;
 

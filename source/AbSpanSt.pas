@@ -218,7 +218,7 @@ begin
   end
   else
     raise EAbUserAbort.Create;
-  FStream := TFileStream.Create(ImageName, fmOpenRead or fmShareDenyWrite);
+  FStream := TBufferedFileStream.Create(ImageName, fmOpenRead or fmShareDenyWrite);
 end;
 {------------------------------------------------------------------------------}
 function TAbSpanReadStream.Read(var Buffer; Count: Longint): Longint;
@@ -316,7 +316,7 @@ begin
       raise EAbUserAbort.Create;
     AbSetSpanVolumeLabel(AbDrive(FArchiveName), FCurrentImage);
   end;
-  FStream := TFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
+  FStream := TBufferedFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
   FImageSize := 0;
 end;
 {------------------------------------------------------------------------------}

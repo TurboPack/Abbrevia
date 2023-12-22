@@ -279,7 +279,7 @@ type
     FDiskFile    : string;              {compound file name}
     FSizeOnDisk  : Integer;             {sum total of compressed sizes +
                                          uncompressed Sys, RootDir, & FAT blks}
-    FStream      : TFileStream;         {Compound file stream (*.cf)}
+    FStream      : TBufferedFileStream;         {Compound file stream (*.cf)}
 
     FOnAfterOpen          : TNotifyEvent;
     FOnBeforeClose        : TNotifyEvent;
@@ -331,7 +331,7 @@ type
       read GetCurrentDirectory write SetCurrentDirectory;
     property DirectoryEntries : Integer read GetDirectoryEntries;
     property SizeOnDisk : Integer read GetSizeOnDisk;
-    property Stream : TFileStream read FStream write FStream;
+    property Stream : TBufferedFileStream read FStream write FStream;
 
 
   published
@@ -1333,7 +1333,7 @@ begin
 
   if FileName <> '' then begin
     FDiskFile := FileName;
-    FStream := TFileStream.Create(FileName, fmOpenReadWrite or
+    FStream := TBufferedFileStream.Create(FileName, fmOpenReadWrite or
                                   fmCreate or fmShareDenyNone);
 
     {fill first 3 blocks of file}
@@ -1365,7 +1365,7 @@ begin
 
   if FileName <> '' then begin
     FDiskFile := FileName;
-    FStream := TFileStream.Create(FileName, fmOpenReadWrite or
+    FStream := TBufferedFileStream.Create(FileName, fmOpenReadWrite or
                                   fmCreate or fmShareDenyNone);
 
     {fill first 3 blocks of file}
@@ -1810,7 +1810,7 @@ var
 begin
   if FStream <> nil then
     FStream.Free;
-  FStream := TFileStream.Create(FName, fmOpenReadWrite or fmShareDenyNone);
+  FStream := TBufferedFileStream.Create(FName, fmOpenReadWrite or fmShareDenyNone);
 
   {Ensure valid signature}
   FStream.Read(Sig[0], sbSignatureSize);
@@ -1836,7 +1836,7 @@ var
 begin
   if FStream <> nil then
     FStream.Free;
-  FStream := TFileStream.Create(FName, fmOpenReadWrite or fmShareDenyNone);
+  FStream := TBufferedFileStream.Create(FName, fmOpenReadWrite or fmShareDenyNone);
 
   {Ensure valid signature}
   FStream.Read(Sig[0], sbSignatureSize);

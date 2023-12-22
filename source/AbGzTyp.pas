@@ -927,7 +927,7 @@ end;
 procedure TAbGzipArchive.ExtractItemAt(Index: Integer;
   const UseName: string);
 var
-  OutStream : TFileStream;
+  OutStream : TBufferedFileStream;
   CurItem : TAbGzipItem;
 begin
   if IsGZippedTar and TarAutoHandle then begin
@@ -940,7 +940,7 @@ begin
 
     CurItem := TAbGzipItem(ItemList[Index]);
 
-    OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyNone);
+    OutStream := TBufferedFileStream.Create(UseName, fmCreate or fmShareDenyNone);
     try
       try {OutStream}
         ExtractItemToStreamAt(Index, OutStream);
@@ -1167,7 +1167,7 @@ begin
                     if (BaseDirectory <> '') then
                       ChDir(BaseDirectory);
                     CurItem.LastModTimeAsDateTime := AbGetFileTime(CurItem.DiskFileName);
-                    UncompressedStream := TFileStream.Create(CurItem.DiskFileName,
+                    UncompressedStream := TBufferedFileStream.Create(CurItem.DiskFileName,
                       fmOpenRead or fmShareDenyWrite );
                   finally {SaveDir}
                     ChDir( SaveDir );
@@ -1204,7 +1204,7 @@ begin
       { need new stream to write }
       FreeAndNil(FStream);
       FGZStream := nil;
-      FStream := TFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
+      FStream := TBufferedFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
       FGZStream := FStream;
       FStream.CopyFrom(NewStream, NewStream.Size);
     end

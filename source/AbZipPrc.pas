@@ -308,7 +308,7 @@ begin
       UncompressedStream := TMemoryStream.Create
     else
       UncompressedStream :=
-        TFileStream.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
+        TBufferedFileStream.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
   finally {SaveDir}
     ChDir( SaveDir );
   end; {SaveDir}

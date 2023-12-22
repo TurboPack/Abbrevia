@@ -1118,7 +1118,7 @@ begin
   else begin
     InStream := ExtractPrep(ZipArchive, Item);
     try
-      OutStream := TFileStream.Create(UseName, fmCreate or fmShareDenyWrite);
+      OutStream := TBufferedFileStream.Create(UseName, fmCreate or fmShareDenyWrite);
       try
         try    {OutStream}
           DoExtract(ZipArchive, Item, InStream, OutStream);

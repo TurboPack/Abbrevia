@@ -56,9 +56,9 @@ uses
 
 procedure TAbUnzPrcTests.InflateStreamFileTest;
 var
-  FS : TFileStream;
+  FS : TBufferedFileStream;
 begin
-  FS := TFileStream.Create(TestStreamDir + 'Testdoc1.cmp', fmOpenRead);
+  FS := TBufferedFileStream.Create(TestStreamDir + 'Testdoc1.cmp', fmOpenRead);
   try
     InflateStream(FS, FUnCompressedStream);
   finally

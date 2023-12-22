@@ -92,7 +92,7 @@ procedure TAbBzip2Tests.TestDecompressionStream;
 var
   InStream: TStream;
 begin
-  InStream := TFileStream.Create(MPLDir + 'MPL.bz2', fmOpenRead or fmShareDenyNone);
+  InStream := TBufferedFileStream.Create(MPLDir + 'MPL.bz2', fmOpenRead or fmShareDenyNone);
   try
     TestDecompress(InStream, MPLDir + 'MPL-1_1.txt');
   finally
@@ -108,7 +108,7 @@ begin
   try
     Bz2CStream := TBZCompressionStream.Create(bs5, CompressedStream);
     try
-      MPLStream := TFileStream.Create(MPLDir + 'MPL-1_1.txt', fmOpenRead or fmShareDenyNone);
+      MPLStream := TBufferedFileStream.Create(MPLDir + 'MPL-1_1.txt', fmOpenRead or fmShareDenyNone);
       try
         Bz2CStream.CopyFrom(MPLStream, 0);
       finally

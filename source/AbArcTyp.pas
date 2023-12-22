@@ -285,7 +285,7 @@ type
     FItemList       : TAbArchiveList;
     FLogFile        : string;
     FLogging        : Boolean;
-    FLogStream      : TFileStream;
+    FLogStream      : TBufferedFileStream;
     FMode           : Word;
     FOwnsStream     : Boolean;
     FSpanned        : Boolean;
@@ -1006,7 +1006,7 @@ constructor TAbArchive.Create(const FileName : string; Mode : Word);
   {create an archive by opening a filestream on filename with the given mode}
 begin
   FOwnsStream := True;
-  CreateFromStream(TFileStream.Create(FileName, Mode), FileName);
+  CreateFromStream(TBufferedFileStream.Create(FileName, Mode), FileName);
   FMode := Mode;
 end;
 { -------------------------------------------------------------------------- }
@@ -1653,7 +1653,7 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbArchive.FreshenRequired(Item : TAbArchiveItem) : Boolean;
 var
-  FS : TFileStream;
+  FS : TBufferedFileStream;
   DateTime : Integer;
   FileTime : Word;
   FileDate : Word;
@@ -1664,7 +1664,7 @@ begin
   if BaseDirectory <> '' then
     ChDir(BaseDirectory);
   try
-    FS := TFileStream.Create(Item.DiskFileName,
+    FS := TBufferedFileStream.Create(Item.DiskFileName,
                               fmOpenRead or fmShareDenyWrite);
     try
       DateTime := FileGetDate(FS.Handle);
@@ -1919,7 +1919,7 @@ begin
   end;
   if FLogging and (FLogFile <> '') then begin
     try
-      FLogStream := TFileStream.Create(FLogFile, fmCreate or fmOpenWrite);
+      FLogStream := TBufferedFileStream.Create(FLogFile, fmCreate or fmOpenWrite);
       MakeLogEntry(FArchiveName, ltStart);
     except
       raise EAbException.Create(AbLogCreateErrorS);

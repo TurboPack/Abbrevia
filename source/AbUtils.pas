@@ -361,16 +361,16 @@ end;
 function AbCopyFile(const Source, Destination: string; FailIfExists: Boolean): Boolean;
 {$IFDEF POSIX}
 var
-  DesStream, SrcStream: TFileStream;
+  DesStream, SrcStream: TBufferedFileStream;
 {$ENDIF}
 begin
 {$IFDEF POSIX}
   Result := False;
   if not FailIfExists or not FileExists(Destination) then
     try
-      SrcStream := TFileStream.Create(Source, fmOpenRead or fmShareDenyWrite);
+      SrcStream := TBufferedFileStream.Create(Source, fmOpenRead or fmShareDenyWrite);
       try
-        DesStream := TFileStream.Create(Destination, fmCreate);
+        DesStream := TBufferedFileStream.Create(Destination, fmCreate);
         try
           DesStream.CopyFrom(SrcStream, 0);
           Result := True;

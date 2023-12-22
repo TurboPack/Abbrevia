@@ -302,7 +302,7 @@ end;
 
 procedure TAbZipperTests.CreatePasswordProtectedAddedByStream;
 var
-  oFileStream : TFileStream;
+  oFileStream : TBufferedFileStream;
   sZipFile : string;
 begin
   // Remove the path from the zip
@@ -323,7 +323,7 @@ begin
   // Password protect the source file
   //  Component.Password := 'password';
 
-  oFileStream := TFileStream.Create(MPLDir + 'MPL-1_1.txt', fmOpenRead or fmShareDenyNone);
+  oFileStream := TBufferedFileStream.Create(MPLDir + 'MPL-1_1.txt', fmOpenRead or fmShareDenyNone);
   try
     // Add file to the zip file
    Component.AddFromStream('file.ext', oFileStream);
@@ -337,11 +337,11 @@ end;
 procedure TAbZipperTests.GZipInputStreamClearTest;
   // [ 820489 ] CloseArchive does not close input stream
 var
-  fs,fs2 : TFileStream;
+  fs,fs2 : TBufferedFileStream;
   extractFilename, filename : string;
   unzip : TAbUnZipper;
 begin
-  fs := TFileStream.Create(MPLDir + 'MPL-1_1.txt',fmOpenRead);
+  fs := TBufferedFileStream.Create(MPLDir + 'MPL-1_1.txt',fmOpenRead);
   try
     filename := TestTempDir + 'clearinputstr.gz';
     if FileExists(filename) then
@@ -371,7 +371,7 @@ begin
     finally
       unzip.free;
     end;
-    fs2 := TFileStream.Create(extractFilename, fmOpenRead);
+    fs2 := TBufferedFileStream.Create(extractFilename, fmOpenRead);
     try
       CheckStreamMatch(fs, fs2, 'Extracted file does not match original');
     finally

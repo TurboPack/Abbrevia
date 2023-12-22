@@ -161,7 +161,7 @@ type
       FBuffer    : PByte;
       FCurPos    : PByte;
       FLineDelim : TAbLineDelimiter;
-      FStream    : TFileStream;
+      FStream    : TBufferedFileStream;
     protected
       function logWriteBuffer : boolean;
     public
@@ -435,7 +435,7 @@ begin
   FCurPos := FBuffer;
 
   {create the log file}
-  FStream := TFileStream.Create(aLogName, fmCreate);
+  FStream := TBufferedFileStream.Create(aLogName, fmCreate);
 end;
 {--------}
 destructor TAbLogger.Destroy;

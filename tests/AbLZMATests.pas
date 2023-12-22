@@ -71,7 +71,7 @@ var
 begin
   DesStream := TMemoryStream.Create;
   try
-    SrcStream := TFileStream.Create(MPLDir + 'MPL.lzma', fmOpenRead or fmShareDenyNone);
+    SrcStream := TBufferedFileStream.Create(MPLDir + 'MPL.lzma', fmOpenRead or fmShareDenyNone);
     try
       LzmaDecodeStream(SrcStream, DesStream);
     finally
@@ -87,7 +87,7 @@ procedure TAbLZMATests.TestEncodeStream;
 var
   MPLStream, CompStream, DecompStream: TStream;
 begin
-  MPLStream := TFileStream.Create(MPLDir + 'MPL-1_1.txt', fmOpenRead or fmShareDenyNone);
+  MPLStream := TBufferedFileStream.Create(MPLDir + 'MPL-1_1.txt', fmOpenRead or fmShareDenyNone);
   try
     DecompStream := TMemoryStream.Create;
     try
@@ -113,7 +113,7 @@ procedure TAbLZMATests.TestDecompressionStream;
 var
   InStream, LZDStream: TStream;
 begin
-  InStream := TFileStream.Create(MPLDir + 'MPL.lzma', fmOpenRead or fmShareDenyNone);
+  InStream := TBufferedFileStream.Create(MPLDir + 'MPL.lzma', fmOpenRead or fmShareDenyNone);
   try
     LZDStream := TAbLZMADecompressionStream.Create(InStream);
     try
@@ -134,7 +134,7 @@ begin
   try
     LZCStream := TAbLZMACompressionStream.Create(CompressedStream);
     try
-      MPLStream := TFileStream.Create(MPLDir + 'MPL-1_1.txt', fmOpenRead or fmShareDenyNone);
+      MPLStream := TBufferedFileStream.Create(MPLDir + 'MPL-1_1.txt', fmOpenRead or fmShareDenyNone);
       try
         LZCStream.CopyFrom(MPLStream, 0);
       finally

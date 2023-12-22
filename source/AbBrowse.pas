@@ -513,7 +513,7 @@ end;
 function AbDetermineArcType(const FN : string; AssertType : TAbArchiveType) : TAbArchiveType;
 var
   Ext : string;
-  FS : TFileStream;
+  FS : TBufferedFileStream;
 begin
   Result := AssertType;
   if Result = atUnknown then begin
@@ -543,7 +543,7 @@ begin
   if FileExists(FN) and (AbFileGetSize(FN) > 0) then begin
     { If the file doesn't exist (or is empty) presume to make one, otherwise
       guess or verify the contents }
-    FS := TFileStream.Create(FN, fmOpenRead or fmShareDenyNone);
+    FS := TBufferedFileStream.Create(FN, fmOpenRead or fmShareDenyNone);
     try
       if Result = atUnknown then
         Result := AbDetermineArcType(FS)

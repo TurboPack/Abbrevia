@@ -112,9 +112,9 @@ end;
 
 procedure TAbZipPrcTests.DeflateStreamFileTest;
 var
-  FS : TFileStream;
+  FS : TBufferedFileStream;
 begin
-  FS := TFileStream.Create(TestStreamDir + 'TestDoc1.txt', fmOpenRead);
+  FS := TBufferedFileStream.Create(TestStreamDir + 'TestDoc1.txt', fmOpenRead);
   try
     DeflateStream(FS, FCompressedStream);
   finally

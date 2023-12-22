@@ -174,9 +174,9 @@ procedure TAbTestCase.CheckFilesMatch(const aFileName1, aFileName2: string;
 var
   Stream1, Stream2 : TStream;
 begin
-  Stream1 := TFileStream.Create(aFileName1, fmOpenRead or fmShareDenyWrite);
+  Stream1 := TBufferedFileStream.Create(aFileName1, fmOpenRead or fmShareDenyWrite);
   try
-    Stream2 := TFileStream.Create(AFileName2, fmOpenRead or fmShareDenyWrite);
+    Stream2 := TBufferedFileStream.Create(AFileName2, fmOpenRead or fmShareDenyWrite);
     try
       CheckStreamMatch(Stream1, Stream2, aMsg);
     finally
@@ -192,7 +192,7 @@ procedure TAbTestCase.CheckFileMatchesStream(const aFileName : string;
 var
   FileStream : TStream;
 begin
-  FileStream := TFileStream.Create(aFileName, fmOpenRead or fmShareDenyWrite);
+  FileStream := TBufferedFileStream.Create(aFileName, fmOpenRead or fmShareDenyWrite);
   try
     CheckStreamMatch(FileStream, aStream, aMsg);
   finally
@@ -228,10 +228,10 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbTestCase.CreateDummyFile(aFileName : string; aSize : Integer);
 var
-  fs : TFileStream;
+  fs : TBufferedFileStream;
   bf : pointer;
 begin
-  fs := TFileStream.Create(aFileName, fmCreate);
+  fs := TBufferedFileStream.Create(aFileName, fmCreate);
   try
     GetMem(bf, aSize + 1);
     try
@@ -495,7 +495,7 @@ function TAbCompTestCase.UnStreamComponent(const aCompStr : string;
 var
   StrStream:TStringStream;
   BinStream: TMemoryStream;
-  ErrStream  : TFileStream; 
+  ErrStream  : TBufferedFileStream;
 begin
 {$IF COMPILERVERSION < 32}
   Result := nil;
@@ -510,7 +510,7 @@ begin
       except
         on E : EParserError do
           begin
-            ErrStream := TFileStream.Create('parse.err', fmCreate);
+            ErrStream := TBufferedFileStream.Create('parse.err', fmCreate);
             StrStream.Seek(0, soFromBeginning);
             ErrStream.CopyFrom(StrStream, StrStream.Size);
             ErrStream.Free;

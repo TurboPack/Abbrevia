@@ -64,7 +64,7 @@ type
       vmsSwapFileDir  : string;     {swap file directory}
       vmsSwapFileName : string;     {swap file name}
       vmsSwapFileSize : Int64;      {size of swap file}
-      vmsSwapStream   : TFileStream;{swap file stream}
+      vmsSwapStream   : TBufferedFileStream;{swap file stream}
     protected
       procedure vmsSetMaxMemToUse(aNewMem : UInt32);
 
@@ -431,7 +431,7 @@ begin
   if (vmsSwapStream = nil) then begin
     vmsSwapFileName := AbCreateTempFile(vmsSwapFileDir);
     try
-      vmsSwapStream := TFileStream.Create(vmsSwapFileName, fmCreate);
+      vmsSwapStream := TBufferedFileStream.Create(vmsSwapFileName, fmCreate);
     except
       TFile.Delete(vmsSwapFileName);
       raise EAbVMSErrorOpenSwap.Create( vmsSwapFileName );

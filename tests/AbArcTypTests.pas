@@ -276,10 +276,10 @@ begin
   Arc := CreateArchive(TestTempDir + 'test' + ArchiveExt, fmCreate);
   try
     Arc.Load;
-    // Copy to a memory stream to test adding something other than a TFileStream
+    // Copy to a memory stream to test adding something other than a TBufferedFileStream
     MemStream := TMemoryStream.Create;
     try
-      FileStream := TFileStream.Create(MPLDir + 'MPL-1_1.txt', fmOpenRead or fmShareDenyWrite);
+      FileStream := TBufferedFileStream.Create(MPLDir + 'MPL-1_1.txt', fmOpenRead or fmShareDenyWrite);
       try
         MemStream.CopyFrom(FileStream, 0);
       finally
@@ -299,15 +299,15 @@ end;
 {----------------------------------------------------------------------------}
 procedure TAbArchiveTests.TestVerify;
 var
-  FS: TFileStream;
+  FS: TBufferedFileStream;
 begin
-  FS := TFileStream.Create(MPLDir + 'MPL' + ArchiveExt, fmOpenRead or fmShareDenyNone);
+  FS := TBufferedFileStream.Create(MPLDir + 'MPL' + ArchiveExt, fmOpenRead or fmShareDenyNone);
   try
     Check(VerifyArchive(FS) = ArchiveType, 'Verify failed on valid archive');
   finally
     FS.Free;
   end;
-  FS := TFileStream.Create(MPLDir + 'MPL-1_1.txt', fmOpenRead or fmShareDenyNone);
+  FS := TBufferedFileStream.Create(MPLDir + 'MPL-1_1.txt', fmOpenRead or fmShareDenyNone);
   try
     Check(VerifyArchive(FS) = atUnknown, 'Verify succeeded on invalid archive');
   finally
