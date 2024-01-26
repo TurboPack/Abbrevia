@@ -457,9 +457,9 @@ begin
       begin
         if (AnsiString(pfdin^.psz1) = Archive.FItemInProgress.RawFileName) then
           if Archive.FIIPName <> '' then
-            Result := Integer(TBufferedFileStream.Create(Archive.FIIPName, fmCreate))
+            Result := PtrInt(TBufferedFileStream.Create(Archive.FIIPName, fmCreate))
           else
-            Result := Integer(Archive.FItemStream)
+            Result := PtrInt(Archive.FItemStream)
         else
           Result := 0;
       end;
