@@ -37,10 +37,11 @@ interface
 
 uses
   Classes,
+  IOUtils,
   AbZipTyp;
 
   procedure AbZip( Sender : TAbZipArchive; Item : TAbZipItem;
-    OutStream : TStream );
+    OutStream : TStream; ShareMode : TFileShare = TFileShare.fsRead );
 
   procedure AbZipFromStream(Sender : TAbZipArchive; Item : TAbZipItem;
     OutStream, InStream : TStream);
@@ -288,15 +289,29 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 procedure AbZip( Sender : TAbZipArchive; Item : TAbZipItem;
-                 OutStream : TStream );
+                 OutStream : TStream;
+                 ShareMode : TFileShare = TFileShare.fsRead );
 var
   UncompressedStream : TStream;
   SaveDir : string;
   AttrEx : TAbAttrExRec;
+  ShareModeValue: Word;
 begin
 {$IF COMPILERVERSION < 32}
   UncompressedStream := nil;
 {$ENDIF}
+
+  ShareModeValue := 0;
+  case ShareMode of
+    TFileShare.fsNone: ShareModeValue := fmShareExclusive;
+    TFileShare.fsRead: ShareModeValue := fmShareDenyWrite;
+{$IFDEF MSWINDOWS}
+{$WARN SYMBOL_PLATFORM OFF}
+    TFileShare.fsWrite: ShareModeValue := fmShareDenyRead;
+{$WARN SYMBOL_PLATFORM ON}
+{$ENDIF}
+    TFileSHare.fsReadWrite: ShareModeValue := fmShareDenyNone;
+  end;
 
   GetDir(0, SaveDir);
   try {SaveDir}
@@ -308,7 +323,7 @@ begin
       UncompressedStream := TMemoryStream.Create
     else
       UncompressedStream :=
-        TBufferedFileStream.Create(Item.DiskFileName, fmOpenRead or fmShareDenyWrite);
+        TBufferedFileStream.Create(Item.DiskFileName, fmOpenRead or ShareModeValue);
   finally {SaveDir}
     ChDir( SaveDir );
   end; {SaveDir}

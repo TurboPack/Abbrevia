@@ -36,7 +36,7 @@ unit AbZipper;
 interface
 
 uses
-  Classes,
+  Classes, IOUtils,
   AbBrowse, AbZBrows, AbArcTyp, AbZipTyp;
 
 type
@@ -46,6 +46,7 @@ type
     FCompressionMethodToUse : TAbZipSupportedMethod;
     FDeflationOption        : TAbZipDeflationOption;
     FDOSMode : Boolean;
+    FFileShareMode          : TFileShare;
     FOnConfirmSave          : TAbArchiveConfirmEvent;
     FOnSave                 : TAbArchiveEvent;
     FOnArchiveSaveProgress  : TAbArchiveProgressEvent;
@@ -95,6 +96,10 @@ type
     property DOSMode : Boolean
       read  FDOSMode
       write SetDOSMode;
+    property FileShareMode : TFileShare
+      read FFileShareMode
+      write FFileShareMode
+      default TFileShare.fsRead;
     property StoreOptions : TAbStoreOptions
       read  FStoreOptions
       write SetStoreOptions
@@ -146,6 +151,7 @@ type
     property CompressionMethodToUse;
     property DeflationOption;
     property DOSMode;
+    property FileShareMode;
     property SpanningThreshold;
     property LogFile;
     property Logging;
@@ -181,6 +187,7 @@ begin
   CompressionMethodToUse := AbDefCompressionMethodToUse;
   DeflationOption := AbDefDeflationOption;
   StoreOptions := AbDefStoreOptions;
+  FileShareMode := TFileShare.fsRead;
 end;
 { -------------------------------------------------------------------------- }
 destructor TAbCustomZipper.Destroy;
@@ -533,7 +540,7 @@ end;
 procedure TAbCustomZipper.ZipProc(Sender : TObject; Item : TAbArchiveItem;
   OutStream : TStream);
 begin
-  AbZip(TAbZipArchive(Sender), TAbZipItem(Item), OutStream);
+  AbZip(TAbZipArchive(Sender), TAbZipItem(Item), OutStream, FFileShareMode);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCustomZipper.ZipFromStreamProc(Sender : TObject; Item : TAbArchiveItem;

@@ -41,6 +41,7 @@ uses
   Windows,
   Messages,
   Types,
+  IOUtils,
   Graphics,
   Controls,
   Forms,
@@ -173,6 +174,7 @@ type
     FDeflationOption        : TAbZipDeflationOption;
     FDOSMode                : Boolean;
     FFileName               : string;
+    FFileShareMode          : TFileShare;
     FExtractOptions         : TAbExtractOptions;
     FHierarchy              : Boolean;
     FLogFile                : string;
@@ -377,6 +379,10 @@ type
     property FileName : string
              read  FFileName
              write SetFileName;
+    property FileShareMode : TFileShare
+             read FFileShareMode
+             write FFileShareMode
+             default TFileShare.fsRead;
     property Hierarchy : Boolean
              read  FHierarchy
              write SetHierarchy
@@ -630,6 +636,7 @@ type
     property DragMode;
     property Enabled;
     property ExtractOptions;
+    property FileShareMode;
     property Font;
     property Hierarchy;
     property LogFile;
@@ -961,6 +968,7 @@ begin
   CompressionMethodToUse := AbDefCompressionMethodToUse;
   DeflationOption := AbDefDeflationOption;
   ExtractOptions := AbDefExtractOptions;
+  FileShareMode := TFileShare.fsRead;
   Hierarchy := AbDefHierarchy;
   PasswordRetries := AbDefPasswordRetries;
   StoreOptions := AbDefStoreOptions;
@@ -2251,7 +2259,7 @@ procedure TAbCustomZipOutline.ZipProc(Sender : TObject;
                              Item : TAbArchiveItem;
                              OutStream : TStream);
 begin
-  AbZip(TAbZipArchive(Sender), TAbZipItem(Item), OutStream);
+  AbZip(TAbZipArchive(Sender), TAbZipItem(Item), OutStream, FFileShareMode);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCustomZipOutline.ZipFromStreamProc(Sender : TObject;
