@@ -512,7 +512,7 @@ begin
     Exit;
   try
     StartPos := Strm.Position;
-    if FDIIsCabinet(Context, Integer(Strm), @Info) then
+    if FDIIsCabinet(Context, PtrInt(Strm), @Info) then
       Result := atCab;
     Strm.Position := StartPos;
   finally
