@@ -9,7 +9,7 @@
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{8F5900DA-6C2D-4EFA-96A5-D5AD0C68D886}</ProjectGuid>
         <ProjectName Condition="'$(ProjectName)'==''">AbbreviaVCLD</ProjectName>
-        <ProjectVersion>20.2</ProjectVersion>
+        <ProjectVersion>20.3</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
