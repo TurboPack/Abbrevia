@@ -10,6 +10,9 @@ type
   public
     class function AsString(ASource: Pointer): string; overload; static;
     class function AsString(ASource: Pointer; ALen: Integer): string; overload; static;
+    class function AsBytes(ASource: Pointer; ALen: Integer): TBytes; overload;
+        static;
+    class function AsBytes(ASource: Pointer): TBytes; overload; static;
     class function Equals(const ALeft: string; ARight: Pointer): Boolean; overload; static;
     class function Equals(const ALeft: Pointer; ARight: string): Boolean; overload; static;
     class procedure FromString(const ASource: string; ADest: Pointer); static;
@@ -38,6 +41,23 @@ begin
   SetLength(pBytes, ALen);
   Move(ASource^, pBytes[0], ALen);
   Result := TEncoding.ANSI.GetString(pBytes);
+end;
+
+class function TAbBytes.AsBytes(ASource: Pointer; ALen: Integer): TBytes;
+begin
+  if ALen = 0 then
+  begin
+    Result := [];
+    Exit;
+  end;
+
+  SetLength(Result, ALen);
+  Move(ASource^, Result[0], ALen);
+end;
+
+class function TAbBytes.AsBytes(ASource: Pointer): TBytes;
+begin
+  Result := AsBytes(ASource, StrLen(ASource));
 end;
 
 class function TAbBytes.Equals(const ALeft: Pointer; ARight: string): Boolean;

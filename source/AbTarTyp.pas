@@ -772,8 +772,8 @@ var
   NameLength : Int64;
   NumMHeaders: integer;
   ExtraName: integer;
-  RawFileName: string;
-  TempStr: string;
+  RawFileName: TBytes;
+  TempStr: TBytes;
 begin
  {  UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT }
   FoundName := False;
@@ -784,7 +784,7 @@ begin
     if PHeader.LinkFlag = Ord(AB_TAR_LF_LONGNAME) then
     begin
       FoundName := True;
-      RawFileName := '';
+      RawFileName := [];
       NameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));
       NumMHeaders := NameLength div AB_TAR_RECORDSIZE;
       ExtraName := NameLength mod AB_TAR_RECORDSIZE; { Chars in the last Header }
@@ -794,13 +794,13 @@ begin
       begin
         { Copy entire content of Header to String }
         PHeader := FTarHeaderList.Items[I+J];
-        TempStr := TAbBytes.AsString(@PHeader, AB_TAR_RECORDSIZE);
+        TempStr := TAbBytes.AsBytes(PHeader, AB_TAR_RECORDSIZE);
         RawFileName := RawFileName + TempStr;
       end;
       if ExtraName <> 0 then
       begin
         PHeader := FTarHeaderList.Items[I+NumMHeaders+1];
-        TempStr := TAbBytes.AsString(@PHeader, ExtraName-1);
+        TempStr := TAbBytes.AsBytes(PHeader, ExtraName-1);
         RawFileName := RawFileName + TempStr;
       end
       else { We already copied the entire name, but the string is still null terminated. }
@@ -818,17 +818,17 @@ begin
     if (FTarItem.ArchiveFormat = USTAR_FORMAT) and
        (PTarHeader.ustar.Prefix[0] <> 0) then
     begin
-      RawFileName := TAbBytes.AsString(@PTarHeader.ustar.Prefix);
-      RawFileName := RawFileName + TAbBytes.AsString(@PTarHeader.Name);
+      RawFileName := TAbBytes.AsBytes(@PTarHeader.ustar.Prefix);
+      RawFileName := RawFileName + TAbBytes.AsBytes(@PTarHeader.Name);
     end
     else
       begin
         { V7_FORMAT, OLDGNU_FORMAT }
-        RawFileName := TAbBytes.AsString(@PTarHeader.Name);
+        RawFileName := TAbBytes.AsBytes(@PTarHeader.Name);
       end;
   end; { End not FoundName }
 
-  FTarItem.Name := AbRawBytesToString(TEncoding.ANSI.GetBytes(RawFileName));
+  FTarItem.Name := AbRawBytesToString(RawFileName);
 end;
 
 { Extract the file name from the headers }
@@ -840,7 +840,7 @@ var
   NameLength : Int64;
   NumMHeaders: integer;
   ExtraName: integer;
-  RawLinkName, TempStr: string;
+  RawLinkName, TempStr: TBytes;
 begin
  {  UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT }
   PHeader := nil;
@@ -853,7 +853,7 @@ begin
     if PHeader.LinkFlag = Ord(AB_TAR_LF_LONGLINK) then
     begin
       FoundName := True;
-      RawLinkName := '';
+      RawLinkName := [];
       NameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));
       NumMHeaders := NameLength div AB_TAR_RECORDSIZE;
       ExtraName := NameLength mod AB_TAR_RECORDSIZE; { Chars in the last Header }
@@ -863,13 +863,13 @@ begin
       begin
         { Copy entire content of Header to String }
         PHeader := FTarHeaderList.Items[I+J];
-        TempStr := TAbBytes.AsString(@PHeader, AB_TAR_RECORDSIZE);
+        TempStr := TAbBytes.AsBytes(PHeader, AB_TAR_RECORDSIZE);
         RawLinkName := RawLinkName + TempStr;
       end;
       if ExtraName <> 0 then
       begin
         PHeader := FTarHeaderList.Items[I+NumMHeaders+1];
-        TempStr := TAbBytes.AsString(@PHeader, ExtraName-1);
+        TempStr := TAbBytes.AsBytes(PHeader, ExtraName-1);
         RawLinkName := RawLinkName + TempStr;
       end
       else { We already copied the entire name, but the string is still null terminated. }
@@ -883,9 +883,9 @@ begin
   end; { End While }
 
   if not FoundName then
-    RawLinkName := TAbBytes.AsString(@PHeader.LinkName);
+    RawLinkName := TAbBytes.AsBytes(@PHeader.LinkName);
 
-  FTarItem.LinkName := AbRawBytesToString(TEncoding.ANSI.GetBytes(RawLinkName));
+  FTarItem.LinkName := AbRawBytesToString(RawLinkName);
 end;
 
 { Return True if CheckSum passes out. }
