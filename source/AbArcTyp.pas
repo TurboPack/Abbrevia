@@ -1535,7 +1535,7 @@ end;
 function TAbArchive.FindFile(const aFileName : string): Integer;
   {find the index of the specified file}
 begin
-  Result := FItemList.Find(aFileName);
+  Result := FItemList.Find(AbFixNameF(aFileName));
 end;
 { -------------------------------------------------------------------------- }
 function TAbArchive.FindItem(aItem : TAbArchiveItem): Integer;

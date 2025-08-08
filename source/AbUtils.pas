@@ -230,7 +230,8 @@ type
   procedure AbStripDrive( var FName : string );
     {-strips the drive off a filename}
 
-  procedure AbFixName( var FName : string );
+  procedure AbFixName(var FName : string);
+  function AbFixNameF(const FName : string): string;
     {-changes backslashes to forward slashes}
 
   procedure AbUnfixName( var FName : string );
@@ -889,6 +890,12 @@ begin
   for i := 1 to Length( FName ) do
     if FName[i] = AbPathDelim then
       FName[i] := AB_ZIPPATHDELIM;
+end;
+
+function AbFixNameF(const FName : string): string;
+begin
+  Result := FName;
+  AbFixName(Result);
 end;
 { -------------------------------------------------------------------------- }
 procedure AbUnfixName( var FName : string );
