@@ -689,9 +689,12 @@ end;
 {--------}
 function TAbDfOutBitStream.Position : Integer;
 begin
+{$IFDEF ASSERTIONS}
   Assert(false,
          'TAbDfOutBitStream.Position: not implemented yet!');
+{$ELSE}
   Result := -1;
+{$ENDIF}
 end;
 {--------}
 procedure TAbDfOutBitStream.WriteBit(aBit : boolean);

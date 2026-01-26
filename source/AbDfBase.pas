@@ -476,8 +476,11 @@ end;
 {--------}
 function TAbLogger.Read(var Buffer; Count : Longint) : Longint;
 begin
+{$IFDEF ASSERTIONS}
   Assert(false, 'TAbLogger.Read: loggers are write-only, no reading allowed');
+{$ELSE}
   Result := 0;
+{$ENDIF}
 end;
 {--------}
 function TAbLogger.Seek(const Offset : Int64; Origin : TSeekOrigin) : Int64;
@@ -498,8 +501,11 @@ begin
       end;
   end;
 
+{$IFDEF ASSERTIONS}
   Assert(false, 'TAbLogger.Seek: loggers are write-only, no seeking allowed');
+{$ELSE}
   Result := 0;
+{$ENDIF}
 end;
 {--------}
 function TAbLogger.Write(const Buffer; Count : Longint) : Longint;

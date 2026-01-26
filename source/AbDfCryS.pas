@@ -363,9 +363,12 @@ end;
 function TAbDfDecryptStream.Write(const aBuffer; aCount : Longint) : Longint;
 begin
   {check for programming error}
+{$IFDEF ASSERTIONS}
   Assert(false,
          'TAbDfDecryptStream.Write: the stream is read-only');
+{$ELSE}
   Result := 0;
+{$ENDIF}
 end;
 {====================================================================}
 
@@ -597,9 +600,12 @@ end;
 function TAbDfEncryptStream.Read(var aBuffer; aCount : Longint) : Longint;
 begin
   {check for programming error}
+{$IFDEF ASSERTIONS}
   Assert(false,
          'TAbDfEncryptStream.Read: the stream is write-only');
+{$ELSE}
   Result := 0;
+{$ENDIF}
 end;
 {--------}
 function TAbDfEncryptStream.Seek(aOffset : Longint; aOrigin : word) : Longint;
