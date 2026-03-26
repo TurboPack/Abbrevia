@@ -132,10 +132,17 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 function strlen(P: PAnsiChar): Integer; cdecl;
-begin
-  Result := Length(P);
+{$IF (RTLVersion >= 20) AND (DEFINED(CPU386) OR DEFINED(CPUX64))}
+asm
+  jmp System.@PCharLen
 end;
-
+{$ELSE}
+begin
+  Result := 0;
+  while P^ <> #0 do
+    Inc(P);
+end;
+{$IFEND}
 { -------------------------------------------------------------------------- }
 function strcpy(Des, Src: PAnsiChar): PAnsiChar; cdecl;
 begin
