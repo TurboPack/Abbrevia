@@ -51,10 +51,11 @@ implementation
 {$IFDEF MSWINDOWS}
 
 uses
-  AbCrtl,
+  System.Crtl,
   System.Math,
   System.AnsiStrings,
-  System.SysUtils;
+  System.SysUtils,
+  AbCrtl, AbUtils;
 
 type
   PUInt32 = ^UInt32;
@@ -95,13 +96,26 @@ end;
 
 { Forward declarations ===================================================== }
 
-// bits.c
-procedure bs_open_read; external;
-procedure bs_close_read; external;
-procedure bs_open_write; external;
-procedure bs_close_write; external;
-procedure little_endian_to_native; external;
-procedure native_to_little_endian; external;
+// common_utils.c
+procedure sample_rates; external;
+procedure WavpackLittleEndianToNative; external;
+procedure WavpackGetSampleIndex64; external;
+procedure WavpackNativeToLittleEndian; external;
+procedure WavpackFloatNormalize; external;
+
+// decorr_utils.c
+procedure free_streams; external;
+procedure read_decorr_samples; external;
+procedure read_decorr_terms; external;
+procedure read_decorr_weights; external;
+procedure read_shaping_info; external;
+
+// entropy_utils.c
+procedure log2buffer; external;
+procedure read_entropy_vars; external;
+procedure read_hybrid_profile; external;
+procedure restore_weight; external;
+procedure store_weight; external;
 
 // extra1.c
 procedure execute_mono; external;
@@ -109,91 +123,86 @@ procedure execute_mono; external;
 // extra2.c
 procedure execute_stereo; external;
 
-// float.c
-procedure float_values; external;
-procedure read_float_info; external;
-procedure scan_float_data; external;
-procedure send_float_data; external;
-procedure WavpackFloatNormalize; external;
-procedure write_float_info; external;
+// open_utils.c
+procedure bs_close_read; external;
+procedure read_next_header; external;
+procedure read_wvc_block; external;
+procedure unpack_init; external;
+procedure WavpackVerifySingleBlock; external;
 
-// metadata.c
-procedure add_to_metadata; external;
-procedure copy_metadata; external;
-procedure free_metadata; external;
-procedure process_metadata; external;
-procedure read_metadata_buff; external;
-procedure write_metadata_block; external;
-
-// pack.c
-procedure pack_block; external;
-procedure pack_init; external;
+// read_words.c
+procedure get_word; external;
+procedure get_words_lossless; external;
 
 // tags.c
+procedure free_tag; external;
 procedure load_tag; external;
 procedure valid_tag; external;
 
 // unpack.c
-procedure check_crc_error; external;
-procedure free_tag; external;
-procedure unpack_init; external;
 procedure unpack_samples; external;
 
-// unpack3.c
-procedure free_stream3; external;
-procedure get_version3; external;
-procedure get_sample_index3; external;
-procedure open_file3; external;
-procedure seek_sample3; external;
-procedure unpack_samples3; external;
+// unpack_floats.c
+procedure float_values; external;
 
-// words.c
-procedure exp2s; external;
+// write_words.c
 procedure flush_word; external;
-procedure get_word; external;
-procedure get_words_lossless; external;
 procedure init_words; external;
-procedure log2s; external;
-procedure log2buffer; external;
 procedure nosend_word; external;
-procedure read_hybrid_profile; external;
-procedure read_entropy_vars; external;
-procedure restore_weight; external;
 procedure scan_word; external;
 procedure send_word; external;
 procedure send_words_lossless; external;
-procedure store_weight; external;
 procedure write_entropy_vars; external;
 procedure write_hybrid_profile; external;
 
 
 { Linker derectives ======================================================== }
 
-{$IF DEFINED(WIN32)}
-  {$L Win32\wv_bits.obj}
-  {$L Win32\wv_extra1.obj}
-  {$L Win32\wv_extra2.obj}
-  {$L Win32\wv_float.obj}
-  {$L Win32\wv_metadata.obj}
-  {$L Win32\wv_pack.obj}
-  {$L Win32\wv_tags.obj}
-  {$L Win32\wv_unpack.obj}
-  {$L Win32\wv_unpack3.obj}
-  {$L Win32\wv_words.obj}
-  {$L Win32\wv_wputils.obj}
-{$ELSEIF DEFINED(WIN64)}
-  {$L Win64\wv_bits.obj}
-  {$L Win64\wv_extra1.obj}
-  {$L Win64\wv_extra2.obj}
-  {$L Win64\wv_float.obj}
-  {$L Win64\wv_metadata.obj}
-  {$L Win64\wv_pack.obj}
-  {$L Win64\wv_tags.obj}
-  {$L Win64\wv_unpack.obj}
-  {$L Win64\wv_unpack3.obj}
-  {$L Win64\wv_words.obj}
-  {$L Win64\wv_wputils.obj}
-{$IFEND}
+{$IFDEF MSWINDOWS}
+  {$IF DEFINED(CPU386)}
+    {$L Win32\WavPack_write_words.obj}
+    {$L Win32\WavPack_common_utils.obj}
+    {$L Win32\WavPack_decorr_utils.obj}
+    {$L Win32\WavPack_entropy_utils.obj}
+    {$L Win32\WavPack_extra1.obj}
+    {$L Win32\WavPack_extra2.obj}
+    {$L Win32\WavPack_open_legacy.obj}
+    {$L Win32\WavPack_open_raw.obj}
+    {$L Win32\WavPack_open_utils.obj}
+    {$L Win32\WavPack_read_words.obj}
+    {$L Win32\WavPack_tag_utils.obj}
+    {$L Win32\WavPack_tags.obj}
+    {$L Win32\WavPack_unpack.obj}
+    {$L Win32\WavPack_unpack_dsd.obj}
+    {$L Win32\WavPack_unpack_floats.obj}
+    {$L Win32\WavPack_unpack_seek.obj}
+    {$L Win32\WavPack_unpack_utils.obj}
+    {$L Win32\WavPack_unpack3.obj}
+    {$L Win32\WavPack_unpack3_open.obj}
+    {$L Win32\WavPack_unpack3_seek.obj}
+  {$ELSEIF DEFINED(CPUX64)}
+    {$L Win64\WavPack_write_words.obj}
+    {$L Win64\WavPack_common_utils.obj}
+    {$L Win64\WavPack_decorr_utils.obj}
+    {$L Win64\WavPack_entropy_utils.obj}
+    {$L Win64\WavPack_extra1.obj}
+    {$L Win64\WavPack_extra2.obj}
+    {$L Win64\WavPack_open_legacy.obj}
+    {$L Win64\WavPack_open_raw.obj}
+    {$L Win64\WavPack_open_utils.obj}
+    {$L Win64\WavPack_read_words.obj}
+    {$L Win64\WavPack_tag_utils.obj}
+    {$L Win64\WavPack_tags.obj}
+    {$L Win64\WavPack_unpack.obj}
+    {$L Win64\WavPack_unpack_dsd.obj}
+    {$L Win64\WavPack_unpack_floats.obj}
+    {$L Win64\WavPack_unpack_seek.obj}
+    {$L Win64\WavPack_unpack_utils.obj}
+    {$L Win64\WavPack_unpack3.obj}
+    {$L Win64\WavPack_unpack3_open.obj}
+    {$L Win64\WavPack_unpack3_seek.obj}
+  {$IFEND}
+{$ENDIF}
 
 { wavpack_local.h ========================================================== }
 
@@ -360,8 +369,6 @@ end;
 //
 // Based on wvunpack.c::unpack_file()
 procedure DecompressWavPack(aSrc, aDes: TStream);
-type
-  PtrInt = {$IF DEFINED(CPUX64)}Int64{$ELSE}Integer{$IFEND};
 const
   OutputBufSize = 256 * 1024;
 var
