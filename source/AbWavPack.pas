@@ -51,7 +51,7 @@ implementation
 {$IFDEF MSWINDOWS}
 
 uses
-  System.Crtl,
+  Crtl,
   System.Math,
   System.AnsiStrings,
   System.SysUtils,
@@ -60,10 +60,10 @@ uses
 type
   PUInt32 = ^UInt32;
 
-// Compile using
-//   bcc32 -DWIN32 -DNO_USE_FSTREAMS -c -w-8004 -w-8012 -w-8017 -w-8057 -w-8065 *.c
-//
-// In wavpack_local.h remove the line "#define FASTCALL __fastcall"
+{$IFDEF CPUARM64}
+  {$DEFINE USE_LIBWAVPACK}
+  const libwavpack = 'WinARM64EC\wavpack.a';
+{$ENDIF}
 
 { C runtime library ======================================================== }
 
@@ -97,63 +97,100 @@ end;
 { Forward declarations ===================================================== }
 
 // common_utils.c
-procedure sample_rates; external;
-procedure WavpackLittleEndianToNative; external;
-procedure WavpackGetSampleIndex64; external;
-procedure WavpackNativeToLittleEndian; external;
-procedure WavpackFloatNormalize; external;
+procedure sample_rates; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure WavpackLittleEndianToNative; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure WavpackGetSampleIndex64; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure WavpackNativeToLittleEndian; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure WavpackFloatNormalize; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 // decorr_utils.c
-procedure free_streams; external;
-procedure read_decorr_samples; external;
-procedure read_decorr_terms; external;
-procedure read_decorr_weights; external;
-procedure read_shaping_info; external;
+procedure free_streams; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure read_decorr_samples; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure read_decorr_terms; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure read_decorr_weights; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure read_shaping_info; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 // entropy_utils.c
-procedure log2buffer; external;
-procedure read_entropy_vars; external;
-procedure read_hybrid_profile; external;
-procedure restore_weight; external;
-procedure store_weight; external;
+procedure log2buffer; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure read_entropy_vars; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure read_hybrid_profile; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure restore_weight; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure store_weight; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 // extra1.c
-procedure execute_mono; external;
+procedure execute_mono; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 // extra2.c
-procedure execute_stereo; external;
+procedure execute_stereo; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 // open_utils.c
-procedure bs_close_read; external;
-procedure read_next_header; external;
-procedure read_wvc_block; external;
-procedure unpack_init; external;
-procedure WavpackVerifySingleBlock; external;
+procedure bs_close_read; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure read_next_header; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure read_wvc_block; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure unpack_init; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure WavpackVerifySingleBlock; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 // read_words.c
-procedure get_word; external;
-procedure get_words_lossless; external;
+procedure get_word; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure get_words_lossless; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 // tags.c
-procedure free_tag; external;
-procedure load_tag; external;
-procedure valid_tag; external;
+procedure free_tag; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure load_tag; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure valid_tag; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 // unpack.c
-procedure unpack_samples; external;
+procedure unpack_samples; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 // unpack_floats.c
-procedure float_values; external;
+procedure float_values; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 // write_words.c
-procedure flush_word; external;
-procedure init_words; external;
-procedure nosend_word; external;
-procedure scan_word; external;
-procedure send_word; external;
-procedure send_words_lossless; external;
-procedure write_entropy_vars; external;
-procedure write_hybrid_profile; external;
+procedure flush_word; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure init_words; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure nosend_word; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure scan_word; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure send_word; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure send_words_lossless; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure write_entropy_vars; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure write_hybrid_profile; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 
 { Linker derectives ======================================================== }
@@ -238,22 +275,32 @@ type
 
 function WavpackOpenFileInputEx(const reader: WavpackStreamReader;
   wv_id, wvc_id: Pointer; error: PAnsiChar; flags, norm_offset: Integer): WavpackContext;
-  cdecl; external;
+  cdecl; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
-function WavpackGetWrapperBytes(wpc: WavpackContext): uint32_t; cdecl; external;
-function WavpackGetWrapperData(wpc: WavpackContext): PByte; cdecl; external;
-procedure WavpackFreeWrapper (wpc: WavpackContext); cdecl; external;
+function WavpackGetWrapperBytes(wpc: WavpackContext): uint32_t; cdecl; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+function WavpackGetWrapperData(wpc: WavpackContext): PByte; cdecl; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+procedure WavpackFreeWrapper (wpc: WavpackContext); cdecl; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
-procedure WavpackSeekTrailingWrapper(wpc: WavpackContext); cdecl; external;
+procedure WavpackSeekTrailingWrapper(wpc: WavpackContext); cdecl; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
-function WavpackGetNumSamples(wpc: WavpackContext): uint32_t; cdecl; external;
-function WavpackGetNumChannels(wpc: WavpackContext): Integer; cdecl; external;
-function WavpackGetBytesPerSample (wpc: WavpackContext): Integer; cdecl; external;
+function WavpackGetNumSamples(wpc: WavpackContext): uint32_t; cdecl; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+function WavpackGetNumChannels(wpc: WavpackContext): Integer; cdecl; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
+function WavpackGetBytesPerSample (wpc: WavpackContext): Integer; cdecl; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 function WavpackUnpackSamples(wpc: WavpackContext; buffer: Pointer;
-  samples: uint32_t): uint32_t; cdecl; external;
+  samples: uint32_t): uint32_t; cdecl; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
-function WavpackCloseFile(wpc: WavpackContext): WavpackContext; cdecl; external;
+function WavpackCloseFile(wpc: WavpackContext): WavpackContext; cdecl; external
+  {$IFDEF USE_LIBWAVPACK}libwavpack{$ENDIF};
 
 
 { TWavPackStream implementation ============================================ }

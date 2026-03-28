@@ -12,6 +12,7 @@
 #define WAVPACK_LOCAL_H
 
 #include "wavpack.h"
+#include "bitscan_reverse.h"
 
 #if defined(_WIN32) || (defined(__WATCOMC__) && defined(__OS2__))
 #define strdup(x) _strdup(x)
