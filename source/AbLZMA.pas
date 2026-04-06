@@ -79,8 +79,13 @@ function LzmaEncodeBuffer(APUncompressedData: Pointer; AUncompressedSize: Intege
   APCompressedData: Pointer; ACompressedDataBufferCapacity: Integer;
   ACompressionLevel: Integer = -1; ADictionarySize: Integer = -1): Integer;
 
+{$IFDEF CPUARM64}
+{$DEFINE USE_LIBLZMA}
+const
+  liblzma = 'WinARM64EC\lzma.a';
+{$ENDIF}
 
-{ Types.h declarations ===================================================== }
+{ 7zTypes.h declarations =================================================== }
 
 const
   SZ_OK = 0;
@@ -135,7 +140,10 @@ const
 
 type
   CLzmaProps = packed record
-    lc, lp, pb: Cardinal;
+    lc: Byte;
+    lp: Byte;
+    pb: Byte;
+    _pad_: Byte;
     dicSize: UInt32;
   end;
 
@@ -147,18 +155,18 @@ type
   CLzmaDec = packed record
     prop: CLzmaProps;
     probs: ^CLzmaProb;
+    probs_1664: ^CLzmaProb;
     dic: PByte;
-    buf: PByte;
-    range, code: UInt32;
-    dicPos: size_t;
     dicBufSize: size_t;
+    dicPos: size_t;
+    buf: PByte;
+    range: UInt32;
+    code: UInt32;
     processedPos: UInt32;
     checkDicSize: UInt32;
-    state: Cardinal;
     reps: array[0..3] of UInt32;
-    remainLen: Cardinal;
-    needFlush: Integer;
-    needInitState: Integer;
+    state: Cardinal;
+    remainLen: UInt32;
     numProbs: UInt32;
     tempBufSize: Cardinal;
     tempBuf: array[0..LZMA_REQUIRED_INPUT_MAX - 1] of Byte;
@@ -182,19 +190,24 @@ const
   LZMA_STATUS_MAYBE_FINISHED_WITHOUT_MARK = 5; // there is probability that stream was finished without end mark
 
 procedure LzmaDec_Construct(var p: CLzmaDec); cdecl;
-procedure LzmaDec_Init(var p: CLzmaDec); cdecl; external;
+procedure LzmaDec_Init(var p: CLzmaDec); cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
 function LzmaDec_DecodeToBuf(var p: CLzmaDec; dest: PByte; var destLen: size_t;
   src: PByte; var srcLen: size_t; finishMode: ELzmaFinishMode;
-  var status: ELzmaStatus): SRes; cdecl; external;
+  var status: ELzmaStatus): SRes; cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
 function LzmaDec_Allocate(var state: CLzmaDec; prop: PByte; propsSize: Integer;
-  alloc: PISzAlloc): SRes; cdecl; external;
-procedure LzmaDec_Free(var state: CLzmaDec; alloc: PISzAlloc); cdecl; external;
+  alloc: PISzAlloc): SRes; cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure LzmaDec_Free(var state: CLzmaDec; alloc: PISzAlloc); cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
 
 // One call decoding interface
 function LzmaDecode(dest: PByte; var destLen: size_t; src: PByte;
   var srcLen: size_t; propData: PByte; propSize: Integer;
   finishMode: ELzmaFinishMode; var status: ELzmaStatus; 
-  alloc: PISzAlloc): SRes; cdecl; external;
+  alloc: PISzAlloc): SRes; cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
 
 
 { LzmaEnc.h declarations =================================================== }
@@ -205,7 +218,7 @@ type
   CLzmaEncProps = packed record
     level: Integer;         // 0 <= level <= 9
     dictSize: UInt32;       // (1 << 12) <= dictSize <= (1 << 27) for 32-bit version
-                            // (1 << 12) <= dictSize <= (1 << 30) for 64-bit version
+                            // (1 << 12) <= dictSize <= (3 << 29) for 64-bit version
                             // default = (1 << 24)
     lc: Integer;            // 0 <= lc <= 8, default = 3
     lp: Integer;            // 0 <= lp <= 4, default = 0
@@ -214,54 +227,76 @@ type
     fb: Integer;            // 5 <= fb <= 273, default = 32
     btMode: Integer;        // 0 - hashChain Mode, 1 - binTree mode - normal, default = 1
     numHashBytes: Integer;  // 2, 3 or 4, default = 4
+    numHashOutBits: Cardinal;// default = ?
     mc: UInt32;             // 1 <= mc <= (1 << 30), default = 32
     writeEndMark: Cardinal; // 0 - do not write EOPM, 1 - write EOPM, default = 0
     numThreads: Integer;    // 1 or 2, default = 2
+    affinityGroup: Int32;
+    reduceSize: UInt64;     // estimated size of data that will be compressed. default = (UInt64)(Int64)-1.
+                            // Encoder uses this value to reduce dictionary size */
+    affinity: UInt64;
+    affinityInGroup: UInt64;
   end;
 
-procedure LzmaEncProps_Init(var p: CLzmaEncProps); cdecl; external;
-function LzmaEnc_Create(Alloc: PISzAlloc): CLzmaEncHandle; cdecl; external;
-procedure LzmaEnc_Destroy(p: CLzmaEncHandle; Alloc, allocBig: PISzAlloc); cdecl; external;
-function LzmaEnc_SetProps(p: CLzmaEncHandle; var props: CLzmaEncProps): SRes; cdecl; external;
+procedure LzmaEncProps_Init(var p: CLzmaEncProps); cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+function LzmaEnc_Create(Alloc: PISzAlloc): CLzmaEncHandle; cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure LzmaEnc_Destroy(p: CLzmaEncHandle; Alloc, allocBig: PISzAlloc); cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+function LzmaEnc_SetProps(p: CLzmaEncHandle; var props: CLzmaEncProps): SRes; cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
 function LzmaEnc_WriteProperties(p: CLzmaEncHandle; properties: PByte;
-  var size: size_t): SRes; cdecl; external;
+  var size: size_t): SRes; cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
 function LzmaEnc_Encode(p: CLzmaEncHandle; outStream: PISeqOutStream;
   inStream: PISeqInStream; Progress: PICompressProgress;
-  Alloc, allocBig: PISzAlloc): SRes; cdecl; external;
+  Alloc, allocBig: PISzAlloc): SRes; cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
 function LzmaEnc_MemEncode(p: CLzmaEncHandle; dest: PByte; var destLen: size_t;
   src: PByte; srcLen: size_t; writeEndMark: Integer; Progress: PICompressProgress;
-  Alloc, allocBig: PISzAlloc): SRes; cdecl; external;
+  Alloc, allocBig: PISzAlloc): SRes; cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
 
 // One call encoding interface
 function LzmaEncode(dest: PByte; var destLen: size_t; src: PByte;
   srcLen: size_t; var props: CLzmaEncProps; propsEncoded: PByte;
   var propsSize: size_t; writeEndMark: Integer; progress: PICompressProgress;
-  alloc: pISzAlloc; allocBig: PISzAlloc): SRes; cdecl; external;
+  alloc: pISzAlloc; allocBig: PISzAlloc): SRes; cdecl; external
+  {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
 
+
+{ CpuArch.h declarations =================================================== }
+{$IFDEF CPUX64}
+procedure CPU_IsSupported_AVX2; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure CPU_IsSupported_SSE41; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+{$ENDIF}
 
 { LzFind.h declarations ==================================================== }
 
-procedure MatchFinder_NeedMove; external;
-procedure MatchFinder_GetPointerToCurrentPos; external;
-procedure MatchFinder_MoveBlock; external;
-procedure MatchFinder_ReadIfRequired; external;
-procedure MatchFinder_Construct; external;
-procedure MatchFinder_Create; external;
-procedure MatchFinder_Free; external;
-procedure MatchFinder_Normalize3; external;
-procedure MatchFinder_ReduceOffsets; external;
-procedure GetMatchesSpec1; external;
-procedure MatchFinder_Init; external;
-procedure MatchFinder_CreateVTable; external;
+procedure MatchFinder_NeedMove; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinder_MoveBlock; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinder_ReadIfRequired; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinder_Construct; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinder_Create; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinder_Free; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinder_Normalize3; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure GetMatchesSpec1; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinder_Init; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinder_CreateVTable; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinder_Init_4; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinder_Init_LowHash; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinder_Init_HighHash; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinderMt_InitMt; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
 
 
 { LzFindMt.h declarations ================================================== }
 
-procedure MatchFinderMt_Construct; external;
-procedure MatchFinderMt_Destruct; external;
-procedure MatchFinderMt_Create; external;
-procedure MatchFinderMt_CreateVTable; external;
-procedure MatchFinderMt_ReleaseStream; external;
+procedure MatchFinderMt_Construct; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinderMt_Destruct; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinderMt_Create; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinderMt_CreateVTable; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
+procedure MatchFinderMt_ReleaseStream; external {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
 
 
 { Lzma header fields ======================================================= }
@@ -289,19 +324,22 @@ procedure RaiseLzmaException(AResultCode: SRes);
 
 { Linker directives ======================================================== }
 
-{$WARN BAD_GLOBAL_SYMBOL OFF}
-{$IF DEFINED(WIN32)}
+{$IF DEFINED(CPU386)}
+  {$L Win32\CpuArch.obj}
   {$L Win32\LzFind.obj}
   {$L Win32\LzFindMt.obj}
+  {$L Win32\LzFindOpt.obj}
   {$L Win32\LzmaDec.obj}
   {$L Win32\LzmaEnc.obj}
   {$L Win32\Threads.obj}
-{$ELSEIF DEFINED(WIN64)}
-  {$L Win64\LzFind.obj}
-  {$L Win64\LzFindMt.obj}
-  {$L Win64\LzmaDec.obj}
-  {$L Win64\LzmaEnc.obj}
-  {$L Win64\Threads.obj}
+{$ELSEIF DEFINED(CPUX64)}
+  {$L Win64\CpuArch.o}
+  {$L Win64\LzFind.o}
+  {$L Win64\LzFindMt.o}
+  {$L Win64\LzFindOpt.o}
+  {$L Win64\LzmaDec.o}
+  {$L Win64\LzmaEnc.o}
+  {$L Win64\Threads.o}
 {$IFEND}
 
 {$ENDIF}

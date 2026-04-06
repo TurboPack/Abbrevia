@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////
 //                           **** WAVPACK ****                            //
 //                  Hybrid Lossless Wavefile Compressor                   //
-//              Copyright (c) 1998 - 2006 Conifer Software.               //
+//                Copyright (c) 1998 - 2024 David Bryant.                 //
 //                          All Rights Reserved.                          //
 //      Distributed under the BSD Software License (see license.txt)      //
 ////////////////////////////////////////////////////////////////////////////
@@ -11,15 +11,32 @@
 #ifndef WAVPACK_LOCAL_H
 #define WAVPACK_LOCAL_H
 
-//#if defined(WIN32)
-//#define FASTCALL __fastcall
-//#else
-#define FASTCALL
-//#endif
+#include "wavpack.h"
+#include "bitscan_reverse.h"
 
-#if defined(WIN32) || \
-    (defined(BYTE_ORDER) && defined(LITTLE_ENDIAN) && (BYTE_ORDER == LITTLE_ENDIAN))
-#define BITSTREAM_SHORTS    // use "shorts" for reading/writing bitstreams
+#if defined(_WIN32) || (defined(__WATCOMC__) && defined(__OS2__))
+#define strdup(x) _strdup(x)
+#ifndef FASTCALL
+#if defined(_M_IX86) || defined(__i386__)
+#define FASTCALL __fastcall
+#else /* !x86: */
+#define FASTCALL
+#endif
+#endif /* FASTCALL */
+#else
+#define FASTCALL
+#endif
+
+#if defined(__WATCOMC__) && defined(OPT_ASM_X86)
+#define ASMCALL __cdecl
+#else
+#define ASMCALL
+#endif
+
+#if defined(_WIN32) || defined(__WATCOMC__) || \
+    (defined(BYTE_ORDER) && defined(LITTLE_ENDIAN) && (BYTE_ORDER == LITTLE_ENDIAN)) || \
+    (defined(__BYTE_ORDER__) && defined(__ORDER_LITTLE_ENDIAN__) && (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__))
+#define BITSTREAM_SHORTS    // use 16-bit "shorts" for reading/writing bitstreams (instead of chars)
                             //  (only works on little-endian machines)
 #endif
 
@@ -27,7 +44,7 @@
 
 // This header file contains all the definitions required by WavPack.
 
-#if defined(_WIN32) && !defined(__MINGW32__)
+#if defined(_MSC_VER) && _MSC_VER < 1600
 #include <stdlib.h>
 typedef unsigned __int64 uint64_t;
 typedef unsigned __int32 uint32_t;
@@ -37,14 +54,78 @@ typedef __int64 int64_t;
 typedef __int32 int32_t;
 typedef __int16 int16_t;
 typedef __int8  int8_t;
-typedef float float32_t;
 #else
-#include <inttypes.h>
+#include <stdint.h>
+#endif
+
+// This implements portable multithreading via typedefs and macros for either
+// pthreads or native Windows threads. This is easy since the synchronization
+// constructs we are using (condition variables and mutexes / critical
+// sections) are available on both platforms with similar behavior.
+
+#ifdef ENABLE_THREADS
+
+#ifdef _WIN32
+
+#if defined(_WIN32_WINNT) && _WIN32_WINNT < 0x0600
+#undef _WIN32_WINNT
+#endif
+
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0600 /* for CONDITION_VARIABLE & co. */
+#endif
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <process.h>
+
+typedef CONDITION_VARIABLE      wp_condvar_t;
+#define wp_condvar_init(x)      InitializeConditionVariable(&x)
+#define wp_condvar_signal(x)    WakeConditionVariable(&x)
+#define wp_condvar_wait(x,y)    SleepConditionVariableCS(&x,&y,INFINITE)
+#define wp_condvar_delete(x)
+
+typedef CRITICAL_SECTION        wp_mutex_t;
+#define wp_mutex_init(x)        InitializeCriticalSection(&x)
+#define wp_mutex_obtain(x)      EnterCriticalSection(&x)
+#define wp_mutex_release(x)     LeaveCriticalSection(&x)
+#define wp_mutex_delete(x)      DeleteCriticalSection(&x)
+
+typedef HANDLE                  wp_thread_t;
+#define wp_thread_create(x,y,z) x=(HANDLE)_beginthreadex(NULL,0,y,z,0,NULL)
+#define wp_thread_join(x)       WaitForSingleObject(x,INFINITE)
+#define wp_thread_delete(x)     CloseHandle(x);
+#define wp_thread_exit(x)       _endthreadex(x);
+
+#else
+
+#include <pthread.h>
+
+typedef pthread_cond_t          wp_condvar_t;
+#define wp_condvar_init(x)      pthread_cond_init(&x,NULL);
+#define wp_condvar_signal(x)    pthread_cond_signal(&x)
+#define wp_condvar_wait(x,y)    pthread_cond_wait(&x,&y)
+#define wp_condvar_delete(x)    pthread_cond_destroy(&x)
+
+typedef pthread_mutex_t         wp_mutex_t;
+#define wp_mutex_init(x)        pthread_mutex_init(&x,NULL);
+#define wp_mutex_obtain(x)      pthread_mutex_lock(&x)
+#define wp_mutex_release(x)     pthread_mutex_unlock(&x)
+#define wp_mutex_delete(x)      pthread_mutex_destroy(&x)
+
+typedef pthread_t               wp_thread_t;
+#define wp_thread_create(x,y,z) do { if (pthread_create(&x,NULL,y,z)) x=0; } while (0)
+#define wp_thread_join(x)       pthread_join(x,NULL)
+#define wp_thread_delete(x)
+#define wp_thread_exit(x)       pthread_exit(x);
+
+#endif
+
 #endif
 
 // Because the C99 specification states that "The order of allocation of
-// bit-ﬁelds within a unit (high-order to low-order or low-order to
-// high-order) is implementation-deﬁned" (6.7.2.1), I decided to change
+// bit-fields within a unit (high-order to low-order or low-order to
+// high-order) is implementation-defined" (6.7.2.1), I decided to change
 // the representation of floating-point values from a structure of
 // bit-fields to a 32-bit integer with access macros. Note that the WavPack
 // library doesn't use any floating-point math to implement compression of
@@ -54,12 +135,13 @@ typedef float float32_t;
 typedef int32_t f32;
 
 #define get_mantissa(f)     ((f) & 0x7fffff)
+#define get_magnitude(f)    ((f) & 0x7fffffff)
 #define get_exponent(f)     (((f) >> 23) & 0xff)
 #define get_sign(f)         (((f) >> 31) & 0x1)
 
 #define set_mantissa(f,v)   (f) ^= (((f) ^ (v)) & 0x7fffff)
-#define set_exponent(f,v)   (f) ^= (((f) ^ ((v) << 23)) & 0x7f800000)
-#define set_sign(f,v)       (f) ^= (((f) ^ ((v) << 31)) & 0x80000000)
+#define set_exponent(f,v)   (f) ^= (((f) ^ ((uint32_t)(v) << 23)) & 0x7f800000)
+#define set_sign(f,v)       (f) ^= (((f) ^ ((uint32_t)(v) << 31)) & 0x80000000)
 
 #include <stdio.h>
 
@@ -85,97 +167,19 @@ typedef struct {
 #define APE_TAG_TYPE_BINARY     0x1
 #define APE_TAG_THIS_IS_HEADER  0x20000000
 #define APE_TAG_CONTAINS_HEADER 0x80000000
-#define APE_TAG_MAX_LENGTH      (1024 * 1024)
+#define APE_TAG_MAX_LENGTH      (1024 * 1024 * 16)
 
 typedef struct {
-    int32_t tag_file_pos;
+    int64_t tag_file_pos;
+    int tag_begins_file;
     ID3_Tag id3_tag;
     APE_Tag_Hdr ape_tag_hdr;
     unsigned char *ape_tag_data;
 } M_Tag;
 
-// RIFF / wav header formats (these occur at the beginning of both wav files
-// and pre-4.0 WavPack files that are not in the "raw" mode)
-
-typedef struct {
-    char ckID [4];
-    uint32_t ckSize;
-    char formType [4];
-} RiffChunkHeader;
-
-typedef struct {
-    char ckID [4];
-    uint32_t ckSize;
-} ChunkHeader;
-
-#define ChunkHeaderFormat "4L"
-
-typedef struct {
-    unsigned short FormatTag, NumChannels;
-    uint32_t SampleRate, BytesPerSecond;
-    unsigned short BlockAlign, BitsPerSample;
-    unsigned short cbSize, ValidBitsPerSample;
-    int32_t ChannelMask;
-    unsigned short SubFormat;
-    char GUID [14];
-} WaveHeader;
-
-#define WaveHeaderFormat "SSLLSSSSLS"
-
-////////////////////////////// WavPack Header /////////////////////////////////
-
-// Note that this is the ONLY structure that is written to (or read from)
-// WavPack 4.0 files, and is the preamble to every block in both the .wv
-// and .wvc files.
-
-typedef struct {
-    char ckID [4];
-    uint32_t ckSize;
-    short version;
-    unsigned char track_no, index_no;
-    uint32_t total_samples, block_index, block_samples, flags, crc;
-} WavpackHeader;
-
-#define WavpackHeaderFormat "4LS2LLLLL"
-
 // or-values for "flags"
 
-#define BYTES_STORED    3       // 1-4 bytes/sample
-#define MONO_FLAG       4       // not stereo
-#define HYBRID_FLAG     8       // hybrid mode
-#define JOINT_STEREO    0x10    // joint stereo
-#define CROSS_DECORR    0x20    // no-delay cross decorrelation
-#define HYBRID_SHAPE    0x40    // noise shape (hybrid mode only)
-#define FLOAT_DATA      0x80    // ieee 32-bit floating point data
-
-#define INT32_DATA      0x100   // special extended int handling
-#define HYBRID_BITRATE  0x200   // bitrate noise (hybrid mode only)
-#define HYBRID_BALANCE  0x400   // balance noise (hybrid stereo mode only)
-
-#define INITIAL_BLOCK   0x800   // initial block of multichannel segment
-#define FINAL_BLOCK     0x1000  // final block of multichannel segment
-
-#define SHIFT_LSB       13
-#define SHIFT_MASK      (0x1fL << SHIFT_LSB)
-
-#define MAG_LSB         18
-#define MAG_MASK        (0x1fL << MAG_LSB)
-
-#define SRATE_LSB       23
-#define SRATE_MASK      (0xfL << SRATE_LSB)
-
-#define FALSE_STEREO    0x40000000      // block is stereo, but data is mono
-
-#define IGNORED_FLAGS   0x18000000      // reserved, but ignore if encountered
-#define NEW_SHAPING     0x20000000      // use IIR filter for negative shaping
-#define UNKNOWN_FLAGS   0x80000000      // also reserved, but refuse decode if
-                                        //  encountered
-
-#define MONO_DATA (MONO_FLAG | FALSE_STEREO)
-
-#define MIN_STREAM_VERS     0x402       // lowest stream version we'll decode
-#define MAX_STREAM_VERS     0x410       // highest stream version we'll decode or encode
-#define CUR_STREAM_VERS     0x407       // stream version we are [normally] writing now
+#define CUR_STREAM_VERS     0x407       // universally compatible stream version
 
 
 //////////////////////////// WavPack Metadata /////////////////////////////////
@@ -188,77 +192,19 @@ typedef struct {
     unsigned char id;
 } WavpackMetadata;
 
-#define ID_UNIQUE               0x3f
-#define ID_OPTIONAL_DATA        0x20
-#define ID_ODD_SIZE             0x40
-#define ID_LARGE                0x80
-
-#define ID_DUMMY                0x0
-#define ID_ENCODER_INFO         0x1
-#define ID_DECORR_TERMS         0x2
-#define ID_DECORR_WEIGHTS       0x3
-#define ID_DECORR_SAMPLES       0x4
-#define ID_ENTROPY_VARS         0x5
-#define ID_HYBRID_PROFILE       0x6
-#define ID_SHAPING_WEIGHTS      0x7
-#define ID_FLOAT_INFO           0x8
-#define ID_INT32_INFO           0x9
-#define ID_WV_BITSTREAM         0xa
-#define ID_WVC_BITSTREAM        0xb
-#define ID_WVX_BITSTREAM        0xc
-#define ID_CHANNEL_INFO         0xd
-
-#define ID_RIFF_HEADER          (ID_OPTIONAL_DATA | 0x1)
-#define ID_RIFF_TRAILER         (ID_OPTIONAL_DATA | 0x2)
-#define ID_REPLAY_GAIN          (ID_OPTIONAL_DATA | 0x3)
-#define ID_CUESHEET             (ID_OPTIONAL_DATA | 0x4)
-#define ID_CONFIG_BLOCK         (ID_OPTIONAL_DATA | 0x5)
-#define ID_MD5_CHECKSUM         (ID_OPTIONAL_DATA | 0x6)
-#define ID_SAMPLE_RATE          (ID_OPTIONAL_DATA | 0x7)
 
 ///////////////////////// WavPack Configuration ///////////////////////////////
 
-// This internal structure is used during encode to provide configuration to
-// the encoding engine and during decoding to provide fle information back to
-// the higher level functions. Not all fields are used in both modes.
+/*
+ * These config flags are not actually used for external configuration, which is
+ * why they're not in the external wavpack.h file, but they are used internally
+ * in the flags field of the WavpackConfig struct.
+ */
 
-typedef struct {
-    float bitrate, shaping_weight;
-    int bits_per_sample, bytes_per_sample;
-    int qmode, flags, xmode, num_channels, float_norm_exp;
-    int32_t block_samples, extra_flags, sample_rate, channel_mask;
-    unsigned char md5_checksum [16], md5_read;
-    int num_tag_strings;
-    char **tag_strings;
-} WavpackConfig;
-
-#define CONFIG_BYTES_STORED     3       // 1-4 bytes/sample
 #define CONFIG_MONO_FLAG        4       // not stereo
-#define CONFIG_HYBRID_FLAG      8       // hybrid mode
-#define CONFIG_JOINT_STEREO     0x10    // joint stereo
-#define CONFIG_CROSS_DECORR     0x20    // no-delay cross decorrelation
-#define CONFIG_HYBRID_SHAPE     0x40    // noise shape (hybrid mode only)
 #define CONFIG_FLOAT_DATA       0x80    // ieee 32-bit floating point data
 
-#define CONFIG_FAST_FLAG        0x200   // fast mode
-#define CONFIG_HIGH_FLAG        0x800   // high quality mode
-#define CONFIG_VERY_HIGH_FLAG   0x1000  // very high
-#define CONFIG_BITRATE_KBPS     0x2000  // bitrate is kbps, not bits / sample
-#define CONFIG_AUTO_SHAPING     0x4000  // automatic noise shaping
-#define CONFIG_SHAPE_OVERRIDE   0x8000  // shaping mode specified
-#define CONFIG_JOINT_OVERRIDE   0x10000 // joint-stereo mode specified
-#define CONFIG_DYNAMIC_SHAPING  0x20000 // dynamic noise shaping
-#define CONFIG_CREATE_EXE       0x40000 // create executable
-#define CONFIG_CREATE_WVC       0x80000 // create correction file
-#define CONFIG_OPTIMIZE_WVC     0x100000 // maximize bybrid compression
-#define CONFIG_CALC_NOISE       0x800000 // calc noise in hybrid mode
 #define CONFIG_LOSSY_MODE       0x1000000 // obsolete (for information)
-#define CONFIG_EXTRA_MODE       0x2000000 // extra processing mode
-#define CONFIG_SKIP_WVX         0x4000000 // no wvx stream w/ floats & big ints
-#define CONFIG_MD5_CHECKSUM     0x8000000 // compute & store MD5 signature
-#define CONFIG_MERGE_BLOCKS     0x10000000 // merge blocks of equal redundancy (for lossyWAV)
-#define CONFIG_PAIR_UNDEF_CHANS 0x20000000 // encode undefined channels in stereo pairs
-#define CONFIG_OPTIMIZE_MONO    0x80000000 // optimize for mono streams posing as stereo
 
 /*
  * These config flags were never actually used, or are no longer used, or are
@@ -301,7 +247,7 @@ typedef struct {
 
 typedef struct bs {
 #ifdef BITSTREAM_SHORTS
-    unsigned short *buf, *end, *ptr;
+    uint16_t *buf, *end, *ptr;
 #else
     unsigned char *buf, *end, *ptr;
 #endif
@@ -316,15 +262,25 @@ typedef struct bs {
 #define MAX_NTERMS 16
 #define MAX_TERM 8
 
+// DSD-specific definitions
+
+#define MAX_HISTORY_BITS    5       // maximum number of history bits in DSD "fast" mode
+                                    // note that 5 history bits requires 32 history bins
+#define MAX_BYTES_PER_BIN   1280    // maximum bytes for the value lookup array (per bin)
+                                    //  such that the total storage per bin = 2K (also
+                                    //  counting probabilities and summed_probabilities)
+
+// Note that this structure is directly accessed in assembly files, so modify with care
+
 struct decorr_pass {
-    int term, delta, weight_A, weight_B;
+    int32_t term, delta, weight_A, weight_B;
     int32_t samples_A [MAX_TERM], samples_B [MAX_TERM];
     int32_t aweight_A, aweight_B;
     int32_t sum_A, sum_B;
 };
 
 typedef struct {
-    char joint_stereo, delta, terms [MAX_NTERMS+1];
+    signed char joint_stereo, delta, terms [MAX_NTERMS+1];
 } WavpackDecorrSpec;
 
 struct entropy_data {
@@ -339,32 +295,53 @@ struct words_data {
 };
 
 typedef struct {
+    int32_t value, filter0, filter1, filter2, filter3, filter4, filter5, filter6, factor;
+    unsigned int byte;
+} DSDfilters;
+
+typedef struct {
+    const WavpackContext *wpc;
     WavpackHeader wphdr;
     struct words_data w;
+    int stream_index;
 
     unsigned char *blockbuff, *blockend;
     unsigned char *block2buff, *block2end;
-    int32_t *sample_buffer;
+    int32_t *sample_buffer, *pre_sample_buffer;
+    uint32_t num_pre_samples;
+    int discontinuous;
 
-    int bits, num_terms, mute_error, joint_stereo, false_stereo, shift;
-    int num_decorrs, num_passes, best_decorr, mask_decorr;
-    uint32_t sample_index, crc, crc_x, crc_wvx;
+    int64_t sample_index;
+    int bits, num_terms, mute_error, joint_stereo, false_stereo, shift, lossy_blocks;
+    int num_decorrs, num_passes, best_decorr, mask_decorr, extra_flags;
+    uint32_t crc, crc_x, crc_wvx;
     Bitstream wvbits, wvcbits, wvxbits;
     int init_done, wvc_skip;
     float delta_decay;
 
     unsigned char int32_sent_bits, int32_zeros, int32_ones, int32_dups;
     unsigned char float_flags, float_shift, float_max_exp, float_norm_exp;
+    unsigned char int32_max_width, float_max_shifted_ones, float_min_shifted_zeros;
 
     struct {
         int32_t shaping_acc [2], shaping_delta [2], error [2];
         double noise_sum, noise_ave, noise_max;
-        short *shaping_data, *shaping_array;
+        int16_t *shaping_data, *shaping_array;
         int32_t shaping_samples;
     } dc;
 
     struct decorr_pass decorr_passes [MAX_NTERMS], analysis_pass;
     const WavpackDecorrSpec *decorr_specs;
+
+    struct {
+        unsigned char *byteptr, *endptr, (*probabilities) [256], *lookup_buffer, **value_lookup, mode, ready;
+        int history_bins, p0, p1;
+        uint16_t (*summed_probabilities) [256];
+        uint32_t low, high, value;
+        DSDfilters filters [2];
+        int32_t *ptable;
+    } dsd;
+
 } WavpackStream;
 
 // flags for float_flags:
@@ -379,25 +356,30 @@ typedef struct {
 /////////////////////////////// WavPack Context ///////////////////////////////
 
 // This internal structure holds everything required to encode or decode WavPack
-// files. It is recommended that direct access to this structure be minimized
-// and the provided utilities used instead.
+// files. This is an opaque pointer to clients of libwavpack.
+
+#ifdef ENABLE_THREADS
+
+// Each worker thread owns one of these contexts during its lifetime
+
+typedef enum { Uninit, Ready, Running, Done, Quit } WorkerState;
 
 typedef struct {
-    int32_t (*read_bytes)(void *id, void *data, int32_t bcount);
-    uint32_t (*get_pos)(void *id);
-    int (*set_pos_abs)(void *id, uint32_t pos);
-    int (*set_pos_rel)(void *id, int32_t delta, int mode);
-    int (*push_back_byte)(void *id, int c);
-    uint32_t (*get_length)(void *id);
-    int (*can_seek)(void *id);
+    WavpackStream *wps;
+    WorkerState state;
+    int *workers_ready, *worker_errors;
+    int32_t *outbuf;
+    uint32_t samcnt, offset;
+    int result, free_wps;
 
-    // this callback is for writing edited tags only
-    int32_t (*write_bytes)(void *id, void *data, int32_t bcount);
-} WavpackStreamReader;
+    wp_condvar_t *global_cond, worker_cond;
+    wp_mutex_t *mutex;
+    wp_thread_t thread;
+} WorkerInfo;
 
-typedef int (*WavpackBlockOutput)(void *id, void *data, int32_t bcount);
+#endif
 
-typedef struct {
+struct WavpackContext {
     WavpackConfig config;
 
     WavpackMetadata *metadata;
@@ -410,29 +392,51 @@ typedef struct {
     WavpackBlockOutput blockout;
     void *wv_out, *wvc_out;
 
-    WavpackStreamReader *reader;
+    WavpackStreamReader64 *reader;
     void *wv_in, *wvc_in;
 
-    uint32_t filelen, file2len, filepos, file2pos, total_samples, crc_errors, first_flags;
-    int wvc_flag, open_flags, norm_offset, reduced_channels, lossy_blocks, close_files;
-    uint32_t block_samples, ave_block_samples, block_boundary, max_samples, acc_samples, initial_index, riff_trailer_bytes;
+    int64_t filelen, file2len, filepos, file2pos, total_samples, initial_index;
+    uint32_t crc_errors, first_flags;
+    int wvc_flag, open_flags, norm_offset, reduced_channels, lossy_blocks, version_five;
+    uint32_t block_samples, ave_block_samples, block_boundary, max_samples, max_pre_samples, acc_samples, riff_trailer_bytes;
     int riff_header_added, riff_header_created;
     M_Tag m_tag;
 
-    int current_stream, num_streams, max_streams, stream_version;
+    int num_streams, max_streams, stream_version;
     WavpackStream **streams;
     void *stream3;
 
+    // these items were added in 5.0 to support alternate file types (especially CAF & DSD)
+    unsigned char file_format, *channel_reordering, *channel_identities;
+    uint32_t channel_layout, dsd_multiplier;
+    void *decimation_context;
+    char file_extension [8];
+
+#ifdef ENABLE_THREADS
+    // these items support multithreaded operations on multichannel streams
+    WorkerInfo *workers;
+    int num_workers, workers_ready, worker_errors;
+    wp_condvar_t global_cond;
+    wp_mutex_t mutex;
+#endif
+
+    void (*close_callback)(void *wpc);
     char error_message [80];
-} WavpackContext;
+};
 
 //////////////////////// function prototypes and macros //////////////////////
 
-#define CLEAR(destin) memset (&destin, 0, sizeof (destin));
+#define CLEAR(destin) memset (&destin, 0, sizeof (destin))
+#define CLEARA(destin) memset (destin, 0, sizeof (destin))  /* for arrays */
+
+//////////////////////////////// decorrelation //////////////////////////////
+// modules: pack.c, unpack.c, unpack_floats.c, extra1.c, extra2.c
+
+// #define SKIP_DECORRELATION   // experimental switch to disable all decorrelation on encode
 
 // These macros implement the weight application and update operations
 // that are at the heart of the decorrelation loops. Note that there are
-// sometimes two and even three versions of each macro. Theses should be
+// sometimes two and even three versions of each macro. These should be
 // equivalent and produce identical results, but some may perform better
 // or worse on a given architecture.
 
@@ -445,15 +449,17 @@ typedef struct {
 #if 1   // PERFCOND - apply decorrelation weight when 32-bit overflow is possible
 #define apply_weight_f(weight, sample) (((((sample & 0xffff) * weight) >> 9) + \
     (((sample & ~0xffff) >> 9) * weight) + 1) >> 1)
+#elif 1
+#define apply_weight_f(weight, sample) ((int32_t)((weight * (int64_t) sample + 512) >> 10))
 #else
 #define apply_weight_f(weight, sample) ((int32_t)floor(((double) weight * sample + 512.0) / 1024.0))
 #endif
 
-#if 1   // PERFCOND - universal version that checks input magnitude (or simply uses 64-bit ints)
-#define apply_weight(weight, sample) (sample != (short) sample ? \
+#if 1   // PERFCOND - universal version that checks input magnitude or always uses long version
+#define apply_weight(weight, sample) (sample != (int16_t) sample ? \
     apply_weight_f (weight, sample) : apply_weight_i (weight, sample))
 #else
-#define apply_weight(weight, sample) ((int32_t)((weight * (int64_t) sample + 512) >> 10))
+#define apply_weight(weight, sample) (apply_weight_f (weight, sample))
 #endif
 
 #if 1   // PERFCOND
@@ -467,9 +473,6 @@ typedef struct {
     if (source && result) (source ^ result) < 0 ? (weight -= delta) : (weight += delta);
 #endif
 
-#define update_weight_d2(weight, delta, source, result) \
-    if (source && result) weight -= (((source ^ result) >> 29) & 4) - 2;
-
 #define update_weight_clip(weight, delta, source, result) \
     if (source && result) { \
         const int32_t s = (source ^ result) >> 31; \
@@ -477,29 +480,60 @@ typedef struct {
         weight = (weight ^ s) - s; \
     }
 
-#define update_weight_clip_d2(weight, delta, source, result) \
-    if (source && result) { \
-        const int32_t s = (source ^ result) >> 31; \
-        if ((weight = (weight ^ s) + (2 - s)) > 1024) weight = 1024; \
-        weight = (weight ^ s) - s; \
-    }
+void pack_init (WavpackStream *wps);
+int pack_block (WavpackStream *wps, int32_t *buffer);
+void send_general_metadata (WavpackStream *wps);
+void send_pending_metadata (WavpackStream *wps);
+void free_metadata (WavpackMetadata *wpmd);
+int copy_metadata (WavpackMetadata *wpmd, unsigned char *buffer_start, unsigned char *buffer_end);
+double WavpackGetEncodedNoise (WavpackContext *wpc, double *peak);
+int unpack_init (WavpackContext *wpc, int stream);
+int read_decorr_terms (WavpackStream *wps, WavpackMetadata *wpmd);
+int read_decorr_weights (WavpackStream *wps, WavpackMetadata *wpmd);
+int read_decorr_samples (WavpackStream *wps, WavpackMetadata *wpmd);
+int read_shaping_info (WavpackStream *wps, WavpackMetadata *wpmd);
+int32_t unpack_samples (WavpackStream *wps, int32_t *buffer, uint32_t sample_count);
+int scan_float_data (WavpackStream *wps, f32 *values, int32_t num_values);
+void send_float_data (WavpackStream *wps, f32 *values, int32_t num_values);
+void float_values (WavpackStream *wps, int32_t *values, int32_t num_values);
+void dynamic_noise_shaping (WavpackStream *wps, const int32_t *buffer, int shortening_allowed);
+void execute_stereo (WavpackStream *wps, int32_t *samples, int no_history, int do_samples);
+void execute_mono (WavpackStream *wps, int32_t *samples, int no_history, int do_samples);
 
-// bits.c
+////////////////////////// DSD related (including decimation) //////////////////////////
+// modules: pack_dsd.c unpack_dsd.c
 
-void bs_open_read (Bitstream *bs, void *buffer_start, void *buffer_end);
-void bs_open_write (Bitstream *bs, void *buffer_start, void *buffer_end);
-uint32_t bs_close_read (Bitstream *bs);
-uint32_t bs_close_write (Bitstream *bs);
+void pack_dsd_init (WavpackStream *wps);
+int pack_dsd_block (WavpackStream *wps, int32_t *buffer);
+int init_dsd_block (WavpackStream *wps, WavpackMetadata *wpmd);
+int32_t unpack_dsd_samples (WavpackStream *wps, int32_t *buffer, uint32_t sample_count);
 
-int DoReadFile (FILE *hFile, void *lpBuffer, uint32_t nNumberOfBytesToRead, uint32_t *lpNumberOfBytesRead);
-int DoWriteFile (FILE *hFile, void *lpBuffer, uint32_t nNumberOfBytesToWrite, uint32_t *lpNumberOfBytesWritten);
-uint32_t DoGetFileSize (FILE *hFile), DoGetFilePosition (FILE *hFile);
-int DoSetFilePositionRelative (FILE *hFile, int32_t pos, int mode);
-int DoSetFilePositionAbsolute (FILE *hFile, uint32_t pos);
-int DoUngetc (int c, FILE *hFile), DoDeleteFile (char *filename);
-int DoCloseHandle (FILE *hFile), DoTruncateFile (FILE *hFile);
+void *decimate_dsd_init (int num_channels);
+void decimate_dsd_reset (void *decimate_context);
+void decimate_dsd_run (void *decimate_context, int32_t *samples, int num_samples);
+void decimate_dsd_destroy (void *decimate_context);
+
+///////////////////////////////// CPU feature detection ////////////////////////////////
+
+int ASMCALL unpack_cpu_has_feature_x86 (int findex);
+int ASMCALL pack_cpu_has_feature_x86 (int findex);
+
+#define CPU_FEATURE_MMX     23
+
+///////////////////////////// pre-4.0 version decoding ////////////////////////////
+// modules: unpack3.c, unpack3_open.c, unpack3_seek.c
+
+WavpackContext *open_file3 (WavpackContext *wpc, char *error);
+int32_t unpack_samples3 (WavpackContext *wpc, int32_t *buffer, uint32_t sample_count);
+int seek_sample3 (WavpackContext *wpc, uint32_t desired_index);
+uint32_t get_sample_index3 (WavpackContext *wpc);
+void free_stream3 (WavpackContext *wpc);
+int get_version3 (WavpackContext *wpc);
+
+////////////////////////////// bitstream macros & functions /////////////////////////////
 
 #define bs_is_open(bs) ((bs)->ptr != NULL)
+uint32_t bs_close_read (Bitstream *bs);
 
 #define getbit(bs) ( \
     (((bs)->bc) ? \
@@ -510,10 +544,10 @@ int DoCloseHandle (FILE *hFile), DoTruncateFile (FILE *hFile);
         ((bs)->sr >>= 1, 0) \
 )
 
-#define getbits(value, nbits, bs) { \
+#define getbits(value, nbits, bs) do { \
     while ((nbits) > (bs)->bc) { \
         if (++((bs)->ptr) == (bs)->end) (bs)->wrap (bs); \
-        (bs)->sr |= (int32_t)*((bs)->ptr) << (bs)->bc; \
+        (bs)->sr |= (uint32_t)*((bs)->ptr) << (bs)->bc; \
         (bs)->bc += sizeof (*((bs)->ptr)) * 8; \
     } \
     *(value) = (bs)->sr; \
@@ -525,31 +559,31 @@ int DoCloseHandle (FILE *hFile), DoTruncateFile (FILE *hFile);
         (bs)->bc -= (nbits); \
         (bs)->sr >>= (nbits); \
     } \
-}
+} while (0)
 
-#define putbit(bit, bs) { if (bit) (bs)->sr |= (1 << (bs)->bc); \
+#define putbit(bit, bs) do { if (bit) (bs)->sr |= (1U << (bs)->bc); \
     if (++((bs)->bc) == sizeof (*((bs)->ptr)) * 8) { \
         *((bs)->ptr) = (bs)->sr; \
         (bs)->sr = (bs)->bc = 0; \
         if (++((bs)->ptr) == (bs)->end) (bs)->wrap (bs); \
-    }}
+    }} while (0)
 
-#define putbit_0(bs) { \
+#define putbit_0(bs) do { \
     if (++((bs)->bc) == sizeof (*((bs)->ptr)) * 8) { \
         *((bs)->ptr) = (bs)->sr; \
         (bs)->sr = (bs)->bc = 0; \
         if (++((bs)->ptr) == (bs)->end) (bs)->wrap (bs); \
-    }}
+    }} while (0)
 
-#define putbit_1(bs) { (bs)->sr |= (1 << (bs)->bc); \
+#define putbit_1(bs) do { (bs)->sr |= (1U << (bs)->bc); \
     if (++((bs)->bc) == sizeof (*((bs)->ptr)) * 8) { \
         *((bs)->ptr) = (bs)->sr; \
         (bs)->sr = (bs)->bc = 0; \
         if (++((bs)->ptr) == (bs)->end) (bs)->wrap (bs); \
-    }}
+    }} while (0)
 
-#define putbits(value, nbits, bs) { \
-    (bs)->sr |= (int32_t)(value) << (bs)->bc; \
+#define putbits(value, nbits, bs) do { \
+    (bs)->sr |= (uint32_t)(value) << (bs)->bc; \
     if (((bs)->bc += (nbits)) >= sizeof (*((bs)->ptr)) * 8) \
         do { \
             *((bs)->ptr) = (bs)->sr; \
@@ -558,58 +592,64 @@ int DoCloseHandle (FILE *hFile), DoTruncateFile (FILE *hFile);
                 (bs)->sr |= ((value) >> ((nbits) - (bs)->bc)); \
             if (++((bs)->ptr) == (bs)->end) (bs)->wrap (bs); \
         } while ((bs)->bc >= sizeof (*((bs)->ptr)) * 8); \
-}
+} while (0)
 
-void little_endian_to_native (void *data, char *format);
-void native_to_little_endian (void *data, char *format);
+///////////////////////////// entropy encoder / decoder ////////////////////////////
+// modules: entropy_utils.c, read_words.c, write_words.c
 
-// pack.c
+// these control the time constant "slow_level" which is used for hybrid mode
+// that controls bitrate as a function of residual level (HYBRID_BITRATE).
+#define SLS 8
+#define SLO ((1 << (SLS - 1)))
 
-void pack_init (WavpackContext *wpc);
-int pack_block (WavpackContext *wpc, int32_t *buffer);
-double WavpackGetEncodedNoise (WavpackContext *wpc, double *peak);
+#define LIMIT_ONES 16   // maximum consecutive 1s sent for "div" data
 
-// unpack.c
+// these control the time constant of the 3 median level breakpoints
+#define DIV0 128        // 5/7 of samples
+#define DIV1 64         // 10/49 of samples
+#define DIV2 32         // 20/343 of samples
 
-int unpack_init (WavpackContext *wpc);
-int init_wv_bitstream (WavpackStream *wps, WavpackMetadata *wpmd);
-int init_wvc_bitstream (WavpackStream *wps, WavpackMetadata *wpmd);
-int init_wvx_bitstream (WavpackStream *wps, WavpackMetadata *wpmd);
-int read_decorr_terms (WavpackStream *wps, WavpackMetadata *wpmd);
-int read_decorr_weights (WavpackStream *wps, WavpackMetadata *wpmd);
-int read_decorr_samples (WavpackStream *wps, WavpackMetadata *wpmd);
-int read_shaping_info (WavpackStream *wps, WavpackMetadata *wpmd);
-int read_float_info (WavpackStream *wps, WavpackMetadata *wpmd);
-int read_int32_info (WavpackStream *wps, WavpackMetadata *wpmd);
-int read_channel_info (WavpackContext *wpc, WavpackMetadata *wpmd);
-int read_config_info (WavpackContext *wpc, WavpackMetadata *wpmd);
-int read_sample_rate (WavpackContext *wpc, WavpackMetadata *wpmd);
-int read_wrapper_data (WavpackContext *wpc, WavpackMetadata *wpmd);
-int32_t unpack_samples (WavpackContext *wpc, int32_t *buffer, uint32_t sample_count);
-int check_crc_error (WavpackContext *wpc);
+// this macro retrieves the specified median breakpoint (without frac; min = 1)
+#define GET_MED(med) (((c->median [med]) >> 4) + 1)
 
-// unpack3.c
+// These macros update the specified median breakpoints. Note that the median
+// is incremented when the sample is higher than the median, else decremented.
+// They are designed so that the median will never drop below 1 and the value
+// is essentially stationary if there are 2 increments for every 5 decrements.
 
-WavpackContext *open_file3 (WavpackContext *wpc, char *error);
-int32_t unpack_samples3 (WavpackContext *wpc, int32_t *buffer, uint32_t sample_count);
-int seek_sample3 (WavpackContext *wpc, uint32_t desired_index);
-uint32_t get_sample_index3 (WavpackContext *wpc);
-void free_stream3 (WavpackContext *wpc);
-int get_version3 (WavpackContext *wpc);
+#define INC_MED0() (c->median [0] += ((c->median [0] + DIV0) / DIV0) * 5)
+#define DEC_MED0() (c->median [0] -= ((c->median [0] + (DIV0-2)) / DIV0) * 2)
+#define INC_MED1() (c->median [1] += ((c->median [1] + DIV1) / DIV1) * 5)
+#define DEC_MED1() (c->median [1] -= ((c->median [1] + (DIV1-2)) / DIV1) * 2)
+#define INC_MED2() (c->median [2] += ((c->median [2] + DIV2) / DIV2) * 5)
+#define DEC_MED2() (c->median [2] -= ((c->median [2] + (DIV2-2)) / DIV2) * 2)
 
-// metadata.c stuff
-
-int read_metadata_buff (WavpackMetadata *wpmd, unsigned char *blockbuff, unsigned char **buffptr);
-int write_metadata_block (WavpackContext *wpc);
-int copy_metadata (WavpackMetadata *wpmd, unsigned char *buffer_start, unsigned char *buffer_end);
-int add_to_metadata (WavpackContext *wpc, void *data, uint32_t bcount, unsigned char id);
-int process_metadata (WavpackContext *wpc, WavpackMetadata *wpmd);
-void free_metadata (WavpackMetadata *wpmd);
-
-// words.c stuff
+#ifdef HAVE___BUILTIN_CLZ
+#define count_bits(av) ((av) ? 32 - __builtin_clz (av) : 0)
+#elif defined (__WATCOMC__) && defined(__386__)
+extern __inline int _bsr_watcom(uint32_t);
+#pragma aux _bsr_watcom = \
+  "bsr eax, eax" \
+  parm [eax] nomemory \
+  value [eax] \
+  modify exact [eax] nomemory;
+#define count_bits(av) ((av) ? _bsr_watcom((av)) + 1 : 0)
+#elif defined (_WIN64)
+ #ifdef _MSC_VER
+ #include <intrin.h>
+ #endif
+static __inline int count_bits (uint32_t av) { unsigned long res; return _BitScanReverse (&res, av) ? (int)(res + 1) : 0; }
+#else
+#define count_bits(av) ( \
+ (av) < (1 << 8) ? nbits_table [av] : \
+  ( \
+   (av) < (1L << 16) ? nbits_table [(av) >> 8] + 8 : \
+   ((av) < (1L << 24) ? nbits_table [(av) >> 16] + 16 : nbits_table [(av) >> 24] + 24) \
+  ) \
+)
+#endif
 
 void init_words (WavpackStream *wps);
-void word_set_bitrate (WavpackStream *wps);
 void write_entropy_vars (WavpackStream *wps, WavpackMetadata *wpmd);
 void write_hybrid_profile (WavpackStream *wps, WavpackMetadata *wpmd);
 int read_entropy_vars (WavpackStream *wps, WavpackMetadata *wpmd);
@@ -621,34 +661,39 @@ int32_t get_words_lossless (WavpackStream *wps, int32_t *buffer, int32_t nsample
 void flush_word (WavpackStream *wps);
 int32_t nosend_word (WavpackStream *wps, int32_t value, int chan);
 void scan_word (WavpackStream *wps, int32_t *samples, uint32_t num_samples, int dir);
+void update_error_limit (WavpackStream *wps);
 
-int log2s (int32_t value);
-int32_t exp2s (int log);
-uint32_t log2buffer (int32_t *samples, uint32_t num_samples, int limit);
+extern const uint32_t bitset [32];
+extern const uint32_t bitmask [32];
+extern const char nbits_table [256];
+
+int wp_log2s (int32_t value);
+int32_t wp_exp2s (int log);
+int FASTCALL wp_log2 (uint32_t avalue);
+
+#ifdef OPT_ASM_X86
+#define LOG2BUFFER log2buffer_x86
+#elif defined(OPT_ASM_X64) && (defined (_WIN64) || defined(__CYGWIN__) || defined(__MINGW64__) || defined(__midipix__))
+#define LOG2BUFFER log2buffer_x64win
+#elif defined(OPT_ASM_X64)
+#define LOG2BUFFER log2buffer_x64
+#else
+#define LOG2BUFFER log2buffer
+#endif
+
+uint32_t ASMCALL LOG2BUFFER (int32_t *samples, uint32_t num_samples, int limit);
 
 signed char store_weight (int weight);
 int restore_weight (signed char weight);
 
-#define WORD_EOF ((int32_t)(1L << 31))
+#define WORD_EOF ((int32_t)(1U << 31))
 
-// float.c
-
-void write_float_info (WavpackStream *wps, WavpackMetadata *wpmd);
-int scan_float_data (WavpackStream *wps, f32 *values, int32_t num_values);
-void send_float_data (WavpackStream *wps, f32 *values, int32_t num_values);
-int read_float_info (WavpackStream *wps, WavpackMetadata *wpmd);
-void float_values (WavpackStream *wps, int32_t *values, int32_t num_values);
 void WavpackFloatNormalize (int32_t *values, int32_t num_values, int delta_exp);
 
-// extra?.c
+/////////////////////////// high-level unpacking API and support ////////////////////////////
+// modules: open_utils.c, unpack_utils.c, unpack_seek.c, unpack_floats.c
 
-// void analyze_stereo (WavpackContext *wpc, int32_t *samples);
-// void analyze_mono (WavpackContext *wpc, int32_t *samples);
-void execute_stereo (WavpackContext *wpc, int32_t *samples, int no_history, int do_samples);
-void execute_mono (WavpackContext *wpc, int32_t *samples, int no_history, int do_samples);
-
-// wputils.c
-
+WavpackContext *WavpackOpenFileInputEx64 (WavpackStreamReader64 *reader, void *wv_id, void *wvc_id, char *error, int flags, int norm_offset);
 WavpackContext *WavpackOpenFileInputEx (WavpackStreamReader *reader, void *wv_id, void *wvc_id, char *error, int flags, int norm_offset);
 WavpackContext *WavpackOpenFileInput (const char *infilename, char *error, int flags, int norm_offset);
 
@@ -660,33 +705,51 @@ WavpackContext *WavpackOpenFileInput (const char *infilename, char *error, int f
 #define OPEN_STREAMING  0x20    // "streaming" mode blindly unpacks blocks
                                 // w/o regard to header file position info
 #define OPEN_EDIT_TAGS  0x40    // allow editing of tags
+#define OPEN_FILE_UTF8  0x80    // assume filenames are UTF-8 encoded, not ANSI (Windows only)
+
+// new for version 5
+
+#define OPEN_DSD_NATIVE 0x100   // open DSD files as bitstreams
+                                // (returned as 8-bit "samples" stored in 32-bit words)
+#define OPEN_DSD_AS_PCM 0x200   // open DSD files as 24-bit PCM (decimated 8x)
+#define OPEN_ALT_TYPES  0x400   // application is aware of alternate file types & qmode
+                                // (just affects retrieving wrappers & MD5 checksums)
+#define OPEN_NO_CHECKSUM 0x800  // don't verify block checksums before decoding
 
 int WavpackGetMode (WavpackContext *wpc);
 
-#define MODE_WVC        0x1
-#define MODE_LOSSLESS   0x2
-#define MODE_HYBRID     0x4
-#define MODE_FLOAT      0x8
-#define MODE_VALID_TAG  0x10
-#define MODE_HIGH       0x20
-#define MODE_FAST       0x40
-#define MODE_EXTRA      0x80    // extra mode used, see MODE_XMODE for possible level
-#define MODE_APETAG     0x100
-#define MODE_SFX        0x200
-#define MODE_VERY_HIGH  0x400
-#define MODE_MD5        0x800
-#define MODE_XMODE      0x7000  // mask for extra level (1-6, 0=unknown)
-#define MODE_DNS        0x8000
-
-char *WavpackGetErrorMessage (WavpackContext *wpc);
+int WavpackGetQualifyMode (WavpackContext *wpc);
 int WavpackGetVersion (WavpackContext *wpc);
 uint32_t WavpackUnpackSamples (WavpackContext *wpc, int32_t *buffer, uint32_t samples);
-uint32_t WavpackGetNumSamples (WavpackContext *wpc);
-uint32_t WavpackGetSampleIndex (WavpackContext *wpc);
-int WavpackGetNumErrors (WavpackContext *wpc);
-int WavpackLossyBlocks (WavpackContext *wpc);
 int WavpackSeekSample (WavpackContext *wpc, uint32_t sample);
-WavpackContext *WavpackCloseFile (WavpackContext *wpc);
+int WavpackSeekSample64 (WavpackContext *wpc, int64_t sample);
+int WavpackGetMD5Sum (WavpackContext *wpc, unsigned char data [16]);
+
+int WavpackVerifySingleBlock (unsigned char *buffer, int verify_checksum);
+uint32_t read_next_header (WavpackStreamReader64 *reader, void *id, WavpackHeader *wphdr);
+int read_wvc_block (WavpackContext *wpc, int stream);
+
+/////////////////////////// high-level packing API and support ////////////////////////////
+// modules: pack_utils.c, pack_floats.c
+
+WavpackContext *WavpackOpenFileOutput (WavpackBlockOutput blockout, void *wv_id, void *wvc_id);
+int WavpackSetConfiguration (WavpackContext *wpc, WavpackConfig *config, uint32_t total_samples);
+int WavpackSetConfiguration64 (WavpackContext *wpc, WavpackConfig *config, int64_t total_samples, const unsigned char *chan_ids);
+int WavpackPackInit (WavpackContext *wpc);
+int WavpackAddWrapper (WavpackContext *wpc, void *data, uint32_t bcount);
+int WavpackPackSamples (WavpackContext *wpc, int32_t *sample_buffer, uint32_t sample_count);
+int WavpackFlushSamples (WavpackContext *wpc);
+int WavpackStoreMD5Sum (WavpackContext *wpc, unsigned char data [16]);
+void WavpackSeekTrailingWrapper (WavpackContext *wpc);
+void WavpackUpdateNumSamples (WavpackContext *wpc, void *first_block);
+void *WavpackGetWrapperLocation (void *first_block, uint32_t *size);
+
+/////////////////////////////////// common utilities ////////////////////////////////////
+// module: common_utils.c
+
+extern const uint32_t sample_rates [16];
+uint32_t WavpackGetLibraryVersion (void);
+const char *WavpackGetLibraryVersionString (void);
 uint32_t WavpackGetSampleRate (WavpackContext *wpc);
 int WavpackGetBitsPerSample (WavpackContext *wpc);
 int WavpackGetBytesPerSample (WavpackContext *wpc);
@@ -694,34 +757,35 @@ int WavpackGetNumChannels (WavpackContext *wpc);
 int WavpackGetChannelMask (WavpackContext *wpc);
 int WavpackGetReducedChannels (WavpackContext *wpc);
 int WavpackGetFloatNormExp (WavpackContext *wpc);
-int WavpackGetMD5Sum (WavpackContext *wpc, unsigned char data [16]);
+uint32_t WavpackGetNumSamples (WavpackContext *wpc);
+int64_t WavpackGetNumSamples64 (WavpackContext *wpc);
+uint32_t WavpackGetSampleIndex (WavpackContext *wpc);
+int64_t WavpackGetSampleIndex64 (WavpackContext *wpc);
+char *WavpackGetErrorMessage (WavpackContext *wpc);
+int WavpackGetNumErrors (WavpackContext *wpc);
+int WavpackLossyBlocks (WavpackContext *wpc);
 uint32_t WavpackGetWrapperBytes (WavpackContext *wpc);
 unsigned char *WavpackGetWrapperData (WavpackContext *wpc);
 void WavpackFreeWrapper (WavpackContext *wpc);
-void WavpackSeekTrailingWrapper (WavpackContext *wpc);
 double WavpackGetProgress (WavpackContext *wpc);
 uint32_t WavpackGetFileSize (WavpackContext *wpc);
+int64_t WavpackGetFileSize64 (WavpackContext *wpc);
 double WavpackGetRatio (WavpackContext *wpc);
 double WavpackGetAverageBitrate (WavpackContext *wpc, int count_wvc);
 double WavpackGetInstantBitrate (WavpackContext *wpc);
-
-WavpackContext *WavpackOpenFileOutput (WavpackBlockOutput blockout, void *wv_id, void *wvc_id);
-int WavpackSetConfiguration (WavpackContext *wpc, WavpackConfig *config, uint32_t total_samples);
-int WavpackAddWrapper (WavpackContext *wpc, void *data, uint32_t bcount);
-int WavpackStoreMD5Sum (WavpackContext *wpc, unsigned char data [16]);
-int WavpackPackInit (WavpackContext *wpc);
-int WavpackPackSamples (WavpackContext *wpc, int32_t *sample_buffer, uint32_t sample_count);
-int WavpackFlushSamples (WavpackContext *wpc);
-void WavpackUpdateNumSamples (WavpackContext *wpc, void *first_block);
-void *WavpackGetWrapperLocation (void *first_block, uint32_t *size);
-
+WavpackContext *WavpackCloseFile (WavpackContext *wpc);
 void WavpackLittleEndianToNative (void *data, char *format);
 void WavpackNativeToLittleEndian (void *data, char *format);
+void WavpackBigEndianToNative (void *data, char *format);
+void WavpackNativeToBigEndian (void *data, char *format);
 
-uint32_t WavpackGetLibraryVersion (void);
-const char *WavpackGetLibraryVersionString (void);
+void install_close_callback (WavpackContext *wpc, void cb_func (void *wpc));
+void free_single_stream (WavpackStream *wps);
+void free_dsd_tables (WavpackStream *wps);
+void free_streams (WavpackContext *wpc);
 
-// tags.c
+/////////////////////////////////// tag utilities ////////////////////////////////////
+// modules: tags.c, tag_utils.c
 
 int WavpackGetNumTagItems (WavpackContext *wpc);
 int WavpackGetTagItem (WavpackContext *wpc, const char *item, char *value, int size);
@@ -736,59 +800,7 @@ int WavpackWriteTag (WavpackContext *wpc);
 int load_tag (WavpackContext *wpc);
 void free_tag (M_Tag *m_tag);
 int valid_tag (M_Tag *m_tag);
-
-///////////////////////////// SIMD helper macros /////////////////////////////
-
-#ifdef OPT_MMX
-
-#if defined (__GNUC__) && !defined (__INTEL_COMPILER)
-//directly map to gcc's native builtins for faster code
-
-#if __GNUC__ < 4
-typedef int __di __attribute__ ((__mode__ (__DI__)));
-typedef int __m64 __attribute__ ((__mode__ (__V2SI__)));
-typedef int __v4hi __attribute__ ((__mode__ (__V4HI__)));
-#define _m_paddsw(m1, m2) (__m64) __builtin_ia32_paddsw ((__v4hi) m1, (__v4hi) m2)
-#define _m_pand(m1, m2) (__m64) __builtin_ia32_pand ((__di) m1, (__di) m2)
-#define _m_pandn(m1, m2) (__m64) __builtin_ia32_pandn ((__di) m1, (__di) m2)
-#define _m_pmaddwd(m1, m2) __builtin_ia32_pmaddwd ((__v4hi) m1, (__v4hi) m2)
-#define _m_por(m1, m2) (__m64) __builtin_ia32_por ((__di) m1, (__di) m2)
-#define _m_pxor(m1, m2) (__m64) __builtin_ia32_pxor ((__di) m1, (__di) m2)
-#else
-typedef int __m64 __attribute__ ((__vector_size__ (8)));
-typedef short __m64_16 __attribute__ ((__vector_size__ (8)));
-#define _m_paddsw(m1, m2) (__m64) __builtin_ia32_paddsw ((__m64_16) m1, (__m64_16) m2)
-#define _m_pand(m1, m2) __builtin_ia32_pand (m1, m2)
-#define _m_pandn(m1, m2) __builtin_ia32_pandn (m1, m2)
-#define _m_pmaddwd(m1, m2) __builtin_ia32_pmaddwd ((__m64_16) m1, (__m64_16) m2)
-#define _m_por(m1, m2) __builtin_ia32_por (m1, m2)
-#define _m_pxor(m1, m2) __builtin_ia32_pxor (m1, m2)
-#endif
-
-#define _m_paddd(m1, m2) __builtin_ia32_paddd (m1, m2)
-#define _m_pcmpeqd(m1, m2) __builtin_ia32_pcmpeqd (m1, m2)
-
-#if (__GNUC__ == 4 && __GNUC_MINOR__ >= 4) || __GNUC__ > 4
-#	define _m_pslldi(m1, m2) __builtin_ia32_pslldi ((__m64)m1, m2)
-#	define _m_psradi(m1, m2) __builtin_ia32_psradi ((__m64)m1, m2)
-#	define _m_psrldi(m1, m2) __builtin_ia32_psrldi ((__m64)m1, m2)
-#else
-#	define _m_pslldi(m1, m2) __builtin_ia32_pslld (m1, m2)
-#	define _m_psradi(m1, m2) __builtin_ia32_psrad (m1, m2)
-#	define _m_psrldi(m1, m2) __builtin_ia32_psrld (m1, m2)
-#endif
-
-#define _m_psubd(m1, m2) __builtin_ia32_psubd (m1, m2)
-#define _m_punpckhdq(m1, m2) __builtin_ia32_punpckhdq (m1, m2)
-#define _m_punpckldq(m1, m2) __builtin_ia32_punpckldq (m1, m2)
-#define _mm_empty() __builtin_ia32_emms ()
-#define _mm_set_pi32(m1, m2) { m2, m1 }
-#define _mm_set1_pi32(m) { m, m }
-
-#else
-#include <mmintrin.h>
-#endif
-
-#endif //OPT_MMX
+int editable_tag (M_Tag *m_tag);
 
 #endif
+

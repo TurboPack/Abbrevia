@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////
 //                           **** WAVPACK ****                            //
 //                  Hybrid Lossless Wavefile Compressor                   //
-//              Copyright (c) 1998 - 2006 Conifer Software.               //
+//                Copyright (c) 1998 - 2025 David Bryant                  //
 //                          All Rights Reserved.                          //
 //      Distributed under the BSD Software License (see license.txt)      //
 ////////////////////////////////////////////////////////////////////////////
@@ -10,28 +10,41 @@
 
 // This module handles the "extra" mode for mono files.
 
-#include "wavpack_local.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
 
-//#define USE_OVERHEAD
-#define LOG_LIMIT 6912
-//#define EXTRA_DUMP
+#include "wavpack_local.h"
 
-#ifdef DEBUG_ALLOC
-#define malloc malloc_db
-#define realloc realloc_db
-#define free free_db
-void *malloc_db (uint32_t size);
-void *realloc_db (void *ptr, uint32_t size);
-void free_db (void *ptr);
-int32_t dump_alloc (void);
+// This flag causes this module to take into account the size of the header
+// (which grows with more decorrelation passes) when making decisions about
+// adding additional passes (as opposed to just considering the resulting
+// magnitude of the residuals). With really long blocks it seems to actually
+// hurt compression (for reasons I cannot explain), but with short blocks it
+// works okay, so we're enabling it for now.
+
+#define USE_OVERHEAD
+
+// If the log2 value of any sample in a buffer being scanned exceeds this value,
+// we abandon that configuration. This prevents us from going down paths that
+// are wildly unstable.
+
+#define LOG_LIMIT 6912
+
+//#define EXTRA_DUMP        // dump generated filter data  error_line()
+
+#ifdef OPT_ASM_X86
+    #define PACK_DECORR_MONO_PASS_CONT pack_decorr_mono_pass_cont_x86
+#elif defined(OPT_ASM_X64) && (defined (_WIN64) || defined(__CYGWIN__) || defined(__MINGW64__) || defined(__midipix__))
+    #define PACK_DECORR_MONO_PASS_CONT pack_decorr_mono_pass_cont_x64win
+#elif defined(OPT_ASM_X64)
+    #define PACK_DECORR_MONO_PASS_CONT pack_decorr_mono_pass_cont_x64
 #endif
 
-//////////////////////////////// local tables ///////////////////////////////
+#ifdef PACK_DECORR_MONO_PASS_CONT
+    void ASMCALL PACK_DECORR_MONO_PASS_CONT (int32_t *out_buffer, int32_t *in_buffer,  struct decorr_pass *dpp, int32_t sample_count);
+#endif
 
 typedef struct {
     int32_t *sampleptrs [MAX_NTERMS+2];
@@ -42,13 +55,22 @@ typedef struct {
 
 static void decorr_mono_pass (int32_t *in_samples, int32_t *out_samples, uint32_t num_samples, struct decorr_pass *dpp, int dir)
 {
+    int32_t cont_samples = 0;
     int m = 0, i;
+
+#ifdef PACK_DECORR_MONO_PASS_CONT
+    if (num_samples > 16 && dir > 0) {
+        int32_t pre_samples = (dpp->term > MAX_TERM) ? 2 : dpp->term;
+        cont_samples = num_samples - pre_samples;
+        num_samples = pre_samples;
+    }
+#endif
 
     dpp->sum_A = 0;
 
     if (dir < 0) {
-        out_samples += (num_samples - 1);
-        in_samples += (num_samples - 1);
+        out_samples += (num_samples + cont_samples - 1);
+        in_samples += (num_samples + cont_samples - 1);
         dir = -1;
     }
     else
@@ -57,7 +79,7 @@ static void decorr_mono_pass (int32_t *in_samples, int32_t *out_samples, uint32_
     dpp->weight_A = restore_weight (store_weight (dpp->weight_A));
 
     for (i = 0; i < 8; ++i)
-        dpp->samples_A [i] = exp2s (log2s (dpp->samples_A [i]));
+        dpp->samples_A [i] = wp_exp2s (wp_log2s (dpp->samples_A [i]));
 
     if (dpp->term > MAX_TERM) {
         while (num_samples--) {
@@ -108,6 +130,23 @@ static void decorr_mono_pass (int32_t *in_samples, int32_t *out_samples, uint32_
             m = (m + 1) & (MAX_TERM - 1);
         }
     }
+
+#ifdef PACK_DECORR_MONO_PASS_CONT
+    if (cont_samples)
+        PACK_DECORR_MONO_PASS_CONT (out_samples, in_samples, dpp, cont_samples);
+#endif
+}
+
+static void decorr_mono_pass_reverse (int32_t *in_samples, int32_t *out_samples, uint32_t num_samples, struct decorr_pass *dpp)
+{
+    if (num_samples < 2048) {
+        int passes = (2048 + num_samples - 1) / num_samples;    // i.e., ceil (2048.0 / num_samples)
+
+        while (passes--)
+            decorr_mono_pass (in_samples, out_samples, num_samples, dpp, -1);
+    }
+    else
+        decorr_mono_pass (in_samples, out_samples, 2048, dpp, -1);
 }
 
 static void reverse_mono_decorr (struct decorr_pass *dpp)
@@ -160,13 +199,13 @@ static void decorr_mono_buffer (int32_t *samples, int32_t *outsamples, uint32_t 
     CLEAR (dp);
     dp.term = term;
     dp.delta = pre_delta;
-    decorr_mono_pass (samples, outsamples, num_samples > 2048 ? 2048 : num_samples, &dp, -1);
+    decorr_mono_pass_reverse (samples, outsamples, num_samples, &dp);
     dp.delta = delta;
 
     if (tindex == 0)
         reverse_mono_decorr (&dp);
     else
-        CLEAR (dp.samples_A);
+        CLEARA (dp.samples_A);
 
     memcpy (dppi->samples_A, dp.samples_A, sizeof (dp.samples_A));
     dppi->weight_A = dp.weight_A;
@@ -197,17 +236,16 @@ static int log2overhead (int first_term, int num_terms)
 #endif
 }
 
-static void recurse_mono (WavpackContext *wpc, WavpackExtraInfo *info, int depth, int delta, uint32_t input_bits)
+static void recurse_mono (WavpackStream *wps, WavpackExtraInfo *info, int depth, int delta, uint32_t input_bits)
 {
-    WavpackStream *wps = wpc->streams [wpc->current_stream];
-    int term, branches = ((wpc->config.extra_flags & EXTRA_BRANCHES) >> 6) - depth;
+    int term, branches = ((wps->extra_flags & EXTRA_BRANCHES) >> 6) - depth;
     int32_t *samples, *outsamples;
     uint32_t term_bits [22], bits;
 
     if (branches < 1 || depth + 1 == info->nterms)
         branches = 1;
 
-    CLEAR (term_bits);
+    CLEARA (term_bits);
     samples = info->sampleptrs [depth];
     outsamples = info->sampleptrs [depth + 1];
 
@@ -218,20 +256,20 @@ static void recurse_mono (WavpackContext *wpc, WavpackExtraInfo *info, int depth
         if (term > 8 && term < 17)
             continue;
 
-        if ((wpc->config.flags & CONFIG_FAST_FLAG) && (term > 4 && term < 17))
+        if ((wps->wpc->config.flags & CONFIG_FAST_FLAG) && (term > 4 && term < 17))
             continue;
 
         info->dps [depth].term = term;
         info->dps [depth].delta = delta;
         decorr_mono_buffer (samples, outsamples, wps->wphdr.block_samples, info->dps, depth);
-        bits = log2buffer (outsamples, wps->wphdr.block_samples, info->log_limit);
+        bits = LOG2BUFFER (outsamples, wps->wphdr.block_samples, info->log_limit);
 
-        if (bits != (uint32_t) -1)
+        if (bits != (uint32_t) -1 && !(wps->wphdr.flags & HYBRID_FLAG))
             bits += log2overhead (info->dps [0].term, depth + 1);
 
         if (bits < info->best_bits) {
             info->best_bits = bits;
-            CLEAR (wps->decorr_passes);
+            CLEARA (wps->decorr_passes);
             memcpy (wps->decorr_passes, info->dps, sizeof (info->dps [0]) * (depth + 1));
             memcpy (info->sampleptrs [info->nterms + 1], info->sampleptrs [depth + 1], wps->wphdr.block_samples * 4);
         }
@@ -262,13 +300,12 @@ static void recurse_mono (WavpackContext *wpc, WavpackExtraInfo *info, int depth
 //      if (log2buffer (outsamples, wps->wphdr.block_samples * 2, 0) != local_best_bits)
 //          error_line ("data doesn't match!");
 
-        recurse_mono (wpc, info, depth + 1, delta, local_best_bits);
+        recurse_mono (wps, info, depth + 1, delta, local_best_bits);
     }
 }
 
-static void delta_mono (WavpackContext *wpc, WavpackExtraInfo *info)
+static void delta_mono (WavpackStream *wps, WavpackExtraInfo *info)
 {
-    WavpackStream *wps = wpc->streams [wpc->current_stream];
     int lower = FALSE, delta, d;
     uint32_t bits;
 
@@ -289,15 +326,15 @@ static void delta_mono (WavpackContext *wpc, WavpackExtraInfo *info)
             decorr_mono_buffer (info->sampleptrs [i], info->sampleptrs [i+1], wps->wphdr.block_samples, info->dps, i);
         }
 
-        bits = log2buffer (info->sampleptrs [i], wps->wphdr.block_samples, info->log_limit);
+        bits = LOG2BUFFER (info->sampleptrs [i], wps->wphdr.block_samples, info->log_limit);
 
-        if (bits != (uint32_t) -1)
+        if (bits != (uint32_t) -1 && !(wps->wphdr.flags & HYBRID_FLAG))
             bits += log2overhead (wps->decorr_passes [0].term, i);
 
         if (bits < info->best_bits) {
             lower = TRUE;
             info->best_bits = bits;
-            CLEAR (wps->decorr_passes);
+            CLEARA (wps->decorr_passes);
             memcpy (wps->decorr_passes, info->dps, sizeof (info->dps [0]) * i);
             memcpy (info->sampleptrs [info->nterms + 1], info->sampleptrs [i], wps->wphdr.block_samples * 4);
         }
@@ -314,14 +351,14 @@ static void delta_mono (WavpackContext *wpc, WavpackExtraInfo *info)
             decorr_mono_buffer (info->sampleptrs [i], info->sampleptrs [i+1], wps->wphdr.block_samples, info->dps, i);
         }
 
-        bits = log2buffer (info->sampleptrs [i], wps->wphdr.block_samples, info->log_limit);
+        bits = LOG2BUFFER (info->sampleptrs [i], wps->wphdr.block_samples, info->log_limit);
 
-        if (bits != (uint32_t) -1)
+        if (bits != (uint32_t) -1 && !(wps->wphdr.flags & HYBRID_FLAG))
             bits += log2overhead (wps->decorr_passes [0].term, i);
 
         if (bits < info->best_bits) {
             info->best_bits = bits;
-            CLEAR (wps->decorr_passes);
+            CLEARA (wps->decorr_passes);
             memcpy (wps->decorr_passes, info->dps, sizeof (info->dps [0]) * i);
             memcpy (info->sampleptrs [info->nterms + 1], info->sampleptrs [i], wps->wphdr.block_samples * 4);
         }
@@ -330,9 +367,8 @@ static void delta_mono (WavpackContext *wpc, WavpackExtraInfo *info)
     }
 }
 
-static void sort_mono (WavpackContext *wpc, WavpackExtraInfo *info)
+static void sort_mono (WavpackStream *wps, WavpackExtraInfo *info)
 {
-    WavpackStream *wps = wpc->streams [wpc->current_stream];
     int reversed = TRUE;
     uint32_t bits;
 
@@ -358,15 +394,15 @@ static void sort_mono (WavpackContext *wpc, WavpackExtraInfo *info)
             for (i = ri; i < info->nterms && wps->decorr_passes [i].term; ++i)
                 decorr_mono_buffer (info->sampleptrs [i], info->sampleptrs [i+1], wps->wphdr.block_samples, info->dps, i);
 
-            bits = log2buffer (info->sampleptrs [i], wps->wphdr.block_samples, info->log_limit);
+            bits = LOG2BUFFER (info->sampleptrs [i], wps->wphdr.block_samples, info->log_limit);
 
-            if (bits != (uint32_t) -1)
+            if (bits != (uint32_t) -1 && !(wps->wphdr.flags & HYBRID_FLAG))
                 bits += log2overhead (wps->decorr_passes [0].term, i);
 
             if (bits < info->best_bits) {
                 reversed = TRUE;
                 info->best_bits = bits;
-                CLEAR (wps->decorr_passes);
+                CLEARA (wps->decorr_passes);
                 memcpy (wps->decorr_passes, info->dps, sizeof (info->dps [0]) * i);
                 memcpy (info->sampleptrs [info->nterms + 1], info->sampleptrs [i], wps->wphdr.block_samples * 4);
             }
@@ -381,9 +417,8 @@ static void sort_mono (WavpackContext *wpc, WavpackExtraInfo *info)
 
 static const uint32_t xtable [] = { 91, 123, 187, 251 };
 
-static void analyze_mono (WavpackContext *wpc, int32_t *samples, int do_samples)
+static void analyze_mono (WavpackStream *wps, int32_t *samples, int32_t *best_buffer)
 {
-    WavpackStream *wps = wpc->streams [wpc->current_stream];
     WavpackExtraInfo info;
     int i;
 
@@ -396,10 +431,10 @@ static void analyze_mono (WavpackContext *wpc, int32_t *samples, int do_samples)
     info.log_limit = 0;
 #endif
 
-    if (wpc->config.flags & (CONFIG_HIGH_FLAG | CONFIG_VERY_HIGH_FLAG))
-        wpc->config.extra_flags = xtable [wpc->config.xmode - 4];
+    if (wps->wpc->config.flags & (CONFIG_HIGH_FLAG | CONFIG_VERY_HIGH_FLAG))
+        wps->extra_flags = xtable [wps->wpc->config.xmode - 4];
     else
-        wpc->config.extra_flags = xtable [wpc->config.xmode - 3];
+        wps->extra_flags = xtable [wps->wpc->config.xmode - 3];
 
     info.nterms = wps->num_terms;
 
@@ -412,31 +447,33 @@ static void analyze_mono (WavpackContext *wpc, int32_t *samples, int do_samples)
     for (i = 0; i < info.nterms && info.dps [i].term; ++i)
         decorr_mono_pass (info.sampleptrs [i], info.sampleptrs [i + 1], wps->wphdr.block_samples, info.dps + i, 1);
 
-    info.best_bits = log2buffer (info.sampleptrs [info.nterms], wps->wphdr.block_samples, 0) * 1;
-    info.best_bits += log2overhead (info.dps [0].term, i);
+    info.best_bits = LOG2BUFFER (info.sampleptrs [info.nterms], wps->wphdr.block_samples, 0) * 1;
+
+    if (!(wps->wphdr.flags & HYBRID_FLAG))
+        info.best_bits += log2overhead (info.dps [0].term, i);
+
     memcpy (info.sampleptrs [info.nterms + 1], info.sampleptrs [i], wps->wphdr.block_samples * 4);
 
-    if (wpc->config.extra_flags & EXTRA_BRANCHES)
-        recurse_mono (wpc, &info, 0, (int) floor (wps->delta_decay + 0.5),
-            log2buffer (info.sampleptrs [0], wps->wphdr.block_samples, 0));
+    if (wps->extra_flags & EXTRA_BRANCHES) {
+        int recurse_delta = 2;  // default delta
 
-    if (wpc->config.extra_flags & EXTRA_SORT_FIRST)
-        sort_mono (wpc, &info);
+        if ((wps->extra_flags & EXTRA_TRY_DELTAS) && (wps->extra_flags & EXTRA_ADJUST_DELTAS))
+            recurse_delta = (int) floor (wps->delta_decay + 0.5);
 
-    if (wpc->config.extra_flags & EXTRA_TRY_DELTAS) {
-        delta_mono (wpc, &info);
-
-        if ((wpc->config.extra_flags & EXTRA_ADJUST_DELTAS) && wps->decorr_passes [0].term)
-            wps->delta_decay = (float)((wps->delta_decay * 2.0 + wps->decorr_passes [0].delta) / 3.0);
-        else
-            wps->delta_decay = 2.0;
+        recurse_mono (wps, &info, 0, recurse_delta, LOG2BUFFER (info.sampleptrs [0], wps->wphdr.block_samples, 0));
     }
 
-    if (wpc->config.extra_flags & EXTRA_SORT_LAST)
-        sort_mono (wpc, &info);
+    if (wps->extra_flags & EXTRA_SORT_FIRST)
+        sort_mono (wps, &info);
 
-    if (do_samples)
-        memcpy (samples, info.sampleptrs [info.nterms + 1], wps->wphdr.block_samples * 4);
+    if (wps->extra_flags & EXTRA_TRY_DELTAS)
+        delta_mono (wps, &info);
+
+    if (wps->extra_flags & EXTRA_SORT_LAST)
+        sort_mono (wps, &info);
+
+    if (best_buffer)
+        memcpy (best_buffer, info.sampleptrs [info.nterms + 1], wps->wphdr.block_samples * 4);
 
     for (i = 0; i < info.nterms; ++i)
         if (!wps->decorr_passes [i].term)
@@ -450,7 +487,7 @@ static void analyze_mono (WavpackContext *wpc, int32_t *samples, int do_samples)
 
 static void mono_add_noise (WavpackStream *wps, int32_t *lptr, int32_t *rptr)
 {
-    int shaping_weight, new = wps->wphdr.flags & NEW_SHAPING;
+    int shaping_weight, is_new = wps->wphdr.flags & NEW_SHAPING;
     short *shaping_array = wps->dc.shaping_array;
     int32_t error = 0, temp, cnt;
 
@@ -466,16 +503,15 @@ static void mono_add_noise (WavpackStream *wps, int32_t *lptr, int32_t *rptr)
 
             temp = -apply_weight (shaping_weight, error);
 
-            if (new && shaping_weight < 0 && temp) {
+            if (is_new && shaping_weight < 0 && temp) {
                 if (temp == error)
                     temp = (temp < 0) ? temp + 1 : temp - 1;
 
-                lptr [0] += (error = nosend_word (wps, rptr [0], 0) - rptr [0] + temp);
+                *lptr++ += (error = nosend_word (wps, *rptr, 0) - *rptr + temp);
             }
             else
-                lptr [0] += (error = nosend_word (wps, rptr [0], 0) - rptr [0]) + temp;
+                *lptr++ += (error = nosend_word (wps, *rptr, 0) - *rptr) + temp;
 
-            lptr++;
             rptr++;
         }
 
@@ -484,28 +520,32 @@ static void mono_add_noise (WavpackStream *wps, int32_t *lptr, int32_t *rptr)
     }
     else
         while (cnt--) {
-            lptr [0] += nosend_word (wps, rptr [0], 0) - rptr [0];
-            lptr++;
+            *lptr++ += nosend_word (wps, *rptr, 0) - *rptr;
             rptr++;
         }
 }
 
-void execute_mono (WavpackContext *wpc, int32_t *samples, int no_history, int do_samples)
+void execute_mono (WavpackStream *wps, int32_t *samples, int no_history, int do_samples)
 {
     int32_t *temp_buffer [2], *best_buffer, *noisy_buffer = NULL;
     struct decorr_pass temp_decorr_pass, save_decorr_passes [MAX_NTERMS];
-    WavpackStream *wps = wpc->streams [wpc->current_stream];
     int32_t num_samples = wps->wphdr.block_samples;
     int32_t buf_size = sizeof (int32_t) * num_samples;
     uint32_t best_size = (uint32_t) -1, size;
     int log_limit, pi, i;
+
+#ifdef SKIP_DECORRELATION
+    CLEAR (wps->decorr_passes);
+    wps->num_terms = 0;
+    return;
+#endif
 
     for (i = 0; i < num_samples; ++i)
         if (samples [i])
             break;
 
     if (i == num_samples) {
-        CLEAR (wps->decorr_passes);
+        CLEARA (wps->decorr_passes);
         wps->num_terms = 0;
         init_words (wps);
         return;
@@ -520,33 +560,55 @@ void execute_mono (WavpackContext *wpc, int32_t *samples, int no_history, int do
     log_limit = 0;
 #endif
 
-    CLEAR (save_decorr_passes);
+    CLEARA (save_decorr_passes);
     temp_buffer [0] = malloc (buf_size);
     temp_buffer [1] = malloc (buf_size);
     best_buffer = malloc (buf_size);
 
     if (wps->num_passes > 1 && (wps->wphdr.flags & HYBRID_FLAG)) {
+        noisy_buffer = malloc (buf_size);
+        memcpy (noisy_buffer, samples, buf_size);
+        no_history = 1;
+
+        // we generate residuals for noise estimation using the default decorrelation terms
+        // (i.e., 18, 18, 2, 17, 3)
+
         CLEAR (temp_decorr_pass);
         temp_decorr_pass.delta = 2;
         temp_decorr_pass.term = 18;
-
-        decorr_mono_pass (samples, temp_buffer [0],
-            num_samples > 2048 ? 2048 : num_samples, &temp_decorr_pass, -1);
-
+        decorr_mono_pass_reverse (samples, temp_buffer [0], num_samples, &temp_decorr_pass);
         reverse_mono_decorr (&temp_decorr_pass);
         decorr_mono_pass (samples, temp_buffer [0], num_samples, &temp_decorr_pass, 1);
+
+        CLEAR (temp_decorr_pass);
+        temp_decorr_pass.delta = 2;
+        temp_decorr_pass.term = 18;
+        decorr_mono_pass_reverse (temp_buffer [0], temp_buffer [1], num_samples, &temp_decorr_pass);
+        reverse_mono_decorr (&temp_decorr_pass);
+        decorr_mono_pass (temp_buffer [0], temp_buffer [1], num_samples, &temp_decorr_pass, 1);
+
+        CLEAR (temp_decorr_pass);
+        temp_decorr_pass.delta = 2;
+        temp_decorr_pass.term = 2;
+        decorr_mono_pass_reverse (temp_buffer [1], temp_buffer [0], num_samples, &temp_decorr_pass);
+        reverse_mono_decorr (&temp_decorr_pass);
+        decorr_mono_pass (temp_buffer [1], temp_buffer [0], num_samples, &temp_decorr_pass, 1);
+
         CLEAR (temp_decorr_pass);
         temp_decorr_pass.delta = 2;
         temp_decorr_pass.term = 17;
-
-        decorr_mono_pass (temp_buffer [0], temp_buffer [1],
-            num_samples > 2048 ? 2048 : num_samples, &temp_decorr_pass, -1);
-
+        decorr_mono_pass_reverse (temp_buffer [0], temp_buffer [1], num_samples, &temp_decorr_pass);
+        reverse_mono_decorr (&temp_decorr_pass);
         decorr_mono_pass (temp_buffer [0], temp_buffer [1], num_samples, &temp_decorr_pass, 1);
-        noisy_buffer = malloc (buf_size);
-        memcpy (noisy_buffer, samples, buf_size);
-        mono_add_noise (wps, noisy_buffer, temp_buffer [1]);
-        no_history = 1;
+
+        CLEAR (temp_decorr_pass);
+        temp_decorr_pass.delta = 2;
+        temp_decorr_pass.term = 3;
+        decorr_mono_pass_reverse (temp_buffer [1], temp_buffer [0], num_samples, &temp_decorr_pass);
+        reverse_mono_decorr (&temp_decorr_pass);
+        decorr_mono_pass (temp_buffer [1], temp_buffer [0], num_samples, &temp_decorr_pass, 1);
+
+        mono_add_noise (wps, noisy_buffer, temp_buffer [0]);
     }
 
     if (no_history || wps->num_passes >= 7)
@@ -571,11 +633,11 @@ void execute_mono (WavpackContext *wpc, int32_t *samples, int no_history, int do
         }
 
         wpds = &wps->decorr_specs [c];
-        nterms = (int) strlen (wpds->terms);
+        nterms = (int) strlen ((char *) wpds->terms);
 
         while (1) {
         memcpy (temp_buffer [0], noisy_buffer ? noisy_buffer : samples, buf_size);
-        CLEAR (save_decorr_passes);
+        CLEARA (save_decorr_passes);
 
         for (j = 0; j < nterms; ++j) {
             CLEAR (temp_decorr_pass);
@@ -585,12 +647,10 @@ void execute_mono (WavpackContext *wpc, int32_t *samples, int no_history, int do
             if (temp_decorr_pass.term < 0)
                 temp_decorr_pass.term = 1;
 
-            decorr_mono_pass (temp_buffer [j&1], temp_buffer [~j&1],
-                num_samples > 2048 ? 2048 : num_samples, &temp_decorr_pass, -1);
+            decorr_mono_pass_reverse (temp_buffer [j&1], temp_buffer [~j&1], num_samples, &temp_decorr_pass);
 
-            if (j) {
-                CLEAR (temp_decorr_pass.samples_A);
-            }
+            if (j)
+                CLEARA (temp_decorr_pass.samples_A);
             else
                 reverse_mono_decorr (&temp_decorr_pass);
 
@@ -598,7 +658,7 @@ void execute_mono (WavpackContext *wpc, int32_t *samples, int no_history, int do
             decorr_mono_pass (temp_buffer [j&1], temp_buffer [~j&1], num_samples, &temp_decorr_pass, 1);
         }
 
-        size = log2buffer (temp_buffer [j&1], num_samples, log_limit);
+        size = LOG2BUFFER (temp_buffer [j&1], num_samples, log_limit);
 
         if (size == (uint32_t) -1 && nterms)
             nterms >>= 1;
@@ -606,7 +666,8 @@ void execute_mono (WavpackContext *wpc, int32_t *samples, int no_history, int do
             break;
         }
 
-        size += log2overhead (wpds->terms [0], nterms);
+        if (!(wps->wphdr.flags & HYBRID_FLAG))
+            size += log2overhead (wpds->terms [0], nterms);
 
         if (size < best_size) {
             memcpy (best_buffer, temp_buffer [j&1], buf_size);
@@ -620,20 +681,13 @@ void execute_mono (WavpackContext *wpc, int32_t *samples, int no_history, int do
             wps->mask_decorr = wps->mask_decorr ? ((wps->mask_decorr << 1) & (wps->num_decorrs - 1)) : 1;
     }
 
-    if (wpc->config.xmode > 3) {
-        if (noisy_buffer) {
-            analyze_mono (wpc, noisy_buffer, do_samples);
+    if (wps->wpc->config.xmode > 3)
+        analyze_mono (wps, noisy_buffer ? noisy_buffer : samples, best_buffer);
 
-            if (do_samples)
-                memcpy (samples, noisy_buffer, buf_size);
-        }
-        else
-            analyze_mono (wpc, samples, do_samples);
-    }
-    else if (do_samples)
+    if (do_samples)
         memcpy (samples, best_buffer, buf_size);
 
-    if (no_history || wpc->config.xmode > 3)
+    if (no_history || wps->wpc->config.xmode > 3)
         scan_word (wps, best_buffer, num_samples, -1);
 
     if (noisy_buffer)

@@ -55,6 +55,9 @@ procedure _llshl; cdecl;
 procedure _llushr; cdecl;
   external 'msvcrt.dll';
 function _ftol(const AValue: Double): Integer; cdecl;
+procedure pow; cdecl;
+  external 'msvcrt.dll';
+
 
 { ctype.h declarations ===================================================== }
 function isdigit(ch: Integer): Integer; cdecl;
@@ -63,19 +66,21 @@ function isdigit(ch: Integer): Integer; cdecl;
 function memcpy(Dest, Src: Pointer; Count: size_t): Pointer; cdecl;
 function memmove(Dest, Src: Pointer; Count: size_t): Pointer; cdecl;
 function memset(Dest: Pointer; Value: Byte; Count: size_t): Pointer; cdecl;
-function strlen(P: PAnsiChar): Integer; cdecl;
+function _strdup(Str: PAnsiChar): PAnsiChar; cdecl;
+function strlen(P: PAnsiChar): size_t; cdecl;
 function strcpy(Des, Src: PAnsiChar): PAnsiChar; cdecl;
-function strncpy(Des, Src: PAnsiChar; MaxLen: Integer): PAnsiChar; cdecl;
+function strncpy(Des, Src: PAnsiChar; MaxLen: size_t): PAnsiChar; cdecl;
 
-function memcmp(s1,s2: Pointer; numBytes: UInt32): integer; cdecl;
+function memcmp(s1,s2: Pointer; numBytes: size_t): integer; cdecl;
   external 'msvcrt.dll';
 function wcscpy(strDestination, strSource: PWideChar): PWideChar; cdecl;
   external 'msvcrt.dll';
 
 { stdlib.h declarations ==================================================== }
-function malloc(Size: Integer): Pointer; cdecl;
+function calloc(num, size: size_t): Pointer; cdecl;
+function malloc(Size: size_t): Pointer; cdecl;
 procedure free(Ptr: Pointer); cdecl;
-function realloc(Ptr: Pointer; Size: Integer): Pointer; cdecl;
+function realloc(Ptr: Pointer; Size: size_t): Pointer; cdecl;
 
 { intrin.h declarations ==================================================== }
 procedure ___cpuid(CPUInfo: PInteger; InfoType: Integer); cdecl;
@@ -131,11 +136,28 @@ begin
   Result := Dest;
 end;
 { -------------------------------------------------------------------------- }
-function strlen(P: PAnsiChar): Integer; cdecl;
+function _strdup(Str: PAnsiChar): PAnsiChar; cdecl;
+var
+  Len: size_t;
 begin
-  Result := Length(P);
+  Len := strlen(Str) + 1;
+  Result := malloc(Len);
+  if Result <> nil then
+    Move(Str^, Result^, Len);
 end;
-
+{ -------------------------------------------------------------------------- }
+function strlen(P: PAnsiChar): size_t; cdecl;
+{$IF (RTLVersion >= 20) AND DEFINED(CPU386)}
+asm
+  jmp System.@PCharLen
+end;
+{$ELSE}
+begin
+  Result := 0;
+  while P^ <> #0 do
+    Inc(P);
+end;
+{$IFEND}
 { -------------------------------------------------------------------------- }
 function strcpy(Des, Src: PAnsiChar): PAnsiChar; cdecl;
 begin
@@ -143,9 +165,9 @@ begin
   Move(Src^, Des^, strlen(Src) + 1);
 end;
 { -------------------------------------------------------------------------- }
-function strncpy(Des, Src: PAnsiChar; MaxLen: Integer): PAnsiChar; cdecl;
+function strncpy(Des, Src: PAnsiChar; MaxLen: size_t): PAnsiChar; cdecl;
 var
-  Len: Integer;
+  Len: size_t;
 begin
   Len := strlen(Src);
   if Len > MaxLen then
@@ -157,9 +179,20 @@ begin
 end;
 
 { stdlib.h declarations ==================================================== }
-function malloc(Size: Integer): Pointer; cdecl;
+function calloc(num, size: size_t): Pointer; cdecl;
 begin
-  GetMem(Result, Size);
+  Result := malloc(num * size);
+  if Result <> nil then
+    FillMemory(Result, num * size, 0);
+end;
+{ -------------------------------------------------------------------------- }
+function malloc(Size: size_t): Pointer; cdecl;
+begin
+  try
+    GetMem(Result, Size);
+  except
+    Result := nil;
+  end;
 end;
 { -------------------------------------------------------------------------- }
 procedure free(Ptr: Pointer); cdecl;
@@ -167,9 +200,13 @@ begin
   FreeMem(Ptr)
 end;
 { -------------------------------------------------------------------------- }
-function realloc(Ptr: Pointer; Size: Integer): Pointer; cdecl;
+function realloc(Ptr: Pointer; Size: size_t): Pointer; cdecl;
 begin
-  Result := ReallocMemory(Ptr, Size);
+  try
+    Result := ReallocMemory(Ptr, Size);
+  except
+    Result := nil;
+  end;
 end;
 
 { process.h declarations =================================================== }

@@ -201,29 +201,42 @@ uses
 {$IFDEF MSWINDOWS}
   Windows,
 {$ENDIF}
-  AbUtils;
+  AbCrtl, AbUtils;
 
-{$IFDEF Bzip2Static}
-{$IF DEFINED(WIN32)}
-  {$L Win32\blocksort.obj}
-  {$L Win32\huffman.obj}
-  {$L Win32\compress.obj}
-  {$L Win32\decompress.obj}
-  {$L Win32\bzlib.obj}
-{$ELSEIF DEFINED(WIN64)}
-  {$L Win64\blocksort.obj}
-  {$L Win64\huffman.obj}
-  {$L Win64\compress.obj}
-  {$L Win64\decompress.obj}
-  {$L Win64\bzlib.obj}
+const
+  libbz2 =
+    {$IF DEFINED(Bzip2Static) AND DEFINED(CPUARM64)}'WinARM64EC\bz2.a'
+    {$ELSEIF DEFINED(MSWINDOWS)}'libbz2.dll'
+    {$ELSEIF DEFINED(MACOS)}'libbz2.dylib'
+    {$ELSE}'libbz2.so.1'{$IFEND};
+
+{$IF DEFINED(Bzip2Dynamic) OR (DEFINED(Bzip2Static) AND DEFINED(EXTERNALLINKER))}
+  {$DEFINE USE_LIBBZ2}
 {$IFEND}
 
-procedure BZ2_hbMakeCodeLengths; external;
-procedure BZ2_blockSort; external;
-procedure BZ2_hbCreateDecodeTables; external;
-procedure BZ2_hbAssignCodes; external;
-procedure BZ2_compressBlock; external;
-procedure BZ2_decompress; external;
+{$IFDEF Bzip2Static}
+{$IFDEF MSWINDOWS}
+  {$IF DEFINED(CPU386)}
+    {$L Win32\blocksort.obj}
+    {$L Win32\huffman.obj}
+    {$L Win32\compress.obj}
+    {$L Win32\decompress.obj}
+    {$L Win32\bzlib.obj}
+  {$ELSEIF DEFINED(CPUX64)}
+    {$L Win64\blocksort.obj}
+    {$L Win64\huffman.obj}
+    {$L Win64\compress.obj}
+    {$L Win64\decompress.obj}
+    {$L Win64\bzlib.obj}
+  {$IFEND}
+{$ENDIF}
+
+procedure BZ2_hbMakeCodeLengths; external {$IFDEF USE_LIBBZ2}libbz2{$ENDIF};
+procedure BZ2_blockSort; external {$IFDEF USE_LIBBZ2}libbz2{$ENDIF};
+procedure BZ2_hbCreateDecodeTables; external {$IFDEF USE_LIBBZ2}libbz2{$ENDIF};
+procedure BZ2_hbAssignCodes; external {$IFDEF USE_LIBBZ2}libbz2{$ENDIF};
+procedure BZ2_compressBlock; external {$IFDEF USE_LIBBZ2}libbz2{$ENDIF};
+procedure BZ2_decompress; external {$IFDEF USE_LIBBZ2}libbz2{$ENDIF};
 {$ENDIF}
 
 type
@@ -393,12 +406,10 @@ procedure free(block: Pointer); cdecl;
 begin
   FreeMem(block);
 end; { _free }
-{$ENDIF}
 
-const
-  libbz2 = {$IF DEFINED(MSWINDOWS)}'libbz2.dll'
-           {$ELSEIF DEFINED(MACOS)}'libbz2.dylib'
-           {$ELSE}'libbz2.so.1'{$IFEND};
+exports
+  bz_internal_error;
+{$ENDIF}
 
 {$IFDEF Bzip2Runtime}
 var
@@ -429,39 +440,47 @@ var
 // deflate compresses data
 function BZ2_bzCompressInit(var strm: TBZStreamRec; blockSize100k: Integer;
   verbosity: Integer; workFactor: Integer): Integer;
-  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
+  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external
+  {$IFDEF USE_LIBBZ2}libbz2{$ENDIF}
   {$IFDEF MACOS}name '_BZ2_bzCompressInit'{$ENDIF};
 
 function BZ2_bzCompress(var strm: TBZStreamRec; action: Integer): Integer;
-  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
+  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external
+  {$IFDEF USE_LIBBZ2}libbz2{$ENDIF}
   {$IFDEF MACOS}name '_BZ2_bzCompress'{$ENDIF};
 
 function BZ2_bzCompressEnd(var strm: TBZStreamRec): Integer;
-  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
+  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external
+  {$IFDEF USE_LIBBZ2}libbz2{$ENDIF}
   {$IFDEF MACOS}name '_BZ2_bzCompressEnd'{$ENDIF};
 
 function BZ2_bzBuffToBuffCompress(dest: Pointer; var destLen: Integer; source: Pointer;
   sourceLen, blockSize100k, verbosity, workFactor: Integer): Integer;
-  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
+  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external
+  {$IFDEF USE_LIBBZ2}libbz2{$ENDIF}
   {$IFDEF MACOS}name '_BZ2_bzBuffToBuffCompress'{$ENDIF};
 
 // inflate decompresses data
 function BZ2_bzDecompressInit(var strm: TBZStreamRec; verbosity: Integer;
   small: Integer): Integer;
-  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
+  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external
+  {$IFDEF USE_LIBBZ2}libbz2{$ENDIF}
   {$IFDEF MACOS}name '_BZ2_bzDecompressInit'{$ENDIF};
 
 function BZ2_bzDecompress(var strm: TBZStreamRec): Integer;
-  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
+  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external
+  {$IFDEF USE_LIBBZ2}libbz2{$ENDIF}
   {$IFDEF MACOS}name '_BZ2_bzDecompress'{$ENDIF};
 
 function BZ2_bzDecompressEnd(var strm: TBZStreamRec): Integer;
-  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
+  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external
+  {$IFDEF USE_LIBBZ2}libbz2{$ENDIF}
   {$IFDEF MACOS}name '_BZ2_bzDecompressEnd'{$ENDIF};
 
 function BZ2_bzBuffToBuffDecompress(dest: Pointer; var destLen: Integer; source: Pointer;
   sourceLen, small, verbosity: Integer): Integer;
-  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external {$IFDEF Bzip2Dynamic}libbz2{$ENDIF}
+  {$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF} external
+  {$IFDEF USE_LIBBZ2}libbz2{$ENDIF}
   {$IFDEF MACOS}name '_BZ2_bzBuffToBuffDecompress'{$ENDIF};
 {$ENDIF}
 
