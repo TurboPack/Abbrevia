@@ -37,7 +37,9 @@ unit AbLZMA;
 interface
 
 {$IFDEF MSWINDOWS}
-
+{$IFDEF CPUX64}
+{$HINTS OFF}
+{$ENDIF}
 uses
   Classes, Windows, SysUtils, AbCrtl, AbUtils;
 
