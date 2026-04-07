@@ -15,3 +15,5 @@ __history
 *.exe
 Release
 *.prjmgc
+packages/11AndAbove/Delphi/AbbreviaD.res
+packages/11AndAbove/Delphi/AbbreviaVCLD.res
