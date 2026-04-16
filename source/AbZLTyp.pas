@@ -237,19 +237,19 @@ begin
   FillChar(FZLHeader, SizeOf(TAbZlHeader), #0);
   FZLHeader.CMF := (AB_ZL_DEF_COMPRESSIONINFO shl 4); { 32k Window size }
   FZLHeader.CMF := FZLHeader.CMF or AB_ZL_DEF_COMPRESSIONMETHOD; { Deflate }
-  FZLHeader.FLG := FZLHeader.FLG and not AB_ZL_PRESET_DICT; { no preset dictionary}
+  FZLHeader.FLG := AbToByte(FZLHeader.FLG and not AB_ZL_PRESET_DICT); { no preset dictionary}
   FZLHeader.FLG := FZLHeader.FLG or (AB_ZL_DEFAULT_COMPRESSION shl 6); { assume default compression }
   MakeFCheck;
 end;
 
 function TAbZLItem.GetCompressionInfo: Byte;
 begin
-  Result := FZLHeader.CMF shr 4;
+  Result := AbToByte(FZLHeader.CMF shr 4);
 end;
 
 function TAbZLItem.GetCompressionLevel: Byte;
 begin
-  Result := FZLHeader.FLG shr 6;
+  Result := AbToByte(FZLHeader.FLG shr 6);
 end;
 
 function TAbZLItem.GetCompressionMethod: Byte;
@@ -272,8 +272,8 @@ procedure TAbZLItem.MakeFCheck;
 var
   zlh : Word;
 begin
-  FZLHeader.FLG := FZLHeader.FLG and not AB_ZL_FCHECK_MASK;
-  zlh := (FZLHeader.CMF * 256) + FZLHeader.FLG;
+  FZLHeader.FLG := AbToByte(FZLHeader.FLG and not AB_ZL_FCHECK_MASK);
+  zlh := AbToWord((FZLHeader.CMF * 256) + FZLHeader.FLG);
   Inc(FZLHeader.FLG, 31 - (zlh mod 31));
 end;
 
@@ -290,8 +290,8 @@ end;
 
 procedure TAbZLItem.SetCompressionInfo(Value: Byte);
 begin
-  FZLHeader.CMF := FZLHeader.CMF and not AB_ZL_CINFO_MASK;
-  FZLHeader.CMF := FZLHeader.CMF or (Value shl 4); { shift value and add to bit field }
+  FZLHeader.CMF := AbToByte(FZLHeader.CMF and not AB_ZL_CINFO_MASK);
+  FZLHeader.CMF := AbToByte(FZLHeader.CMF or (Value shl 4)); { shift value and add to bit field }
 end;
 
 procedure TAbZLItem.SetCompressionLevel(Value: Byte);
@@ -301,14 +301,14 @@ begin
   Temp := Value;
   if not Temp in [AB_ZL_FASTEST_COMPRESSION..AB_ZL_MAXIMUM_COMPRESSION] then
     Temp := AB_ZL_DEFAULT_COMPRESSION;
-  FZLHeader.FLG := FZLHeader.FLG and not AB_ZL_FLEVEL_MASK;
-  FZLHeader.FLG := FZLHeader.FLG or (Temp shl 6); { shift value and add to bit field }
+  FZLHeader.FLG := AbToByte(FZLHeader.FLG and not AB_ZL_FLEVEL_MASK);
+  FZLHeader.FLG := AbToByte(FZLHeader.FLG or (Temp shl 6)); { shift value and add to bit field }
 end;
 
 procedure TAbZLItem.SetCompressionMethod(Value: Byte);
 begin
-  if Value > AB_ZL_CM_MASK then Value := (Value shl 4) shr 4;
-  FZLHeader.CMF := FZLHeader.CMF and not AB_ZL_CM_MASK;
+  if Value > AB_ZL_CM_MASK then Value := AbToByte((Value shl 4) shr 4);
+  FZLHeader.CMF := AbToByte(FZLHeader.CMF and not AB_ZL_CM_MASK);
   FZLHeader.CMF := FZLHeader.CMF or Value;
 end;
 

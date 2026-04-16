@@ -111,7 +111,7 @@ end;
 function TAbUnzipSubsetStream.Read(var Buffer; Count: Longint): Longint;
 begin
   if Count > FEndPos - FCurPos then
-    Count := FEndPos - FCurPos;
+    Count := AbToInt32(FEndPos - FCurPos);
   if Count > 0 then begin
     Result := FStream.Read(Buffer, Count);
     Inc(FCurPos, Result);

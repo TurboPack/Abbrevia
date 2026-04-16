@@ -63,7 +63,7 @@ type
 
 
 {===helper routines==================================================}
-function IsCalcFeasible(aCount      : integer;
+function IsCalcFeasible(aCount      : NativeInt;
                         aMaxCodeLen : integer) : boolean;
 
 begin
@@ -128,9 +128,9 @@ procedure GenerateCodeLengths(aMaxCodeLen  : integer;
                               aStartInx    : integer;
                               aLog         : TAbLogger);
 var
-  i   : integer;
+  i   : NativeInt;
   Bit : integer;
-  WeightCount    : integer;
+  WeightCount    : NativeInt;
   OrigList       : PPkgNodeList;
   OrigListCount  : integer;
   MergeList      : PPkgNodeList;

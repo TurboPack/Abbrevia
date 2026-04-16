@@ -312,7 +312,7 @@ begin
   if ( Bits < FBitsLeft ) then begin
     Dec( FBitsLeft, Bits );
     Result := ((1 shl Bits) - 1) and FCurByte;
-    FCurByte := FCurByte shr Bits;
+    FCurByte := AbToByte(FCurByte shr Bits);
   end
   else if ( Bits = FBitsLeft ) then begin
     Result := FCurByte;
@@ -323,7 +323,7 @@ begin
     SaveCurByte := FCurByte;
     SaveBitsLeft := FBitsLeft;
     {number of additional bits that we need}
-    Delta := Bits - FBitsLeft;
+    Delta := AbToByte(Bits - FBitsLeft);
     {do we still have a byte buffered?}
     if FInPos <= FInCnt then begin
       {get next byte out of buffer and advance position counter}
@@ -350,7 +350,7 @@ var
   Length : Integer;
   DIndex : Integer;
   Distance : Integer;
-  SPos : Integer;
+  SPos : Int64;
   MyByte : Byte;
   DictBits : Integer;             {number of bits used in sliding dictionary}
   MinMatchLength : Integer;       {minimum match length}
@@ -361,7 +361,7 @@ var
   procedure uzLoadTree(var T; TreeSize : Integer);
     {-Load one Shannon-Fano tree}
   var
-    I : Word;
+    I : Integer;
     Tree : TAbSfTree absolute T;
 
     procedure GenerateTree;
@@ -439,23 +439,23 @@ var
       {High nibble: Number of values at this bit length + 1.
        Low  nibble: Bits needed to represent value + 1}
       for J := 1 to TreeBytes do begin
-        B := uzReadBits(8);
+        B := AbToByte(uzReadBits(8));
         Len := (B and $0F)+1;
         Num := (B shr 4)+1;
 
         for K := I to I+Num-1 do
           with Tree, Entry[K] do begin
             if Len > MaxLength then
-              MaxLength := Len;
-            BitLength := Len;
-            Value := K;
+              MaxLength := AbToSmallint(Len);
+            BitLength := AbToByte(Len);
+            Value := AbToByte(K);
           end;
         Inc(I, Num);
       end;
     end;
 
   begin
-    Tree.Entries := TreeSize;
+    Tree.Entries := AbToSmallint(TreeSize);
     uzReadLengths;
     SortLengths;
     GenerateTree;
@@ -479,7 +479,7 @@ var
     Cur := 0;
     E := Tree.Entries;
     repeat
-      CV := CV or (uzReadBits(1) shl Bits);
+      CV := AbToWord(CV or (uzReadBits(1) shl Bits));
       Inc(Bits);
       while Tree.Entry[Cur].BitLength < Bits do begin
         Inc(Cur);
@@ -528,11 +528,11 @@ begin
         if (MinMatchLength = 3) then
           uzWriteByte( uzReadTree(LitTree^) )
         else
-          uzWriteByte( uzReadBits(8) );
+          uzWriteByte(AbToByte(uzReadBits(8)));
       end
       else begin
         {data is a sliding dictionary}
-        Distance := uzReadBits(DictBits);
+        Distance := uzReadBits(AbToByte(DictBits));
 
         {using the Distance Shannon-Fano tree, read and decode the
          upper 6 bits of the Distance value}
@@ -584,7 +584,7 @@ var
   OpI : Integer;
   I, J, Sz : Integer;
   D : Word;
-  SPos : Integer;
+  SPos : Int64;
   MyByte : Byte;
   Factor : Byte;                  {reduction Factor}
   FactorMask : Byte;              {bit mask to use based on Factor}
@@ -599,7 +599,7 @@ var
     Result := 0;
     repeat
       inc( Result );
-      i := i shr 1;
+      i := AbToByte(i shr 1);
     until i = 0;
   end;
 
@@ -610,7 +610,7 @@ begin
 
   GetMem(Followers, SizeOf(TAbFollowerSets));
   try
-    Factor := Ord( FCompressionMethod ) - 1;
+    Factor := AbToByte(Ord(FCompressionMethod) - 1);
     FactorMask := FactorMasks[Factor];
     State := 0;
     C := 0;
@@ -620,23 +620,23 @@ begin
     {load follower sets}
     for I := 255 downto 0 do begin
       Sz := uzReadBits(6);
-      Followers^[I].Size := Sz;
+      Followers^[I].Size := AbToByte(Sz);
       Dec(Sz);
       for J := 0 to Sz do
-        Followers^[I].FSet[J] := uzReadBits(8);
+        Followers^[I].FSet[J] := AbToByte(uzReadBits(8));
     end;
 
     while (not FInEof) and ((FOutSent + Integer(FOutPos)) < FUncompressedSize) do begin
       Last := C;
       with Followers^[Last] do
         if Size = 0 then
-          C := uzReadBits(8)
+          C := AbToByte(uzReadBits(8))
         else begin
-          C := uzReadBits(1);
+          C := AbToByte(uzReadBits(1));
           if C <> 0 then
-            C := uzReadBits(8)
+            C := AbToByte(uzReadBits(8))
           else
-            C := FSet[uzReadBits(BitsNeeded(Size))];
+            C := AbToByte(FSet[AbToByte(uzReadBits(AbToByte(BitsNeeded(Size))))]);
         end;
 
       if FInEof then
@@ -671,10 +671,10 @@ begin
         3 :
           begin
             case Factor of
-              1 : D := (V shr 7) and $01;
-              2 : D := (V shr 6) and $03;
-              3 : D := (V shr 5) and $07;
-              4 : D := (V shr 4) and $0f;
+              1 : D := AbToWord((V shr 7) and $01);
+              2 : D := AbToWord((V shr 6) and $03);
+              3 : D := AbToWord((V shr 5) and $07);
+              4 : D := AbToWord((V shr 4) and $0f);
             else
               raise EAbZipInvalidFactor.Create;
             end;
@@ -726,7 +726,8 @@ var
   NewCode : SmallInt;
   OldCode : SmallInt;
   SaveCode : SmallInt;
-  N, R : SmallInt;
+  N: Integer;
+  R : SmallInt;
   I : Integer;
   PrefixTable : PAbIntArray8K;      {used while processing shrunk files}
   SuffixTable : PAbByteArray8K;     {"}
@@ -749,28 +750,28 @@ begin
     FillChar(PrefixTable^, SizeOf(PrefixTable^), $FF);
     for NewCode := 255 downto 0 do begin
       PrefixTable^[NewCode] := 0;
-      SuffixTable^[NewCode] := NewCode;
+      SuffixTable^[NewCode] := AbToByte(NewCode);
     end;
 
-    OldCode := uzReadBits(CodeSize);
+    OldCode := AbToSmallint(uzReadBits(AbToByte(CodeSize)));
     if FInEof then
       Exit;
     BaseChar := OldCode;
 
-    uzWriteByte(BaseChar);
+    uzWriteByte(AbToByte(BaseChar));
 
     StackIndex := 0;
     while (not FInEof) do begin
-      NewCode := uzReadBits(CodeSize);
+      NewCode := AbToSmallint(uzReadBits(AbToByte(CodeSize)));
       while (NewCode = Clear) and (not FInEof) do begin
-        case uzReadBits(CodeSize) of
+        case uzReadBits(AbToByte(CodeSize)) of
           1 : begin
                 Inc(CodeSize);
               end;
           2 : begin
                 {mark all nodes as potentially unused}
                 for I := FirstFree to pred( NextFree ) do
-                  PrefixTable^[I] := PrefixTable^[I] or Integer($8000);
+                  PrefixTable^[I] := AbToSmallInt(PrefixTable^[I] or Integer($8000));
 
                 {unmark those used by other nodes}
                 for N := FirstFree to NextFree-1 do begin
@@ -794,7 +795,7 @@ begin
               end;
         end;
 
-        NewCode := uzReadBits(CodeSize);
+        NewCode := AbToSmallint(uzReadBits(AbToByte(CodeSize)));
       end;
 
       if FInEof then
@@ -805,7 +806,7 @@ begin
 
       {special case}
       if PrefixTable^[NewCode] = Unused then begin
-        Stack^[StackIndex] := BaseChar;
+        Stack^[StackIndex] := AbToByte(BaseChar);
         Inc(StackIndex);
         NewCode := OldCode;
       end;
@@ -813,7 +814,7 @@ begin
       {generate output characters in reverse order}
       while (NewCode >= FirstFree) do begin
         if PrefixTable^[NewCode] = Unused then begin
-          Stack^[StackIndex] := BaseChar;
+          Stack^[StackIndex] := AbToByte(BaseChar);
           Inc(StackIndex);
           NewCode := OldCode;
         end else begin
@@ -824,7 +825,7 @@ begin
       end;
 
       BaseChar := SuffixTable^[NewCode];
-      uzWriteByte(BaseChar);
+      uzWriteByte(AbToByte(BaseChar));
 
       {put them out in forward order}
       while (StackIndex > 0) do begin
@@ -836,7 +837,7 @@ begin
       NewCode := NextFree;
       if NewCode < MaxCodeMax then begin
         PrefixTable^[NewCode] := OldCode;
-        SuffixTable^[NewCode] := BaseChar;
+        SuffixTable^[NewCode] := AbToByte(BaseChar);
         while (NextFree < MaxCodeMax) and
               (PrefixTable^[NextFree] <> Unused) do
           Inc(NextFree);
@@ -911,7 +912,7 @@ begin
   Helper := TAbUnzipHelper.Create(InStream, OutStream);
   try {Helper}
     Helper.DictionarySize       := Item.DictionarySize;
-    Helper.UnCompressedSize     := Item.UncompressedSize;
+    Helper.UnCompressedSize     := AbToInt32(Item.UncompressedSize);
     Helper.CompressionMethod    := Item.CompressionMethod;
     Helper.ShannonFanoTreeCount := Item.ShannonFanoTreeCount;
     Helper.Execute;

@@ -657,7 +657,7 @@ var
 begin
   if (Msg.Msg = HDM_SETITEM) and not FInUpdateSortArrows then begin
     Item.Mask := HDI_FORMAT;
-    if Header_GetItem(FHeaderHandle, Msg.WParam, Item) then begin
+    if Header_GetItem(FHeaderHandle, Integer(Msg.WParam), Item) then begin
       PHDItem(Msg.LParam).Mask := PHDItem(Msg.LParam).Mask and not HDI_BITMAP;
       PHDItem(Msg.LParam).fmt := PHDItem(Msg.LParam).fmt and not FMT_MASK
         or (Item.fmt and FMT_MASK);
@@ -964,7 +964,8 @@ var
   ColText, Filename, FolderName: string;
   DOSAttr: Integer;
   Folders: TStringList;
-  i, j: Integer;
+  i: NativeInt;
+  j: Integer;
   ListItem: TAbListItem;
   ParentDir: string;
   sfi: SHFILEINFO;
@@ -1172,7 +1173,7 @@ var
   end;
 
 var
-  i: Integer;
+  i: NativeInt;
   Filename: string;
 begin
   Items.BeginUpdate;

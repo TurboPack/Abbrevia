@@ -89,11 +89,11 @@ type
   protected
     { Inherited Abstract functions }
     function CreateItem(const FileSpec : string): TAbArchiveItem; override;
-    procedure ExtractItemAt(Index : Integer; const NewName : string); override;
-    procedure ExtractItemToStreamAt(Index : Integer; aStream : TStream); override;
+    procedure ExtractItemAt(Index : NativeInt; const NewName : string); override;
+    procedure ExtractItemToStreamAt(Index : NativeInt; aStream : TStream); override;
     procedure LoadArchive; override;
     procedure SaveArchive; override;
-    procedure TestItemAt(Index : Integer); override;
+    procedure TestItemAt(Index : NativeInt); override;
     function GetSupportsEmptyFolders : Boolean; override;
 
   public {methods}
@@ -226,7 +226,7 @@ begin
   inherited Destroy;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbBzip2Archive.ExtractItemAt(Index: Integer;
+procedure TAbBzip2Archive.ExtractItemAt(Index: NativeInt;
   const NewName: string);
 var
   OutStream : TBufferedFileStream;
@@ -260,7 +260,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbBzip2Archive.ExtractItemToStreamAt(Index: Integer;
+procedure TAbBzip2Archive.ExtractItemToStreamAt(Index: NativeInt;
   aStream: TStream);
 begin
   if IsBzippedTar and TarAutoHandle then begin
@@ -316,7 +316,7 @@ end;
 procedure TAbBzip2Archive.SaveArchive;
 var
   CompStream: TStream;
-  i: Integer;
+  i: NativeInt;
   CurItem: TAbBzip2Item;
   InputFileStream: TStream;
 begin
@@ -404,7 +404,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbBzip2Archive.TestItemAt(Index: Integer);
+procedure TAbBzip2Archive.TestItemAt(Index: NativeInt);
 var
   Bzip2Type: TAbArchiveType;
   BitBucket: TAbBitBucketStream;

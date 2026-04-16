@@ -224,7 +224,7 @@ procedure AbortProgress;
 procedure AbUpdateAdlerBuffer(var aAdler : Integer;
                               var aBuffer; aCount : integer);
 procedure AbUpdateCRCBuffer(var aCRC : Integer;
-                            var aBuffer; aCount : integer);
+                            var aBuffer; aCount : Int64);
 
 
 implementation
@@ -456,8 +456,8 @@ end;
 {--------}
 function TAbLogger.logWriteBuffer : boolean;
 var
-  BytesToWrite : Integer;
-  BytesWritten : Integer;
+  BytesToWrite : NativeInt;
+  BytesWritten : NativeInt;
 begin
   BytesToWrite := FCurPos - FBuffer;
   BytesWritten := FStream.Write(FBuffer^, BytesToWrite);
@@ -512,7 +512,7 @@ function TAbLogger.Write(const Buffer; Count : Longint) : Longint;
 var
   UserBuf      : PByte;
   BytesToGo    : Integer;
-  BytesToWrite : Integer;
+  BytesToWrite : NativeInt;
 begin
   {reference the user's buffer as a PChar}
   UserBuf := @Buffer;
@@ -656,9 +656,9 @@ begin
 end;
 {--------}
 procedure AbUpdateCRCBuffer(var aCRC : Integer;
-                            var aBuffer; aCount : integer);
+                            var aBuffer; aCount : Int64);
 var
-  i      : integer;
+  i      : Int64;
   CRC    : UInt32;
   Buffer : PByte;
 begin

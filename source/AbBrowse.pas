@@ -73,8 +73,8 @@ type
     FForceType             : Boolean;
 
   protected {private methods}
-    function  GetCount : Integer;
-    function  GetItem(Value : Integer) : TAbArchiveItem;
+    function  GetCount : NativeInt;
+    function  GetItem(Value : NativeInt) : TAbArchiveItem;
     function  GetSpanned : Boolean;
     function  GetStatus : TAbArchiveStatus;
     procedure ResetMeters; virtual;
@@ -174,8 +174,8 @@ type
 
     procedure ClearTags;
       {Clear all tags from the archive}
-    function FindItem(aItem : TAbArchiveItem) : Integer;
-    function FindFile(const aFileName : string) : Integer;
+    function FindItem(aItem : TAbArchiveItem) : NativeInt;
+    function FindFile(const aFileName : string) : NativeInt;
     procedure TagItems(const FileMask : string);
       {tag all items that match the mask}
     procedure UnTagItems(const FileMask : string);
@@ -186,9 +186,9 @@ type
       {opens the archive}
 
   public {properties}
-    property Count : Integer
+    property Count : NativeInt
       read GetCount;
-    property Items[Index : Integer] : TAbArchiveItem
+    property Items[Index : NativeInt] : TAbArchiveItem
       read GetItem; default;
     property Status : TAbArchiveStatus
       read GetStatus;
@@ -321,7 +321,7 @@ begin
     FOnProcessItemFailure(Self, Item, ProcessType, ErrorClass, ErrorCode);
 end;
 { -------------------------------------------------------------------------- }
-function TAbBaseBrowser.FindItem(aItem : TAbArchiveItem) : Integer;
+function TAbBaseBrowser.FindItem(aItem : TAbArchiveItem) : NativeInt;
 begin
   if Assigned(FArchive) then
     Result := FArchive.FindItem(aItem)
@@ -329,7 +329,7 @@ begin
     Result := -1;
 end;
 { -------------------------------------------------------------------------- }
-function TAbBaseBrowser.FindFile(const aFileName : string) : Integer;
+function TAbBaseBrowser.FindFile(const aFileName : string) : NativeInt;
 begin
   if Assigned(FArchive) then
     Result := FArchive.FindFile(aFileName)
@@ -353,7 +353,7 @@ begin
     Result := asInvalid;
 end;
 { -------------------------------------------------------------------------- }
-function TAbBaseBrowser.GetCount : Integer;
+function TAbBaseBrowser.GetCount : NativeInt;
 begin
   if Assigned(FArchive) then
     Result := FArchive.Count
@@ -361,7 +361,7 @@ begin
     Result := 0;
 end;
 { -------------------------------------------------------------------------- }
-function TAbBaseBrowser.GetItem(Value : Integer) : TAbArchiveItem;
+function TAbBaseBrowser.GetItem(Value : NativeInt) : TAbArchiveItem;
 begin
   if Assigned(FArchive) then
     Result := FArchive.ItemList[Value]

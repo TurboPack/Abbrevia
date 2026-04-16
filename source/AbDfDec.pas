@@ -665,8 +665,8 @@ var
   IsFinalBlock : boolean;
   BlockType    : integer;
   TestOnly     : boolean;
-  SourceStartPos : Integer;
-  DestStartPos   : Integer;
+  SourceStartPos : Int64;
+  DestStartPos   : Int64;
   {$IFDEF UseLogging}
   StartPosn    : Integer;
   {$ENDIF}

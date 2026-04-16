@@ -24,6 +24,9 @@ type
 
 implementation
 
+uses
+  AbUtils;
+
 { TAbBytes }
 
 class function TAbBytes.AsString(ASource: Pointer): string;
@@ -86,18 +89,18 @@ var
 begin
   pBuffer := PByte(ADest);
   for iByte := 1 to Length(ASource) do
-    pBuffer[iByte - 1] := Ord(ASource[iByte]);
+    pBuffer[iByte - 1] := AbToByte(Ord(ASource[iByte]));
 end;
 
 class function TAbBytes.StrLCopy(ADest: PByte; const ASource: string; AMaxLen: Cardinal): PByte;
 var
-  iLen: Cardinal;
+  iLen: NativeInt;
   pBytes: TBytes;
 begin
   Result := ADest;
   pBytes := TEncoding.ANSI.GetBytes(ASource);
   iLen := Length(pBytes);
-  if iLen > AMaxLen then
+  if iLen > NativeInt(AMaxLen) then
     iLen := AMaxLen;
   if iLen > 0 then
     Move(pBytes[0], ADest^, iLen);

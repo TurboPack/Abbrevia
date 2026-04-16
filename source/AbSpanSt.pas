@@ -120,7 +120,7 @@ type
       override;
     function Write(const Buffer; Count: Longint): Longint;
       override;
-    function WriteUnspanned(const Buffer; Count: Integer;
+    function WriteUnspanned(const Buffer; Count: Int64;
       FailOnSpan: Boolean = False): Boolean;
     function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
       override;
@@ -211,7 +211,7 @@ begin
   else if Assigned(FOnRequestNthDisk) then begin
     Abort := False;
     repeat
-      FOnRequestNthDisk(Self, ImageNumber, Abort);
+      FOnRequestNthDisk(Self, AbToByte(ImageNumber), Abort);
       if Abort then
         raise EAbUserAbort.Create;
     until AbGetDriveFreeSpace(ImageName) <> -1;
@@ -327,7 +327,8 @@ end;
 {------------------------------------------------------------------------------}
 function TAbSpanWriteStream.Write(const Buffer; Count: Longint): Longint;
 var
-  BytesWritten, BytesLeft: Integer;
+  BytesWritten: NativeInt;
+  BytesLeft: Integer;
   PBuf: PByte;
 begin
   { write until the buffer is done, starting new spans if necessary }
@@ -338,7 +339,7 @@ begin
   BytesLeft := Count;
   while Result < Count do begin
     if FThreshold > 0 then
-      BytesWritten := FStream.Write(PBuf^, Min(BytesLeft, FThreshold - FImageSize))
+      BytesWritten := FStream.Write(PBuf^, Min(BytesLeft, NativeInt(FThreshold - FImageSize)))
     else
       BytesWritten := FStream.Write(PBuf^, BytesLeft);
     Inc(FImageSize, BytesWritten);
@@ -350,10 +351,10 @@ begin
   end;
 end;
 {------------------------------------------------------------------------------}
-function TAbSpanWriteStream.WriteUnspanned(const Buffer; Count: Integer;
+function TAbSpanWriteStream.WriteUnspanned(const Buffer; Count: Int64;
   FailOnSpan: Boolean = False): Boolean;
 var
-  BytesWritten: Integer;
+  BytesWritten: Int64;
 begin
   { write as a contiguous block, starting a new span if there isn't room.
     FailOnSpan (and result = false) can be used to update data before it's
@@ -363,7 +364,7 @@ begin
   if (FThreshold > 0) and (FThreshold - FImageSize < Count) then
     BytesWritten := 0
   else
-    BytesWritten := FStream.Write(Buffer, Count);
+    BytesWritten := FStream.Write(Buffer, NativeInt(Count));
   if BytesWritten < Count then begin
     if BytesWritten > 0 then
       FStream.Size := FStream.Size - BytesWritten;
@@ -372,7 +373,7 @@ begin
       BytesWritten := 0
     else begin
       BytesWritten := Count;
-      FStream.WriteBuffer(Buffer, Count);
+      FStream.WriteBuffer(Buffer, NativeInt(Count));
     end;
   end;
   Inc(FImageSize, BytesWritten);

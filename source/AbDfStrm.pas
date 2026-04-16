@@ -72,19 +72,19 @@ type
       FBuffer    : PByte;
       FBufPos    : PByte;
       FByteCount : Integer;
-      FFakeCount : integer;
+      FFakeCount : NativeInt;
       FOnProgress: TAbProgressStep;
       {$IFOPT C+}
       FPeekCount : integer;
       {$ENDIF}
       FStream    : TStream;
-      FStreamSize: Integer;
+      FStreamSize: Int64;
     protected
       function ibsFillBuffer : boolean;
     public
       constructor Create(aStream     : TStream;
                          aOnProgress : TAbProgressStep;
-                         aStreamSize : Integer);
+                         aStreamSize : Int64);
       destructor Destroy; override;
 
       procedure AlignToByte;
@@ -94,7 +94,7 @@ type
       function PeekMoreBits(aCount : integer) : integer;
       function ReadBit : boolean;
       function ReadBits(aCount : integer) : integer;
-      procedure ReadBuffer(var aBuffer; aCount : integer);
+      procedure ReadBuffer(var aBuffer; aCount : NativeInt);
 
       property BitBuffer : TAb32bit read FBitBuffer write FBitBuffer;
       property BitsLeft  : integer read FBitsLeft write FBitsLeft;
@@ -119,7 +119,7 @@ type
       function Position : Integer;
       procedure WriteBit(aBit : boolean);
       procedure WriteBits(aBits : integer; aCount : integer);
-      procedure WriteBuffer(var aBuffer; aCount : integer);
+      procedure WriteBuffer(var aBuffer; aCount : NativeInt);
       procedure WriteMoreBits(aBits : integer; aCount : integer);
 
       property BitBuffer : TAb32bit read FBitBuffer write FBitBuffer;
@@ -203,7 +203,8 @@ implementation
 
 uses
   SysUtils,
-  AbDfXlat;
+  AbDfXlat,
+  AbUtils;
 
 type
   PAb32bit = ^TAb32bit;
@@ -214,7 +215,7 @@ const
 {===TAbDfInBitStream=================================================}
 constructor TAbDfInBitStream.Create(aStream     : TStream;
                                     aOnProgress : TAbProgressStep;
-                                    aStreamSize : Integer);
+                                    aStreamSize : Int64);
 begin
   {protect against dumb programming mistakes}
   Assert(aStream <> nil,
@@ -346,12 +347,12 @@ end;
 {--------}
 function TAbDfInBitStream.ibsFillBuffer : boolean;
 var
-  BytesRead   : Integer;
-  BytesToRead : Integer;
-  i           : integer;
+  BytesRead   : NativeInt;
+  BytesToRead : NativeInt;
+  i           : NativeInt;
   Percent     : integer;
   Buffer      : PByte;
-  BufferCount : integer;
+  BufferCount : NativeInt;
 begin
   {check for dumb programming mistakes: this routine should only be
    called if there are less than 4 bytes unused in the buffer}
@@ -399,7 +400,7 @@ begin
     {fire the progress event}
     if Assigned(FOnProgress) then begin
       inc(FByteCount, BytesRead);
-      Percent := Round((100.0 * FByteCount) / FStreamSize);
+      Percent := AbToInt32(Round((100.0 * FByteCount) / FStreamSize));
       FOnProgress(Percent);
     end;
   end;
@@ -520,12 +521,12 @@ begin
   end;
 end;
 {--------}
-procedure TAbDfInBitStream.ReadBuffer(var aBuffer; aCount : integer);
+procedure TAbDfInBitStream.ReadBuffer(var aBuffer; aCount : NativeInt);
 var
-  i : integer;
+  i : NativeInt;
   Buffer : PByte;
-  BytesToRead   : integer;
-  BytesInBuffer : integer;
+  BytesToRead   : NativeInt;
+  BytesInBuffer : NativeInt;
 begin
   {this method is designed to read a set of bytes and this can only be
    done if the stream has been byte aligned--if it isn't, it's a
@@ -671,8 +672,8 @@ end;
 {--------}
 procedure TAbDfOutBitStream.obsEmptyBuffer;
 var
-  ByteCount    : integer;
-  BytesWritten : Integer;
+  ByteCount    : NativeInt;
+  BytesWritten : NativeInt;
 begin
   {empty the buffer}
   ByteCount := FBufPos - FBuffer;
@@ -751,10 +752,10 @@ begin
   end;
 end;
 {--------}
-procedure TAbDfOutBitStream.WriteBuffer(var aBuffer; aCount : integer);
+procedure TAbDfOutBitStream.WriteBuffer(var aBuffer; aCount : NativeInt);
 var
   Buffer : PByte;
-  BytesToCopy : integer;
+  BytesToCopy : NativeInt;
 begin
   {guard against dumb programming errors: we must be byte aligned}
   Assert((FBitsUsed and $7) = 0,

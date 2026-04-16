@@ -331,7 +331,7 @@ end;
 { -------------------------------------------------------------------------- }
 function TWavPackStream_get_pos(id: Pointer): uint32_t; cdecl;
 begin
-  Result := PWavPackStream(id).Stream.Position;
+  Result := AbToUInt32(PWavPackStream(id).Stream.Position);
 end;
 { -------------------------------------------------------------------------- }
 function TWavPackStream_set_pos_abs(id: Pointer; pos: uint32_t): Integer; cdecl;
@@ -343,7 +343,7 @@ end;
 function TWavPackStream_set_pos_rel(id: Pointer; delta: int32_t;
   mode: Integer): Integer; cdecl;
 begin
-  PWavPackStream(id).Stream.Seek(delta, mode);
+  PWavPackStream(id).Stream.Seek(delta, AbToWord(mode));
   Result := 1;
 end;
 { -------------------------------------------------------------------------- }
@@ -357,7 +357,7 @@ end;
 { -------------------------------------------------------------------------- }
 function TWavPackStream_get_length(id: Pointer): uint32_t; cdecl;
 begin
-  Result := PWavPackStream(id).Stream.Size;
+  Result := AbToUInt32(PWavPackStream(id).Stream.Size);
 end;
 { -------------------------------------------------------------------------- }
 function TWavPackStream_can_seek(id: Pointer): Integer; cdecl;
@@ -391,15 +391,15 @@ begin
     // Convert and write to output
     case bps of
       1: begin
-        dst^ := sample + 128;
+        dst^ := AbToByte(sample + 128);
       end;
       2: begin
-        PWord(dst)^ := sample;
+        PWord(dst)^ := AbToWord(sample);
       end;
       3: begin
-        PByteArray(dst)[0] := sample;
-        PByteArray(dst)[1] := sample shr 8;
-        PByteArray(dst)[2] := sample shr 16;
+        PByteArray(dst)[0] := AbToByte(sample);
+        PByteArray(dst)[1] := AbToByte(sample shr 8);
+        PByteArray(dst)[2] := AbToByte(sample shr 16);
       end;
       4: begin
         PUInt32(dst)^ := sample;
@@ -463,7 +463,7 @@ begin
 
     repeat
       // Unpack samples
-      SamplesToUnpack := (OutputBufSize - (PtrInt(OutputPtr) - PtrInt(OutputBuf))) div BytesPerSample;
+      SamplesToUnpack := AbToInt32((OutputBufSize - (PtrInt(OutputPtr) - PtrInt(OutputBuf))) div BytesPerSample);
       if (SamplesToUnpack > 4096) then
         SamplesToUnpack := 4096;
       SamplesUnpacked := WavpackUnpackSamples(Context, DecodeBuf, SamplesToUnpack);

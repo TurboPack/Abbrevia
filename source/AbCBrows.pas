@@ -51,7 +51,7 @@ type
     function  GetCabSize : Integer;
     function  GetCurrentCab : Word;
     function  GetFolderCount : Word;
-    function  GetItem(Index : Integer) : TAbCabItem; virtual;
+    function  GetItem(Index : NativeInt) : TAbCabItem; virtual;
     function  GetHasNext : Boolean;
     function  GetHasPrev : Boolean;
     function  GetSetID : Word;
@@ -84,7 +84,7 @@ type
   public {properties}
     property CabArchive : TAbCabArchive
       read  GetCabArchive;
-    property Items[Index : Integer] : TAbCabItem
+    property Items[Index : NativeInt] : TAbCabItem
       read  GetItem; default;
   end;
 
@@ -185,7 +185,7 @@ begin
     Result := False;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomCabBrowser.GetItem(Index : Integer) : TAbCabItem;
+function TAbCustomCabBrowser.GetItem(Index : NativeInt) : TAbCabItem;
   {return cabinet item}
 begin
   if Assigned(CabArchive) then

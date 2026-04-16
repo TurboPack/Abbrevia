@@ -262,7 +262,7 @@ type
                             virtual;
     procedure DoWindowsDrop(Sender : TObject; FileName : string); virtual;
     function GetBorderStyle : TBorderStyle;
-    function GetCount : Integer;
+    function GetCount : NativeInt;
     function GetCursor : TCursor;
     function GetDragCursor : TCursor;
     function GetDragMode : TDragMode;
@@ -568,9 +568,9 @@ type
       {extract all tagged items from the archive}
     procedure ExtractToStream(const aFileName : string; ToStream : TStream);
       {extract an item directly to a stream}
-    function FindItem(aItem : TAbArchiveItem) : Integer;
+    function FindItem(aItem : TAbArchiveItem) : NativeInt;
       {extract specified item}
-    function FindFile(const aFileName : string) : Integer;
+    function FindFile(const aFileName : string) : NativeInt;
       {find the item with the given file name}
     procedure FreshenFiles(const FileMask : string);
       {freshen all items that match the file mask}
@@ -593,7 +593,7 @@ type
     procedure UnTagItems(const FileMask : string);
 
   public {properties}
-    property Count : Integer
+    property Count : NativeInt
              read GetCount;
     property Items[Index : Integer] : TAbZipItem
              read GetItem
@@ -1443,7 +1443,7 @@ begin
     raise EAbNoArchive.Create;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomZipOutline.FindFile(const aFileName : string) : Integer;
+function TAbCustomZipOutline.FindFile(const aFileName : string) : NativeInt;
 begin
   if Assigned(FArchive) then
     Result := FArchive.FindFile(aFileName)
@@ -1451,7 +1451,7 @@ begin
     raise EAbNoArchive.Create;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomZipOutline.FindItem(aItem : TAbArchiveItem) : Integer;
+function TAbCustomZipOutline.FindItem(aItem : TAbArchiveItem) : NativeInt;
 begin
   if Assigned(FArchive) then
     Result := FArchive.FindItem(aItem)
@@ -1504,7 +1504,7 @@ begin
   Result := FOutline.BorderStyle;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomZipOutline.GetCount : Integer;
+function TAbCustomZipOutline.GetCount : NativeInt;
 begin
   if Assigned(FArchive) then
     Result := FArchive.Count
@@ -2115,7 +2115,7 @@ end;
 procedure TAbCustomZipOutline.UpdateOutline;
 var
   Found : Boolean;
-  i : Integer;
+  i : NativeInt;
   CurRoot : TTreeNode;
   CurParent : TTreeNode;
   CurChild : TTreeNode;

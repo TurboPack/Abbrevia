@@ -166,7 +166,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipView.DoChange(Sender : TObject);
 var
-  i : Integer;
+  i : NativeInt;
   TheArchive : TAbArchive;
   Include : Boolean;
 begin

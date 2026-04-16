@@ -103,7 +103,7 @@ type
                             var aMatch       : TAbDfMatch;
                           const aPrevMatch   : TAbDfMatch) : boolean;
       function GetNextChar : Byte;
-      function GetNextKeyLength : integer;
+      function GetNextKeyLength : Int64;
       function Position : int64;
       procedure ReadBuffer(var aBuffer; aCount  : Integer;
                                         aOffset : Int64);
@@ -117,7 +117,7 @@ type
 implementation
 
 uses
-  SysUtils;
+  SysUtils, AbUtils;
 
 {Notes:
         Meaning of the internal pointers:
@@ -229,7 +229,7 @@ procedure TAbDfInputWindow.Advance(aCount     : integer;
                                    aHashCount : integer);
 var
   i : integer;
-  ByteCount : integer;
+  ByteCount : NativeInt;
   Percent   : integer;
   HashChains: PAbPointerList;
   HashHeads : PAbPointerList;
@@ -299,7 +299,7 @@ begin
   if Assigned(FOnProgress) then begin
     inc(FBytesUsed, aCount);
     if ((FBytesUsed and $FFF) = 0) then begin
-      Percent := Round((100.0 * FBytesUsed) / FStreamSize);
+      Percent := AbToInt32(Round((100.0 * FBytesUsed) / FStreamSize));
       FOnProgress(Percent);
     end;
   end;
@@ -336,7 +336,7 @@ begin
   if Assigned(FOnProgress) then begin
     inc(FBytesUsed, 1);
     if ((FBytesUsed and $FFF) = 0) then begin
-      Percent := Round((100.0 * FBytesUsed) / FStreamSize);
+      Percent := AbToInt32(Round((100.0 * FBytesUsed) / FStreamSize));
       FOnProgress(Percent);
     end;
   end;
@@ -372,7 +372,7 @@ type
 var
   MaxLen     : Integer;
   MaxDist    : Integer;
-  MaxMatch   : integer;
+  MaxMatch   : Integer;
   ChainLen   : integer;
   PrevStrPos : PByte;
   CurPos     : PByte;
@@ -409,7 +409,7 @@ begin
   FHashChains^[Integer(CurPos) and FWinMask] := PrevStrPos;
 
   {calculate the maximum match we could do at this position}
-  MaxMatch := (FLookAheadEnd - CurPos);
+  MaxMatch := AbToInt32(FLookAheadEnd - CurPos);
   if (MaxMatch > FMaxMatchLen) then
     MaxMatch := FMaxMatchLen;
   if (aAmpleLength > MaxMatch) then
@@ -587,7 +587,7 @@ begin
       if (Len > MaxLen) then begin
         MaxLen := Len;
         {calculate the distance}
-        MaxDist := CurPos - PrevStrPos;
+        MaxDist := AbToInt32(CurPos - PrevStrPos);
         MaxCh := CurPos[pred(MaxLen)];
 
         {is the new best length ample enough?}
@@ -626,7 +626,7 @@ begin
   inc(FCurrent);
 end;
 {--------}
-function TAbDfInputWindow.GetNextKeyLength : integer;
+function TAbDfInputWindow.GetNextKeyLength : Int64;
 begin
   Result := FLookAheadEnd - FCurrent;
   if (Result > 3) then
@@ -646,12 +646,12 @@ end;
 {--------}
 procedure TAbDfInputWindow.iwReadFromStream;
 var
-  BytesRead   : Integer;
-  BytesToRead : Integer;
+  BytesRead   : Int64;
+  BytesToRead : Int64;
 begin
   {read some more data into the look ahead zone}
   BytesToRead := FBufferEnd - FLookAheadEnd;
-  BytesRead := FStream.Read(FLookAheadEnd^, BytesToRead);
+  BytesRead := FStream.Read(FLookAheadEnd^, NativeInt(BytesToRead));
 
   {if nothing was read, we reached the end of the stream; hence
    there's no more need to slide the window since we have all the
@@ -663,9 +663,9 @@ begin
   else begin
     {update the checksum}
     if FUseCRC32 then
-      AbUpdateCRCBuffer(FChecksum, FLookAheadEnd^, BytesRead)
+      AbUpdateCRCBuffer(FChecksum, FLookAheadEnd^, AbToInt32(BytesRead))
     else
-      AbUpdateAdlerBuffer(FChecksum, FLookAheadEnd^, BytesRead);
+      AbUpdateAdlerBuffer(FChecksum, FLookAheadEnd^, AbToInt32(BytesRead));
 
     {reposition the pointer for the end of the lookahead area}
     inc(FLookAheadEnd, BytesRead);
@@ -704,13 +704,13 @@ type
   PNativeInt = ^NativeInt;
 var
   i : integer;
-  ByteCount : integer;
+  ByteCount : Int64;
   Buffer    : NativeInt;
   ListItem  : PNativeInt;
 begin
   {move current valid data back to the start of the buffer}
   ByteCount := FLookAheadEnd - FStart;
-  Move(FStart^, FBuffer^, ByteCount);
+  Move(FStart^, FBuffer^, NativeInt(ByteCount));
 
   {reset the various pointers}
   ByteCount := FStart - FBuffer;

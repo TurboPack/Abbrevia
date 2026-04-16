@@ -115,22 +115,22 @@ type
       var Abort : Boolean);
     procedure DoGetNextCabinet(CabIndex : Integer; var CabName : string;
                                var Abort : Boolean);
-    procedure ExtractItemAt(Index : Integer; const NewName : string);
+    procedure ExtractItemAt(Index : NativeInt; const NewName : string);
       override;
-    procedure ExtractItemToStreamAt(Index : Integer; OutStream : TStream);
+    procedure ExtractItemToStreamAt(Index : NativeInt; OutStream : TStream);
       override;
-    function  GetItem(ItemIndex : Integer) : TAbCabItem;
+    function  GetItem(ItemIndex : NativeInt) : TAbCabItem;
     procedure LoadArchive;
       override;
     procedure OpenCabFile;
-    procedure PutItem( Index : Integer; Value : TAbCabItem );
+    procedure PutItem( Index : NativeInt; Value : TAbCabItem );
     procedure SaveArchive;
       override;
     procedure SetFolderThreshold(Value : UInt32);
     procedure SetSetID(Value : Word);
     procedure SetSpanningThreshold(Value : Int64);
       override;
-    procedure TestItemAt(Index : Integer);
+    procedure TestItemAt(Index : NativeInt);
       override;
 
   public {methods}
@@ -161,7 +161,7 @@ type
       read  FHasPrev;
     property HasNext : Boolean
       read  FHasNext;
-    property Items[Index : Integer] : TAbCabItem
+    property Items[Index : NativeInt] : TAbCabItem
       read  GetItem
       write PutItem; default;
     property ItemProgress : DWord
@@ -220,42 +220,42 @@ begin
     raise EAbFCIFileOpenError.Create;
 end;
 { -------------------------------------------------------------------------- }
-function FCI_FileRead(hFile: PtrInt; lpBuffer: Pointer;
+function FCI_FileRead(AFile: PtrInt; lpBuffer: Pointer;
   uBytes: UINT; PError: PInteger; Archive: TAbCabArchive) : UINT;
   cdecl;
   {read from a file}
 begin
-  Result := _lread(hFile, lpBuffer, uBytes);
+  Result := _lread(HFILE(AFile), lpBuffer, uBytes);
   if (Result = UINT(-1)) then
     raise EAbFCIFileReadError.Create;
 end;
 { -------------------------------------------------------------------------- }
-function FCI_FileWrite(hFile: PtrInt; lpBuffer: Pointer;
+function FCI_FileWrite(AFile: PtrInt; lpBuffer: Pointer;
   uBytes: UINT; PError: PInteger; Archive: TAbCabArchive) : UINT;
   cdecl;
   {write to a file}
 begin
-  Result := _lwrite(hFile, lpBuffer, uBytes);
+  Result := _lwrite(HFILE(AFile), lpBuffer, uBytes);
   if (Result = UINT(-1)) then
     raise EAbFCIFileWriteError.Create;
 end;
 { -------------------------------------------------------------------------- }
-function FCI_FileClose(hFile: PtrInt; PError: PInteger;
+function FCI_FileClose(AFile: PtrInt; PError: PInteger;
   Archive: TAbCabArchive) : Integer;
   cdecl;
   {close a file}
 begin
-  Result := _lclose(hFile);
+  Result := _lclose(HFILE(AFile));
   if (Result = -1) then
     raise EAbFCIFileCloseError.Create;
 end;
 { -------------------------------------------------------------------------- }
-function FCI_FileSeek(hFile: PtrInt; Offset: Integer;
+function FCI_FileSeek(AFile: PtrInt; Offset: Integer;
   Origin: Integer; PError: PInteger; Archive: TAbCabArchive) : Integer;
   cdecl;
   {reposition file pointer}
 begin
-  Result := _llseek(hFile, Offset, Origin);
+  Result := _llseek(HFILE(AFile), Offset, Origin);
   if (Result = -1) then
     raise EAbFCIFileSeekError.Create;
 end;
@@ -311,10 +311,10 @@ begin
     raise EAbFCIFileOpenError.Create;
   if not AbFileGetAttrEx(string(lpPathname), AttrEx) then
     raise EAbFileNotFound.Create;
-  PAttribs^ := AttrEx.Attr;
+  PAttribs^ := AbToWord(AttrEx.Attr);
   DT := DateTimeToFileDate(AttrEx.Time);
-  PDate^ := DT shr 16;
-  PTime^ := DT and $0FFFF;
+  PDate^ := AbToWord(DT shr 16);
+  PTime^ := AbToWord(DT and $0FFFF);
   Archive.ItemProgress := 0;
   Archive.FItemInProgress.UncompressedSize := AttrEx.Size;
   RawName := Archive.FItemInProgress.RawFileName;
@@ -373,14 +373,14 @@ function FDI_FileRead(hFile: PtrInt; lpBuffer: Pointer; uBytes: UINT) : UINT;
   cdecl;
   {read from a file}
 begin
-  Result := TStream(hFile).Read(lpBuffer^, uBytes);
+  Result := UINT(TStream(hFile).Read(lpBuffer^, uBytes));
 end;
 { -------------------------------------------------------------------------- }
 function FDI_FileWrite(hFile: PtrInt; lpBuffer: Pointer; uBytes: UINT) : UINT;
   cdecl;
   {write to a file}
 begin
-  Result := TStream(hFile).Write(lpBuffer^, uBytes);
+  Result := UINT(TStream(hFile).Write(lpBuffer^, uBytes));
 end;
 { -------------------------------------------------------------------------- }
 function FDI_FileClose(hFile : PtrInt) : Integer;
@@ -399,7 +399,7 @@ function FDI_FileSeek(hFile : PtrInt; Offset : Integer; Origin : Integer) : Inte
   cdecl;
   {reposition file pointer}
 begin
-  Result := TStream(hFile).Seek(Offset, Origin);
+  Result := UINT(TStream(hFile).Seek(Offset, AbToWord(Origin)));
 end;
 { -------------------------------------------------------------------------- }
 function FDI_EnumerateFiles(fdint : FDINOTIFICATIONTYPE;
@@ -617,7 +617,7 @@ begin
     {set cabinet parameters}
   with FFCICabInfo do begin
     if (SpanningThreshold > 0) then
-      cb := SpanningThreshold
+      cb := AbToInt32(SpanningThreshold)
     else
       cb := AbDefCabSpanningThreshold;
     if (FolderThreshold > 0) then
@@ -681,10 +681,10 @@ begin
   if Assigned(FOnRequestImage) then
     FOnRequestImage(Self, CabIndex, CabName, Abort)
   else
-    AbIncFilename(CabName, CabIndex);
+    AbIncFilename(CabName, AbToWord(CabIndex));
 end;
 {----------------------------------------------------------------------------}
-procedure TAbCabArchive.ExtractItemAt(Index : Integer; const NewName : string);
+procedure TAbCabArchive.ExtractItemAt(Index : NativeInt; const NewName : string);
   {extract a file from the cabinet}
 begin
   FItemInProgress := GetItem(Index);
@@ -698,7 +698,7 @@ begin
   end;
 end;
 {----------------------------------------------------------------------------}
-procedure TAbCabArchive.ExtractItemToStreamAt(Index : Integer; OutStream : TStream);
+procedure TAbCabArchive.ExtractItemToStreamAt(Index : NativeInt; OutStream : TStream);
 begin
   FItemInProgress := GetItem(Index);
   FItemStream := OutStream;
@@ -711,7 +711,7 @@ begin
   end;
 end;
 {----------------------------------------------------------------------------}
-function TAbCabArchive.GetItem(ItemIndex : Integer) : TAbCabItem;
+function TAbCabArchive.GetItem(ItemIndex : NativeInt) : TAbCabItem;
   {fetch an item from the file list}
 begin
   Result := TAbCabItem(FItemList.Items[ItemIndex]);
@@ -779,7 +779,7 @@ begin
   DoArchiveProgress(100, Abort);
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCabArchive.PutItem( Index : Integer; Value : TAbCabItem );
+procedure TAbCabArchive.PutItem( Index : NativeInt; Value : TAbCabItem );
   {replace an existing item in the file list}
 begin
   FItemList.Items[Index] := Value;
@@ -814,10 +814,10 @@ begin
     FSpanningThreshold := Value
   else
     FSpanningThreshold := AbDefCabSpanningThreshold;
-  FFCICabInfo.cb := FSpanningThreshold;
+  FFCICabInfo.cb := AbToInt32(FSpanningThreshold);
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbCabArchive.TestItemAt(Index : Integer);
+procedure TAbCabArchive.TestItemAt(Index : NativeInt);
 begin
   {not implemented for cabinet archives}
 end;

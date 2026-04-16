@@ -293,7 +293,7 @@ type
     function GetUserID: Integer;
     function GetUserName: string;
     function GetModTime: Int64;
-    function GetNumHeaders: Integer;
+    function GetNumHeaders: NativeInt;
     function GetMagic: string;
 
     { All Sets shall update the headers Or add headers as needed.  }
@@ -380,7 +380,7 @@ type
       read FTarItem.ItemReadOnly write FTarItem.ItemReadOnly;
     property FileHeaderCount: Integer
       read FTarItem.FileHeaderCount;
-    property HeaderCount: Integer
+    property HeaderCount: NativeInt
       read GetNumHeaders;
     property StreamPosition: Int64
       read FTarItem.StreamPosition write FTarItem.StreamPosition;
@@ -419,15 +419,15 @@ type
   protected
     function CreateItem(const FileSpec : string): TAbArchiveItem;
       override;
-    procedure ExtractItemAt(Index : Integer; const UseName : string);
+    procedure ExtractItemAt(Index : NativeInt; const UseName : string);
       override;
-    procedure ExtractItemToStreamAt(Index : Integer; aStream : TStream);
+    procedure ExtractItemToStreamAt(Index : NativeInt; aStream : TStream);
       override;
     procedure LoadArchive;
       override;
     procedure SaveArchive;
       override;
-    procedure TestItemAt(Index : Integer);
+    procedure TestItemAt(Index : NativeInt);
       override;
     function FixName(const Value: string): string;
       override;
@@ -459,9 +459,9 @@ uses
   Math, RTLConsts, SysUtils, IOUtils, Character, AbBytes, AbCharset, AbVMStrm, AbExcept;
 
 { ****************** Helper functions Not from Classes Above ***************** }
-function OctalToInt(const Oct : Pointer; aLen : integer): Int64;
+function OctalToInt(const Oct : Pointer; const aLen : Int64): Int64;
 var
-  i : integer;
+  i : Int64;
   pBuffer: PByte;
 begin
   pBuffer := PByte(oct);
@@ -479,6 +479,11 @@ begin
     Result := (Result * 8) + (Ord(pBuffer[i]) - Ord('0'));
     inc(i);
   end;
+end;
+
+function OctalToInt32(const Oct : Pointer; const aLen : Int32): Int32;
+begin
+  Result := AbToInt32(OctalToInt(Oct, ALen));
 end;
 
 function IntToOctal(Value : Int64): string;
@@ -605,7 +610,7 @@ end;
 
 destructor TAbTarItem.Destroy;
 var
-  i : Integer;
+  i : NativeInt;
 begin
   if Assigned(FTarHeaderList) then
   begin
@@ -721,7 +726,7 @@ begin
 end;
 
 { Get Number of tar headers currently for this item }
-function  TAbTarItem.GetNumHeaders: Integer;
+function  TAbTarItem.GetNumHeaders: NativeInt;
 begin
   Result := FTarHeaderList.Count;
 end;
@@ -786,8 +791,8 @@ begin
       FoundName := True;
       RawFileName := [];
       NameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));
-      NumMHeaders := NameLength div AB_TAR_RECORDSIZE;
-      ExtraName := NameLength mod AB_TAR_RECORDSIZE; { Chars in the last Header }
+      NumMHeaders := AbToInt32(NameLength div AB_TAR_RECORDSIZE);
+      ExtraName := AbToInt32(NameLength mod AB_TAR_RECORDSIZE); { Chars in the last Header }
       { NumMHeaders should never be zero }
       { It appears that it is not null terminated in the blocks }
       for J := 1 to NumMHeaders do
@@ -855,8 +860,8 @@ begin
       FoundName := True;
       RawLinkName := [];
       NameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));
-      NumMHeaders := NameLength div AB_TAR_RECORDSIZE;
-      ExtraName := NameLength mod AB_TAR_RECORDSIZE; { Chars in the last Header }
+      NumMHeaders := AbToInt32(NameLength div AB_TAR_RECORDSIZE);
+      ExtraName := AbToInt32(NameLength mod AB_TAR_RECORDSIZE); { Chars in the last Header }
       { NumMHeaders should never be zero }
       { It appears that it is not null terminated in the blocks }
       for J := 1 to NumMHeaders do
@@ -894,7 +899,7 @@ var
   TarChkSum : Integer;
   TarChkSumArr : Arr8; { ChkSum field is Arr8 }
   PHeader: PAbTarHeaderRec;
-  I: Integer;
+  I: NativeInt;
 begin
   Result := True;
   { Check sums are in valid headers but NOT in the data headers. }
@@ -905,7 +910,7 @@ begin
       PHeader := FTarHeaderList.Items[i];
       { Save off old Check sum }
       Move(PHeader.ChkSum, TarChkSumArr, SizeOf(PHeader.ChkSum));
-      TarChkSum := OctalToInt(@TarChkSumArr, SizeOf(TarChkSumArr));
+      TarChkSum := OctalToInt32(@TarChkSumArr, SizeOf(TarChkSumArr));
       { Set to Generator Value }
       TAbBytes.FromString(AB_TAR_CHKBLANKS, @PHeader.ChkSum);
       if CalcTarHeaderChkSum(PHeader^) <> TarChkSum then
@@ -922,9 +927,9 @@ begin
   DetectHeaderFormat;
   { Long term this parsing is not correct, as the values in extended headers
     override the later values in this header }
-  FTarItem.Mode := OctalToInt(@PTarHeader.Mode, SizeOf(PTarHeader.Mode));
-  FTarItem.uid := OctalToInt(@PTarHeader.uid, SizeOf(PTarHeader.uid)); { Extended in PAX Headers }
-  FTarItem.gid := OctalToInt(@PTarHeader.gid, SizeOf(PTarHeader.gid)); { Extended in PAX Headers }
+  FTarItem.Mode := OctalToInt32(@PTarHeader.Mode, SizeOf(PTarHeader.Mode));
+  FTarItem.uid := OctalToInt32(@PTarHeader.uid, SizeOf(PTarHeader.uid)); { Extended in PAX Headers }
+  FTarItem.gid := OctalToInt32(@PTarHeader.gid, SizeOf(PTarHeader.gid)); { Extended in PAX Headers }
   FTarItem.Size := OctalToInt(@PTarHeader.Size, SizeOf(PTarHeader.Size)); { Extended in PAX Headers }
   { ModTime should be an Int64 but no tool support, No issues until Feb 6th, 2106 :) }
   { ModTime is Extended in PAX Headers }
@@ -933,11 +938,11 @@ begin
   FTarItem.LinkFlag := PTarHeader.LinkFlag;
   GetLinkNameFromHeaders; { Extended in PAX Headers }
   FTarItem.Magic := TAbBytes.AsString(@PTarHeader.Magic.value);
-  FTarItem.Version := OctalToInt(@PTarHeader.Magic.version, SizeOf(PTarHeader.Magic.version));
+  FTarItem.Version := OctalToInt32(@PTarHeader.Magic.version, SizeOf(PTarHeader.Magic.version));
   FTarItem.UsrName := TAbBytes.AsString(@PTarHeader.UsrName); { Extended in PAX Headers }
   FTarItem.GrpName := TAbBytes.AsString(@PTarHeader.GrpName); { Extended in PAX Headers }
-  FTarItem.DevMajor := OctalToInt(@PTarHeader.DevMajor, SizeOf(PTarHeader.DevMajor));
-  FTarItem.DevMinor := OctalToInt(@PTarHeader.DevMinor, SizeOf(PTarHeader.DevMinor));
+  FTarItem.DevMajor := OctalToInt32(@PTarHeader.DevMajor, SizeOf(PTarHeader.DevMajor));
+  FTarItem.DevMinor := OctalToInt32(@PTarHeader.DevMinor, SizeOf(PTarHeader.DevMinor));
   GetFileNameFromHeaders;
   { FTarItem.ArchiveFormat;  Already stuffed }
   { FTarItem.StreamPosition: Already Stuffed }
@@ -947,7 +952,7 @@ end;
 procedure TAbTarItem.LoadTarHeaderFromStream(AStream: TStream);
 var
   NumMHeaders : Integer;
-  I : Integer;
+  I : NativeInt;
   FoundItem : Boolean;
 begin
   { Note: The SizeOf(TAbTarHeaderRec) = AB_TAR_RECORDSIZE }
@@ -1023,7 +1028,7 @@ begin
   { Re-wind the Stream back to the begining of this Item inc. all headers }
   AStream.Seek(-(FTarHeaderList.Count*AB_TAR_RECORDSIZE), soCurrent);
   { AStream.Position := FTarItem.StreamPosition; } { This should be equivalent as above }
-  FTarItem.FileHeaderCount := FTarHeaderList.Count;
+  FTarItem.FileHeaderCount := AbToInt32(FTarHeaderList.Count);
   if FTarItem.ItemType <> UNKNOWN_ITEM then
   begin
     ParseTarHeaders; { Update FTarItem values }
@@ -1040,13 +1045,13 @@ end;
 
 procedure TAbTarItem.SaveTarHeaderToStream(AStream: TStream);
 var
-  i : Integer;
+  i : NativeInt;
   j : Integer;
   PHeader :  PAbTarHeaderRec;
   HdrChkSum : Integer;
   HdrChkStr : string;
   HdrBuffer : PByte;
-  SkipNextChkSum: Integer;
+  SkipNextChkSum: NativeInt;
   SkipChkSum: Boolean;
   pBytes: TBytes;
 begin
@@ -1108,7 +1113,7 @@ begin
     AStream.Write(PHeader^, AB_TAR_RECORDSIZE);
   end; { End for the number of headers in the list }
   { Updated here as the stream is now updated to the latest number of headers }
-  FTarItem.FileHeaderCount := FTarHeaderList.Count;
+  FTarItem.FileHeaderCount := AbToInt32(FTarHeaderList.Count);
 end;
 
 procedure TAbTarItem.SetCompressedSize(const Value: Int64);
@@ -1161,7 +1166,7 @@ end;
 procedure TAbTarItem.SetExternalFileAttributes(Value: UInt32);
 var
   S : string;
-  I: Integer;
+  I: NativeInt;
   pBytes: TBytes;
 begin
   if FTarItem.ItemReadOnly then { Read Only - Do Not Save }
@@ -1191,7 +1196,7 @@ begin
   PHeader := FTarHeaderList.Items[I];
 
   { Need this data from the old header }
-  OldNameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));{ inlcudes Null termination }
+  OldNameLength := OctalToInt32(@PHeader.Size, SizeOf(PHeader.Size));{ inlcudes Null termination }
   { Length(FTarItem.Name)+1 = OldNameLength; }{ This should be true, always }
 
   { Save off the new Length, so we don't have to change the pointers later. }
@@ -1282,7 +1287,7 @@ begin
   Move(pBytes[0], PHeader.Size, Length(pBytes));
   TAbBytes.StrPCopy(@PHeader.ModTime, AB_TAR_L_HDR_ARR12_0);  { Stuff zeros }
   { Check sum will be calculated as the Dirty flag is in caller. }
-  PHeader.LinkFlag := Ord(LinkFlag);  { Stuff Link FlagSize }
+  PHeader.LinkFlag := AbToByte(Ord(LinkFlag));  { Stuff Link FlagSize }
   TAbBytes.StrPCopy(@PHeader.Magic.gnuOld, AB_TAR_MAGIC_GNUOLD); { Stuff the magic }
   TAbBytes.StrPCopy(@PHeader.UsrName, AB_TAR_L_HDR_USR_NAME);
   TAbBytes.StrPCopy(@PHeader.GrpName, AB_TAR_L_HDR_GRP_NAME);
@@ -1334,7 +1339,8 @@ procedure TAbTarItem.SetFileName(const Value: string);
 var
   FoundMetaDataHeader: Boolean;
   PHeader: PAbTarHeaderRec;
-  I, J: Integer;
+  I: NativeInt;
+  J: Integer;
   TotalOldNumHeaders: Integer;
   pBytes: TBytes;
 begin
@@ -1373,7 +1379,7 @@ begin
       if PHeader.LinkFlag = Ord(AB_TAR_LF_LONGNAME) then begin
         { We are growing or Shriking the Name MD Data fields.  }
         FoundMetaDataHeader := True;
-        DoGNUExistingLongNameLink(AB_TAR_LF_LONGNAME, I, Value);
+        DoGNUExistingLongNameLink(AB_TAR_LF_LONGNAME, AbToInt32(I), Value);
         { Need to copy the Name to the header. }
         FTarItem.Name := Value;
       end
@@ -1499,9 +1505,9 @@ begin
   { replace date, keep existing time }
   LastModTimeAsDateTime :=
     EncodeDate(
-      Value shr 9 + 1980,
-      Value shr 5 and 15,
-      Value and 31) +
+      AbToWord(Value shr 9 + 1980),
+      AbToWord(Value shr 5 and 15),
+      AbToWord(Value and 31)) +
     Frac(LastModTimeAsDateTime);
 end;
 
@@ -1511,9 +1517,9 @@ begin
   LastModTimeAsDateTime :=
     Trunc(LastModTimeAsDateTime) +
     EncodeTime(
-      Value shr 11,
-      Value shr 5 and 63,
-      Value and 31 shl 1, 0);
+      AbToWord(Value shr 11),
+      AbToWord(Value shr 5 and 63),
+      AbToWord(Value and 31 shl 1), 0);
 end;
 
 procedure TAbTarItem.SetLastModTimeAsDateTime(const Value: TDateTime);
@@ -1837,7 +1843,7 @@ end;
 procedure TAbTarStreamHelper.WriteArchiveItemSize(AStream: TStream; Size: Int64);
 var
   PadBuff : PByte;
-  PadSize : Integer;
+  PadSize : Int64;
 begin
   if Size = 0 then
     Exit;
@@ -1848,7 +1854,7 @@ begin
   PadSize := RoundToTarBlock(Size) - Size;
   GetMem(PadBuff, PadSize);
   FillChar(PadBuff^, PadSize, #0);
-  FStream.Write(PadBuff^, PadSize);
+  FStream.Write(PadBuff^, NativeInt(PadSize));
   FreeMem(PadBuff, PadSize);
 end;
 
@@ -1883,7 +1889,7 @@ function TAbTarArchive.CreateItem(const FileSpec: string): TAbArchiveItem;
 var
   Item : TAbTarItem;
   S : String;
-  I: Integer;
+  I: NativeInt;
 begin
   if FArchReadOnly then
     raise EAbTarBadOp.Create; { Create Item Unsupported in this Archive }
@@ -1933,7 +1939,7 @@ begin
 end;
 
 
-procedure TAbTarArchive.ExtractItemAt(Index: Integer; const UseName: string);
+procedure TAbTarArchive.ExtractItemAt(Index: NativeInt; const UseName: string);
 var
   OutStream : TBufferedFileStream;
   CurItem : TAbTarItem;
@@ -1973,7 +1979,7 @@ begin
   AbSetFileAttr(UseName, CurItem.NativeFileAttributes);
 end;
 
-procedure TAbTarArchive.ExtractItemToStreamAt(Index: Integer;
+procedure TAbTarArchive.ExtractItemToStreamAt(Index: NativeInt;
   aStream: TStream);
 var
   CurItem : TAbTarItem;
@@ -2004,7 +2010,7 @@ var
   ItemFound    : Boolean;
   Abort        : Boolean;
   Confirm      : Boolean;
-  i            : Integer;
+  i            : NativeInt;
   Progress     : Byte;
 
 begin
@@ -2042,7 +2048,7 @@ begin
         end;
 
         { show progress and allow for aborting }
-        Progress := (FStream.Position*100) div FStream.Size;
+        Progress := AbToByte((FStream.Position*100) div FStream.Size);
         DoArchiveProgress(Progress, Abort);
         if Abort then begin
           FStatus := asInvalid;
@@ -2135,7 +2141,7 @@ procedure TAbTarArchive.SaveArchive;
 var
   OutTarHelp     : TAbTarStreamHelper;
   Abort          : Boolean;
-  i              : Integer;
+  i              : NativeInt;
   NewStream      : TAbVirtualMemoryStream;
   TempStream     : TStream;
   SaveDir        : string;
@@ -2263,7 +2269,7 @@ begin
 end;
 
 { This assumes that LoadArchive has been called. }
-procedure TAbTarArchive.TestItemAt(Index: Integer);
+procedure TAbTarArchive.TestItemAt(Index: NativeInt);
 begin
   FStream.Position := TAbTarItem(FItemList[Index]).StreamPosition;
   if VerifyTar(FStream) <> atTar then

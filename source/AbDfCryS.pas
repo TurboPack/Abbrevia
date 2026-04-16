@@ -179,13 +179,13 @@ begin
 
   {calculate the decoded byte (uses inlined decrypt_byte)}
   Temp := (FState[2] and $FFFF) or 2;
-  Result := aCh xor ((Temp * (Temp xor 1)) shr 8);
+  Result := AbToByte(aCh xor ((Temp * (Temp xor 1)) shr 8));
 
   {mix the decoded byte into the state (uses inlined update_keys)}
   FState[0] := AbUpdateCrc32(Result, FState[0]);
   FState[1] := FState[1] + (FState[0] and $FF);
   FState[1] := (FState[1] * MagicNumber) + 1;
-  FState[2] := AbUpdateCrc32(FState[1] shr 24, FState[2]);
+  FState[2] := AbUpdateCrc32(AbToByte(FState[1] shr 24), FState[2]);
 end;
 {--------}
 procedure TAbZipDecryptEngine.DecodeBuffer(var aBuffer; aCount : integer);
@@ -216,10 +216,10 @@ begin
                   byte(Buffer^) xor ((Temp * (Temp xor 1)) shr 8));
 
     {mix the decoded byte into the state (uses inlined update_keys)}
-    WorkState[0] := AbUpdateCrc32(byte(Buffer^), WorkState[0]);
+    WorkState[0] := AbUpdateCrc32(Byte(Buffer^), WorkState[0]);
     WorkState[1] := WorkState[1] + (WorkState[0] and $FF);
     WorkState[1] := (WorkState[1] * MagicNumber) + 1;
-    WorkState[2] := AbUpdateCrc32(WorkState[1] shr 24, WorkState[2]);
+    WorkState[2] := AbUpdateCrc32(AbToByte(WorkState[1] shr 24), WorkState[2]);
 
     {move onto the next byte}
     inc(Buffer);
@@ -255,13 +255,13 @@ begin
 
     {calculate the next decoded byte (uses inlined decrypt_byte)}
     Temp := (FState[2] and $FFFF) or 2;
-    WorkHeader[i] := aHeader[i] xor ((Temp * (Temp xor 1)) shr 8);
+    WorkHeader[i] := AbToByte(aHeader[i] xor ((Temp * (Temp xor 1)) shr 8));
 
     {mix the decoded byte into the state (uses inlined update_keys)}
     FState[0] := AbUpdateCrc32(WorkHeader[i], FState[0]);
     FState[1] := FState[1] + (FState[0] and $FF);
     FState[1] := (FState[1] * MagicNumber) + 1;
-    FState[2] := AbUpdateCrc32(FState[1] shr 24, FState[2]);
+    FState[2] := AbUpdateCrc32(AbToByte(FState[1] shr 24), FState[2]);
   end;
 
   {the header is valid if the twelfth byte of the decrypted header
@@ -276,7 +276,7 @@ end;
 {--------}
 procedure TAbZipDecryptEngine.zdeInitState(const aPassphrase : string);
 var
-  i : integer;
+  i : NativeInt;
   pBytes: TBytes;
 begin
   {initialize the decryption state}
@@ -290,7 +290,7 @@ begin
     FState[0] := AbUpdateCrc32(pBytes[i], FState[0]);
     FState[1] := FState[1] + (FState[0] and $FF);
     FState[1] := (FState[1] * MagicNumber) + 1;
-    FState[2] := AbUpdateCrc32(FState[1] shr 24, FState[2]);
+    FState[2] := AbUpdateCrc32(AbToByte(FState[1] shr 24), FState[2]);
   end;
 end;
 {====================================================================}
@@ -412,7 +412,7 @@ begin
   for i := 0 to 9 do begin
 
     {get a random value}
-    Ch := Random( 256 );
+    Ch := AbToByte(Random(256));
 
     {calculate the XOR encoding byte (uses inlined decrypt_byte)}
     Temp := (FState[2] and $FFFF) or 2;
@@ -422,10 +422,10 @@ begin
     FState[0] := AbUpdateCrc32(Ch, FState[0]);
     FState[1] := FState[1] + (FState[0] and $FF);
     FState[1] := (FState[1] * MagicNumber) + 1;
-    FState[2] := AbUpdateCrc32(FState[1] shr 24, FState[2]);
+    FState[2] := AbUpdateCrc32(AbToByte(FState[1] shr 24), FState[2]);
 
     {set the current byte of the header}
-    WorkHeader[i] := Ch xor Temp;
+    WorkHeader[i] := AbToByte(Ch xor Temp);
   end;
 
   {now encrypt the first ten bytes of the header (this merely sets up
@@ -445,10 +445,10 @@ begin
     FState[0] := AbUpdateCrc32(WorkHeader[i], FState[0]);
     FState[1] := FState[1] + (FState[0] and $FF);
     FState[1] := (FState[1] * MagicNumber) + 1;
-    FState[2] := AbUpdateCrc32(FState[1] shr 24, FState[2]);
+    FState[2] := AbUpdateCrc32(AbToByte(FState[1] shr 24), FState[2]);
 
     {set the current byte of the header}
-    WorkHeader[i] := WorkHeader[i] xor Temp;
+    WorkHeader[i] := AbToByte(WorkHeader[i] xor Temp);
   end;
 
   {now initialize byte 10 of the header, and encrypt it}
@@ -458,8 +458,8 @@ begin
   FState[0] := AbUpdateCrc32(Ch, FState[0]);
   FState[1] := FState[1] + (FState[0] and $FF);
   FState[1] := (FState[1] * MagicNumber) + 1;
-  FState[2] := AbUpdateCrc32(FState[1] shr 24, FState[2]);
-  WorkHeader[10] := Ch xor Temp;
+  FState[2] := AbUpdateCrc32(AbToByte(FState[1] shr 24), FState[2]);
+  WorkHeader[10] := AbToByte(Ch xor Temp);
 
   {now initialize byte 11 of the header, and encrypt it}
   Ch := TLongAsBytes(aCheckValue).L4;
@@ -468,8 +468,8 @@ begin
   FState[0] := AbUpdateCrc32(Ch, FState[0]);
   FState[1] := FState[1] + (FState[0] and $FF);
   FState[1] := (FState[1] * MagicNumber) + 1;
-  FState[2] := AbUpdateCrc32(FState[1] shr 24, FState[2]);
-  WorkHeader[11] := Ch xor Temp;
+  FState[2] := AbUpdateCrc32(AbToByte(FState[1] shr 24), FState[2]);
+  WorkHeader[11] := AbToByte(Ch xor Temp);
 
   {we're now ready to encrypt}
   FReady := true;
@@ -488,13 +488,13 @@ begin
 
   {calculate the encoded byte (uses inlined decrypt_byte)}
   Temp := (FState[2] and $FFFF) or 2;
-  Result := aCh xor (Temp * (Temp xor 1)) shr 8;
+  Result := AbToByte(aCh xor (Temp * (Temp xor 1)) shr 8);
 
   {mix the unencoded byte into the state (uses inlined update_keys)}
   FState[0] := AbUpdateCrc32(aCh, FState[0]);
   FState[1] := FState[1] + (FState[0] and $FF);
   FState[1] := (FState[1] * MagicNumber) + 1;
-  FState[2] := AbUpdateCrc32(FState[1] shr 24, FState[2]);
+  FState[2] := AbUpdateCrc32(AbToByte(FState[1] shr 24), FState[2]);
 end;
 {--------}
 procedure TAbZipEncryptEngine.EncodeBuffer(var aBuffer; aCount : integer);
@@ -529,7 +529,7 @@ begin
     WorkState[0] := AbUpdateCrc32(Ch, WorkState[0]);
     WorkState[1] := WorkState[1] + (WorkState[0] and $FF);
     WorkState[1] := (WorkState[1] * MagicNumber) + 1;
-    WorkState[2] := AbUpdateCrc32(WorkState[1] shr 24, WorkState[2]);
+    WorkState[2] := AbUpdateCrc32(AbToByte(WorkState[1] shr 24), WorkState[2]);
 
     {move onto the next byte}
     inc(Buffer);
@@ -543,7 +543,7 @@ end;
 {--------}
 procedure TAbZipEncryptEngine.zeeInitState(const aPassphrase : string);
 var
-  i : integer;
+  i : NativeInt;
   pBytes: TBytes;
 begin
   {initialize the decryption state}
@@ -557,7 +557,7 @@ begin
     FState[0] := AbUpdateCrc32(pBytes[i], FState[0]);
     FState[1] := FState[1] + (FState[0] and $FF);
     FState[1] := (FState[1] * MagicNumber) + 1;
-    FState[2] := AbUpdateCrc32(FState[1] shr 24, FState[2]);
+    FState[2] := AbUpdateCrc32(AbToByte(FState[1] shr 24), FState[2]);
   end;
 end;
 {====================================================================}

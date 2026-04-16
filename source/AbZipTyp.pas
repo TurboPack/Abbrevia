@@ -484,11 +484,11 @@ type
     FOnRequestBlankDisk     : TAbRequestDiskEvent;
 
   protected {methods}
-    procedure DoExtractHelper(Index : Integer; const NewName : string);
-    procedure DoExtractToStreamHelper(Index : Integer; aStream : TStream);
-    procedure DoTestHelper(Index : Integer);
-    procedure DoInsertHelper(Index : Integer; OutStream : TStream);
-    procedure DoInsertFromStreamHelper(Index : Integer; OutStream : TStream);
+    procedure DoExtractHelper(Index : NativeInt; const NewName : string);
+    procedure DoExtractToStreamHelper(Index : NativeInt; aStream : TStream);
+    procedure DoTestHelper(Index : NativeInt);
+    procedure DoInsertHelper(Index : NativeInt; OutStream : TStream);
+    procedure DoInsertFromStreamHelper(Index : NativeInt; OutStream : TStream);
     function GetItem( Index : Integer ) : TAbZipItem;
     function GetZipfileComment : string;
     procedure PutItem( Index : Integer; Value : TAbZipItem );
@@ -499,11 +499,11 @@ type
       virtual;
     procedure DoRequestBlankDisk(Sender: TObject; var Abort : Boolean );
       virtual;
-    procedure ExtractItemAt(Index : Integer; const UseName : string);
+    procedure ExtractItemAt(Index : NativeInt; const UseName : string);
       override;
-    procedure ExtractItemToStreamAt(Index : Integer; aStream : TStream);
+    procedure ExtractItemToStreamAt(Index : NativeInt; aStream : TStream);
       override;
-    procedure TestItemAt(Index : Integer);
+    procedure TestItemAt(Index : NativeInt);
       override;
     function FixName(const Value : string ) : string;
       override;
@@ -728,7 +728,7 @@ var
   Done      : boolean;
   BytesRead : Int64;
   BufSize   : Int64;
-  CommentLen: integer;
+  CommentLen: Int64;
 begin
   {save the starting position}
   StartPos := aStream.Seek(0, soCurrent);
@@ -770,7 +770,7 @@ begin
       end;
 
       {read a buffer full}
-      BytesRead := aStream.Read(Buffer^, BufSize);
+      BytesRead := aStream.Read(Buffer^, NativeInt(BufSize));
 
       if BytesRead < sizeOf(TailRec) then begin
         Result := -1;
@@ -829,7 +829,7 @@ procedure MakeSelfExtracting( StubStream, ZipStream,
 var
   DirectoryStart : Int64;
   FileSignature : Integer;
-  StubSize : UInt32;
+  StubSize : Int64;
   TailPosition : Int64;
   ZDFF : TAbZipDirectoryFileFooter;
   ZipItem : TAbZipItem;
@@ -1021,7 +1021,7 @@ begin
   if Value then
     GeneralPurposeBitFlag := GeneralPurposeBitFlag or AbLanguageEncodingFlag
   else
-    GeneralPurposeBitFlag := GeneralPurposeBitFlag and not AbLanguageEncodingFlag;
+    GeneralPurposeBitFlag := AbToWord(GeneralPurposeBitFlag and not AbLanguageEncodingFlag);
 end;
 { -------------------------------------------------------------------------- }
 
@@ -1093,7 +1093,7 @@ begin
   Stream.Write( FUncompressedSize, sizeof( FUncompressedSize ) );
   FileNameLength := Word( Length( pBytes ) );
   Stream.Write( FileNameLength, sizeof( FileNameLength ) );
-  ExtraFieldLength := Length(FExtraField.Buffer);
+  ExtraFieldLength := AbToWord(Length(FExtraField.Buffer));
   Stream.Write( ExtraFieldLength, sizeof( ExtraFieldLength ) );
   if FileNameLength > 0 then
   begin
@@ -1193,7 +1193,7 @@ begin
   Stream.Write( FUncompressedSize, sizeof( FUncompressedSize ) );
   FileNameLength := Word( Length( pBytes ) );
   Stream.Write( FileNameLength, sizeof( FileNameLength ) );
-  ExtraFieldLength := Length(FExtraField.Buffer);
+  ExtraFieldLength := AbToWord(Length(FExtraField.Buffer));
   Stream.Write( ExtraFieldLength, sizeof( ExtraFieldLength ) );
   FileCommentLength := Word( Length( FFileComment ) );
   Stream.Write( FileCommentLength, sizeof( FileCommentLength ) );
@@ -1312,14 +1312,14 @@ begin
     Stream.WriteBuffer(Zip64Locator, SizeOf(Zip64Locator));
   end;
   Footer.Signature := Ab_ZipEndCentralDirectorySignature;
-  Footer.DiskNumber := Min(FDiskNumber, $FFFF);
-  Footer.StartDiskNumber := Min(FStartDiskNumber, $FFFF);
-  Footer.EntriesOnDisk := Min(FEntriesOnDisk, $FFFF);
-  Footer.TotalEntries := Min(FTotalEntries, $FFFF);
-  Footer.DirectorySize := Min(FDirectorySize, $FFFFFFFF);
-  Footer.DirectoryOffset := Min(FDirectoryOffset, $FFFFFFFF);
+  Footer.DiskNumber := AbToWord(Min(FDiskNumber, $FFFF));
+  Footer.StartDiskNumber := AbToWord(Min(FStartDiskNumber, $FFFF));
+  Footer.EntriesOnDisk := AbToWord(Min(FEntriesOnDisk, $FFFF));
+  Footer.TotalEntries := AbToWord(Min(FTotalEntries, $FFFF));
+  Footer.DirectorySize := AbToWord(Min(FDirectorySize, $FFFFFFFF));
+  Footer.DirectoryOffset := AbToWord(Min(FDirectoryOffset, $FFFFFFFF));
   pBytes := TEncoding.ANSI.GetBytes(FZipfileComment);
-  Footer.CommentLength := Length(pBytes);
+  Footer.CommentLength := AbToWord(Length(pBytes));
   Stream.WriteBuffer( Footer, SizeOf(Footer) );
   if pBytes <> nil then
     Stream.Write(pBytes, Length(pBytes));
@@ -1551,8 +1551,8 @@ begin
       LFH.ExtraField.Put(Ab_Zip64SubfieldID, Zip64Field, SizeOf(Zip64Field));
     end
     else begin
-      LFH.UncompressedSize := UncompressedSize;
-      LFH.CompressedSize := CompressedSize;
+      LFH.UncompressedSize := AbToUInt32(UncompressedSize);
+      LFH.CompressedSize := AbToUInt32(CompressedSize);
       LFH.ExtraField.Delete(Ab_Zip64SubfieldID);
     end;
     LFH.SaveToStream( Stream );
@@ -1585,7 +1585,7 @@ end;
 procedure TAbZipItem.SetCompressedSize( const Value : Int64 );
 begin
   FCompressedSize := Value;
-  FItemInfo.CompressedSize := Min(Value, $FFFFFFFF);
+  FItemInfo.CompressedSize := AbToUInt32(Min(Value, $FFFFFFFF));
   UpdateZip64ExtraHeader;
 end;
 { -------------------------------------------------------------------------- }
@@ -1603,7 +1603,7 @@ end;
 procedure TAbZipItem.SetDiskNumberStart( Value : UInt32 );
 begin
   FDiskNumberStart := Value;
-  FItemInfo.DiskNumberStart := Min(Value, $FFFF);
+  FItemInfo.DiskNumberStart := AbToWord(Min(Value, $FFFF));
   UpdateZip64ExtraHeader;
 end;
 { -------------------------------------------------------------------------- }
@@ -1663,7 +1663,7 @@ begin
   if UseExtraField then
   begin
     pBytes := TEncoding.UTF8.GetBytes(Value);
-    FieldSize := SizeOf(TInfoZipUnicodePathRec) + Length(pBytes) - 1;
+    FieldSize := AbToWord(SizeOf(TInfoZipUnicodePathRec) + Length(pBytes) - 1);
     GetMem(InfoZipField, FieldSize);
     try
       InfoZipField.Version := 1;
@@ -1688,8 +1688,8 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetHostOS( Value : TAbZipHostOS );
 begin
-  FItemInfo.VersionMadeBy := Low(FItemInfo.VersionMadeBy) or
-    Word(Ord(Value)) shl 8;
+  FItemInfo.VersionMadeBy := AbToWord(Low(FItemInfo.VersionMadeBy) or
+    Word(Ord(Value)) shl 8);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetInternalFileAttributes( Value : Word );
@@ -1710,14 +1710,14 @@ end;
 procedure TAbZipItem.SetRelativeOffset( Value : Int64 );
 begin
   FRelativeOffset := Value;
-  FItemInfo.RelativeOffset := Min(Value, $FFFFFFFF);
+  FItemInfo.RelativeOffset := AbToUInt32(Min(Value, $FFFFFFFF));
   UpdateZip64ExtraHeader;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetUncompressedSize( const Value : Int64 );
 begin
   FUncompressedSize := Value;
-  FItemInfo.UncompressedSize:= Min(Value, $FFFFFFFF);
+  FItemInfo.UncompressedSize := AbToUInt32(Min(Value, $FFFFFFFF));
   UpdateZip64ExtraHeader;
 end;
 { -------------------------------------------------------------------------- }
@@ -1745,7 +1745,7 @@ begin
     VersionNeededToExtract := 20
   else
     VersionNeededToExtract := 10;
-  VersionMadeBy := (VersionMadeBy and $FF00) + Max(20, VersionNeededToExtract);
+  VersionMadeBy := AbToWord((VersionMadeBy and $FF00) + Max(20, VersionNeededToExtract));
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.UpdateZip64ExtraHeader;
@@ -1765,7 +1765,7 @@ begin
       FieldStream.WriteBuffer(FDiskNumberStart, SizeOf(UInt32));
     Changed := (FieldStream.Size > 0) <> ExtraField.Has(Ab_Zip64SubfieldID);
     if FieldStream.Size > 0 then
-      ExtraField.Put(Ab_Zip64SubfieldID, FieldStream.Memory^, FieldStream.Size)
+      ExtraField.Put(Ab_Zip64SubfieldID, FieldStream.Memory^, AbToWord(FieldStream.Size))
     else
       ExtraField.Delete(Ab_Zip64SubfieldID);
     if Changed then
@@ -1815,7 +1815,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipArchive.DoExtractHelper(Index : Integer; const NewName : string);
+procedure TAbZipArchive.DoExtractHelper(Index : NativeInt; const NewName : string);
 begin
   if Assigned(FExtractHelper) then
     FExtractHelper(Self, ItemList[Index], NewName)
@@ -1823,7 +1823,7 @@ begin
     raise EAbZipNoExtraction.Create;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipArchive.DoExtractToStreamHelper(Index : Integer;
+procedure TAbZipArchive.DoExtractToStreamHelper(Index : NativeInt;
                                                 aStream : TStream);
 begin
   if Assigned(FExtractToStreamHelper) then
@@ -1832,7 +1832,7 @@ begin
     raise EAbZipNoExtraction.Create;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipArchive.DoTestHelper(Index : Integer);
+procedure TAbZipArchive.DoTestHelper(Index : NativeInt);
 begin
   if Assigned(FTestHelper) then
     FTestHelper(Self, ItemList[Index])
@@ -1840,7 +1840,7 @@ begin
     raise EAbZipNoExtraction.Create;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipArchive.DoInsertHelper(Index : Integer; OutStream : TStream);
+procedure TAbZipArchive.DoInsertHelper(Index : NativeInt; OutStream : TStream);
 begin
   if Assigned(FInsertHelper) then
     FInsertHelper(Self, ItemList[Index], OutStream)
@@ -1848,7 +1848,7 @@ begin
     raise EAbZipNoInsertion.Create;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipArchive.DoInsertFromStreamHelper(Index : Integer;
+procedure TAbZipArchive.DoInsertFromStreamHelper(Index : NativeInt;
   OutStream : TStream);
 begin
   if Assigned(FInsertFromStreamHelper) then
@@ -1905,12 +1905,12 @@ begin
     FOnRequestImage(Self, ImageNumber, ImageName, Abort);
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipArchive.ExtractItemAt(Index : Integer; const UseName : string);
+procedure TAbZipArchive.ExtractItemAt(Index : NativeInt; const UseName : string);
 begin
   DoExtractHelper(Index, UseName);
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipArchive.ExtractItemToStreamAt(Index : Integer;
+procedure TAbZipArchive.ExtractItemToStreamAt(Index : NativeInt;
                                               aStream : TStream);
 begin
   DoExtractToStreamHelper(Index, aStream);
@@ -1919,7 +1919,7 @@ end;
 function TAbZipArchive.FixName(const Value : string ) : string;
   {-changes backslashes to forward slashes}
 var
-  i : SmallInt;
+  i : Integer;
   lValue : string;
 begin
   lValue := Value;
@@ -2080,9 +2080,9 @@ begin
 
     if IsExecutable and (Item.DiskNumberStart = 0) and
        (Item.RelativeOffset < FStubSize) then
-      FStubSize := Item.RelativeOffset;
+      FStubSize := AbToUInt32(Item.RelativeOffset);
 
-    Progress := (Count * 100) div FInfo.TotalEntries;
+    Progress := AbToByte((Count * 100) div FInfo.TotalEntries);
     DoArchiveProgress( Progress, Abort );
     if Abort then begin
       FStatus := asInvalid;
@@ -2106,7 +2106,7 @@ var
   Abort              : Boolean;
   MemStream          : TMemoryStream;
   HasDataDescriptor  : Boolean;
-  i                  : UInt32;
+  i                  : NativeInt;
   LFH                : TAbZipLocalFileHeader;
   NewStream          : TStream;
   WorkingStream      : TAbVirtualMemoryStream;
@@ -2276,7 +2276,7 @@ begin
             end;
           end
           else
-            NewStream.WriteBuffer(MemStream.Memory^, MemStream.Size);
+            NewStream.WriteBuffer(MemStream.Memory^, NativeInt(MemStream.Size));
           FInfo.DirectorySize := FInfo.DirectorySize + MemStream.Size;
           FInfo.EntriesOnDisk := FInfo.EntriesOnDisk + 1;
           FInfo.TotalEntries := FInfo.TotalEntries + 1;
@@ -2295,7 +2295,7 @@ begin
         end;
       end
       else
-        NewStream.WriteBuffer(MemStream.Memory^, MemStream.Size);
+        NewStream.WriteBuffer(MemStream.Memory^, NativeInt(MemStream.Size));
     finally {MemStream}
       MemStream.Free;
     end; {MemStream}
@@ -2358,7 +2358,7 @@ begin
   FIsDirty := True;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbZipArchive.TestItemAt(Index : Integer);
+procedure TAbZipArchive.TestItemAt(Index : NativeInt);
 begin
   DoTestHelper(Index);
 end;

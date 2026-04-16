@@ -765,7 +765,7 @@ end; { TBZDecompressionStream }
 
 function TBZDecompressionStream.Seek(const Offset: Int64; Origin: TSeekOrigin): Int64;
 var
-  I     : Integer;
+  I     : Int64;
   Buf   : array[0..4095] of Char;
   conv64: TLargeInteger;
   NewOff: Int64;
@@ -791,7 +791,7 @@ begin
     begin
       for I := 1 to NewOff div sizeof(Buf) do
         ReadBuffer(Buf, sizeof(Buf));
-      ReadBuffer(Buf, NewOff mod sizeof(Buf));
+      ReadBuffer(Buf, NativeInt(NewOff mod sizeof(Buf)));
     end;
   end
   else

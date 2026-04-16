@@ -53,7 +53,7 @@ type
     FTarAutoHandle     : Boolean;
 
   protected {methods}
-    function  GetItem(Index : Integer) : TAbZipItem; virtual;
+    function  GetItem(Index : NativeInt) : TAbZipItem; virtual;
     function  GetStream: TStream;
     function  GetZipfileComment : string;
     procedure InitArchive; override;
@@ -86,7 +86,7 @@ type
     destructor Destroy; override;
 
   public {properties}
-    property Items[Index : Integer] : TAbZipItem
+    property Items[Index : NativeInt] : TAbZipItem
       read  GetItem; default;
     property Stream : TStream // This can be used instead of Filename
       read GetStream write SetStream;
@@ -138,7 +138,7 @@ begin
   inherited Destroy;
 end;
 { -------------------------------------------------------------------------- }
-function TAbCustomZipBrowser.GetItem(Index : Integer) : TAbZipItem;
+function TAbCustomZipBrowser.GetItem(Index : NativeInt) : TAbZipItem;
 begin
   Result := TAbZipItem(ZipArchive.ItemList[Index]);
 end;

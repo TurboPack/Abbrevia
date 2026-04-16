@@ -69,7 +69,7 @@ type
       procedure vmsSetMaxMemToUse(aNewMem : UInt32);
 
       function vmsAlterPageList(aNewMem : UInt32) : UInt32;
-      procedure vmsFindOldestPage(out OldestInx : Integer;
+      procedure vmsFindOldestPage(out OldestInx : NativeInt;
                                   out OldestPage: PvmsPage);
       function vmsGetNextLRU : Integer;
       function vmsGetPageForOffset(aOffset : Int64) : PvmsPage;
@@ -139,7 +139,7 @@ end;
 {--------}
 destructor TAbVirtualMemoryStream.Destroy;
 var
-  Inx : integer;
+  Inx : NativeInt;
 begin
   {destroy the swap file}
   vmsSwapFileDestroy;
@@ -158,11 +158,11 @@ function TAbVirtualMemoryStream.Read(var Buffer; Count : Longint) : Longint;
 var
   BufPtr      : PByte;
   Page        : PvmsPage;
-  PageDataInx : integer;
-  Posn        : int64;
-  BytesToGo   : int64;
-  BytesToRead : int64;
-  StartOfs    : int64;
+  PageDataInx : Int64;
+  Posn        : Int64;
+  BytesToGo   : Int64;
+  BytesToRead : Int64;
+  StartOfs    : Int64;
 begin
   {reading is complicated by the fact we can only read in chunks of
    AB_VMSPageSize: we need to partition out the overall read into a read
@@ -183,7 +183,7 @@ begin
     BytesToGo := vmsSize - vmsPosition;
   if (BytesToGo < 0) then
     BytesToGo := 0;
-  Result := BytesToGo;
+  Result := AbToInt32(BytesToGo);
 
   {while we have bytes to read, read them}
   while (BytesToGo <> 0) do begin
@@ -194,7 +194,7 @@ begin
       Page := vmsCachePage
     else
       Page := vmsGetPageForOffset(StartOfs);
-    Move(Page^.vpData[PageDataInx], BufPtr^, BytesToRead);
+    Move(Page^.vpData[PageDataInx], BufPtr^, NativeInt(BytesToRead));
     dec(BytesToGo, BytesToRead);
     inc(Posn, BytesToRead);
     inc(BufPtr, BytesToRead);
@@ -221,7 +221,7 @@ end;
 procedure TAbVirtualMemoryStream.SetSize(const NewSize : Int64);
 var
   Page : PvmsPage;
-  Inx  : integer;
+  Inx  : NativeInt;
   NewFileSize : Int64;
 begin
   if (NewSize < vmsSize) then begin
@@ -259,8 +259,8 @@ function TAbVirtualMemoryStream.vmsAlterPageList(aNewMem : UInt32) : UInt32;
 var
   NumPages : Integer;
   Page     : PvmsPage;
-  i        : integer;
-  OldestPageNum : Integer;
+  i        : NativeInt;
+  OldestPageNum : NativeInt;
 begin
   {calculate the max number of pages required}
   if aNewMem = 0 then
@@ -294,11 +294,11 @@ begin
   Result := NumPages * AB_VMSPageSize;
 end;
 {--------}
-procedure TAbVirtualMemoryStream.vmsFindOldestPage(out OldestInx : Integer;
+procedure TAbVirtualMemoryStream.vmsFindOldestPage(out OldestInx : NativeInt;
                                                    out OldestPage: PvmsPage);
 var
-  OldestLRU : Integer;
-  Inx       : integer;
+  OldestLRU : NativeInt;
+  Inx       : NativeInt;
   Page      : PvmsPage;
 begin
   OldestInx := -1;
@@ -315,7 +315,7 @@ end;
 {--------}
 function TAbVirtualMemoryStream.vmsGetNextLRU : Integer;
 var
-  Inx : integer;
+  Inx : NativeInt;
 begin
   if (vmsLRU = LastLRUValue) then begin
     {reset all LRUs in list}
@@ -331,8 +331,10 @@ function TAbVirtualMemoryStream.vmsGetPageForOffset(aOffset : Int64) : PvmsPage;
 var
   Page     : PvmsPage;
   PageOfs  : Int64;
-  L, M, R  : integer;
-  OldestPageNum : integer;
+  L        : NativeInt;
+  M        : NativeInt;
+  R        : NativeInt;
+  OldestPageNum : NativeInt;
   CreatedNewPage: boolean;
 begin
   {using a sequential or a binary search (depending on the number of
@@ -491,7 +493,7 @@ function TAbVirtualMemoryStream.Write(const Buffer; Count : Longint) : Longint;
 var
   BufPtr      : PByte;
   Page        : PvmsPage;
-  PageDataInx : integer;
+  PageDataInx : Int64;
   Posn        : Int64;
   BytesToGo   : Int64;
   BytesToWrite: Int64;
@@ -511,7 +513,7 @@ begin
   BytesToWrite := AB_VMSPageSize - PageDataInx;
   {calculate the actual number of bytes to write}
   BytesToGo := Count;
-  Result := BytesToGo;
+  Result := AbToInt32(BytesToGo);
 
   {while we have bytes to write, write them}
   while (BytesToGo <> 0) do begin
@@ -522,7 +524,7 @@ begin
       Page := vmsCachePage
     else
       Page := vmsGetPageForOffset(StartOfs);
-    Move(BufPtr^, Page^.vpData[PageDataInx], BytesToWrite);
+    Move(BufPtr^, Page^.vpData[PageDataInx], NativeInt(BytesToWrite));
     Page^.vpDirty := True;
     dec(BytesToGo, BytesToWrite);
     inc(Posn, BytesToWrite);

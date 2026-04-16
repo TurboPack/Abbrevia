@@ -254,7 +254,7 @@ type
     destructor Destroy; override;
     function IsEndOfFile(Ndx : Integer) : Boolean;
     function IsUnUsed(Ndx : Integer) : Boolean;
-    function GetNextUnusedBlock : Integer;
+    function GetNextUnusedBlock : NativeInt;
     procedure GetNewChain(NumBytes : Integer;
                           var ChainArray : TFATChainArray);
     procedure GetExistingChain(StartNdx : Integer;
@@ -291,7 +291,7 @@ type
     function GetVolumeLabel : AnsiString;
     procedure SetVolumeLabel(Val : AnsiString);
     function GetDirectoryEntries : Integer;
-    function GetSizeOnDisk : Integer;
+    function GetSizeOnDisk : Int64;
     procedure PersistFileData(FileData : TStream;
                               var ChainArray : TFATChainArray);
     procedure PersistSystemBlock;
@@ -318,7 +318,7 @@ type
     procedure DeleteFolder(FName : AnsiString);
     procedure Open(const FName : string); overload;
     procedure Open(const FName : string; const Signature: AnsiString); overload;
-    function OpenFile(FileName : AnsiString; var Strm : TStream) : Integer;
+    function OpenFile(FileName : AnsiString; var Strm : TStream) : Int64;
     function PopulateTreeView(TreeView : TTreeView) : Integer;
     procedure PopulateSubNodes(ParentNode : TMultiNode;
                      TreeView : TTreeView; TreeNode : TTreeNode);
@@ -330,7 +330,7 @@ type
     property CurrentDirectory : AnsiString
       read GetCurrentDirectory write SetCurrentDirectory;
     property DirectoryEntries : Integer read GetDirectoryEntries;
-    property SizeOnDisk : Integer read GetSizeOnDisk;
+    property SizeOnDisk : Int64 read GetSizeOnDisk;
     property Stream : TBufferedFileStream read FStream write FStream;
 
 
@@ -1005,7 +1005,7 @@ end;
 constructor TAbFATTable.Create(AllocSize : Integer);
   {- Creates the FAT table structure}
 var
-  i : Integer;
+  i : NativeInt;
 begin
   {Sets FAT length equal to one allocation block}
   fAllocSize := AllocSize;
@@ -1027,7 +1027,7 @@ procedure TAbFATTable.ClearExistingChain(StartNdx : Integer);
      to ftUnUsedBlock}
 var
   ChainArray : TFATChainArray;
-  i          : Integer;
+  i          : NativeInt;
 begin
   SetLength(ChainArray, 0);
   GetExistingChain(StartNdx, ChainArray);
@@ -1052,7 +1052,8 @@ procedure TAbFATTable.GetExistingChain(StartNdx : Integer;
   {- Walks the FAT table starting at the index specified, and populates the
      chain array parameter with the results}
 var
-  BlkCount, i, ChainNdx : Integer;
+  I: NativeInt;
+  BlkCount, ChainNdx : Integer;
 begin
   if fFATArray[StartNdx] = ftUnUsedBlock then begin
     SetLength(ChainArray, 0);
@@ -1099,9 +1100,11 @@ procedure TAbFATTable.GetNewChain(NumBytes : Integer;
   {- Finds sequence of free blocks required of a file of size NumBytes
      The new FAT chain is commited and passed back in the ChainArray parameter}
 var
-  FirstBlock          : Integer;
+  FirstBlock          : NativeInt;
   TotalBlocksRequired : Integer;
-  i, j, BlocksFound   : Integer;
+  i: NativeInt;
+  j: NativeInt;
+  BlocksFound: NativeInt;
 begin
   if ((NumBytes mod fAllocSize) <> 0) then
     TotalBlocksRequired := (NumBytes div fAllocSize) + 1
@@ -1118,13 +1121,13 @@ begin
   for i := 0 to High(ChainArray) do
     ChainArray[i] := ftUnusedBlock;
 
-  ChainArray[0] := FirstBlock;
+  ChainArray[0] := AbToInt32(FirstBlock);
   BlocksFound := 1;
   i := FirstBlock + 1;
 
   while BlocksFound < TotalBlocksRequired do begin
     if ((fFATArray[i] = ftUnusedBlock) and (i > 2)) then begin
-      ChainArray[BlocksFound] := i;
+      ChainArray[BlocksFound] := AbToInt32(i);
       inc(BlocksFound);
     end;
     Inc(i);
@@ -1154,7 +1157,9 @@ procedure TAbFATTable.GetNewFATChain(NumBytes : Integer;
 var
   FirstBlock          : Integer;
   TotalBlocksRequired : Integer;
-  i, j, BlocksFound   : Integer;
+  i: NativeInt;
+  j: NativeInt;
+  BlocksFound   : Integer;
 begin
   if ((NumBytes mod fAllocSize) <> 0) then
     TotalBlocksRequired := (NumBytes div fAllocSize) + 1
@@ -1177,7 +1182,7 @@ begin
 
   while BlocksFound < TotalBlocksRequired do begin
     if ((fFATArray[i] = ftUnusedBlock) and (i > 2)) then begin
-      ChainArray[BlocksFound] := i;
+      ChainArray[BlocksFound] := AbToInt32(i);
       inc(BlocksFound);
     end;
     Inc(i);
@@ -1207,7 +1212,9 @@ procedure TAbFATTable.GetNewRootDirChain(NumBytes : Integer;
 var
   FirstBlock          : Integer;
   TotalBlocksRequired : Integer;
-  i, j, BlocksFound   : Integer;
+  i: NativeInt;
+  j: NativeInt;
+  BlocksFound   : Integer;
 begin
   if ((NumBytes mod fAllocSize) <> 0) then
     TotalBlocksRequired := (NumBytes div fAllocSize) + 1
@@ -1230,7 +1237,7 @@ begin
 
   while BlocksFound < TotalBlocksRequired do begin
     if ((fFATArray[i] = ftUnusedBlock) and (i > 2)) then begin
-      ChainArray[BlocksFound] := i;
+      ChainArray[BlocksFound] := AbToInt32(i);
       inc(BlocksFound);
     end;
     Inc(i);
@@ -1253,10 +1260,10 @@ begin
   end;
 end;
 {-----------------------------------------------------------------------------}
-function TAbFATTable.GetNextUnusedBlock : Integer;
+function TAbFATTable.GetNextUnusedBlock : NativeInt;
   {- Returns the index into the FAT table of the next block marked as unused}
 var
-  i, j : Integer;
+  i, j : NativeInt;
 begin
   if Length(fFATArray) = 0 then
     Result := -1
@@ -1441,11 +1448,11 @@ begin
       {compress & update dir entry's compressed size}
       FileData.Seek(0, soBeginning);
       Deflate(FileData, CompStream, CompHelper);
-      DirEntry.FCompressedSize := CompStream.Size;
+      DirEntry.FCompressedSize := AbToInt32(CompStream.Size);
 
       {Get new FAT chain & persist the data}
       SetLength(ChainArray, 0);
-      FFATTable.GetNewChain(CompStream.Size, ChainArray);
+      FFATTable.GetNewChain(AbToInt32(CompStream.Size), ChainArray);
       DirEntry.FStartBlock := ChainArray[0];
       PersistFileData(CompStream, ChainArray);
       PersistRootDirBlock;
@@ -1517,7 +1524,8 @@ var
   Buff       : Array of Integer;
   IntBuff    : Array[0..0] of Integer;
   DestStrm   : TMemoryStream;
-  i, CurrPos : Integer;
+  i: Int64;
+  CurrPos : Int64;
   NextBlock  : Integer;
 begin
   DestStrm := TMemoryStream.Create;
@@ -1575,7 +1583,8 @@ var
   ChainArray : TFATChainArray;
   DestStrm   : TMemoryStream;
   Buff       : Array of Byte;
-  i          : Integer;
+  i          : Int64;
+  j          : Integer;
   Entry      : TAbDirectoryEntry;
   Lst        : TStringList;
 
@@ -1650,9 +1659,9 @@ begin
   AddDirEntriesFromList(Lst);
   finally
     DestStrm.Free;
-    for i := 0 to Lst.Count - 1 do
-      if Lst.Objects[i] <> nil then
-        TAbDirectoryEntry(Lst.Objects[i]).Free;
+    for j := 0 to Lst.Count - 1 do
+      if Lst.Objects[j] <> nil then
+        TAbDirectoryEntry(Lst.Objects[j]).Free;
     Lst.Free;
   end;
 
@@ -1785,7 +1794,7 @@ begin
   Result := FRootDir.Count;
 end;
 {-----------------------------------------------------------------------------}
-function TAbCompoundFile.GetSizeOnDisk : Integer;
+function TAbCompoundFile.GetSizeOnDisk : Int64;
   {- Returns the compound file size (FStream.Size)}
 begin
   Result := FStream.Size;
@@ -1856,11 +1865,12 @@ begin
 end;
 {-----------------------------------------------------------------------------}
 function TAbCompoundFile.OpenFile(FileName : AnsiString; var Strm : TStream)
-                                  : Integer;
+                                  : Int64;
   {- Opens the file and writes the file contents to Strm}
 var
   ChainArray     : TFatChainArray;
-  i, j           : Integer;
+  i              : NativeInt;
+  j              : Integer;
   Buff           : Array of Byte;
   RemainingBytes : Integer;
   CompStream     : TStream;
@@ -1908,7 +1918,7 @@ procedure TAbCompoundFile.PersistFATBlock;
 var
   FATStrm    : TMemoryStream;
   Buff       : Array of Byte;
-  i          : Integer;
+  i          : NativeInt;
   ChainArray : TFATChainArray;
 begin
   {Init Buffer}
@@ -1922,7 +1932,7 @@ begin
 
     {prep FAT Table}
     fFATTable.ClearFATChain;
-    fFATTable.GetNewFATChain(FATStrm.Size, ChainArray);
+    fFATTable.GetNewFATChain(AbToInt32(FATStrm.Size), ChainArray);
 
     FATStrm.Seek(0, soBeginning);
     for i := 0 to High(ChainArray) do begin
@@ -1947,7 +1957,7 @@ procedure TAbCompoundFile.PersistFileData(FileData : TStream;
   {- Walks FAT chain and persists data (FileData) to the corresponding blocks}
 var
   Buff : Array of Byte;
-  i    : Integer;
+  i    : NativeInt;
   j    : Integer;
 begin
   if FileData <> nil then begin
@@ -1969,7 +1979,7 @@ procedure TAbCompoundFile.PersistRootDirBlock;
 var
   RdStrm     : TMemoryStream;
   Buff       : Array of Byte;
-  i          : Integer;
+  i          : NativeInt;
   ChainArray : TFATChainArray;
 begin
   {Init Buffer}
@@ -1982,7 +1992,7 @@ begin
 
     {prep FAT Table}
     fFATTable.ClearRootDirChain;
-    fFATTable.GetNewRootDirChain(RdStrm.Size, ChainArray);
+    fFATTable.GetNewRootDirChain(AbToInt32(RdStrm.Size), ChainArray);
 
     RdStrm.Seek(0, soBeginning);
     for i := 0 to High(ChainArray) do begin
@@ -2012,7 +2022,7 @@ begin
   try
     FSystemBlock.WriteToStream(Strm);
     Strm.Seek(0, soBeginning);
-    Strm.Read(Buff[0], Strm.Size);
+    Strm.Read(Buff[0], AbToInt32(Strm.Size));
     FStream.Seek(0, soBeginning);
     FStream.Write(Buff[0], FSystemBlock.AllocationSize);
   finally
@@ -2076,12 +2086,12 @@ begin
       Deflate(FData, CompStream, CompHelper);
 
       {Commit new FAT chain}
-      FFATTable.GetNewChain(CompStream.Size, ChainArray);
+      FFATTable.GetNewChain(AbToInt32(CompStream.Size), ChainArray);
 
       {update start block, size, compressed size}
       DirEntry.FStartBlock := ChainArray[0];
-      DirEntry.Size := FData.Size;
-      DirEntry.CompressedSize := CompStream.Size;
+      DirEntry.Size := AbToInt32(FData.Size);
+      DirEntry.CompressedSize := AbToInt32(CompStream.Size);
 
       {persist changes}
       PersistFileData(CompStream, ChainArray);

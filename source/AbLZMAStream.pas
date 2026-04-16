@@ -245,7 +245,8 @@ var
   LDoNotWaitForMoreData: Boolean;
   LStream: TAbLZMACompressionStream;
   LPSourceBuf, LPTargetBuf: PAnsiChar;
-  LTargetSpace, LSourceBytesAvail: Integer;
+  LTargetSpace: NativeInt;
+  LSourceBytesAvail: Integer;
   LPCurBuf: PAbQueuedBuffer;
 begin
   try
@@ -496,7 +497,7 @@ end;
 
 function TAbLZMACompressionStream.Seek(AOffset: Integer; AOrigin: Word): Integer;
 begin
-  Result := Seek(Int64(AOffset), TSeekOrigin(AOrigin));
+  Result := AbToInt32(Seek(Int64(AOffset), TSeekOrigin(AOrigin)));
 end;
 
 function TAbLZMACompressionStream.WaitForCompressionToFinish: Integer;
@@ -684,7 +685,7 @@ begin
      to the header.}
     if (FUncompressedSize - FBytesDecompressed) <= LOutputBytesProcessed then
     begin
-      LOutputBytesProcessed := FUncompressedSize - FBytesDecompressed;
+      LOutputBytesProcessed := size_t(FUncompressedSize - FBytesDecompressed);
       LFinishMode := LZMA_FINISH_END;
     end
     else
@@ -814,7 +815,7 @@ end;
 
 function TAbLZMADecompressionStream.Seek(AOffset: Integer; AOrigin: Word): Integer;
 begin
-  Result := Seek(Int64(AOffset), TSeekOrigin(AOrigin));
+  Result := AbToInt32(Seek(Int64(AOffset), TSeekOrigin(AOrigin)));
 end;
 
 function TAbLZMADecompressionStream.Write(const ABuffer; ACount: Integer): Integer;

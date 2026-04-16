@@ -71,7 +71,7 @@ var
 implementation
 
 uses
-  AbDfBase;
+  AbDfBase, AbUtils;
 
 {====================================================================}
 constructor TAbDfTranslator.Create;
@@ -137,7 +137,7 @@ begin
    (Symbol - 257) for a given (length - 3)}
   for i := low(dfc_LengthBase) to pred(high(dfc_LengthBase)) do begin
     Len := dfc_LengthBase[i] - 3;
-    FLenSymbols[Len] := i;
+    FLenSymbols[Len] := AbToByte(i);
   end;
   FLenSymbols[255] := 285 - 257;
   Value := -1;
@@ -145,21 +145,21 @@ begin
     if (Value < FLenSymbols[i]) then
       Value := FLenSymbols[i]
     else
-      FLenSymbols[i] := Value;
+      FLenSymbols[i] := AbToByte(Value);
   end;
 
   {initialize the short distance translation array: it will contain
    the Symbol for a given (distance - 1) where distance <= 256}
   for i := 0 to 15 do begin
     Dist := dfc_DistanceBase[i] - 1;
-    FShortDistSymbols[Dist] := i;
+    FShortDistSymbols[Dist] := AbToByte(i);
   end;
   Value := -1;
   for i := 0 to 255 do begin
     if (Value < FShortDistSymbols[i]) then
       Value := FShortDistSymbols[i]
     else
-      FShortDistSymbols[i] := Value;
+      FShortDistSymbols[i] := AbToByte(Value);
   end;
 
   {initialize the medium distance translation array: it will contain
@@ -167,14 +167,14 @@ begin
    distance is in the range 256..32768}
   for i := 16 to 29 do begin
     Dist := ((dfc_DistanceBase[i] - 1) div 128) - 2;
-    FMediumDistSymbols[Dist] := i;
+    FMediumDistSymbols[Dist] := AbToByte(i);
   end;
   Value := -1;
   for i := 0 to 255 do begin
     if (Value < FMediumDistSymbols[i]) then
       Value := FMediumDistSymbols[i]
     else
-      FMediumDistSymbols[i] := Value;
+      FMediumDistSymbols[i] := AbToByte(Value);
   end;
 
   {initialize the long distance translation array: it will contain the

@@ -194,7 +194,7 @@ type
   TAbGzipStreamHelper = class(TAbArchiveStreamHelper)
   private
     function GetGzCRC: Integer;
-    function GetFileSize: Integer;
+    function GetFileSize: Int64;
   protected {private}
     FItem : TAbGzipItem;
     FTail : TAbGzTailRec;
@@ -216,7 +216,7 @@ type
 
     property CRC : Integer
       read GetGzCRC;
-    property FileSize : Integer
+    property FileSize : Int64
       read GetFileSize;
     property TailCRC : Integer
       read FTail.CRC32;
@@ -244,15 +244,15 @@ type
   protected
     function CreateItem(const FileSpec : string): TAbArchiveItem;
       override;
-    procedure ExtractItemAt(Index : Integer; const UseName : string);
+    procedure ExtractItemAt(Index : NativeInt; const UseName : string);
       override;
-    procedure ExtractItemToStreamAt(Index : Integer; aStream : TStream);
+    procedure ExtractItemToStreamAt(Index : NativeInt; aStream : TStream);
       override;
     procedure LoadArchive;
       override;
     procedure SaveArchive;
       override;
-    procedure TestItemAt(Index : Integer);
+    procedure TestItemAt(Index : NativeInt);
       override;
     function FixName(const Value : string) : string;
       override;
@@ -432,7 +432,7 @@ end;
 procedure TAbGzipExtraField.Changed;
 begin
   if Buffer = nil then
-    FGzHeader.Flags := FGzHeader.Flags and not AB_GZ_FLAG_FEXTRA
+    FGzHeader.Flags := AbToByte(FGzHeader.Flags and not AB_GZ_FLAG_FEXTRA)
   else
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FEXTRA;
 end;
@@ -585,7 +585,7 @@ var
   Tail : TAbGzTailRec;
 begin
   Tail.CRC32 := FItem.CRC32;
-  Tail.ISize := FItem.UncompressedSize;
+  Tail.ISize := AbToInt32(FItem.UncompressedSize);
   FStream.Write(Tail, SizeOf(TAbGzTailRec));
 end;
 
@@ -610,7 +610,7 @@ begin
   Result := FItem.CRC32;
 end;
 
-function TAbGzipStreamHelper.GetFileSize: Integer;
+function TAbGzipStreamHelper.GetFileSize: Int64;
 begin
   Result := FItem.UncompressedSize;
 end;
@@ -763,14 +763,14 @@ begin
   FGzHeader.CompMethod := 8;  { deflate }
 
   { reset unsupported flags }
-  FGzHeader.Flags := FGzHeader.Flags and not AB_GZ_UNSUPPORTED_FLAGS;
+  FGzHeader.Flags := AbToByte(FGzHeader.Flags and not AB_GZ_UNSUPPORTED_FLAGS);
 
   { main header data }
   AStream.Write(FGzHeader, SizeOf(TAbGzHeader));
 
   { add extra field if any }
   if HasExtraField then begin
-    LenW := Length(FExtraField.Buffer);
+    LenW := AbToWord(Length(FExtraField.Buffer));
     AStream.Write(LenW, SizeOf(LenW));
     if LenW > 0 then
       AStream.Write(FExtraField.Buffer[0], LenW);
@@ -804,7 +804,7 @@ begin
   if FFileComment <> '' then
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FCOMMENT
   else
-    FGzHeader.Flags := FGzHeader.Flags and not AB_GZ_FLAG_FCOMMENT;
+    FGzHeader.Flags := AbToByte(FGzHeader.Flags and not AB_GZ_FLAG_FCOMMENT);
 end;
 
 procedure TAbGzipItem.SetFileName(const Value: string);
@@ -814,7 +814,7 @@ begin
   if Value <> '' then
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FNAME
   else
-    FGzHeader.Flags := FGzHeader.Flags and not AB_GZ_FLAG_FNAME;
+    FGzHeader.Flags := AbToByte(FGzHeader.Flags and not AB_GZ_FLAG_FNAME);
 end;
 
 procedure TAbGzipItem.SetFileSystem(const Value: TAbGzFileSystem);
@@ -835,7 +835,7 @@ begin
   if Value then
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FTEXT
   else
-    FGzHeader.Flags := FGzHeader.Flags and not AB_GZ_FLAG_FTEXT;
+    FGzHeader.Flags := AbToByte(FGzHeader.Flags and not AB_GZ_FLAG_FTEXT);
 end;
 
 procedure TAbGzipItem.SetLastModFileDate(const Value: Word);
@@ -843,9 +843,9 @@ begin
   { replace date, keep existing time }
   LastModTimeAsDateTime :=
     EncodeDate(
-      Value shr 9 + 1980,
-      Value shr 5 and 15,
-      Value and 31) +
+      AbToWord(Value shr 9 + 1980),
+      AbToWord(Value shr 5 and 15),
+      AbToWord(Value and 31)) +
     Frac(LastModTimeAsDateTime);
 end;
 
@@ -855,14 +855,14 @@ begin
   LastModTimeAsDateTime :=
     Trunc(LastModTimeAsDateTime) +
     EncodeTime(
-      Value shr 11,
-      Value shr 5 and 63,
-      Value and 31 shl 1, 0);
+      AbToWord(Value shr 11),
+      AbToWord(Value shr 5 and 63),
+      AbToWord(Value and 31 shl 1), 0);
 end;
 
 procedure TAbGzipItem.SetLastModTimeAsDateTime(const Value: TDateTime);
 begin
-  FGZHeader.ModTime := AbLocalDateTimeToUnixTime(Value);
+  FGZHeader.ModTime := AbToInt32(AbLocalDateTimeToUnixTime(Value));
 end;
 
 { TAbGzipArchive }
@@ -924,7 +924,7 @@ begin
 end;
 
 
-procedure TAbGzipArchive.ExtractItemAt(Index: Integer;
+procedure TAbGzipArchive.ExtractItemAt(Index: NativeInt;
   const UseName: string);
 var
   OutStream : TBufferedFileStream;
@@ -964,7 +964,7 @@ begin
   end;
 end;
 
-procedure TAbGzipArchive.ExtractItemToStreamAt(Index: Integer;
+procedure TAbGzipArchive.ExtractItemToStreamAt(Index: NativeInt;
   aStream: TStream);
 var
   GzHelp  : TAbGzipStreamHelper;
@@ -1093,7 +1093,7 @@ procedure TAbGzipArchive.SaveArchive;
 var
   InGzHelp, OutGzHelp : TAbGzipStreamHelper;
   Abort               : Boolean;
-  i                   : Integer;
+  i                   : NativeInt;
   NewStream           : TAbVirtualMemoryStream;
   UncompressedStream  : TStream;
   SaveDir             : string;
@@ -1242,9 +1242,9 @@ begin
   FTarAutoHandle := Value;
 end;
 
-procedure TAbGzipArchive.TestItemAt(Index: Integer);
+procedure TAbGzipArchive.TestItemAt(Index: NativeInt);
 var
-  SavePos   : Integer;
+  SavePos   : Int64;
   GZType    : TAbArchiveType;
   BitBucket : TAbBitBucketStream;
   GZHelp    : TAbGzipStreamHelper;

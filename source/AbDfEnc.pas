@@ -39,8 +39,7 @@ uses
   Classes,
   AbDfBase;
 
-function Deflate(aSource : TStream; aDest : TStream;
-                 aHelper : TAbDeflateHelper) : Integer;
+function Deflate(ASource: TStream; ADest: TStream; AHelper: TAbDeflateHelper): Integer;
 
 implementation
 
@@ -49,7 +48,8 @@ uses
   AbDfHufD,
   AbDfStrm,
   AbDfCryS,
-  AbDfPkMg;
+  AbDfPkMg,
+  AbUtils;
 
 {====================================================================}
 function CalcDynamicBitCount(aUseDeflate64: boolean;
@@ -191,7 +191,7 @@ begin
       aBitStrm.AlignToByte;
 
       {write the stored block header}
-      BlockHeader.bhSize := BlockSize;
+      BlockHeader.bhSize := AbToWord(BlockSize);
       BlockHeader.bhNotSize := not BlockHeader.bhSize;
       aBitStrm.WriteBuffer(BlockHeader, sizeof(BlockHeader));
 
@@ -453,11 +453,11 @@ function DeflateStaticDynamic(aStatic : boolean;
                               aHelper : TAbDeflateHelper;
                               aLog    : TAbLogger) : Integer;
 var
-  i : integer;
+  i : Int64;
   SlideWin     : TAbDfInputWindow;
   BitStrm      : TAbDfOutBitStream;
   LZ77Stream   : TAbDfLZStream;
-  KeyLen       : integer;
+  KeyLen       : Int64;
   Match        : TAbDfMatch;
   PrevMatch    : TAbDfMatch;
   UseDeflate64 : boolean;
@@ -733,7 +733,7 @@ begin
       {fire the progress event}
       if Assigned(aHelper.OnProgressStep) then begin
         inc(ByteCount, BytesRead);
-        Percent := Round((100.0 * ByteCount) / aHelper.StreamSize);
+        Percent := AbToInt32(Round((100.0 * ByteCount) / aHelper.StreamSize));
         aHelper.OnProgressStep(Percent);
       end;
 
@@ -748,7 +748,7 @@ begin
         BlockHeader.bhInfo := 1  {ie, final block, stored}
       else
         BlockHeader.bhInfo := 0; {ie, not final block, stored}
-      BlockHeader.bhSize := BytesRead;
+      BlockHeader.bhSize := AbToWord(BytesRead);
       BlockHeader.bhNotSize := not BlockHeader.bhSize;
       aDest.WriteBuffer(BlockHeader, sizeof(BlockHeader));
 
@@ -792,13 +792,12 @@ end;
 
 
 {===Interfaced routine===============================================}
-function Deflate(aSource : TStream; aDest : TStream;
-                 aHelper : TAbDeflateHelper) : Integer;
+function Deflate(ASource: TStream; ADest: TStream; AHelper: TAbDeflateHelper): Integer;
 var
-  Helper   : TAbDeflateHelper;
-  Log      : TAbLogger;
-  SourceStartPos : Integer;
-  DestStartPos   : Integer;
+  lDestStartPos: Int64;
+  lHelper: TAbDeflateHelper;
+  lLog: TAbLogger;
+  lSourceStartPos: Int64;
 begin
 {$IF COMPILERVERSION < 32}
   Result := 0;
@@ -806,96 +805,96 @@ begin
 
   {pre-conditions: streams are allocated,
                    options enable some kind of archiving}
-  Assert(aSource <> nil, 'Deflate: aSource stream cannot be nil');
-  Assert(aDest <> nil, 'Deflate: aDest stream cannot be nil');
-  Assert((aHelper = nil) or ((aHelper.Options and $07) <> 0),
+  Assert(ASource <> nil, 'Deflate: aSource stream cannot be nil');
+  Assert(ADest <> nil, 'Deflate: aDest stream cannot be nil');
+  Assert((AHelper = nil) or ((AHelper.Options and $07) <> 0),
          'Deflate: aHelper.Options must enable some kind of archiving');
 
   {$IFDEF DefeatWarnings}
   {$ENDIF}
 
   {prepare for the try..finally}
-  Helper := nil;
-  Log := nil;
+  lHelper := nil;
+  lLog := nil;
 
   try {finally}
     try {except}
-      {create our helper; assign the passed one to it}
-      Helper := TAbDeflateHelper.Create;
-      if (aHelper <> nil) then
-        Helper.Assign(aHelper);
+      {create our lHelper; assign the passed one to it}
+      lHelper := TAbDeflateHelper.Create;
+      if (AHelper <> nil) then
+        lHelper.Assign(AHelper);
 
       {save the current positions of both streams}
-      SourceStartPos := aSource.Position;
-      DestStartPos := aDest.Position;
+      lSourceStartPos := ASource.Position;
+      lDestStartPos := ADest.Position;
 
-      {if the helper's stream size is -1, and it has a progress event
+      {if the lHelper's stream size is -1, and it has a progress event
        handler, calculate the stream size from the stream itself}
-      if Assigned(Helper.OnProgressStep) then begin
-        if (Helper.StreamSize = -1) then
-          Helper.StreamSize := aSource.Size;
+      if Assigned(lHelper.OnProgressStep) then begin
+        if (lHelper.StreamSize = -1) then
+          lHelper.StreamSize := ASource.Size;
       end
 
       {otherwise we certainly can't do any progress reporting}
       else begin
-        Helper.OnProgressStep := nil;
-        Helper.StreamSize := 0;
+        lHelper.OnProgressStep := nil;
+        lHelper.StreamSize := 0;
       end;
 
       {if lazy matching is not requested, ensure the maximum lazy
        match length is zero: this make the LZ77 code a little easier
        to understand}
-      if ((Helper.Options and dfc_UseLazyMatch) = 0) then
-        Helper.MaxLazyLength := 0;
+      if ((lHelper.Options and dfc_UseLazyMatch) = 0) then
+        lHelper.MaxLazyLength := 0;
 
-      {patch up the various lengths in the helper if they specify the
+      {patch up the various lengths in the lHelper if they specify the
        maximum (that is, are equal to -1)}
-      if (Helper.AmpleLength = -1) then
-        Helper.AmpleLength := MaxInt;
-      if (Helper.MaxLazyLength = -1) then
-        Helper.MaxLazyLength := MaxInt;
-      if (Helper.ChainLength = -1) then
-        Helper.ChainLength := MaxInt;
+      if (lHelper.AmpleLength = -1) then
+        lHelper.AmpleLength := MaxInt;
+      if (lHelper.MaxLazyLength = -1) then
+        lHelper.MaxLazyLength := MaxInt;
+      if (lHelper.ChainLength = -1) then
+        lHelper.ChainLength := MaxInt;
 
       {create the logger, if requested}
-      if (Helper.LogFile <> '') then begin
-        Log := TAbLogger.Create(Helper.LogFile);
-        Log.WriteLine('DEFLATING STREAM...');
+      if (lHelper.LogFile <> '') then begin
+        lLog := TAbLogger.Create(lHelper.LogFile);
+        lLog.WriteLine('DEFLATING STREAM...');
         {$IFNDEF UseLogging}
-        Log.WriteLine('Need to recompile the app with UseLogging turned on');
+        lLog.WriteLine('Need to recompile the app with UseLogging turned on');
         {$ENDIF}
       end;
 
-      {use the helper's options property to decide what to do}
-      case (Helper.Options and $07) of
+      {use the lHelper's options property to decide what to do}
+      case (lHelper.Options and $07) of
         dfc_CanUseStored :
-          Result := DeflateStored(aSource, aDest, Helper, Log);
+          Result := DeflateStored(ASource, ADest, lHelper, lLog);
         dfc_CanUseStatic :
-          Result := DeflateStaticDynamic(true, false, aSource, aDest, Helper, Log);
+          Result := DeflateStaticDynamic(true, false, ASource, ADest, lHelper, lLog);
         dfc_CanUseDynamic :
-          Result := DeflateStaticDynamic(false, false, aSource, aDest, Helper, Log);
+          Result := DeflateStaticDynamic(false, false, ASource, ADest, lHelper, lLog);
       else
-        Result := DeflateStaticDynamic(false, true, aSource, aDest, Helper, Log);
+        Result := DeflateStaticDynamic(false, true, ASource, ADest, lHelper, lLog);
       end;
 
       {save the uncompressed and compressed sizes}
-      if (aHelper <> nil) then begin
-        aHelper.NormalSize := aSource.Position - SourceStartPos;
-        aHelper.CompressedSize := aDest.Position - DestStartPos;
+      if (AHelper <> nil) then begin
+        AHelper.NormalSize := ASource.Position - lSourceStartPos;
+        AHelper.CompressedSize := ADest.Position - lDestStartPos;
       end;
     except
       on E : EAbInternalDeflateError do begin
         {$IFDEF UseLogging}
-        if (Log <> nil) then
-          Log.WriteLine(Format('Internal exception raised: %s',
+        if (lLog <> nil) then
+          lLog.WriteLine(Format('Internal exception raised: %s',
                                 [E.Message]));
         {$ENDIF}
         raise EAbDeflateError.Create(E.Message);
       end;
     end;
   finally
-    Helper.Free;
-    Log.Free;
+    lHelper.Free;
+    lLog.Free;
   end;
   {WARNING NOTE: the compiler will warn that the return value of this
                  function might be undefined. However, it is wrong: it

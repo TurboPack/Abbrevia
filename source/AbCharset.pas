@@ -61,7 +61,8 @@ implementation
 
 function AbDetectCharSet(const aValue: TBytes): TAbCharSet;
 var
-  i, TrailCnt: Integer;
+  i: NativeInt;
+  TrailCnt: Integer;
 begin
   Result := csASCII;
   TrailCnt := 0;
@@ -155,7 +156,7 @@ const
 var
   AnsiChars, OemChars: set of Byte;
   IsANSI: Boolean;
-  i: Integer;
+  i: NativeInt;
 begin
   case GetOEMCP of
     437:

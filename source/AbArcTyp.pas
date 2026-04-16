@@ -163,23 +163,23 @@ type
     HashTable : array[0..1020] of TAbArchiveItem;
   protected {methods}
     function GenerateHash(const S : string) : Integer;
-    function GetCount : Integer;
-    function Get(Index : Integer) : TAbArchiveItem;
-    procedure Put(Index : Integer; Item : TAbArchiveItem);
+    function GetCount : NativeInt;
+    function Get(Index : NativeInt) : TAbArchiveItem;
+    procedure Put(Index : NativeInt; Item : TAbArchiveItem);
     procedure UpdateHash(aItem: TAbArchiveItem; const aOldFileName: string);
   public {methods}
     constructor Create(AOwnsItems: Boolean);
     destructor Destroy; override;
-    function Add(aItem : TAbArchiveItem): Integer;
+    function Add(aItem : TAbArchiveItem): NativeInt;
     procedure Clear;
-    procedure Delete(Index : Integer);
-    function Find(const FN : string) : Integer;
+    procedure Delete(Index : NativeInt);
+    function Find(const FN : string) : NativeInt;
     function GetEnumerator: TAbArchiveListEnumerator;
     function IsActiveDupe(const FN : string) : Boolean;
   public {properties}
-    property Count : Integer
+    property Count : NativeInt
       read GetCount;
-    property Items[Index : Integer] : TAbArchiveItem
+    property Items[Index : NativeInt] : TAbArchiveItem
       read Get
       write Put; default;
   end;
@@ -310,12 +310,12 @@ type
     procedure CheckValid;
     function  ConfirmPath(Item : TAbArchiveItem; const NewName : string;
       out UseName : string) : Boolean;
-    procedure FreshenAt(Index : Integer);
+    procedure FreshenAt(Index : NativeInt);
     function  FreshenRequired(Item : TAbArchiveItem) : Boolean;
     procedure GetFreshenTarget(Item : TAbArchiveItem);
-    function  GetItemCount : Integer;
+    function  GetItemCount : NativeInt;
     procedure MakeLogEntry(const FN: string; LT : TAbLogType);
-    procedure ReplaceAt(Index : Integer);
+    procedure ReplaceAt(Index : NativeInt);
     procedure SaveIfNeeded(aItem : TAbArchiveItem);
     procedure SetBaseDirectory(Value : string);
     procedure SetLogFile(const Value : string);
@@ -324,15 +324,15 @@ type
   protected {abstract methods}
     function CreateItem(const FileSpec : string): TAbArchiveItem;
       virtual; abstract;
-    procedure ExtractItemAt(Index : Integer; const UseName : string);
+    procedure ExtractItemAt(Index : NativeInt; const UseName : string);
       virtual; abstract;
-    procedure ExtractItemToStreamAt(Index : Integer; aStream : TStream);
+    procedure ExtractItemToStreamAt(Index : NativeInt; aStream : TStream);
       virtual; abstract;
     procedure LoadArchive;
       virtual; abstract;
     procedure SaveArchive;
       virtual; abstract;
-    procedure TestItemAt(Index : Integer);
+    procedure TestItemAt(Index : NativeInt);
       virtual; abstract;
 
   protected {virtual methods}
@@ -389,18 +389,18 @@ type
     procedure AddFromStream(const NewName : string; aStream : TStream);
     procedure ClearTags;
     procedure Delete(aItem : TAbArchiveItem);
-    procedure DeleteAt(Index : Integer);
+    procedure DeleteAt(Index : NativeInt);
     procedure DeleteFiles(const FileMask : string);
     procedure DeleteFilesEx(const FileMask, ExclusionMask : string);
     procedure DeleteTaggedItems;
     procedure Extract(aItem : TAbArchiveItem; const NewName : string);
-    procedure ExtractAt(Index : Integer; const NewName : string);
+    procedure ExtractAt(Index : NativeInt; const NewName : string);
     procedure ExtractFiles(const FileMask : string);
     procedure ExtractFilesEx(const FileMask, ExclusionMask : string);
     procedure ExtractTaggedItems;
     procedure ExtractToStream(const aFileName : string; aStream : TStream);
-    function  FindFile(const aFileName : string): Integer;
-    function  FindItem(aItem : TAbArchiveItem): Integer;
+    function  FindFile(const aFileName : string): NativeInt;
+    function  FindItem(aItem : TAbArchiveItem): NativeInt;
     procedure Freshen(aItem : TAbArchiveItem);
     procedure FreshenFiles(const FileMask : string);
     procedure FreshenFilesEx(const FileMask, ExclusionMask : string);
@@ -433,7 +433,7 @@ type
     property BaseDirectory : string
       read FBaseDirectory
       write SetBaseDirectory;
-    property Count : Integer
+    property Count : NativeInt
       read GetItemCount;
     property DOSMode : Boolean
       read FDOSMode
@@ -796,7 +796,7 @@ begin
   inherited Destroy;
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchiveList.Add(aItem : TAbArchiveItem) : Integer;
+function TAbArchiveList.Add(aItem : TAbArchiveItem) : NativeInt;
 var
   H : Integer;
 begin
@@ -810,7 +810,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbArchiveList.Clear;
 var
-  i : Integer;
+  i : NativeInt;
 begin
   if FOwnsItems then
     for i := 0 to Count - 1 do
@@ -819,7 +819,7 @@ begin
   FillChar(HashTable, SizeOf(HashTable), #0);
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchiveList.Delete(Index: Integer);
+procedure TAbArchiveList.Delete(Index: NativeInt);
 var
   Look : TAbArchiveItem;
   Last : ^TAbArchiveItem;
@@ -842,10 +842,10 @@ begin
   FList.Delete(Index);
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchiveList.Find(const FN : string) : Integer;
+function TAbArchiveList.Find(const FN : string) : NativeInt;
 var
   Look : TAbArchiveItem;
-  I : Integer;
+  I : NativeInt;
 begin
   if FOwnsItems then begin
     Look := HashTable[GenerateHash(FN)];
@@ -887,12 +887,12 @@ begin
 end;
 {$IFDEF OVERFLOW_CHECKS_ON}{$Q+}{$ENDIF}
 { -------------------------------------------------------------------------- }
-function TAbArchiveList.Get(Index : Integer): TAbArchiveItem;
+function TAbArchiveList.Get(Index : NativeInt): TAbArchiveItem;
 begin
   Result := FList[Index];
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchiveList.GetCount : Integer;
+function TAbArchiveList.GetCount : NativeInt;
 begin
   Result := FList.Count;
 end;
@@ -905,7 +905,7 @@ end;
 function TAbArchiveList.IsActiveDupe(const FN : string) : Boolean;
 var
   Look : TAbArchiveItem;
-  I : Integer;
+  I : NativeInt;
 begin
   if FOwnsItems then begin
     Look := HashTable[GenerateHash(FN)];
@@ -929,7 +929,7 @@ begin
   Result := False;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchiveList.Put(Index : Integer; Item : TAbArchiveItem);
+procedure TAbArchiveList.Put(Index : NativeInt; Item : TAbArchiveItem);
 var
   H : Integer;
   Look : TAbArchiveItem;
@@ -1194,7 +1194,7 @@ end;
 procedure TAbArchive.ClearTags;
   {Clear all tags from the archive}
 var
-  i : Integer;
+  i : NativeInt;
 begin
   if Count > 0 then
     for i := 0 to pred(Count) do
@@ -1238,7 +1238,7 @@ end;
 procedure TAbArchive.Delete(aItem : TAbArchiveItem);
   {delete an item from the archive}
 var
-  Index : Integer;
+  Index : NativeInt;
 begin
   CheckValid;
   Index := FindItem(aItem);
@@ -1246,7 +1246,7 @@ begin
     DeleteAt(Index);
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchive.DeleteAt(Index : Integer);
+procedure TAbArchive.DeleteAt(Index : NativeInt);
   {delete the item at the index from the archive}
 var
   Confirm : Boolean;
@@ -1272,7 +1272,7 @@ end;
 procedure TAbArchive.DeleteFilesEx(const FileMask, ExclusionMask : string);
   {Delete files matching Filemask except those matching ExclusionMask}
 var
-  i : Integer;
+  i : NativeInt;
 begin
   CheckValid;
   if Count > 0 then begin
@@ -1288,7 +1288,7 @@ end;
 procedure TAbArchive.DeleteTaggedItems;
   {delete all tagged items from the archive}
 var
-  i : Integer;
+  i : NativeInt;
 begin
   CheckValid;
   if Count > 0 then begin
@@ -1361,7 +1361,7 @@ procedure TAbArchive.DoDeflateProgress(aPercentDone: integer);
 var
   Abort : Boolean;
 begin
-  DoProgress(aPercentDone, Abort);
+  DoProgress(AbToByte(aPercentDone), Abort);
   if Abort then
     raise EAbAbortProgress.Create(AbUserAbortS);
 end;
@@ -1370,7 +1370,7 @@ procedure TAbArchive.DoInflateProgress(aPercentDone: integer);
 var
   Abort : Boolean;
 begin
-  DoProgress(aPercentDone, Abort);
+  DoProgress(AbToByte(aPercentDone), Abort);
   if Abort then
     raise EAbAbortProgress.Create(AbUserAbortS);
 end;
@@ -1396,7 +1396,7 @@ end;
 procedure TAbArchive.Extract(aItem : TAbArchiveItem; const NewName : string);
   {extract an item from the archive}
 var
-  Index : Integer;
+  Index : NativeInt;
 begin
   CheckValid;
   Index := FindItem(aItem);
@@ -1404,7 +1404,7 @@ begin
     ExtractAt(Index, NewName);
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchive.ExtractAt(Index : Integer; const NewName : string);
+procedure TAbArchive.ExtractAt(Index : NativeInt; const NewName : string);
   {extract an item from the archive at Index}
 var
   Confirm : Boolean;
@@ -1439,7 +1439,7 @@ var
   Confirm : Boolean;
   ErrorClass : TAbErrorClass;
   ErrorCode : Integer;
-  Index : Integer;
+  Index : NativeInt;
 begin
   CheckValid;
   Index := FindFile(aFileName);
@@ -1471,7 +1471,7 @@ end;
 procedure TAbArchive.ExtractFilesEx(const FileMask, ExclusionMask : string);
   {Extract files matching Filemask except those matching ExclusionMask}
 var
-  i : Integer;
+  i : NativeInt;
   Abort : Boolean;
 begin
   CheckValid;
@@ -1493,7 +1493,7 @@ end;
 procedure TAbArchive.ExtractTaggedItems;
   {extract all tagged items from the archive}
 var
-  i : Integer;
+  i : NativeInt;
   Abort : Boolean;
 begin
   CheckValid;
@@ -1513,7 +1513,7 @@ end;
 procedure TAbArchive.TestTaggedItems;
   {test all tagged items in the archive}
 var
-  i : Integer;
+  i : NativeInt;
   Abort : Boolean;
 begin
   CheckValid;
@@ -1532,13 +1532,13 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchive.FindFile(const aFileName : string): Integer;
+function TAbArchive.FindFile(const aFileName : string): NativeInt;
   {find the index of the specified file}
 begin
   Result := FItemList.Find(AbFixNameF(aFileName));
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchive.FindItem(aItem : TAbArchiveItem): Integer;
+function TAbArchive.FindItem(aItem : TAbArchiveItem): NativeInt;
   {find the index of the specified item}
 begin
   Result := FItemList.Find(aItem.FileName);
@@ -1584,7 +1584,7 @@ end;
 procedure TAbArchive.Freshen(aItem : TAbArchiveItem);
   {freshen the item}
 var
-  Index : Integer;
+  Index : NativeInt;
 begin
   CheckValid;
   Index := FindItem(aItem);
@@ -1596,7 +1596,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchive.FreshenAt(Index : Integer);
+procedure TAbArchive.FreshenAt(Index : NativeInt);
   {freshen item at index}
 var
   Confirm : Boolean;
@@ -1638,7 +1638,7 @@ end;
 procedure TAbArchive.FreshenFilesEx(const FileMask, ExclusionMask : string);
   {freshen all items that match the file mask}
 var
-  i : Integer;
+  i : NativeInt;
 begin
   CheckValid;
   if Count > 0 then begin
@@ -1686,7 +1686,7 @@ end;
 procedure TAbArchive.FreshenTaggedItems;
   {freshen all tagged items}
 var
-  i : Integer;
+  i : NativeInt;
 begin
   CheckValid;
   if Count > 0 then begin
@@ -1756,7 +1756,7 @@ begin
   Result := False;
 end;
 { -------------------------------------------------------------------------- }
-function TAbArchive.GetItemCount : Integer;
+function TAbArchive.GetItemCount : NativeInt;
 begin
   if Assigned(FItemList) then
     Result := FItemList.Count
@@ -1793,7 +1793,7 @@ procedure TAbArchive.Move(aItem : TAbArchiveItem; const NewStoredPath : string);
 var
   Confirm : Boolean;
   Found : Boolean;
-  i : Integer;
+  i : NativeInt;
   FixedPath, OldFileName: string;
 begin
   CheckValid;
@@ -1832,7 +1832,7 @@ end;
 procedure TAbArchive.Replace(aItem : TAbArchiveItem);
   {replace the item}
 var
-  Index : Integer;
+  Index : NativeInt;
 begin
   CheckValid;
   Index := FindItem(aItem);
@@ -1844,7 +1844,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbArchive.ReplaceAt(Index : Integer);
+procedure TAbArchive.ReplaceAt(Index : NativeInt);
   {replace item at Index}
 var
   Confirm : Boolean;
@@ -1930,7 +1930,7 @@ end;
 procedure TAbArchive.TagItems(const FileMask : string);
   {tag all items that match the mask}
 var
-  i : Integer;
+  i : NativeInt;
 begin
   if Count > 0 then
     for i := 0 to pred(Count) do
@@ -1943,7 +1943,7 @@ end;
 procedure TAbArchive.UnTagItems(const FileMask : string);
   {clear tags for all items that match the mask}
 var
-  i : Integer;
+  i : NativeInt;
 begin
   if Count > 0 then
     for i := 0 to pred(Count) do
@@ -1999,7 +1999,8 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbExtraField.DeleteField(aSubField : PAbExtraSubField);
 var
-  Len, Offset : Integer;
+  Len: Integer;
+  Offset: NativeInt;
 begin
   Len := SizeOf(TAbExtraSubField) + aSubField.Len;
   Offset := PtrInt(aSubField) - PtrInt(Pointer(FBuffer));
@@ -2022,7 +2023,7 @@ end;
 { -------------------------------------------------------------------------- }
 function TAbExtraField.FindNext(var aCurField : PAbExtraSubField) : Boolean;
 var
-  BytesLeft : Integer;
+  BytesLeft : NativeInt;
 begin
   if aCurField = nil then begin
     aCurField := PAbExtraSubField(FBuffer);
@@ -2036,7 +2037,7 @@ begin
   end;
   Result := (BytesLeft >= SizeOf(TAbExtraSubField));
   if Result and (BytesLeft < SizeOf(TAbExtraSubField) + aCurField.Len) then
-    aCurField.Len := BytesLeft - SizeOf(TAbExtraSubField);
+    aCurField.Len := AbToWord(BytesLeft - SizeOf(TAbExtraSubField));
 end;
 { -------------------------------------------------------------------------- }
 function TAbExtraField.Get(aID : Word; out aData : Pointer;
@@ -2111,7 +2112,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbExtraField.Put(aID : Word; const aData; aDataSize : Word);
 var
-  Offset : Cardinal;
+  Offset : NativeInt;
   SubField : PAbExtraSubField;
 begin
   if FindField(aID, SubField) then begin

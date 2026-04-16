@@ -62,7 +62,7 @@ procedure LzmaEncodeStream(ASourceStream, ATargetStream: TStream; ASourceSize: I
 
 { Given a pointer to the compressed data, this will return the size of the
   decompressed data. }
-function LzmaGetUncompressedSize(APCompressedData: Pointer; ACompressedSize: Integer): Integer;
+function LzmaGetUncompressedSize(APCompressedData: Pointer; ACompressedSize: Integer): Int64;
 
 { Decompresses the LZMA compressed data at APCompressedData to the buffer
   pointed to by APUncompressedData.  The buffer at APUncompressedData should be
@@ -79,7 +79,7 @@ procedure LzmaDecodeBuffer(APCompressedData: Pointer; ACompressedSize: Integer;
   values (5 and 16MB respectively). }
 function LzmaEncodeBuffer(APUncompressedData: Pointer; AUncompressedSize: Integer;
   APCompressedData: Pointer; ACompressedDataBufferCapacity: Integer;
-  ACompressionLevel: Integer = -1; ADictionarySize: Integer = -1): Integer;
+  ACompressionLevel: Integer = -1; ADictionarySize: Integer = -1): NativeInt;
 
 {$IFDEF CPUARM64}
 {$DEFINE USE_LIBLZMA}
@@ -205,8 +205,8 @@ procedure LzmaDec_Free(var state: CLzmaDec; alloc: PISzAlloc); cdecl; external
   {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
 
 // One call decoding interface
-function LzmaDecode(dest: PByte; var destLen: size_t; src: PByte;
-  var srcLen: size_t; propData: PByte; propSize: Integer;
+function LzmaDecode(dest: PByte; var destLen: Int64; src: PByte;
+  var srcLen: Int64; propData: PByte; propSize: Integer;
   finishMode: ELzmaFinishMode; var status: ELzmaStatus; 
   alloc: PISzAlloc): SRes; cdecl; external
   {$IFDEF USE_LIBLZMA}liblzma{$ENDIF};
@@ -588,7 +588,7 @@ end;
 
 { Given a pointer to the compressed data, this will return the size of the
   decompressed data. }
-function LzmaGetUncompressedSize(APCompressedData: Pointer; ACompressedSize: Integer): Integer;
+function LzmaGetUncompressedSize(APCompressedData: Pointer; ACompressedSize: Integer): Int64;
 begin
   if ACompressedSize <= SizeOf(TLZMAHeader) then
     raise EAbLZMAException.Create('The LZMA compressed data is invalid (not enough bytes)');
@@ -604,7 +604,8 @@ procedure LzmaDecodeBuffer(APCompressedData: Pointer; ACompressedSize: Integer;
 var
   LPropertyData: TLZMAPropertyData;
   LUncompressedSize: Int64;
-  LInputByteCount, LOutputByteCount: size_t;
+  LInputByteCount: Int64;
+  LOutputByteCount: Int64;
   LStatus: ELzmaStatus;
 begin
   if ACompressedSize <= SizeOf(TLZMAHeader) then
@@ -638,7 +639,7 @@ end;
   values (5 and 16MB respectively). }
 function LzmaEncodeBuffer(APUncompressedData: Pointer; AUncompressedSize: Integer;
   APCompressedData: Pointer;
-  ACompressedDataBufferCapacity, ACompressionLevel, ADictionarySize: Integer): Integer;
+  ACompressedDataBufferCapacity, ACompressionLevel, ADictionarySize: Integer): NativeInt;
 var
   LEncProps: CLzmaEncProps;
   LPropsSize: size_t;

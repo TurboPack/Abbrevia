@@ -37,13 +37,14 @@ unit AbView;
 interface
 
 uses
-  Classes,
-  Types,
-  Windows,
-  Messages,
-  Controls,
-  Graphics,
-  Grids,
+  System.Classes,
+  System.Generics.Collections,
+  System.Types,
+  Winapi.Windows,
+  Winapi.Messages,
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.Grids,
   AbArcTyp;
 
 type
@@ -125,18 +126,18 @@ type
 type
   TAbSelList = class
   protected {private}
-    FList  : TList;
+    FList  : TList<NativeInt>;
     FCurrent : Integer;
   public {methods}
     constructor Create;
     destructor Destroy;
       override;
     procedure Clear;
-    procedure Deselect(Index : Integer);
-    function IsSelected(Index : Integer) : Boolean;
-    procedure Select(Index : Integer);
-    procedure SelectAll(Count : Integer);
-    function SelCount : Integer;
+    procedure Deselect(Index : NativeInt);
+    function IsSelected(Index : NativeInt) : Boolean;
+    procedure Select(Index : NativeInt);
+    procedure SelectAll(Count : NativeInt);
+    function SelCount : NativeInt;
     procedure Toggle(Index : Integer);
     function FindFirst : Integer;
     function FindNext : Integer;
@@ -147,11 +148,11 @@ type
 type
   TAbRowMap = class
   protected {private}
-    FRows : TList;
-    FInvRows : TList;
+    FRows : TList<NativeInt>;
+    FInvRows : TList<NativeInt>;
     FSortAscending : Boolean;
-    function GetRow(RowNum : Integer) : Integer;
-    function GetInvRow(RowNum : Integer) : Integer;
+    function GetRow(RowNum : NativeInt) : NativeInt;
+    function GetInvRow(RowNum : Integer) : NativeInt;
     procedure SortOnItemName(ItemList : TAbArchiveList);
     procedure SortOnItemDir(ItemList : TAbArchiveList);
   public {methods}
@@ -159,12 +160,12 @@ type
     destructor Destroy;
       override;
     procedure Clear;
-    procedure Init(RowCount : Integer);
+    procedure Init(RowCount : NativeInt);
     procedure SortBy(Attr : TAbSortAttribute; ItemList : TAbArchiveList);
   public {properties}
-    property Rows[RowNum : Integer] : Integer
+    property Rows[RowNum : NativeInt] : NativeInt
       read GetRow; default;
-    property InvRows[RowNum : Integer] : Integer
+    property InvRows[RowNum : Integer] : NativeInt
       read GetInvRow;
     property SortAscending : Boolean
       read FSortAscending;
@@ -220,15 +221,15 @@ type
     procedure DrawHeaderButton(ACol : Integer; const AText : string);
     procedure DrawSortArrow;
     function DrawTextFormat(Attr : TAbViewAttribute; var Rect : TRect) : Word;
-    function GetCount : Integer;
+    function GetCount : NativeInt;
     function GetActiveRow : Integer;
     function GetHeaderRowHeight : Integer;
     function GetIcon(const ItemName : string) : HIcon;
-    function GetSelCount : Integer;
+    function GetSelCount : NativeInt;
     function GetSelected(RowNum : Integer) : Boolean;
     function GetVersion : string;
     procedure InitColMap;
-    procedure InvalidateRow(ARow: Integer);
+    procedure InvalidateRow(ARow: NativeInt);
     procedure MoveColumn(FromCol, ToCol : Integer);
     procedure RefreshCell(ARow, ACol: Integer);
     procedure RefreshRow(ARow: Integer);
@@ -337,9 +338,9 @@ type
       read GetActiveRow  write SetActiveRow;
     property Colors : TAbColors
       read FColors write FColors;
-    property Count : Integer
+    property Count : NativeInt
       read GetCount;
-    property SelCount : Integer
+    property SelCount : NativeInt
       read GetSelCount;
     property Selected[RowNum : Integer] : Boolean
       read GetSelected write SetSelected;
@@ -433,7 +434,7 @@ end;
 { ===== TAbSelList ========================================================= }
 constructor TAbSelList.Create;
 begin
-  FList := TList.Create;
+  FList := TList<NativeInt>.Create;
   FCurrent := -1;
 end;
 { -------------------------------------------------------------------------- }
@@ -449,24 +450,24 @@ begin
   FCurrent := -1;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbSelList.Select(Index: Integer);
+procedure TAbSelList.Select(Index: NativeInt);
 begin
-  if FList.IndexOf(Pointer(Index)) < 0 then
-    FList.Add(Pointer(Index));
+  if FList.IndexOf(Index) < 0 then
+    FList.Add(Index);
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbSelList.Deselect(Index: Integer);
+procedure TAbSelList.Deselect(Index: NativeInt);
 var
-  i : Integer;
+  i : NativeInt;
 begin
-  i := FList.IndexOf(Pointer(Index));
+  i := FList.IndexOf(Index);
   if (i >= 0) then
     FList.Delete(i);
 end;
 { -------------------------------------------------------------------------- }
-function TAbSelList.IsSelected(Index : Integer) : Boolean;
+function TAbSelList.IsSelected(Index : NativeInt) : Boolean;
 begin
-  Result := FList.IndexOf(Pointer(Index)) >= 0;
+  Result := FList.IndexOf(Index) >= 0;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbSelList.Toggle(Index: Integer);
@@ -477,14 +478,14 @@ begin
     Select(Index);
 end;
 { -------------------------------------------------------------------------- }
-function TAbSelList.SelCount : Integer;
+function TAbSelList.SelCount : NativeInt;
 begin
   Result := FList.Count;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbSelList.SelectAll(Count : Integer);
+procedure TAbSelList.SelectAll(Count : NativeInt);
 var
-  i : Integer;
+  i : NativeInt;
 begin
   for i := 0 to Pred(Count) do
     Select(i);
@@ -516,15 +517,15 @@ begin
   FInvRows.Clear;
 end;
 { -------------------------------------------------------------------------- }
-function TAbRowMap.GetRow(RowNum : Integer) : Integer;
+function TAbRowMap.GetRow(RowNum : NativeInt) : NativeInt;
 begin
   if (RowNum >= 0) and (RowNum < FRows.Count) then
-    Result := Integer(FRows[RowNum])
+    Result := FRows[RowNum]
   else
     Result := 0;
 end;
 { -------------------------------------------------------------------------- }
-function TAbRowMap.GetInvRow(RowNum : Integer) : Integer;
+function TAbRowMap.GetInvRow(RowNum : Integer) : NativeInt;
 begin
   if (RowNum >= 0) and (RowNum < FInvRows.Count) then
     Result := Integer(FInvRows[RowNum])
@@ -535,19 +536,19 @@ end;
 constructor TAbRowMap.Create;
 begin
   inherited Create;
-  FRows := TList.Create;
-  FInvRows := TList.Create;
+  FRows := TList<NativeInt>.Create;
+  FInvRows := TList<NativeInt>.Create;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbRowMap.Init(RowCount : Integer);
+procedure TAbRowMap.Init(RowCount : NativeInt);
 var
-  i : Integer;
+  i : NativeInt;
 begin
   Clear;
   if (RowCount > 0) then
     for i := 0 to Pred(RowCount) do begin
-      FRows.Add(Pointer(i));
-      FInvRows.Add(Pointer(i));
+      FRows.Add(i);
+      FInvRows.Add(i);
     end;
 end;
 { -------------------------------------------------------------------------- }
@@ -563,19 +564,20 @@ type
   PSortRec = ^TSortRec;
   TSortRec = record
     Val : Double;
-    Index : Integer;
+    Index : NativeInt;
   end;
 var
-  i, LI : Integer;
+  i: NativeInt;
+  LI : Integer;
   SL : TList;
-  RowCount : Integer;
+  RowCount : NativeInt;
   P : PSortRec;
   DT : TDateTime;
   aItem : TAbArchiveItem;
 
-  procedure QuickSort(SL : TList; L, R: Integer);
+  procedure QuickSort(SL : TList; L, R: NativeInt);
   var
-    i, j: Integer;
+    i, j: NativeInt;
     P: PSortRec;
   begin
     i := L;
@@ -635,7 +637,7 @@ begin
             P := SL[i]
           else
             P := SL[Pred(SL.Count) - i];
-          FRows[i] := Pointer(P^.Index)
+          FRows[i] := P^.Index
         end;
       finally {SL}
         while (SL.Count > 0) do begin
@@ -649,12 +651,12 @@ begin
 
   FSortAscending := not FSortAscending;
   for i := 0 to Pred(ItemList.Count) do
-    FInvRows[Rows[i]] := Pointer(i);
+    FInvRows[Rows[i]] := i;
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbRowMap.SortOnItemName(ItemList : TAbArchiveList);
 var
-  i, RowCount : Integer;
+  i, RowCount : NativeInt;
   SL : TStringList;
   FN : string;
 begin
@@ -669,9 +671,9 @@ begin
     SL.Sort;
     for i := 0 to Pred(RowCount) do begin
       if FSortAscending then
-        FRows[i] := SL.Objects[i]
+        FRows[i] := NativeInt(SL.Objects[AbToInt32(i)])
       else
-        FRows[i] := SL.Objects[Pred(RowCount) - i];
+        FRows[i] := NativeInt(SL.Objects[AbToInt32(Pred(RowCount) - i)]);
     end;
   finally {SL}
     SL.Free;
@@ -681,7 +683,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbRowMap.SortOnItemDir(ItemList : TAbArchiveList);
 var
-  i, RowCount : Integer;
+  i, RowCount : NativeInt;
   SL : TStringList;
   FN : string;
 begin
@@ -696,9 +698,9 @@ begin
     SL.Sort;
     for i := 0 to Pred(RowCount) do begin
       if FSortAscending then
-        FRows[i] := SL.Objects[i]
+        FRows[i] := NativeInt(SL.Objects[AbToInt32(i)])
       else
-        FRows[i] := SL.Objects[Pred(RowCount) - i];
+        FRows[i] := NativeInt(SL.Objects[AbToInt32(Pred(RowCount) - i)]);
     end;
   finally {SL}
     SL.Free;
@@ -937,7 +939,7 @@ begin
   if Assigned(FItemList) then begin
     FRowMap.Init(FItemList.Count);
     if (FItemList.Count > 0) then
-      RowCount := FItemList.Count + 1
+      RowCount := AbToInt32(FItemList.Count + 1)
     else begin
 {      RefreshRow(1);}
       FSortCol := -1;
@@ -1158,7 +1160,7 @@ begin
   Result := Row - 1;
 end;
 { -------------------------------------------------------------------------- }
-function TAbBaseViewer.GetCount : Integer;
+function TAbBaseViewer.GetCount : NativeInt;
 begin
   if Assigned(FItemList) then
     Result := FItemList.Count
@@ -1192,7 +1194,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-function TAbBaseViewer.GetSelCount : Integer;
+function TAbBaseViewer.GetSelCount : NativeInt;
 begin
   Result := FSelList.SelCount;
 end;
@@ -1227,7 +1229,7 @@ begin
   end;
 end;
 { -------------------------------------------------------------------------- }
-procedure TAbBaseViewer.InvalidateRow(ARow: Integer);
+procedure TAbBaseViewer.InvalidateRow(ARow: NativeInt);
 var
   Rect: TRect;
 begin
@@ -1235,7 +1237,7 @@ begin
     Exit;
   if ((ARow < TopRow) or (ARow > TopRow + VisibleRowCount)) and (ARow <> 0) then
     Exit;
-  Rect := CellRect(0, ARow);
+  Rect := CellRect(0, AbToInt32(ARow));
   Rect.Right := ClientWidth;
   InvalidateRect(Handle, @Rect, True);
 end;
@@ -1262,14 +1264,15 @@ procedure TAbBaseViewer.MouseDown(Button: TMouseButton;
 
   function GetMinLen(Col: Integer): Word;
   var
-    I, L : Integer;
+    I: NativeInt;
+    L : Integer;
     s : String;
     aItem : TAbArchiveItem;
     Attr : TAbViewAttribute;
     Sorted : Boolean;
   begin
     Attr := TAbViewAttribute(ColMap(Col));
-    Result := Canvas.TextWidth(FHeadings[ColMap(Col)]);
+    Result := AbToWord(Canvas.TextWidth(FHeadings[ColMap(Col)]));
     case Attr of
       vaItemName : Sorted := saItemName in FSortAttributes;
       vaPacked   : Sorted := saPacked in FSortAttributes;
@@ -1280,9 +1283,9 @@ procedure TAbBaseViewer.MouseDown(Button: TMouseButton;
       else Sorted := False;
     end;
     if Sorted then
-      Result := Result + RowHeights[0] + 16
+      Result := AbToWord(Result + RowHeights[0] + 16)
     else
-      Result := Result + 8;
+      Result := AbToWord(Result + 8);
 
     if Assigned(FItemList) then
     for I := 0 to (FItemList.Count-1) do begin
@@ -1290,9 +1293,9 @@ procedure TAbBaseViewer.MouseDown(Button: TMouseButton;
       S := AttrToStr(Attr, aItem);
       L := Canvas.TextWidth(S) + 8;
       if (doShowIcons in FDisplayOptions) and (Attr = vaItemName) then
-        inc(L, RowHeights[I]);
+        inc(L, RowHeights[AbToInt32(I)]);
       if L > Result then
-        Result := L;
+        Result := AbToWord(L);
     end;
   end;
 
@@ -1372,12 +1375,12 @@ begin
             AttrToSortAttribute(Attr, SortAttribute) and
             (SortAttribute in FSortAttributes) then begin
             FSortCol := ACol;
-            FItemIndex := FRowMap[Row-1];
+            FItemIndex := AbToInt32(FRowMap[Row - 1]);
             FRowMap.SortBy(SortAttribute, FItemList);
             FButtonDown := False;
             RefreshCell(0, ACol);
             if (doTrackActiveRow in FDisplayOptions) then
-              Row := FRowMap.InvRows[FItemIndex] + 1;
+              Row := AbToInt32(FRowMap.InvRows[FItemIndex] + 1);
             Refresh;
             DoSorted(Attr);
           end else begin

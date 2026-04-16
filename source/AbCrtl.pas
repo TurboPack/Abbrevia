@@ -106,7 +106,7 @@ implementation
 {$IFDEF MSWINDOWS}
 
 uses
-  System.Win.Crtl;
+  System.Win.Crtl, AbUtils;
 
 { ctype.h declarations ===================================================== }
 function isdigit(ch: Integer): Integer; cdecl;
@@ -221,7 +221,7 @@ end;
 
 function _ftol(const AValue: Double): Integer; cdecl;
 begin
-  Result := Round(AValue);
+  Result := AbToInt32(Round(AValue));
 end;
 
 function sprintf(S: PChar; const Format: PChar): Integer;

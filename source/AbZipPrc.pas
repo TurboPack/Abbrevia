@@ -154,9 +154,9 @@ begin
     {report the progress}
     if Assigned(Archive.OnProgress) then begin
       Total := Total + DataRead;
-      Percent := Round((100.0 * Total) / InSize);
+      Percent := AbToInt32(Round((100.0 * Total) / InSize));
       if (LastPercent <> Percent) then
-        Archive.OnProgress(Percent, Abort);
+        Archive.OnProgress(AbToByte(Percent), Abort);
       LastPercent := Percent;
     end;
 
@@ -164,7 +164,7 @@ begin
     AbUpdateCRCBuffer(CRC32, Buffer, DataRead);
 
     { write data (encrypting if needed) }
-    OutStream.WriteBuffer(Buffer, DataRead);
+    OutStream.WriteBuffer(Buffer, NativeInt(DataRead));
 
     { get next bufferful }
     DataRead := InStream.Read(Buffer, SizeOf(Buffer));
@@ -188,7 +188,7 @@ procedure DoZipFromStream(Sender : TAbZipArchive; Item : TAbZipItem;
   OutStream, InStream : TStream);
 var
   ZipArchive : TAbZipArchive;
-  InStartPos : Integer;
+  InStartPos : Int64;
   TempOut : TAbVirtualMemoryStream;
   DestStrm : TStream;
 begin

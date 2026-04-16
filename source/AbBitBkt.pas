@@ -198,7 +198,7 @@ end;
 function TAbBitBucketStream.Seek(const Offset : Int64; Origin : TSeekOrigin): Int64;
 var
   Posn : Int64;
-  BytesBack : Integer;
+  BytesBack : Int64;
 begin
   {calculate the new position}
   case Origin of
@@ -229,9 +229,9 @@ begin
   FPosn := Posn;
   BytesBack := FSize - Posn;
   if (BytesBack <= FTail) then
-    FBufPosn := FTail - BytesBack
+    FBufPosn := AbToInt32(FTail - BytesBack)
   else
-    FBufPosn := Integer(FTail) + FBufSize - BytesBack;
+    FBufPosn := AbToInt32(FTail + FBufSize - BytesBack);
   {return the new position}
   Result := Posn;
 end;
