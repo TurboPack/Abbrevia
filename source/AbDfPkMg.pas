@@ -268,7 +268,7 @@ begin
         Accumulate(Node);
     end;
     for i := 0 to pred(OrigListCount) do
-      aCodeLengths[aStartInx + integer(OrigList^[i].pnRight)] :=
+      aCodeLengths[aStartInx + NativeInt(OrigList^[i].pnRight)] :=
           OrigList^[i].pnCount;
   finally
     FreeMem(OrigList);

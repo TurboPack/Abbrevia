@@ -2031,7 +2031,7 @@ begin
   end
   else begin
     BytesLeft := Length(FBuffer) -
-      Integer(PtrInt(aCurField) - PtrInt(Pointer(FBuffer))) -
+      NativeInt(PtrInt(aCurField) - PtrInt(Pointer(FBuffer))) -
       SizeOf(TAbExtraSubField) - aCurField.Len;
     aCurField := Pointer(PtrInt(aCurField) + aCurField.Len + SizeOf(TAbExtraSubField));
   end;

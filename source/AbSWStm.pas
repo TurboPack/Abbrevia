@@ -193,7 +193,7 @@ var
   Offset     : Longint;
   BytesToWrite : integer;
 begin            
-  Offset := bsBufferStart + (Integer(aIndex) * ChunkSize);
+  Offset := bsBufferStart + (aIndex * ChunkSize);
   if (Offset >= 0) then begin
     SeekResult := bsStream.Seek(Offset, 0);
     if (SeekResult = -1) then

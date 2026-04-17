@@ -558,7 +558,7 @@ Some TAR utilities evidently expect Octal numeric fields to be in
 this format
 }
 begin
-  if Length(S) >= Integer(Places) then
+  if Length(S) >= Places then
     Result := S
   else begin
     Result := S + ' ';

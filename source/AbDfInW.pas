@@ -261,7 +261,7 @@ begin
     HashInx :=
        ((HashInx shl c_HashShift) xor Integer(CurPos[2])) and
        c_HashMask;
-    HashChains^[Integer(CurPos) and FWinMask] :=
+    HashChains^[NativeInt(CurPos) and FWinMask] :=
        HashHeads^[HashInx];
     HashHeads^[HashInx] := CurPos;
     inc(CurPos);
@@ -406,7 +406,7 @@ begin
 
   {update the chain itself: set the entry for this position equal to
    the previous string position}
-  FHashChains^[Integer(CurPos) and FWinMask] := PrevStrPos;
+  FHashChains^[NativeInt(CurPos) and FWinMask] := PrevStrPos;
 
   {calculate the maximum match we could do at this position}
   MaxMatch := AbToInt32(FLookAheadEnd - CurPos);
@@ -602,7 +602,7 @@ begin
       Break;
 
     {otherwise move onto the next position}
-    PrevStrPos := FHashChains^[Integer(PrevStrPos) and FWinMask];
+    PrevStrPos := FHashChains^[NativeInt(PrevStrPos) and FWinMask];
   end;
   {$ENDIF}
 
