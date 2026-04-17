@@ -254,13 +254,15 @@ procedure EncodeLZStreamDynamic(aFinalBlock   : boolean;
                                 aStream       : TAbDfLZStream;
                                 aBitStrm      : TAbDfOutBitStream;
                                 aLog          : TAbLogger);
+const
+  cBitsPerByte = 8;
 var
   i : integer;
   LitTree     : TAbDfDecodeHuffmanTree;
   DistTree    : TAbDfDecodeHuffmanTree;
   CodeLenTree : TAbDfDecodeHuffmanTree;
   CodeLenStream : TAbDfCodeLenStream;
-  CodeLens      : array [0..285+32] of integer;
+  CodeLens      : array [0..285 + 32] of integer;
   CLCodeLens    : array [0..18] of integer;
   LitCodeCount  : integer;
   DistCodeCount : integer;
@@ -340,11 +342,11 @@ begin
 
       {choose the algorithm with the smallest size}
       StaticSize := aStream.StaticSize;
-      StoredSize := (aStream.StoredSize + 4) * 8;
+      StoredSize := (aStream.StoredSize + 4) * cBitsPerByte;
       if (StaticSize < BitCount) then begin
         if (StoredSize < StaticSize) then
           EncodeLZStreamStored(aFinalBlock, aStream, aBitStrm,
-                               (StoredSize div 8) - 4, aLog)
+                               (StoredSize div cBitsPerByte) - 4, aLog)
         else
           EncodeLZStreamStatic(aFinalBlock, aUseDeflate64,
                                aStream, aBitStrm, aLog);
@@ -352,7 +354,7 @@ begin
       end
       else if (StoredSize < BitCount) then begin
         EncodeLZStreamStored(aFinalBlock, aStream, aBitStrm,
-                             (StoredSize div 8) - 4, aLog);
+                             (StoredSize div cBitsPerByte) - 4, aLog);
         Exit;
       end;
     end;
