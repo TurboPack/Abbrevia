@@ -148,7 +148,7 @@ var
   end;
   Buffer    : pointer;
   Code      : integer;
-  BlockSize : integer;
+  BlockSize : NativeInt;
 begin
   {note: this routine writes out an incompressible block to the bit
          stream (the store algorithm)}

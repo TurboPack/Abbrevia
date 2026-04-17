@@ -167,7 +167,7 @@ type
                        aUseDeflate64 : boolean);
       procedure Rewind;
 
-      procedure ReadStoredBuffer(var aBuffer; aCount : integer);
+      procedure ReadStoredBuffer(var aBuffer; aCount : NativeInt);
 
       property LenDistCount : integer read FDistCount;
       property LiteralCount : integer read FLitCount;
@@ -1244,7 +1244,7 @@ begin
             ((FLitCount + FDistCount) >= 32768);
 end;
 {--------}
-procedure TAbDfLZStream.ReadStoredBuffer(var aBuffer; aCount : integer);
+procedure TAbDfLZStream.ReadStoredBuffer(var aBuffer; aCount : NativeInt);
 begin
   FSlideWin.ReadBuffer(aBuffer, aCount, FStartOfs);
   inc(FStartOfs, aCount);

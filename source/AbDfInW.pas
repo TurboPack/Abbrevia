@@ -105,7 +105,7 @@ type
       function GetNextChar : Byte;
       function GetNextKeyLength : Int64;
       function Position : int64;
-      procedure ReadBuffer(var aBuffer; aCount  : Integer;
+      procedure ReadBuffer(var aBuffer; aCount  : NativeInt;
                                         aOffset : Int64);
 
       property ChainLen : integer read FChainLen write FChainLen;
@@ -746,7 +746,7 @@ begin
   Result := (FCurrent - FStart) + FStartOffset;
 end;
 {--------}
-procedure TAbDfInputWindow.ReadBuffer(var aBuffer; aCount  : Integer;
+procedure TAbDfInputWindow.ReadBuffer(var aBuffer; aCount  : NativeInt;
                                                    aOffset : Int64);
 var
   CurPos : Int64;              
