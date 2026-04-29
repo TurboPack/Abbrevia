@@ -51,6 +51,8 @@ type
     maLen  : integer;
     maDist : integer;
     maLit  : Byte;
+  public
+    class function Create: TAbDfMatch; static;
   end;
 
 type
@@ -81,7 +83,7 @@ type
       FUseCRC32     : boolean;
       FUseDeflate64 : boolean;
       FWinMask      : integer;
-      FWinSize      : integer;
+      FWinSize      : NativeInt;
     protected
       function iwGetChecksum : Integer;
       procedure iwReadFromStream;
@@ -368,17 +370,17 @@ function TAbDfInputWindow.FindLongestMatch(aAmpleLength : integer;
 {$ENDIF}
 type
   PInteger = ^Integer;
-  PWord    = ^word;
+  PWord    = ^Word;
 var
-  MaxLen     : Integer;
-  MaxDist    : Integer;
-  MaxMatch   : Integer;
-  ChainLen   : integer;
-  PrevStrPos : PByte;
-  CurPos     : PByte;
+  MaxLen      : Integer;
+  MaxDist     : Integer;
+  MaxMatch    : Integer;
+  ChainLen    : Integer;
+  PrevStrPos  : PByte;
+  CurPos      : PByte;
   {$IFDEF UseGreedyAsm}
-  CurWord    : word;
-  MaxWord    : word;
+  CurWord     : Word;
+  MaxWord     : Word;
   {$ENDIF}
   {$IFDEF UseGreedyPascal}
   Len        : Integer;
@@ -432,11 +434,11 @@ begin
    match we have to better}
   {$IFDEF UseGreedyAsm}
   CurWord := PWord(CurPos)^;
-  MaxWord := PWord(CurPos + pred(MaxLen))^;
+  MaxWord := PWord(CurPos + Pred(MaxLen))^;
   {$ENDIF}
   {$IFDEF UseGreedyPascal}
   CurCh := CurPos^;
-  MaxCh := (CurPos + pred(MaxLen))^;
+  MaxCh := (CurPos + Pred(MaxLen))^;
   {$ENDIF}
 
   {set the chain length to search based on the current maximum match
@@ -565,11 +567,12 @@ begin
 
   {$IFDEF UseGreedyPascal}
   {for all possible hash nodes in the chain...}
-  while (FStart <= PrevStrPos) and (PrevStrPos < CurPos) do begin
-
+  while (PrevStrPos <> nil) and (FStart <= PrevStrPos) and (PrevStrPos < CurPos) do
+  begin
     {if the initial and maximal characters match...}
     if (PrevStrPos[0] = CurCh) and
-       (PrevStrPos[pred(MaxLen)] = MaxCh) then begin
+       (PrevStrPos[Pred(MaxLen)] = MaxCh) then
+    begin
 
       {compare more characters}
       Len := 1;
@@ -577,28 +580,30 @@ begin
       MatchStr := PrevStrPos + 1;
 
       {compare away, but don't go above the maximum length}
-      while (Len < MaxMatch) and (MatchStr^ = CurrentCh^) do begin
-        inc(CurrentCh);
-        inc(MatchStr);
-        inc(Len);
+      while (Len < MaxMatch) and (MatchStr^ = CurrentCh^) do
+      begin
+        Inc(CurrentCh);
+        Inc(MatchStr);
+        Inc(Len);
       end;
 
       {have we reached another maximum for the length?}
-      if (Len > MaxLen) then begin
+      if (Len > MaxLen) then
+      begin
         MaxLen := Len;
         {calculate the distance}
         MaxDist := AbToInt32(CurPos - PrevStrPos);
-        MaxCh := CurPos[pred(MaxLen)];
+        MaxCh := CurPos[Pred(MaxLen)];
 
         {is the new best length ample enough?}
-        if MaxLen >= aAmpleLength then
+        if MaxDist >= aAmpleLength then
           Break;
       end;
     end;
 
     {have we reached the end of this chain?}
-    dec(ChainLen);
-    if (ChainLen = 0) then
+    Dec(ChainLen);
+    if ChainLen = 0 then
       Break;
 
     {otherwise move onto the next position}
@@ -607,13 +612,15 @@ begin
   {$ENDIF}
 
   {based on the results of our investigation, return the match values}
-  if (MaxLen < 3) or (MaxLen <= aPrevMatch.maLen) then begin
-    Result := false;
+  if (MaxLen < 3) or (MaxLen <= aPrevMatch.maLen) then
+  begin
+    Result := False;
     aMatch.maLen := 0;
     aMatch.maLit := CurPos^;
   end
-  else begin
-    Result := true;
+  else
+  begin
+    Result := True;
     aMatch.maLen := MaxLen;
     aMatch.maDist := MaxDist;
     aMatch.maLit := CurPos^; { just in case...}
@@ -703,7 +710,7 @@ procedure TAbDfInputWindow.iwSlide;
 type
   PNativeInt = ^NativeInt;
 var
-  i : integer;
+  i : NativeInt;
   ByteCount : Int64;
   Buffer    : NativeInt;
   ListItem  : PNativeInt;
@@ -757,6 +764,13 @@ begin
   FStream.Seek(CurPos, soBeginning);
 end;
 {====================================================================}
+
+{ TAbDfMatch }
+
+class function TAbDfMatch.Create: TAbDfMatch;
+begin
+  FillChar(Result, SizeOf(Result), 0);
+end;
 
 end.
 

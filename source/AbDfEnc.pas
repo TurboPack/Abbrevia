@@ -508,7 +508,8 @@ begin
 
     {set the previous match to be a literal character: this will
      ensure that no lazy matching goes on with the first key read}
-    PrevMatch.maLen := 0;
+    PrevMatch := TAbDfMatch.Create;
+    Match := TAbDfMatch.Create;
 
     {get the first key length}
     KeyLen := SlideWin.GetNextKeyLength;
