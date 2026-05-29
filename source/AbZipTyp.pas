@@ -2213,8 +2213,9 @@ begin
               end;
               {copy compressed data}
               NewStream.CopyFrom(WorkingStream, 0);
-              if CurrItem.IsEncrypted then
-                CurrItem.SaveDDToStream(NewStream);
+              //The user MicrotonX removed this code
+//              if CurrItem.IsEncrypted then
+//                CurrItem.SaveDDToStream(NewStream);
             finally
               WorkingStream.Free;
             end;
