@@ -1317,7 +1317,7 @@ begin
   Footer.EntriesOnDisk := AbToWord(Min(FEntriesOnDisk, $FFFF));
   Footer.TotalEntries := AbToWord(Min(FTotalEntries, $FFFF));
   Footer.DirectorySize := AbToUInt32(Min(FDirectorySize, $FFFFFFFF));
-  Footer.DirectoryOffset := AbToWord(Min(FDirectoryOffset, $FFFFFFFF));
+  Footer.DirectoryOffset := AbToUInt32(Min(FDirectoryOffset, $FFFFFFFF));
   pBytes := TEncoding.ANSI.GetBytes(FZipfileComment);
   Footer.CommentLength := AbToWord(Length(pBytes));
   Stream.WriteBuffer( Footer, SizeOf(Footer) );
