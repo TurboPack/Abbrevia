@@ -1316,7 +1316,7 @@ begin
   Footer.StartDiskNumber := AbToWord(Min(FStartDiskNumber, $FFFF));
   Footer.EntriesOnDisk := AbToWord(Min(FEntriesOnDisk, $FFFF));
   Footer.TotalEntries := AbToWord(Min(FTotalEntries, $FFFF));
-  Footer.DirectorySize := AbToWord(Min(FDirectorySize, $FFFFFFFF));
+  Footer.DirectorySize := AbToUInt32(Min(FDirectorySize, $FFFFFFFF));
   Footer.DirectoryOffset := AbToWord(Min(FDirectoryOffset, $FFFFFFFF));
   pBytes := TEncoding.ANSI.GetBytes(FZipfileComment);
   Footer.CommentLength := AbToWord(Length(pBytes));
