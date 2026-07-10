@@ -90,6 +90,11 @@ type
   PtrInt = NativeInt;
   PtrUInt = NativeUInt;
 
+{$IF COMPILERVERSION <= 35}
+  TBufferedFileStream = class(TFileStream)
+  end;
+{$IFEND}
+
 { System-encoded SBCS string (formerly AnsiString) }
 type
   AbSysString = string;

@@ -648,8 +648,14 @@ begin
       end
       {otherwise, output the one or two final literals}
       else
-        for i := 1 to KeyLen do
+      begin
+        i := 1;
+        while i <= KeyLen do
+        begin
           LZ77Stream.AddLiteral(SlideWin.GetNextChar);
+          Inc(i);
+        end;
+      end;
     end;
 
     {empty the LZ77 stream}

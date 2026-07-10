@@ -789,8 +789,12 @@ begin
     if Origin = soBeginning then Dec(NewOff, conv64.QuadPart);
     if NewOff > 0 then
     begin
-      for I := 1 to NewOff div sizeof(Buf) do
+      I := 1;
+      while I <= NewOff div sizeof(Buf) do
+      begin
         ReadBuffer(Buf, sizeof(Buf));
+        Inc(I);
+      end;
       ReadBuffer(Buf, NativeInt(NewOff mod sizeof(Buf)));
     end;
   end

@@ -37,7 +37,8 @@ interface
 
 uses
   SysUtils,
-  Classes;
+  Classes,
+  AbUtils;
 
 type
   PAbDfIntegerList = ^TAbDfIntegerList;
@@ -228,9 +229,6 @@ procedure AbUpdateCRCBuffer(var aCRC : Integer;
 
 
 implementation
-
-uses
-  AbUtils;
 
 {===TAbDeflateHelper=================================================}
 constructor TAbDeflateHelper.Create;
@@ -670,9 +668,12 @@ begin
   CRC := aCRC;
 
   {checksum the bytes in the buffer}
-  for i := 0 to pred(aCount) do begin
+  i := 0;
+  while i < aCount do
+  begin
     CRC := AbCrc32Table[byte(CRC) xor byte(Buffer^)] xor (CRC shr 8);
     inc(Buffer);
+    Inc(i);
   end;
 
   {return the new CRC}

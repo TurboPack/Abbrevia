@@ -37,7 +37,8 @@ interface
 
 uses
   Classes,
-  AbBase;
+  AbBase,
+  AbUtils;
 
 type
   TAbGetFileEvent = procedure(Sender : TObject; var aFilename : string;

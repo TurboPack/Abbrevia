@@ -36,7 +36,7 @@ unit AbVMStrm;
 interface
 
 uses
-  Classes, Generics.Collections;
+  Classes, Generics.Collections, AbUtils;
 
 const
   AB_VMSPageSize = 4096; {must be a power of two}
@@ -108,8 +108,7 @@ uses
   Windows, // Fix warning about unexpanded inline functions
   {$ENDIF}
   SysUtils, IOUtils,
-  AbExcept,
-  AbUtils;
+  AbExcept;
 
 const
   LastLRUValue = $7FFFFFFF;
