@@ -1,0 +1,57 @@
+# DPM package spec file
+min dpm client version: 1.0.0
+metadata:
+  id: TurboPack.Abbrevia
+  version: 13.0.0
+  description: Abbrevia is a compression toolkit for Delphi
+  authors:
+    - 'TurboPower Software, Roman Kassebaum'
+  projectUrl: https://github.com/TurboPack/Abbrevia
+  repositoryUrl: https://github.com/TurboPack/Abbrevia
+  repositoryCommit: '#HASH#'
+  license: MPL-1.1
+  copyright: 'TurboPower Software, Roman Kassebaum and contributors'
+  tags:
+    - zip
+    - archive
+    - bzip
+    - lzma
+  readme: readme.txt
+variables:
+  packagesource: /packages/11AndAbove/Delphi
+targetPlatforms:
+  - compiler: delphi12.0
+    platforms:
+      - win32
+      - win64
+  - compiler: delphi13.0
+    platforms:
+      - win32
+      - win64
+      - winarm64ec
+templates:
+  - name: default
+    source:
+      - src: ./source/*.pas
+      - src: ./source/*.inc
+      - src: ./source/*.dfm
+        copyToLib: true
+      - src: ./source/*.fmx
+        copyToLib: true
+      - src: ./source/*.res
+      - src: ./source/Win32/*.*
+      - src: ./source/Win64/*.*
+      - src: ./source/WinARM64EC/*.*
+      - src: $packageSource$/*.dpk
+      - src: $packageSource$/*.dproj
+      - src: $packageSource$/*.res
+      - src: $packageSource$/*.ico
+      - src: ./localization/*.*
+      - src: ./icons/*.*
+      - src: ./thirdparty/**/*.*
+    build:
+      - project: $packageSource$/AbbreviaD.dproj
+      - project: $packageSource$/AbbreviaVCLD.dproj
+    design:
+      - project: $packageSource$/AbbreviaVCLDDesign.dproj
+      - project: $packageSource$/AbbreviaFMXDDesign.dproj
