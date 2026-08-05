@@ -20,7 +20,32 @@ metadata:
 variables:
   packagesource: /packages/11AndAbove/Delphi
 targetPlatforms:
-  - compiler: delphi12.0
+  - compiler: delphi10.1
+    platforms:
+      - win32
+      - win64
+    variables:
+      packageSource: /packages/Berlin/Delphi
+  - compiler: delphi10.2
+    platforms:
+      - win32
+      - win64
+    variables:
+      packageSource: /packages/Tokyo/Delphi
+  - compiler: delphi10.3
+    platforms:
+      - win32
+      - win64
+    variables:
+      packageSource: /packages/Rio/Delphi
+  - compiler: delphi10.4
+    platforms:
+      - win32
+      - win64
+    variables:
+      packageSource: /packages/Sydney/Delphi
+  - compiler from: delphi11.0
+    compiler to: delphi12.0
     platforms:
       - win32
       - win64
