@@ -37,7 +37,7 @@ unit AbCompnd;
 interface
 
 uses
-  Classes, SysUtils, ComCtrls, AbBase, AbResString, AbDfDec, AbDfEnc, AbDfBase;
+  AbUtils, Classes, SysUtils, ComCtrls, AbBase, AbResString, AbDfDec, AbDfEnc, AbDfBase;
 
 const
   AbCompoundFileVersion = '3.1';
@@ -356,7 +356,7 @@ type
 implementation
 
 uses
-  StrUtils, AnsiStrings, ABUtils;
+  StrUtils, AnsiStrings;
 
 {-----------------------------------------------------------------------------}
 {-----------------------------------------------------------------------------}
