@@ -50,7 +50,7 @@ type
 implementation
 
 uses
-  SysUtils, TestFrameWork, AbUnzPrc, AbTestConsts;
+  SysUtils, TestFrameWork, AbUnzPrc, AbUtils, AbTestConsts;
 
 { TAbUnzPrcTests }
 

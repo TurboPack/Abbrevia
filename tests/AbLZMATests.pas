@@ -50,7 +50,7 @@ type
 implementation
 
 uses
-  Classes, SysUtils, TestFrameWork,
+  Classes, SysUtils, TestFrameWork, AbUtils,
   {$IFDEF HasAdvancedRecords}AbLZMAStream,{$ENDIF} AbLZMA;
 
 { TAbLZMATests }

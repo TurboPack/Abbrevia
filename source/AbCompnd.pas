@@ -37,7 +37,8 @@ unit AbCompnd;
 interface
 
 uses
-  Classes, SysUtils, ComCtrls, AbBase, AbResString, AbDfDec, AbDfEnc, AbDfBase;
+  Classes, SysUtils, ComCtrls, AbBase, AbResString, AbDfDec, AbDfEnc, AbDfBase,
+  AbUtils;
 
 const
   AbCompoundFileVersion = '3.1';
@@ -356,7 +357,7 @@ type
 implementation
 
 uses
-  StrUtils, AnsiStrings, ABUtils;
+  StrUtils, AnsiStrings;
 
 {-----------------------------------------------------------------------------}
 {-----------------------------------------------------------------------------}
@@ -1534,8 +1535,12 @@ begin
     SetLength(Buff, FSystemBlock.AllocationSize div SizeOf(Integer));
 
     {Clear Buff}
-    for i := Low(Buff) to High(Buff) do
+    i := Low(Buff);
+    while i <= High(Buff) do
+    begin
       Buff[i] := ftUnusedBlock;
+      Inc(i);
+    end;
 
     {read 1st FAT block into Buff -> Write Buff to DestStrm}
     FStream.Seek(2 * FSystemBlock.AllocationSize, soBeginning);
@@ -1550,8 +1555,12 @@ begin
       FStream.Seek((NextBlock) * FSystemBlock.AllocationSize, soBeginning);
 
       {Clear buff}
-      for i := Low(Buff) to High(Buff) do
+      i := Low(Buff);
+      while i <= High(Buff) do
+      begin
         Buff[i] := ftUnusedBlock;
+        Inc(i);
+      end;
 
       FStream.Read(Buff[0], FSystemBlock.AllocationSize);
       DestStrm.Write(Buff[0], FSystemBlock.AllocationSize);
@@ -1567,9 +1576,12 @@ begin
     {Set length of and populate the FFATTable.fFATArray in mem structure}
     DestStrm.Seek(0, soBeginning);
     SetLength(FFATTable.fFATArray, DestStrm.Size div SizeOf(Integer));
-    for i := 1 to DestStrm.Size div SizeOf(Integer) do begin
+    i := 0;
+    while i <= DestStrm.Size div SizeOf(Integer) do
+    begin
       DestStrm.Read(IntBuff[0], SizeOf(Integer));
       FFATTable.fFATArray[i-1] := IntBuff[0];
+      Inc(i);
     end;
   finally
     DestStrm.Free;
@@ -1608,21 +1620,29 @@ begin
   Lst.Sorted := False;
   try
     {Read entire RotDir block to DestStrm}
-    for i := 0 to High(ChainArray) do begin
+    i := 0;
+    while i <= High(ChainArray) do
+    begin
       FStream.Seek(FSystemBlock.AllocationSize * ChainArray[i], soBeginning);
       FStream.Read(Buff[0], FSystemBlock.AllocationSize);
       DestStrm.Write(Buff[0], FSystemBlock.AllocationSize);
+      Inc(i);
     end;
 
     {Reset DestStrm}
     DestStrm.Seek(0, soBeginning);
 
     {For all directory entries, read entry, create object, & add to Lst}
-    for i := 0 to (DestStrm.Size div rdSizeOfDirEntry) - 1 do begin
+    i := 0;
+    while i <= (DestStrm.Size div rdSizeOfDirEntry) - 1 do
+    begin
       {read a single directory entry}
       DestStrm.Read(EName[0], rdEntryNameSize);
       if EName = '' then
-        continue;
+      begin
+        Inc(i);
+        Continue;
+      end;
       DestStrm.Read(EID[0], SizeOf(Integer));
       DestStrm.Read(EPF[0], SizeOf(Integer));
       DestStrm.Read(EType[0], SizeOf(Integer));
@@ -1653,6 +1673,8 @@ begin
       {Don't add an empty dir entry}
       if Entry.FName <> '' then
         Lst.AddObject(IntToStr(i), TObject(Entry));
+
+      Inc(i);
     end;
 
   {Add individual root directory entries to RootDir structure maintaining seq.}

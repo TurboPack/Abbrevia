@@ -48,7 +48,7 @@ type
 implementation
 
 uses
-  SysUtils, TestFrameWork, AbBzip2;
+  SysUtils, TestFrameWork, AbUtils, AbBzip2;
 
 { TAbVMStrmTests }
 

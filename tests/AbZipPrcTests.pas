@@ -58,7 +58,7 @@ implementation
 uses
   SysUtils,
   TestFrameWork,
-  AbTestConsts, AbUnzPrc, AbZipPrc;
+  AbUtils, AbTestConsts, AbUnzPrc, AbZipPrc;
 
 { TAbZipPrcTests }
 
