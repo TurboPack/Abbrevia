@@ -265,7 +265,7 @@ begin
   if aNewMem = 0 then
     NumPages := 1 // always have at least one page
   else
-    NumPages := pred(aNewMem + AB_VMSPageSize) div AB_VMSPageSize;
+    NumPages := AbToInt32(pred(aNewMem + AB_VMSPageSize) div AB_VMSPageSize);
   if (NumPages > AB_VMSMaxPages) then
     NumPages := AB_VMSMaxPages;
   {if the maximum number of pages means we have to shrink the current
@@ -290,7 +290,7 @@ begin
   end;
   {remember our new max number of pages}
   vmsMaxPages := NumPages;
-  Result := NumPages * AB_VMSPageSize;
+  Result := AbToUInt32(NumPages * AB_VMSPageSize);
 end;
 {--------}
 procedure TAbVirtualMemoryStream.vmsFindOldestPage(out OldestInx : NativeInt;

@@ -1413,11 +1413,11 @@ procedure TAbCompoundFile.AddFile(FName : AnsiString; FileData : TStream;
    function JustFilename(const PathName : AnsiString) : AnsiString;
      {-Return just the filename and extension of a pathname.}
    var
-     I : Cardinal;
+     I : Int32;
    begin
      Result := '';
      if PathName = '' then Exit;
-     I := Succ(Word(Length(PathName)));
+     I := Succ(Length(PathName));
      repeat
        Dec(I);
      until (PathName[I] in ['\',':']) or (I = 0);

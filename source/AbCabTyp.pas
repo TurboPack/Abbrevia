@@ -215,7 +215,7 @@ function FCI_FileOpen(lpPathName: PAnsiChar; Flag, Mode: Integer;
   cdecl;
   {open a file}
 begin
-  Result := _lcreat(lpPathName, 0);
+  Result := AbToNativeInt(_lcreat(lpPathName, 0));
   if (Result = -1) then
     raise EAbFCIFileOpenError.Create;
 end;
@@ -241,13 +241,13 @@ begin
 end;
 { -------------------------------------------------------------------------- }
 function FCI_FileClose(AFile: PtrInt; PError: PInteger;
-  Archive: TAbCabArchive) : Integer;
+  Archive: TAbCabArchive) : HFILE;
   cdecl;
   {close a file}
 begin
   Result := _lclose(HFILE(AFile));
-  if (Result = -1) then
-    raise EAbFCIFileCloseError.Create;
+//  if (Result = -1) then
+//    raise EAbFCIFileCloseError.Create;
 end;
 { -------------------------------------------------------------------------- }
 function FCI_FileSeek(AFile: PtrInt; Offset: Integer;
@@ -306,15 +306,15 @@ var
   I, DT: Integer;
   RawName: RawByteString;
 begin
-  Result := FileOpen(string(lpPathname), fmOpenRead or fmShareDenyNone);
+  Result := AbToNativeInt(FileOpen(string(lpPathname), fmOpenRead or fmShareDenyNone));
   if (Result = -1) then
     raise EAbFCIFileOpenError.Create;
   if not AbFileGetAttrEx(string(lpPathname), AttrEx) then
     raise EAbFileNotFound.Create;
-  PAttribs^ := AbToWord(AttrEx.Attr);
+  PAttribs^ := AbToUInt16(AttrEx.Attr);
   DT := DateTimeToFileDate(AttrEx.Time);
-  PDate^ := AbToWord(DT shr 16);
-  PTime^ := AbToWord(DT and $0FFFF);
+  PDate^ := AbToUInt16(DT shr 16);
+  PTime^ := AbToUInt16(DT and $0FFFF);
   Archive.ItemProgress := 0;
   Archive.FItemInProgress.UncompressedSize := AttrEx.Size;
   RawName := Archive.FItemInProgress.RawFileName;
@@ -332,8 +332,8 @@ begin
   Result := 0;
   if (Status = Word(csCabinet)) then begin
     Archive.DoSave;
-    Archive.FCabSize := cb2;
-    Result := cb2;
+    Archive.FCabSize := AbToInt32(cb2);
+    Result := AbToInt32(cb2);
   end else if (Status = Word(csFolder)) then
     Archive.FCabSize := Archive.FCabSize + Integer(cb2)
   else if (Status = Word(csFile)) then begin
@@ -353,7 +353,7 @@ begin
     AnsiStrings.StrPLCopy(TempPath, AnsiString(Archive.TempDirectory), Length(TempPath))
   else
     GetTempPathA(255, TempPath);
-  GetTempFileNameA(TempPath, 'VMS', Archive.FTempFileID, lpTempName);
+  GetTempFileNameA(TempPath, 'VMS', AbToUInt32(Archive.FTempFileID), lpTempName);
   Result := 1;
 end;
 
@@ -373,14 +373,14 @@ function FDI_FileRead(hFile: PtrInt; lpBuffer: Pointer; uBytes: UINT) : UINT;
   cdecl;
   {read from a file}
 begin
-  Result := UINT(TStream(hFile).Read(lpBuffer^, uBytes));
+  Result := UINT(TStream(hFile).Read(lpBuffer^, AbToInt32(uBytes)));
 end;
 { -------------------------------------------------------------------------- }
 function FDI_FileWrite(hFile: PtrInt; lpBuffer: Pointer; uBytes: UINT) : UINT;
   cdecl;
   {write to a file}
 begin
-  Result := UINT(TStream(hFile).Write(lpBuffer^, uBytes));
+  Result := UINT(TStream(hFile).Write(lpBuffer^, AbToInt32(uBytes)));
 end;
 { -------------------------------------------------------------------------- }
 function FDI_FileClose(hFile : PtrInt) : Integer;
@@ -399,7 +399,7 @@ function FDI_FileSeek(hFile : PtrInt; Offset : Integer; Origin : Integer) : Inte
   cdecl;
   {reposition file pointer}
 begin
-  Result := UINT(TStream(hFile).Seek(Offset, AbToWord(Origin)));
+  Result := TStream(hFile).Seek(Offset, AbToUInt16(Origin));
 end;
 { -------------------------------------------------------------------------- }
 function FDI_EnumerateFiles(fdint : FDINOTIFICATIONTYPE;
@@ -621,7 +621,7 @@ begin
     else
       cb := AbDefCabSpanningThreshold;
     if (FolderThreshold > 0) then
-      cbFolderThresh := FolderThreshold
+      cbFolderThresh := AbToInt32(FolderThreshold)
     else
       cbFolderThresh  := AbDefFolderThreshold;
     cbReserveCFHeader := AbDefReserveHeaderSize;
@@ -681,7 +681,7 @@ begin
   if Assigned(FOnRequestImage) then
     FOnRequestImage(Self, CabIndex, CabName, Abort)
   else
-    AbIncFilename(CabName, AbToWord(CabIndex));
+    AbIncFilename(CabName, AbToUInt16(CabIndex));
 end;
 {----------------------------------------------------------------------------}
 procedure TAbCabArchive.ExtractItemAt(Index : NativeInt; const NewName : string);
@@ -797,7 +797,7 @@ begin
     FFolderThreshold := Value
   else
     FFolderThreshold := AbDefFolderThreshold;
-  FFCICabInfo.cbFolderThresh := FFolderThreshold;
+  FFCICabInfo.cbFolderThresh := AbToInt32(FFolderThreshold);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCabArchive.SetSetID(Value : Word);

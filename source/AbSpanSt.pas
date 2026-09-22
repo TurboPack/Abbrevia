@@ -200,7 +200,7 @@ begin
   { switch to the requested image.  ImageNumber is passed in as 0-based to
     match the zip spec, but all of the callbacks receive 1-based values. }
   FreeAndNil(FStream);
-  FCurrentImage := ImageNumber;
+  FCurrentImage := AbToUInt32(ImageNumber);
   Inc(ImageNumber);
   ImageName := FArchiveName;
   if FIsSplit then begin
@@ -211,7 +211,7 @@ begin
   else if Assigned(FOnRequestNthDisk) then begin
     Abort := False;
     repeat
-      FOnRequestNthDisk(Self, AbToByte(ImageNumber), Abort);
+      FOnRequestNthDisk(Self, AbToUInt8(ImageNumber), Abort);
       if Abort then
         raise EAbUserAbort.Create;
     until AbGetDriveFreeSpace(ImageName) <> -1;
@@ -239,7 +239,7 @@ begin
     Dec(BytesLeft, BytesRead);
     if BytesRead < BytesLeft then begin
       if FCurrentImage <> FLastImage then
-        GotoImage(FCurrentImage + 1)
+        GotoImage(AbToInt32(FCurrentImage + 1))
       else
         Break;
     end;
@@ -266,7 +266,7 @@ begin
   if FStream = nil then
     Exit;
   if FCurrentImage <> Image then
-    GotoImage(Image);
+    GotoImage(AbToInt32(Image));
   FStream.Position := Offset;
 end;
 {------------------------------------------------------------------------------}
@@ -302,7 +302,7 @@ begin
   FreeAndNil(FStream);
   Inc(FCurrentImage);
   if FThreshold > 0 then
-    RenameFile(FArchiveName, GetImageName(FCurrentImage))
+    RenameFile(FArchiveName, GetImageName(AbToInt32(FCurrentImage)))
   else begin
     if Assigned(FOnRequestBlankDisk) then begin
       Abort := False;
@@ -314,7 +314,7 @@ begin
     end
     else
       raise EAbUserAbort.Create;
-    AbSetSpanVolumeLabel(AbDrive(FArchiveName), FCurrentImage);
+    AbSetSpanVolumeLabel(AbDrive(FArchiveName), AbToInt32(FCurrentImage));
   end;
   FStream := TBufferedFileStream.Create(FArchiveName, fmCreate or fmShareDenyWrite);
   FImageSize := 0;

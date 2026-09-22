@@ -88,7 +88,7 @@ begin
      (aBufSize <> 32768) then
     FBufSize := 32768
   else
-    FBufSize := aBufSize;
+    FBufSize := AbToInt32(aBufSize);
   {add a 1KB leeway}
   inc(FBufSize, 1024);
   GetMem(FBuffer, FBufSize);

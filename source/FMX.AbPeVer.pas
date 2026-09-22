@@ -83,15 +83,15 @@ implementation
 uses
   System.UITypes, Winapi.Windows, Winapi.ShellApi,
   {$IF COMPILERVERSION < 31}FMX.Dialogs{$ELSE}FMX.DialogService.Sync{$IFEND},
-  AbArcTyp, AbConst, AbResString;
+  AbArcTyp, AbConst, AbResString, AbUtils;
 
 { TAbAboutBox }
 
 procedure TAbAboutBox.FormCreate(Sender: TObject);
 begin
 {$IF COMPILERVERSION > 34}
-  Top := Trunc(Screen.Height - Height) div 3;
-  Left := Trunc(Screen.Width - Width) div 2;
+  Top := AbToInt32(Trunc(Screen.Height - Height) div 3);
+  Left := AbToInt32(Trunc(Screen.Width - Width) div 2);
 {$ELSE}
   Top := (Screen.Height - Height) div 3;
   Left := (Screen.Width - Width) div 2;

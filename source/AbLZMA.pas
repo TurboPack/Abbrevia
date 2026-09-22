@@ -657,7 +657,7 @@ begin
   if ACompressionLevel >= 0 then
     LEncProps.level := ACompressionLevel;
   if ADictionarySize >= 0 then
-    LEncProps.dictSize := ADictionarySize;
+    LEncProps.dictSize := AbToUInt32(ADictionarySize);
 
   LPOutBuf := PByte(PtrUInt(APCompressedData) + SizeOf(TLZMAHeader));
   LOutputBytes := ACompressedDataBufferCapacity - SizeOf(TLZMAHeader);

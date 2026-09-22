@@ -183,7 +183,7 @@ function calloc(num, size: size_t): Pointer; cdecl;
 begin
   Result := malloc(num * size);
   if Result <> nil then
-    FillMemory(Result, num * size, 0);
+    FillMemory(Result, AbToNativeUInt(num * size), 0);
 end;
 { -------------------------------------------------------------------------- }
 function malloc(Size: size_t): Pointer; cdecl;

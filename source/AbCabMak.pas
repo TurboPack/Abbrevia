@@ -167,7 +167,7 @@ begin
   inherited InitArchive;
   if Assigned(CabArchive) then begin
     {properties}
-    CabArchive.FolderThreshold   := FFolderThreshold;
+    CabArchive.FolderThreshold   := AbToUInt32(FFolderThreshold);
     CabArchive.CompressionType   := FCompressionType;
     CabArchive.SetID             := FSetID;
     CabArchive.StoreOptions      := FStoreOptions;
@@ -208,7 +208,7 @@ procedure TAbCustomMakeCab.SetFolderThreshold(Value : Integer);
 begin
   FFolderThreshold := Value;
   if Assigned(CabArchive) then
-    CabArchive.FolderThreshold := Value;
+    CabArchive.FolderThreshold := AbToUInt32(Value);
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbCustomMakeCab.SetStoreOptions(Value : TAbStoreOptions);

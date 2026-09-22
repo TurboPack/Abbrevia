@@ -63,7 +63,7 @@ type
   protected {private}
     FAdditionalText      : string;
     FCaption             : string;
-    FHandle              : Integer;
+    FHandle              : HWND;
     FIDList              : PItemIDList;
     FSelectedFolder      : string;
 
@@ -77,7 +77,7 @@ type
     property Caption : string
       read FCaption
       write FCaption;
-    property Handle : Integer
+    property Handle : HWND
       read FHandle;
     property IDList : PItemIDList
       read FIDList;

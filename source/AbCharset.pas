@@ -59,6 +59,9 @@ function AbTryEncode(const aValue: UnicodeString; aCodePage: UINT;
 
 implementation
 
+uses
+  AbUtils;
+
 function AbDetectCharSet(const aValue: TBytes): TAbCharSet;
 var
   i: NativeInt;
@@ -264,7 +267,7 @@ begin
       {$IFDEF MSWINDOWS}
       if AbIsOEM(aValue) then begin
         SetLength(Result, Length(aValue));
-        OemToCharBuff(PAnsiChar(@aValue[0]), PChar(Result), Length(Result));
+        OemToCharBuff(PAnsiChar(@aValue[0]), PChar(Result), AbToUInt32(Length(Result)));
       end
       else
       {$ENDIF}

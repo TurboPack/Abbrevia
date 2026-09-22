@@ -692,8 +692,8 @@ var
   conv64 : TLargeInteger;
 begin
   if (Offset = 0) and (Origin = soCurrent) then begin
-    conv64.LowPart  := FBZRec.total_in_lo32;
-    conv64.HighPart := FBZRec.total_in_hi32;
+    conv64.LowPart  := AbToUInt32(FBZRec.total_in_lo32);
+    conv64.HighPart := AbToUInt32(FBZRec.total_in_hi32);
     Result := conv64.QuadPart
     end
   else
@@ -705,10 +705,10 @@ var
   conv64In : TLargeInteger;
   conv64Out: TLargeInteger;
 begin
-  conv64In.LowPart   := FBZRec.total_in_lo32;
-  conv64In.HighPart  := FBZRec.total_in_hi32;
-  conv64Out.LowPart  := FBZRec.total_out_lo32;
-  conv64Out.HighPart := FBZRec.total_out_hi32;
+  conv64In.LowPart   := AbToUInt32(FBZRec.total_in_lo32);
+  conv64In.HighPart  := AbToUInt32(FBZRec.total_in_hi32);
+  conv64Out.LowPart  := AbToUInt32(FBZRec.total_out_lo32);
+  conv64Out.HighPart := AbToUInt32(FBZRec.total_out_hi32);
 
   if conv64In.QuadPart = 0 then
     Result := 0
@@ -770,8 +770,8 @@ var
   conv64: TLargeInteger;
   NewOff: Int64;
 begin
-  conv64.LowPart  := FBZRec.total_out_lo32;
-  conv64.HighPart := FBZRec.total_out_hi32;
+  conv64.LowPart  := AbToUInt32(FBZRec.total_out_lo32);
+  conv64.HighPart := AbToUInt32(FBZRec.total_out_hi32);
 
   if (Offset = 0) and (Origin = soBeginning) then
   begin

@@ -147,7 +147,7 @@ type
     protected
       function lzsGetApproxSize : UInt32;
       function lzsGetStaticSize : integer;
-      function lzsGetStoredSize : integer;
+      function lzsGetStoredSize : Integer;
       function lzsIsFull : boolean;
     public
       constructor Create(aSlideWin     : TAbDfInputWindow;
@@ -1188,7 +1188,7 @@ begin
          plus any extra bits).
          There are FLitCount literals, FDistCount lengths, and
          FDistCount distances}
-  Result := (13 * FDistCount) + (8 * FLitCount);
+  Result := AbToUInt32((13 * FDistCount) + (8 * FLitCount));
   for i := 4 to 31 do
     inc(Result, FDistBuckets^[i] * dfc_DistExtraBits[i]);
   Result := Result div 8;
@@ -1219,9 +1219,9 @@ begin
     inc(Result, FDistBuckets^[i] * (5 + dfc_DistExtraBits[i]));
 end;
 {--------}
-function TAbDfLZStream.lzsGetStoredSize : integer;
+function TAbDfLZStream.lzsGetStoredSize : Integer;
 begin
-  Result := FStoredSize;
+  Result := AbToInt32(FStoredSize);
 {Result := FSlideWin.Position - FStartOfs;}
 end;
 {--------}

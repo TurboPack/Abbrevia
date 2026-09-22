@@ -274,7 +274,7 @@ procedure TAbUnzipHelper.uzFlushOutBuf;
   {-flushes the output buffer}
 begin
   if (FOutPos <> 0) then begin
-    FOutWriter.Write( FOutBuf^, FOutPos );
+    FOutWriter.Write( FOutBuf^, AbToInt32(FOutPos));
     Inc( FOutSent, FOutPos );
     FOutPos := 0;
   end;
@@ -312,7 +312,7 @@ begin
   if ( Bits < FBitsLeft ) then begin
     Dec( FBitsLeft, Bits );
     Result := ((1 shl Bits) - 1) and FCurByte;
-    FCurByte := AbToByte(FCurByte shr Bits);
+    FCurByte := AbToUInt8(FCurByte shr Bits);
   end
   else if ( Bits = FBitsLeft ) then begin
     Result := FCurByte;
@@ -323,7 +323,7 @@ begin
     SaveCurByte := FCurByte;
     SaveBitsLeft := FBitsLeft;
     {number of additional bits that we need}
-    Delta := AbToByte(Bits - FBitsLeft);
+    Delta := AbToUInt8(Bits - FBitsLeft);
     {do we still have a byte buffered?}
     if FInPos <= FInCnt then begin
       {get next byte out of buffer and advance position counter}
@@ -439,23 +439,23 @@ var
       {High nibble: Number of values at this bit length + 1.
        Low  nibble: Bits needed to represent value + 1}
       for J := 1 to TreeBytes do begin
-        B := AbToByte(uzReadBits(8));
+        B := AbToUInt8(uzReadBits(8));
         Len := (B and $0F)+1;
         Num := (B shr 4)+1;
 
         for K := I to I+Num-1 do
           with Tree, Entry[K] do begin
             if Len > MaxLength then
-              MaxLength := AbToSmallint(Len);
-            BitLength := AbToByte(Len);
-            Value := AbToByte(K);
+              MaxLength := AbToInt16(Len);
+            BitLength := AbToUInt8(Len);
+            Value := AbToUInt8(K);
           end;
         Inc(I, Num);
       end;
     end;
 
   begin
-    Tree.Entries := AbToSmallint(TreeSize);
+    Tree.Entries := AbToInt16(TreeSize);
     uzReadLengths;
     SortLengths;
     GenerateTree;
@@ -479,7 +479,7 @@ var
     Cur := 0;
     E := Tree.Entries;
     repeat
-      CV := AbToWord(CV or (uzReadBits(1) shl Bits));
+      CV := AbToUInt16(CV or (uzReadBits(1) shl Bits));
       Inc(Bits);
       while Tree.Entry[Cur].BitLength < Bits do begin
         Inc(Cur);
@@ -528,11 +528,11 @@ begin
         if (MinMatchLength = 3) then
           uzWriteByte( uzReadTree(LitTree^) )
         else
-          uzWriteByte(AbToByte(uzReadBits(8)));
+          uzWriteByte(AbToUInt8(uzReadBits(8)));
       end
       else begin
         {data is a sliding dictionary}
-        Distance := uzReadBits(AbToByte(DictBits));
+        Distance := uzReadBits(AbToUInt8(DictBits));
 
         {using the Distance Shannon-Fano tree, read and decode the
          upper 6 bits of the Distance value}
@@ -599,7 +599,7 @@ var
     Result := 0;
     repeat
       inc( Result );
-      i := AbToByte(i shr 1);
+      i := AbToUInt8(i shr 1);
     until i = 0;
   end;
 
@@ -610,7 +610,7 @@ begin
 
   GetMem(Followers, SizeOf(TAbFollowerSets));
   try
-    Factor := AbToByte(Ord(FCompressionMethod) - 1);
+    Factor := AbToUInt8(Ord(FCompressionMethod) - 1);
     FactorMask := FactorMasks[Factor];
     State := 0;
     C := 0;
@@ -620,23 +620,23 @@ begin
     {load follower sets}
     for I := 255 downto 0 do begin
       Sz := uzReadBits(6);
-      Followers^[I].Size := AbToByte(Sz);
+      Followers^[I].Size := AbToUInt8(Sz);
       Dec(Sz);
       for J := 0 to Sz do
-        Followers^[I].FSet[J] := AbToByte(uzReadBits(8));
+        Followers^[I].FSet[J] := AbToUInt8(uzReadBits(8));
     end;
 
     while (not FInEof) and ((FOutSent + Integer(FOutPos)) < FUncompressedSize) do begin
       Last := C;
       with Followers^[Last] do
         if Size = 0 then
-          C := AbToByte(uzReadBits(8))
+          C := AbToUInt8(uzReadBits(8))
         else begin
-          C := AbToByte(uzReadBits(1));
+          C := AbToUInt8(uzReadBits(1));
           if C <> 0 then
-            C := AbToByte(uzReadBits(8))
+            C := AbToUInt8(uzReadBits(8))
           else
-            C := AbToByte(FSet[AbToByte(uzReadBits(AbToByte(BitsNeeded(Size))))]);
+            C := AbToUInt8(FSet[AbToUInt8(uzReadBits(AbToUInt8(BitsNeeded(Size))))]);
         end;
 
       if FInEof then
@@ -671,10 +671,10 @@ begin
         3 :
           begin
             case Factor of
-              1 : D := AbToWord((V shr 7) and $01);
-              2 : D := AbToWord((V shr 6) and $03);
-              3 : D := AbToWord((V shr 5) and $07);
-              4 : D := AbToWord((V shr 4) and $0f);
+              1 : D := AbToUInt16((V shr 7) and $01);
+              2 : D := AbToUInt16((V shr 6) and $03);
+              3 : D := AbToUInt16((V shr 5) and $07);
+              4 : D := AbToUInt16((V shr 4) and $0f);
             else
               raise EAbZipInvalidFactor.Create;
             end;
@@ -750,28 +750,28 @@ begin
     FillChar(PrefixTable^, SizeOf(PrefixTable^), $FF);
     for NewCode := 255 downto 0 do begin
       PrefixTable^[NewCode] := 0;
-      SuffixTable^[NewCode] := AbToByte(NewCode);
+      SuffixTable^[NewCode] := AbToUInt8(NewCode);
     end;
 
-    OldCode := AbToSmallint(uzReadBits(AbToByte(CodeSize)));
+    OldCode := AbToInt16(uzReadBits(AbToUInt8(CodeSize)));
     if FInEof then
       Exit;
     BaseChar := OldCode;
 
-    uzWriteByte(AbToByte(BaseChar));
+    uzWriteByte(AbToUInt8(BaseChar));
 
     StackIndex := 0;
     while (not FInEof) do begin
-      NewCode := AbToSmallint(uzReadBits(AbToByte(CodeSize)));
+      NewCode := AbToInt16(uzReadBits(AbToUInt8(CodeSize)));
       while (NewCode = Clear) and (not FInEof) do begin
-        case uzReadBits(AbToByte(CodeSize)) of
+        case uzReadBits(AbToUInt8(CodeSize)) of
           1 : begin
                 Inc(CodeSize);
               end;
           2 : begin
                 {mark all nodes as potentially unused}
                 for I := FirstFree to pred( NextFree ) do
-                  PrefixTable^[I] := AbToSmallInt(PrefixTable^[I] or Integer($8000));
+                  PrefixTable^[I] := AbToInt16(PrefixTable^[I] or Integer($8000));
 
                 {unmark those used by other nodes}
                 for N := FirstFree to NextFree-1 do begin
@@ -795,7 +795,7 @@ begin
               end;
         end;
 
-        NewCode := AbToSmallint(uzReadBits(AbToByte(CodeSize)));
+        NewCode := AbToInt16(uzReadBits(AbToUInt8(CodeSize)));
       end;
 
       if FInEof then
@@ -806,7 +806,7 @@ begin
 
       {special case}
       if PrefixTable^[NewCode] = Unused then begin
-        Stack^[StackIndex] := AbToByte(BaseChar);
+        Stack^[StackIndex] := AbToUInt8(BaseChar);
         Inc(StackIndex);
         NewCode := OldCode;
       end;
@@ -814,7 +814,7 @@ begin
       {generate output characters in reverse order}
       while (NewCode >= FirstFree) do begin
         if PrefixTable^[NewCode] = Unused then begin
-          Stack^[StackIndex] := AbToByte(BaseChar);
+          Stack^[StackIndex] := AbToUInt8(BaseChar);
           Inc(StackIndex);
           NewCode := OldCode;
         end else begin
@@ -825,7 +825,7 @@ begin
       end;
 
       BaseChar := SuffixTable^[NewCode];
-      uzWriteByte(AbToByte(BaseChar));
+      uzWriteByte(AbToUInt8(BaseChar));
 
       {put them out in forward order}
       while (StackIndex > 0) do begin
@@ -837,7 +837,7 @@ begin
       NewCode := NextFree;
       if NewCode < MaxCodeMax then begin
         PrefixTable^[NewCode] := OldCode;
-        SuffixTable^[NewCode] := AbToByte(BaseChar);
+        SuffixTable^[NewCode] := AbToUInt8(BaseChar);
         while (NextFree < MaxCodeMax) and
               (PrefixTable^[NextFree] <> Unused) do
           Inc(NextFree);

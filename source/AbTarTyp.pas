@@ -698,7 +698,7 @@ end;
 
 function TAbTarItem.GetNativeFileAttributes : Integer;
 begin
-  Result := GetExternalFileAttributes;
+  Result := AbToInt32(GetExternalFileAttributes);
 {$IFDEF MSWINDOWS}
   Result := AbUnix2DosFileAttributes(Result);
 {$ENDIF}
@@ -776,7 +776,7 @@ var
   FoundName: Boolean;
   NameLength : Int64;
   NumMHeaders: integer;
-  ExtraName: integer;
+  ExtraName: UInt32;
   RawFileName: TBytes;
   TempStr: TBytes;
 begin
@@ -792,7 +792,7 @@ begin
       RawFileName := [];
       NameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));
       NumMHeaders := AbToInt32(NameLength div AB_TAR_RECORDSIZE);
-      ExtraName := AbToInt32(NameLength mod AB_TAR_RECORDSIZE); { Chars in the last Header }
+      ExtraName := AbToUInt32(NameLength mod AB_TAR_RECORDSIZE); { Chars in the last Header }
       { NumMHeaders should never be zero }
       { It appears that it is not null terminated in the blocks }
       for J := 1 to NumMHeaders do
@@ -844,7 +844,7 @@ var
   FoundName: Boolean;
   NameLength : Int64;
   NumMHeaders: integer;
-  ExtraName: integer;
+  ExtraName: UInt32;
   RawLinkName, TempStr: TBytes;
 begin
  {  UNKNOWN_FORMAT, V7_FORMAT, OLDGNU_FORMAT, GNU_FORMAT, USTAR_FORMAT, STAR_FORMAT, POSIX_FORMAT }
@@ -861,7 +861,7 @@ begin
       RawLinkName := [];
       NameLength := OctalToInt(@PHeader.Size, SizeOf(PHeader.Size));
       NumMHeaders := AbToInt32(NameLength div AB_TAR_RECORDSIZE);
-      ExtraName := AbToInt32(NameLength mod AB_TAR_RECORDSIZE); { Chars in the last Header }
+      ExtraName := AbToUInt32(NameLength mod AB_TAR_RECORDSIZE); { Chars in the last Header }
       { NumMHeaders should never be zero }
       { It appears that it is not null terminated in the blocks }
       for J := 1 to NumMHeaders do
@@ -927,7 +927,7 @@ begin
   DetectHeaderFormat;
   { Long term this parsing is not correct, as the values in extended headers
     override the later values in this header }
-  FTarItem.Mode := OctalToInt32(@PTarHeader.Mode, SizeOf(PTarHeader.Mode));
+  FTarItem.Mode := AbToUInt32(OctalToInt32(@PTarHeader.Mode, SizeOf(PTarHeader.Mode)));
   FTarItem.uid := OctalToInt32(@PTarHeader.uid, SizeOf(PTarHeader.uid)); { Extended in PAX Headers }
   FTarItem.gid := OctalToInt32(@PTarHeader.gid, SizeOf(PTarHeader.gid)); { Extended in PAX Headers }
   FTarItem.Size := OctalToInt(@PTarHeader.Size, SizeOf(PTarHeader.Size)); { Extended in PAX Headers }
@@ -1287,7 +1287,7 @@ begin
   Move(pBytes[0], PHeader.Size, Length(pBytes));
   TAbBytes.StrPCopy(@PHeader.ModTime, AB_TAR_L_HDR_ARR12_0);  { Stuff zeros }
   { Check sum will be calculated as the Dirty flag is in caller. }
-  PHeader.LinkFlag := AbToByte(Ord(LinkFlag));  { Stuff Link FlagSize }
+  PHeader.LinkFlag := AbToUInt8(Ord(LinkFlag));  { Stuff Link FlagSize }
   TAbBytes.StrPCopy(@PHeader.Magic.gnuOld, AB_TAR_MAGIC_GNUOLD); { Stuff the magic }
   TAbBytes.StrPCopy(@PHeader.UsrName, AB_TAR_L_HDR_USR_NAME);
   TAbBytes.StrPCopy(@PHeader.GrpName, AB_TAR_L_HDR_GRP_NAME);
@@ -1505,9 +1505,9 @@ begin
   { replace date, keep existing time }
   LastModTimeAsDateTime :=
     EncodeDate(
-      AbToWord(Value shr 9 + 1980),
-      AbToWord(Value shr 5 and 15),
-      AbToWord(Value and 31)) +
+      AbToUInt16(Value shr 9 + 1980),
+      AbToUInt16(Value shr 5 and 15),
+      AbToUInt16(Value and 31)) +
     Frac(LastModTimeAsDateTime);
 end;
 
@@ -1517,9 +1517,9 @@ begin
   LastModTimeAsDateTime :=
     Trunc(LastModTimeAsDateTime) +
     EncodeTime(
-      AbToWord(Value shr 11),
-      AbToWord(Value shr 5 and 63),
-      AbToWord(Value and 31 shl 1), 0);
+      AbToUInt16(Value shr 11),
+      AbToUInt16(Value shr 5 and 63),
+      AbToUInt16(Value and 31 shl 1), 0);
 end;
 
 procedure TAbTarItem.SetLastModTimeAsDateTime(const Value: TDateTime);
@@ -2048,7 +2048,7 @@ begin
         end;
 
         { show progress and allow for aborting }
-        Progress := AbToByte((FStream.Position*100) div FStream.Size);
+        Progress := AbToUInt8((FStream.Position*100) div FStream.Size);
         DoArchiveProgress(Progress, Abort);
         if Abort then begin
           FStatus := asInvalid;

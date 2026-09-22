@@ -477,7 +477,7 @@ begin
       if Assigned(DllGetVersion) then begin
         dvi.cbSize := SizeOf(dvi);
         if Succeeded(DllGetVersion(@dvi)) then
-          ComCtl32MajorVer := dvi.dwMajorVersion;
+          ComCtl32MajorVer := AbToInt32(dvi.dwMajorVersion);
       end;
       FreeLibrary(hComCtl32);
     end;
@@ -894,7 +894,7 @@ begin
         vcMethod: Column.Caption := AbMethodHeadingS;
         vcPath: Column.Caption := AbPathHeadingS;
       end;
-      Column.Width := ColWidths[Col];
+      Column.Width := TWidth(ColWidths[Col]);
       Column.Tag := Ord(Col);
       if Col in [vcSize, vcRatio, vcPacked] then
         Column.Alignment := taRightJustify;
@@ -1025,7 +1025,7 @@ begin
               DOSAttr := FILE_ATTRIBUTE_DIRECTORY
             else
               DOSAttr := FILE_ATTRIBUTE_NORMAL;
-            SHGetFileInfo(PChar(ExtractFileName(Filename)), DOSAttr, sfi, sizeof(sfi),
+            SHGetFileInfo(PChar(ExtractFileName(Filename)), AbToUInt32(DOSAttr), sfi, sizeof(sfi),
               SHGFI_TYPENAME or SHGFI_SYSICONINDEX or SHGFI_USEFILEATTRIBUTES);
             // Fill in columns
             ListItem.Caption := ExtractFileName(Filename);

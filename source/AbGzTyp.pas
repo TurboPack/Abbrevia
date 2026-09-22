@@ -432,7 +432,7 @@ end;
 procedure TAbGzipExtraField.Changed;
 begin
   if Buffer = nil then
-    FGzHeader.Flags := AbToByte(FGzHeader.Flags and not AB_GZ_FLAG_FEXTRA)
+    FGzHeader.Flags := AbToUInt8(FGzHeader.Flags and not AB_GZ_FLAG_FEXTRA)
   else
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FEXTRA;
 end;
@@ -484,7 +484,8 @@ const
   BuffSiz = 1024;
 var
   Buff   : TBytes;
-  Len, DataRead : Integer;
+  Len: Int32;
+  DataRead : Int32;
 begin
 { basically what this is supposed to do is...}
 {
@@ -498,7 +499,7 @@ begin
   repeat
     DataRead := AStream.Read(Buff, BuffSiz - 1);
     Buff[DataRead] := 0;
-    Len := TAbBytes.StrLen(Buff);
+    Len := AbToInt32(TAbBytes.StrLen(Buff));
     if Len > 0 then
       Result := Result + System.Copy(Buff, 0, Len);
     if Len < DataRead then
@@ -585,7 +586,7 @@ var
   Tail : TAbGzTailRec;
 begin
   Tail.CRC32 := FItem.CRC32;
-  Tail.ISize := AbToInt32(FItem.UncompressedSize);
+  Tail.ISize := AbToUInt32(FItem.UncompressedSize);
   FStream.Write(Tail, SizeOf(TAbGzTailRec));
 end;
 
@@ -763,14 +764,14 @@ begin
   FGzHeader.CompMethod := 8;  { deflate }
 
   { reset unsupported flags }
-  FGzHeader.Flags := AbToByte(FGzHeader.Flags and not AB_GZ_UNSUPPORTED_FLAGS);
+  FGzHeader.Flags := AbToUInt8(FGzHeader.Flags and not AB_GZ_UNSUPPORTED_FLAGS);
 
   { main header data }
   AStream.Write(FGzHeader, SizeOf(TAbGzHeader));
 
   { add extra field if any }
   if HasExtraField then begin
-    LenW := AbToWord(Length(FExtraField.Buffer));
+    LenW := AbToUInt16(Length(FExtraField.Buffer));
     AStream.Write(LenW, SizeOf(LenW));
     if LenW > 0 then
       AStream.Write(FExtraField.Buffer[0], LenW);
@@ -804,7 +805,7 @@ begin
   if FFileComment <> '' then
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FCOMMENT
   else
-    FGzHeader.Flags := AbToByte(FGzHeader.Flags and not AB_GZ_FLAG_FCOMMENT);
+    FGzHeader.Flags := AbToUInt8(FGzHeader.Flags and not AB_GZ_FLAG_FCOMMENT);
 end;
 
 procedure TAbGzipItem.SetFileName(const Value: string);
@@ -814,7 +815,7 @@ begin
   if Value <> '' then
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FNAME
   else
-    FGzHeader.Flags := AbToByte(FGzHeader.Flags and not AB_GZ_FLAG_FNAME);
+    FGzHeader.Flags := AbToUInt8(FGzHeader.Flags and not AB_GZ_FLAG_FNAME);
 end;
 
 procedure TAbGzipItem.SetFileSystem(const Value: TAbGzFileSystem);
@@ -822,7 +823,7 @@ begin
   if Value = osUnknown then
     FGzHeader.OS := 255
   else
-    FGzHeader.OS := Ord(Value);
+    FGzHeader.OS := AbToUInt8(Ord(Value));
 end;
 
 procedure TAbGzipItem.SetIsEncrypted(Value: Boolean);
@@ -835,7 +836,7 @@ begin
   if Value then
     FGzHeader.Flags := FGzHeader.Flags or AB_GZ_FLAG_FTEXT
   else
-    FGzHeader.Flags := AbToByte(FGzHeader.Flags and not AB_GZ_FLAG_FTEXT);
+    FGzHeader.Flags := AbToUInt8(FGzHeader.Flags and not AB_GZ_FLAG_FTEXT);
 end;
 
 procedure TAbGzipItem.SetLastModFileDate(const Value: Word);
@@ -843,9 +844,9 @@ begin
   { replace date, keep existing time }
   LastModTimeAsDateTime :=
     EncodeDate(
-      AbToWord(Value shr 9 + 1980),
-      AbToWord(Value shr 5 and 15),
-      AbToWord(Value and 31)) +
+      AbToUInt16(Value shr 9 + 1980),
+      AbToUInt16(Value shr 5 and 15),
+      AbToUInt16(Value and 31)) +
     Frac(LastModTimeAsDateTime);
 end;
 
@@ -855,9 +856,9 @@ begin
   LastModTimeAsDateTime :=
     Trunc(LastModTimeAsDateTime) +
     EncodeTime(
-      AbToWord(Value shr 11),
-      AbToWord(Value shr 5 and 63),
-      AbToWord(Value and 31 shl 1), 0);
+      AbToUInt16(Value shr 11),
+      AbToUInt16(Value shr 5 and 63),
+      AbToUInt16(Value and 31 shl 1), 0);
 end;
 
 procedure TAbGzipItem.SetLastModTimeAsDateTime(const Value: TDateTime);

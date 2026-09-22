@@ -156,7 +156,7 @@ begin
       Total := Total + DataRead;
       Percent := AbToInt32(Round((100.0 * Total) / InSize));
       if (LastPercent <> Percent) then
-        Archive.OnProgress(AbToByte(Percent), Abort);
+        Archive.OnProgress(AbToUInt8(Percent), Abort);
       LastPercent := Percent;
     end;
 
@@ -331,7 +331,7 @@ begin
     {$IFDEF POSIX}
     Item.ExternalFileAttributes := UInt32(AttrEx.Mode) shl 16 + UInt32(AttrEx.Attr);
     {$ELSE}
-    Item.ExternalFileAttributes := AttrEx.Attr;
+    Item.ExternalFileAttributes := AbToUInt32(AttrEx.Attr);
     {$ENDIF}
     Item.LastModTimeAsDateTime := AttrEx.Time;
     DoZipFromStream(Sender, Item, OutStream, UncompressedStream);

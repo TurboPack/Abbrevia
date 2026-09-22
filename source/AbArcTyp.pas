@@ -1361,7 +1361,7 @@ procedure TAbArchive.DoDeflateProgress(aPercentDone: integer);
 var
   Abort : Boolean;
 begin
-  DoProgress(AbToByte(aPercentDone), Abort);
+  DoProgress(AbToUInt8(aPercentDone), Abort);
   if Abort then
     raise EAbAbortProgress.Create(AbUserAbortS);
 end;
@@ -1370,7 +1370,7 @@ procedure TAbArchive.DoInflateProgress(aPercentDone: integer);
 var
   Abort : Boolean;
 begin
-  DoProgress(AbToByte(aPercentDone), Abort);
+  DoProgress(AbToUInt8(aPercentDone), Abort);
   if Abort then
     raise EAbAbortProgress.Create(AbUserAbortS);
 end;
@@ -2037,7 +2037,7 @@ begin
   end;
   Result := (BytesLeft >= SizeOf(TAbExtraSubField));
   if Result and (BytesLeft < SizeOf(TAbExtraSubField) + aCurField.Len) then
-    aCurField.Len := AbToWord(BytesLeft - SizeOf(TAbExtraSubField));
+    aCurField.Len := AbToUInt16(BytesLeft - SizeOf(TAbExtraSubField));
 end;
 { -------------------------------------------------------------------------- }
 function TAbExtraField.Get(aID : Word; out aData : Pointer;

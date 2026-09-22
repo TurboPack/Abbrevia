@@ -853,15 +853,15 @@ end;
 procedure TAbZipDisplayOutline.WMDropFiles(var Msg : TWMDropFiles);
 var
   FileName : string;
-  I : Integer;
-  NumFiles : Integer;
+  I : UInt32;
+  NumFiles : UInt32;
 begin
   Msg.Result := 1;
   NumFiles := DragQueryFile(Msg.Drop, Cardinal(-1), nil, 0);
   try
     for I := 0 to pred(NumFiles) do begin
       SetLength(FileName, DragQueryFile(Msg.Drop, I, nil, 0));
-      DragQueryFile(Msg.Drop, I, PChar(FileName), Length(FileName) + 1);
+      DragQueryFile(Msg.Drop, I, PChar(FileName), AbToUInt32(Length(FileName)) + 1);
       DoOnWindowsDrop(FileName);
     end;
   finally

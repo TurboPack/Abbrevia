@@ -381,7 +381,7 @@ begin
   {Set the compression properties}
   LzmaEncProps_Init(LLZMAProps);
   LLZMAProps.level := ACompressionLevel;
-  LLZMAProps.dictSize := ADictionarySize;
+  LLZMAProps.dictSize := AbToUInt32(ADictionarySize);
   LzmaCheck(LzmaEnc_SetProps(FLZMAEncHandle, LLZMAProps));
 
   {Store the header in the output stream, making note of the position in the

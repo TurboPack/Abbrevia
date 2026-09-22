@@ -1013,7 +1013,7 @@ end;
 procedure TAbZipFileHeader.SetCompressionMethod( Value :
                                                TAbZipCompressionMethod );
 begin
-  FCompressionMethod := Ord( Value );
+  FCompressionMethod := AbToUInt8(Ord(Value));
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipFileHeader.SetIsUTF8( Value : Boolean );
@@ -1021,7 +1021,7 @@ begin
   if Value then
     GeneralPurposeBitFlag := GeneralPurposeBitFlag or AbLanguageEncodingFlag
   else
-    GeneralPurposeBitFlag := AbToWord(GeneralPurposeBitFlag and not AbLanguageEncodingFlag);
+    GeneralPurposeBitFlag := AbToUInt16(GeneralPurposeBitFlag and not AbLanguageEncodingFlag);
 end;
 { -------------------------------------------------------------------------- }
 
@@ -1093,7 +1093,7 @@ begin
   Stream.Write( FUncompressedSize, sizeof( FUncompressedSize ) );
   FileNameLength := Word( Length( pBytes ) );
   Stream.Write( FileNameLength, sizeof( FileNameLength ) );
-  ExtraFieldLength := AbToWord(Length(FExtraField.Buffer));
+  ExtraFieldLength := AbToUInt16(Length(FExtraField.Buffer));
   Stream.Write( ExtraFieldLength, sizeof( ExtraFieldLength ) );
   if FileNameLength > 0 then
   begin
@@ -1193,7 +1193,7 @@ begin
   Stream.Write( FUncompressedSize, sizeof( FUncompressedSize ) );
   FileNameLength := Word( Length( pBytes ) );
   Stream.Write( FileNameLength, sizeof( FileNameLength ) );
-  ExtraFieldLength := AbToWord(Length(FExtraField.Buffer));
+  ExtraFieldLength := AbToUInt16(Length(FExtraField.Buffer));
   Stream.Write( ExtraFieldLength, sizeof( ExtraFieldLength ) );
   FileCommentLength := Word( Length( FFileComment ) );
   Stream.Write( FileCommentLength, sizeof( FileCommentLength ) );
@@ -1301,25 +1301,25 @@ begin
     Zip64Footer.DirectoryOffset := DirectoryOffset;
     {setup Zip64 end of central directory locator}
     Zip64Locator.Signature := Ab_Zip64EndCentralDirectoryLocatorSignature;
-    Zip64Locator.StartDiskNumber := DiskNumber;
+    Zip64Locator.StartDiskNumber := AbToInt32(DiskNumber);
     if aZip64TailOffset = -1 then
       Zip64Locator.RelativeOffset := Stream.Position
     else
       Zip64Locator.RelativeOffset := aZip64TailOffset;
-    Zip64Locator.TotalDisks := DiskNumber + 1;
+    Zip64Locator.TotalDisks := AbToInt32(DiskNumber + 1);
     {write Zip64 records}
     Stream.WriteBuffer(Zip64Footer, SizeOf(Zip64Footer));
     Stream.WriteBuffer(Zip64Locator, SizeOf(Zip64Locator));
   end;
   Footer.Signature := Ab_ZipEndCentralDirectorySignature;
-  Footer.DiskNumber := AbToWord(Min(FDiskNumber, $FFFF));
-  Footer.StartDiskNumber := AbToWord(Min(FStartDiskNumber, $FFFF));
-  Footer.EntriesOnDisk := AbToWord(Min(FEntriesOnDisk, $FFFF));
-  Footer.TotalEntries := AbToWord(Min(FTotalEntries, $FFFF));
+  Footer.DiskNumber := AbToUInt16(Min(FDiskNumber, $FFFF));
+  Footer.StartDiskNumber := AbToUInt16(Min(FStartDiskNumber, $FFFF));
+  Footer.EntriesOnDisk := AbToUInt16(Min(FEntriesOnDisk, $FFFF));
+  Footer.TotalEntries := AbToUInt16(Min(FTotalEntries, $FFFF));
   Footer.DirectorySize := AbToUInt32(Min(FDirectorySize, $FFFFFFFF));
   Footer.DirectoryOffset := AbToUInt32(Min(FDirectoryOffset, $FFFFFFFF));
   pBytes := TEncoding.ANSI.GetBytes(FZipfileComment);
-  Footer.CommentLength := AbToWord(Length(pBytes));
+  Footer.CommentLength := AbToUInt16(Length(pBytes));
   Stream.WriteBuffer( Footer, SizeOf(Footer) );
   if pBytes <> nil then
     Stream.Write(pBytes, Length(pBytes));
@@ -1422,7 +1422,7 @@ function TAbZipItem.GetNativeFileAttributes : Integer;
 begin
 {$IFDEF MSWINDOWS}
   if (HostOS = hosUnix) or (ExternalFileAttributes > $1FFFF) then
-    Result := AbUnix2DosFileAttributes(ExternalFileAttributes shr 16)
+    Result := AbUnix2DosFileAttributes(AbToInt32(ExternalFileAttributes shr 16))
   else
     Result := Byte(ExternalFileAttributes);
 {$ENDIF}
@@ -1491,7 +1491,7 @@ begin
     SetLength(FFileName, Length(FItemInfo.FileName));
     pBuffer := TEncoding.ANSI.GetBytes(FItemInfo.FileName);
     if pBuffer <> nil then
-      OemToCharBuff(PAnsiChar(@(pBuffer[0])), PChar(FFileName), Length(FFileName));
+      OemToCharBuff(PAnsiChar(@(pBuffer[0])), PChar(FFileName), AbToUInt32(Length(FFileName)));
   end
   {$ENDIF}
   else
@@ -1603,7 +1603,7 @@ end;
 procedure TAbZipItem.SetDiskNumberStart( Value : UInt32 );
 begin
   FDiskNumberStart := Value;
-  FItemInfo.DiskNumberStart := AbToWord(Min(Value, $FFFF));
+  FItemInfo.DiskNumberStart := AbToUInt16(Min(Value, $FFFF));
   UpdateZip64ExtraHeader;
 end;
 { -------------------------------------------------------------------------- }
@@ -1663,7 +1663,7 @@ begin
   if UseExtraField then
   begin
     pBytes := TEncoding.UTF8.GetBytes(Value);
-    FieldSize := AbToWord(SizeOf(TInfoZipUnicodePathRec) + Length(pBytes) - 1);
+    FieldSize := AbToUInt16(SizeOf(TInfoZipUnicodePathRec) + Length(pBytes) - 1);
     GetMem(InfoZipField, FieldSize);
     try
       InfoZipField.Version := 1;
@@ -1688,7 +1688,7 @@ end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.SetHostOS( Value : TAbZipHostOS );
 begin
-  FItemInfo.VersionMadeBy := AbToWord(Low(FItemInfo.VersionMadeBy) or
+  FItemInfo.VersionMadeBy := AbToUInt16(Low(FItemInfo.VersionMadeBy) or
     Word(Ord(Value)) shl 8);
 end;
 { -------------------------------------------------------------------------- }
@@ -1745,7 +1745,7 @@ begin
     VersionNeededToExtract := 20
   else
     VersionNeededToExtract := 10;
-  VersionMadeBy := AbToWord((VersionMadeBy and $FF00) + Max(20, VersionNeededToExtract));
+  VersionMadeBy := AbToUInt16((VersionMadeBy and $FF00) + Max(20, VersionNeededToExtract));
 end;
 { -------------------------------------------------------------------------- }
 procedure TAbZipItem.UpdateZip64ExtraHeader;
@@ -1765,7 +1765,7 @@ begin
       FieldStream.WriteBuffer(FDiskNumberStart, SizeOf(UInt32));
     Changed := (FieldStream.Size > 0) <> ExtraField.Has(Ab_Zip64SubfieldID);
     if FieldStream.Size > 0 then
-      ExtraField.Put(Ab_Zip64SubfieldID, FieldStream.Memory^, AbToWord(FieldStream.Size))
+      ExtraField.Put(Ab_Zip64SubfieldID, FieldStream.Memory^, AbToUInt16(FieldStream.Size))
     else
       ExtraField.Delete(Ab_Zip64SubfieldID);
     if Changed then
@@ -2035,7 +2035,7 @@ begin
       Dec(TailPosition);
     until Zip64Locator.Signature = Ab_Zip64EndCentralDirectoryLocatorSignature;
     { update current image number }
-    FInfo.DiskNumber := Zip64Locator.TotalDisks - 1;
+    FInfo.DiskNumber := AbToUInt32(Zip64Locator.TotalDisks - 1);
   end;
 
   { setup spanning support and move to the start of the central directory }
@@ -2047,7 +2047,7 @@ begin
       TAbSpanReadStream(FStream).OnRequestImage := DoRequestImage;
       TAbSpanReadStream(FStream).OnRequestNthDisk := DoRequestNthDisk;
       if FInfo.IsZip64 then begin
-        TAbSpanReadStream(FStream).SeekImage(Zip64Locator.StartDiskNumber,
+        TAbSpanReadStream(FStream).SeekImage(AbToUInt32(Zip64Locator.StartDiskNumber),
           Zip64Locator.RelativeOffset);
         FInfo.LoadZip64FromStream(FStream);
       end;
@@ -2082,7 +2082,7 @@ begin
        (Item.RelativeOffset < FStubSize) then
       FStubSize := AbToUInt32(Item.RelativeOffset);
 
-    Progress := AbToByte((Count * 100) div FInfo.TotalEntries);
+    Progress := AbToUInt8((Count * 100) div FInfo.TotalEntries);
     DoArchiveProgress( Progress, Abort );
     if Abort then begin
       FStatus := asInvalid;

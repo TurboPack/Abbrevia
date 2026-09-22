@@ -1272,7 +1272,7 @@ procedure TAbBaseViewer.MouseDown(Button: TMouseButton;
     Sorted : Boolean;
   begin
     Attr := TAbViewAttribute(ColMap(Col));
-    Result := AbToWord(Canvas.TextWidth(FHeadings[ColMap(Col)]));
+    Result := AbToUInt16(Canvas.TextWidth(FHeadings[ColMap(Col)]));
     case Attr of
       vaItemName : Sorted := saItemName in FSortAttributes;
       vaPacked   : Sorted := saPacked in FSortAttributes;
@@ -1283,9 +1283,9 @@ procedure TAbBaseViewer.MouseDown(Button: TMouseButton;
       else Sorted := False;
     end;
     if Sorted then
-      Result := AbToWord(Result + RowHeights[0] + 16)
+      Result := AbToUInt16(Result + RowHeights[0] + 16)
     else
-      Result := AbToWord(Result + 8);
+      Result := AbToUInt16(Result + 8);
 
     if Assigned(FItemList) then
     for I := 0 to (FItemList.Count-1) do begin
@@ -1295,7 +1295,7 @@ procedure TAbBaseViewer.MouseDown(Button: TMouseButton;
       if (doShowIcons in FDisplayOptions) and (Attr = vaItemName) then
         inc(L, RowHeights[AbToInt32(I)]);
       if L > Result then
-        Result := AbToWord(L);
+        Result := AbToUInt16(L);
     end;
   end;
 

@@ -91,7 +91,7 @@ end;
 
 function strncmp(str1, str2: PAnsiChar; num: Integer): Integer; cdecl;
 begin
-  Result := System.AnsiStrings.StrLComp(str1, str2, num);
+  Result := System.AnsiStrings.StrLComp(str1, str2, AbToUInt32(num));
 end;
 
 { Forward declarations ===================================================== }
@@ -343,7 +343,7 @@ end;
 function TWavPackStream_set_pos_rel(id: Pointer; delta: int32_t;
   mode: Integer): Integer; cdecl;
 begin
-  PWavPackStream(id).Stream.Seek(delta, AbToWord(mode));
+  PWavPackStream(id).Stream.Seek(delta, AbToUInt16(mode));
   Result := 1;
 end;
 { -------------------------------------------------------------------------- }
@@ -391,15 +391,15 @@ begin
     // Convert and write to output
     case bps of
       1: begin
-        dst^ := AbToByte(sample + 128);
+        dst^ := AbToUInt8(sample + 128);
       end;
       2: begin
-        PWord(dst)^ := AbToWord(sample);
+        PWord(dst)^ := AbToUInt16(sample);
       end;
       3: begin
-        PByteArray(dst)[0] := AbToByte(sample);
-        PByteArray(dst)[1] := AbToByte(sample shr 8);
-        PByteArray(dst)[2] := AbToByte(sample shr 16);
+        PByteArray(dst)[0] := AbToUInt8(sample);
+        PByteArray(dst)[1] := AbToUInt8(sample shr 8);
+        PByteArray(dst)[2] := AbToUInt8(sample shr 16);
       end;
       4: begin
         PUInt32(dst)^ := sample;
@@ -449,7 +449,7 @@ begin
   try
     // Write .wav header
     if WavpackGetWrapperBytes(Context) > 0 then begin
-      aDes.WriteBuffer(WavpackGetWrapperData(Context)^, WavpackGetWrapperBytes(Context));
+      aDes.WriteBuffer(WavpackGetWrapperData(Context)^, AbToNativeInt(WavpackGetWrapperBytes(Context)));
       WavpackFreeWrapper(Context);
     end;
 
@@ -463,7 +463,7 @@ begin
 
     repeat
       // Unpack samples
-      SamplesToUnpack := AbToInt32((OutputBufSize - (PtrInt(OutputPtr) - PtrInt(OutputBuf))) div BytesPerSample);
+      SamplesToUnpack := AbToUInt32((OutputBufSize - (PtrInt(OutputPtr) - PtrInt(OutputBuf))) div BytesPerSample);
       if (SamplesToUnpack > 4096) then
         SamplesToUnpack := 4096;
       SamplesUnpacked := WavpackUnpackSamples(Context, DecodeBuf, SamplesToUnpack);
@@ -486,7 +486,7 @@ begin
     while WavpackGetWrapperBytes(Context) > 0 do begin
       try
         aDes.WriteBuffer(WavpackGetWrapperData(Context)^,
-          WavpackGetWrapperBytes(Context));
+          AbToNativeInt(WavpackGetWrapperBytes(Context)));
       finally
         WavpackFreeWrapper(Context);
       end;

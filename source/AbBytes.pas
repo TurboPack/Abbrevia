@@ -9,8 +9,8 @@ type
   TAbBytes = record
   public
     class function AsString(ASource: Pointer): string; overload; static;
-    class function AsString(ASource: Pointer; ALen: Integer): string; overload; static;
-    class function AsBytes(ASource: Pointer; ALen: Integer): TBytes; overload;
+    class function AsString(ASource: Pointer; ALen: UInt32): string; overload; static;
+    class function AsBytes(ASource: Pointer; ALen: UInt32): TBytes; overload;
         static;
     class function AsBytes(ASource: Pointer): TBytes; overload; static;
     class function Equals(const ALeft: string; ARight: Pointer): Boolean; overload; static;
@@ -34,7 +34,7 @@ begin
   Result := AsString(ASource, StrLen(ASource));
 end;
 
-class function TAbBytes.AsString(ASource: Pointer; ALen: Integer): string;
+class function TAbBytes.AsString(ASource: Pointer; ALen: UInt32): string;
 var
   pBytes: TBytes;
 begin
@@ -42,11 +42,11 @@ begin
     Exit('');
 
   SetLength(pBytes, ALen);
-  Move(ASource^, pBytes[0], ALen);
+  Move(ASource^, pBytes[0], AbToNativeInt(ALen));
   Result := TEncoding.ANSI.GetString(pBytes);
 end;
 
-class function TAbBytes.AsBytes(ASource: Pointer; ALen: Integer): TBytes;
+class function TAbBytes.AsBytes(ASource: Pointer; ALen: UInt32): TBytes;
 begin
   if ALen = 0 then
   begin
@@ -55,7 +55,7 @@ begin
   end;
 
   SetLength(Result, ALen);
-  Move(ASource^, Result[0], ALen);
+  Move(ASource^, Result[0], AbToNativeInt(ALen));
 end;
 
 class function TAbBytes.AsBytes(ASource: Pointer): TBytes;
@@ -89,7 +89,7 @@ var
 begin
   pBuffer := PByte(ADest);
   for iByte := 1 to Length(ASource) do
-    pBuffer[iByte - 1] := AbToByte(Ord(ASource[iByte]));
+    pBuffer[iByte - 1] := AbToUInt8(Ord(ASource[iByte]));
 end;
 
 class function TAbBytes.StrLCopy(ADest: PByte; const ASource: string; AMaxLen: Cardinal): PByte;
@@ -100,8 +100,8 @@ begin
   Result := ADest;
   pBytes := TEncoding.ANSI.GetBytes(ASource);
   iLen := Length(pBytes);
-  if iLen > NativeInt(AMaxLen) then
-    iLen := AMaxLen;
+  if iLen > AbToNativeInt(AMaxLen) then
+    iLen := AbToNativeInt(AMaxLen);
   if iLen > 0 then
     Move(pBytes[0], ADest^, iLen);
   ADest[iLen] := 0;
@@ -123,7 +123,7 @@ end;
 
 class function TAbBytes.StrPCopy(ADest: Pointer; const ASource: string): PByte;
 begin
-  Result := StrLCopy(ADest, ASource, Length(ASource));
+  Result := StrLCopy(ADest, ASource, AbToUInt32(Length(ASource)));
 end;
 
 class function TAbBytes.StrPLCopy(ADest: Pointer; const ASource: string; AMaxLen: Cardinal): PByte;
