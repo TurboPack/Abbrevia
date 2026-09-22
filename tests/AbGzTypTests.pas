@@ -102,7 +102,7 @@ var
   iCount: Integer;
 begin
   for iCount := Low(Result) to High(Result) do
-    Result[iCount] := Ord(S.Chars[iCount]);
+    Result[iCount] := AbToUInt8(Ord(S.Chars[iCount]));
 end;
 
 { -------------------------------------------------------------------------- }

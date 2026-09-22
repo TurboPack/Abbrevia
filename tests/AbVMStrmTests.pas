@@ -46,7 +46,7 @@ type
 implementation
 
 uses
-  SysUtils, TestFrameWork, AbVMStrm;
+  SysUtils, TestFrameWork, AbVMStrm, AbUtils;
 
 { TAbVMStrmTests }
 
@@ -69,7 +69,7 @@ begin
   Stream := TAbVirtualMemoryStream.Create;
   try
     for i := Low(Buf) to High(Buf) do
-      Buf[i] := i;
+      Buf[i] := AbToUInt8(i);
     CheckEquals(Stream.Write(Buf, SizeOf(Buf)), SizeOf(Buf), 'Stream write failed');
     FillChar(Buf, SizeOf(Buf), 0);
     Stream.Position := 0;

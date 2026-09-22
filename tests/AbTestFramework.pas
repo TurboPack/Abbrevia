@@ -211,7 +211,7 @@ begin
     Exit;
   aStream1.Seek(0, soFromBeginning);
   aStream2.Seek(0, soFromBeginning);
-  BufSize := Min(aStream1.Size, 32768);
+  BufSize := AbToInt32(Min(aStream1.Size, 32768));
   SetLength(Buf1, BufSize);
   SetLength(Buf2, BufSize);
   while True do begin

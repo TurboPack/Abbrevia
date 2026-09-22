@@ -93,7 +93,7 @@ var
 function HasFloppy: Boolean;
 begin
   if ADriveType = -1 then
-    ADriveType := GetDriveType('a:');
+    ADriveType := AbToInt32(GetDriveType('a:'));
   Result := (ADriveType <> DRIVE_NO_ROOT_DIR)
 end;
 { -------------------------------------------------------------------------- }

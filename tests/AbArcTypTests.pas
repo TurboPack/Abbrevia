@@ -412,7 +412,7 @@ begin
       ecFilerError: Msg := 'EFilerError';
       ecFileCreateError: Msg := 'EFCreateError';
       ecFileOpenError: Msg := 'EFOpenError';
-      ecCabError: Msg := 'CAB error: ' + SysErrorMessage(ErrorCode);
+      ecCabError: Msg := 'CAB error: ' + SysErrorMessage(AbToUInt32(ErrorCode));
       ecOther: Msg := 'ecOther';
     end;
   end;
