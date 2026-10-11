@@ -127,7 +127,6 @@
         <DCC_OutputNeverBuildDcps>true</DCC_OutputNeverBuildDcps>
         <DCC_Platform>x86</DCC_Platform>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
-        <DCC_UnitSearchPath>.\$(Platform)\$(Config);$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_WriteableConstants>true</DCC_WriteableConstants>
         <DllSuffix>$(Auto)</DllSuffix>
         <GenDll>true</GenDll>
@@ -142,6 +141,7 @@
         <DCC_IMPLICIT_INTEGER_CAST_LOSS>true</DCC_IMPLICIT_INTEGER_CAST_LOSS>
         <DCC_IMPLICIT_CONVERSION_LOSS>true</DCC_IMPLICIT_CONVERSION_LOSS>
         <DCC_COMBINING_SIGNED_UNSIGNED64>true</DCC_COMBINING_SIGNED_UNSIGNED64>
+        <DCC_UnitSearchPath>.\$(Platform)\$(Config);..\..\..\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android)'!=''">
         <Android_LauncherIcon192>$(BDS)\bin\Artwork\Android\FM_LauncherIcon_192x192.png</Android_LauncherIcon192>
