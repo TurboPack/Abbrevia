@@ -24,18 +24,18 @@ targetPlatforms:
     platforms:
       - win32
     variables:
-      packageSource: /packages/XE7/Delphi
+      packagesource: /packages/XE7/Delphi
   - compiler: delphixe8
     platforms:
       - win32
     variables:
-      packageSource: /packages/XE8/Delphi
+      packagesource: /packages/XE8/Delphi
   - compiler: delphi10.0
     platforms:
       - win32
       - win64
     variables:
-      packageSource: /packages/Seattle/Delphi
+      packagesource: /packages/Seattle/Delphi
   - compiler: delphi10.1
     platforms:
       - win32
@@ -83,6 +83,7 @@ templates:
       - src: ./source/Win32/*.*
       - src: ./source/Win64/*.*
       - src: ./source/WinARM64EC/*.*
+        copyToLib: true
       - src: $packageSource$/*.dpk
       - src: $packageSource$/*.dproj
       - src: $packageSource$/*.res
